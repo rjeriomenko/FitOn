@@ -3,6 +3,10 @@ User Story:
     Profile
         -Progress Tracking
             =Stat/API Data visuals
+        -Profile Picture
+        
+        History
+        -Routines and goals
 
     Build Exercise Regiment
         -Goal in Mind
@@ -10,13 +14,16 @@ User Story:
         -Routine Templates (routine builder?)
 
     **Social Motivation**
+        -Feed
+            =Posts
         -Share Fitness Goals
-            -Log exercise events + Progress pics
-        -Comment on user goals
+            -Comment on user goals
+        -Share Progress
+            =Log exercise events + Progress pics
         -Comment on user routines
             =Like user routines
         -Subscribe to other users' progress
-            -Updates in feed when exercise event is created/goals achieved
+            =Updates in feed when exercise event is created/goals achieved
 
 
 
@@ -31,15 +38,32 @@ User Story:
 
     Routines
         -User routine-creation
+        -Skill Level
 
         Priority Check:
+            -Embed videos/video links (YouTube API)
+            -Upload videos
+            -Inhouse videos (Library of videos?)
             -Routine Templates
             -Draw from API that will build routines
             **-Let users copy other users routine**
 
     Comments
 
-    Stats/Stat Visualization
+    Feed
+        -Posts
+            =Photos
+            =Exercise Events
+            =Created Routine
+            =Created/Completed Goal
+            =Comments
+            =Likes
+
+    Subscriptions
+
+    Stats
+    
+    Stat Visualization
 
     Bonus:
         -Likes

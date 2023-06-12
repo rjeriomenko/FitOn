@@ -18,7 +18,7 @@ function NavBar () {
         <div className="links-nav">
           <Link to={'/feedPosts'}>All FeedPosts</Link>
           <Link to={'/profile'}>Profile</Link>
-          <Link to={'/feedPosts/new'}>Write a FeedPost</Link>
+          <Link to={'/feedPosts/newGoal'}>Create a new goal</Link>
           <button onClick={logoutUser}>Logout</button>
         </div>
       );
@@ -34,7 +34,7 @@ function NavBar () {
 
   return (
     <>
-      <h1>Chirper</h1>
+      <h1>FitOn</h1>
       { getLinks() }
     </>
   );

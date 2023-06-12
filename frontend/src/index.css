@@ -52,6 +52,11 @@ table {
 /* RESET - END */
 /* RESET - END */
 
+*:focus {
+	outline: none;
+}
+
 body {
 	margin: 10px;
+	font-family: 'DM Sans', sans-serif;
 }

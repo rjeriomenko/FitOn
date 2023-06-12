@@ -27,32 +27,48 @@ function LoginForm () {
   }
 
   return (
-    <form className="session-form" onSubmit={handleSubmit}>
-      <h2>Log In Form</h2>
-      <div className="errors">{errors?.email}</div>
-      <label>
-        <span>Email</span>
-        <input type="text"
-          value={email}
-          onChange={update('email')}
-          placeholder="Email"
+    <div className='session-form-container'>
+      <form className="session-form" onSubmit={handleSubmit}>
+        
+        <h2>Log In</h2>
+        {/* <div className="errors"></div> */}
+
+        <div>
+          <label className='text-input-container'>
+            {/* <span>Email</span> */}
+            <span></span>
+            <input type="text"
+              className='text-input'
+              value={email}
+              onChange={update('email')}
+              placeholder="Email"
+            />
+          </label>
+          <div className="errors">{errors?.email}</div>
+        </div>
+
+        <div>
+          <label className='text-input-container'>
+            {/* <span>Password</span> */}
+            <span></span>
+            <input type="password"
+              className='text-input'
+              value={password}
+              onChange={update('password')}
+              placeholder="Password"
+            />
+          </label>
+          <div className="errors">{errors?.password}</div>
+        </div>
+
+        <input
+          className='session-form-submit'
+          type="submit"
+          value="Log In"
+          disabled={!email || !password}
         />
-      </label>
-      <div className="errors">{errors?.password}</div>
-      <label>
-        <span>Password</span>
-        <input type="password"
-          value={password}
-          onChange={update('password')}
-          placeholder="Password"
-        />
-      </label>
-      <input
-        type="submit"
-        value="Log In"
-        disabled={!email || !password}
-      />
-    </form>
+      </form>
+    </div>
   );
 }
 

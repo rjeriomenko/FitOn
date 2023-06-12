@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import './NavBar.css';
 import { logout } from '../../store/session';
+import './NavBar.css';
 
 function NavBar () {
   const loggedIn = useSelector(state => !!state.session.user);
@@ -33,10 +33,13 @@ function NavBar () {
   }
 
   return (
-    <>
+    <div className='nav-bar-container'>
       <h1>FitOn</h1>
-      { getLinks() }
-    </>
+			<div className='links-menu'>
+      	{ getLinks() }
+
+			</div>
+    </div>
   );
 }
 

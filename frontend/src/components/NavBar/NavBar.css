@@ -1,7 +1,18 @@
-/* body {
-	background-color: blue;
-} */
+
+body {
+	--nav-bar-background-color: #6BA7BE;
+	/* background-color: blue; */
+}
 
 .links-auth {
+}
 
+.nav-bar-container {
+	width: 100%;
+	background-color: var(--nav-bar-background-color);
+	padding: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 }

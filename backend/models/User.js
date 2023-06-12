@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const GoalSchema = require('./Goal');
+const RoutineSchema = require('./Routine');
 
 const UserSchema = new Schema({
     username: {
@@ -30,72 +32,5 @@ const UserSchema = new Schema({
     timestamps: true
 });
 
-const GoalSchema = new Schema({
-    description: {
-        type: String,
-        required: true
-    },
-    deadline: {
-        type: String,
-        required: false
-    },
-    exerciseEntries: [
-        {
-            type: ExerciseEntrySchema,
-            required: false
-        }
-    ]
-})
 
-const ExerciseEntrySchema = new Schema({
-    exercises: [
-        {
-            type: ExerciseSchema,
-            required: true
-        }
-    ],
-    date: {
-        type: String,
-        required: true
-    },
-    note: {
-        type: String,
-        required: false
-    }
-})
-
-const RoutineSchema = new Schema({
-    exercises: [
-        {
-            type: ExerciseSchema,
-            required: true
-        }
-    ]
-})
-
-const ExerciseSchema = new Schema({
-    sets: {
-        type: String,
-        required: function() {
-            return (!(this.reps || this.time) || !!(this.reps)) 
-        }
-    },
-    reps: {
-        type: String,
-        required: function () {
-            return (!(this.sets || this.time) || !!(this.sets))
-        }
-    },
-    time: {
-        type: String,
-        required: function () {
-            return !(this.reps || this.time)
-        }
-    },
-    name: {
-        type: String,
-        required: true
-    },
-})
-
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', UserSchema);

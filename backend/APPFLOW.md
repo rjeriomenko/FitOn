@@ -24,11 +24,30 @@
 - Goal create / goal complete
 
 
-Page - Modal:
+Full Stack Functionalities:
 
 Landing - Auth Form
+	- login (completed)
+	- register (completed)
 Goal Create
+	- create goal 
+		- Description
+		- Start Date
+		- Time to Complete
+		- Checklist
+	- edit goal
 Goal Show
+	- goal show
+	- render related exercise event history
 Feed - Workout Event Modal
+	- create workout event
+	- render feed posts
 NavBar
-Routines
+	- logout
+Routines create
+	- Routines edit
+	- Routines delete
+Routines show
+
+
+	

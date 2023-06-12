@@ -7,6 +7,8 @@ const cors = require('cors');
 const csurf = require('csurf');
 const { isProduction } = require('./config/keys');
 
+require('./models/User');
+
 const usersRouter = require('./routes/api/users');
 const routinesRouter = require('./routes/api/routines');
 const csrfRouter = require('./routes/api/csrf');
@@ -59,7 +61,5 @@ app.use((err, req, res, next) => {
         errors: err.errors
     })
 });
-
-module.exports = app;
 
 module.exports = app;

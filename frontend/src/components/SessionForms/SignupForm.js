@@ -52,52 +52,70 @@ function SignupForm () {
   }
 
   return (
-    <form className="session-form" onSubmit={handleSubmit}>
-      <h2>Sign Up Form</h2>
-      <div className="errors">{errors?.email}</div>
-      <label>
-        <span>Email</span>
-        <input type="text"
-          value={email}
-          onChange={update('email')}
-          placeholder="Email"
+    <div className='session-form-container'>
+      
+      <form className="session-form" onSubmit={handleSubmit}>
+
+        <h2>Sign Up</h2>
+
+        <div>
+          <label className='text-input-container'>
+            <input type="text"
+              className='text-input'
+              value={email}
+              onChange={update('email')}
+              placeholder="Email"
+            />
+          </label>
+          <div className="errors">{errors?.email}</div>
+        </div>
+
+        <div>
+          <label className='text-input-container'>
+            <input type="text"
+              className='text-input'
+              value={username}
+              onChange={update('username')}
+              placeholder="Username"
+            />
+          </label>
+            <div className="errors">{errors?.username}</div>
+        </div>
+          
+        <div>
+            <label className='text-input-container'>
+              <input type="password"
+                className='text-input'
+                value={password}
+                onChange={update('password')}
+                placeholder="Password"
+              />
+            </label>
+          <div className="errors">{errors?.password}</div>
+        </div>
+
+        <div>
+          <label className='text-input-container'>
+            <input type="password"
+              className='text-input'
+              value={password2}
+              onChange={update('password2')}
+              placeholder="Confirm Password"
+            />
+          </label>
+          <div className="errors">
+            {password !== password2 && 'Confirm Password field must match'}
+          </div>
+        </div>
+
+        <input
+          className='session-form-submit'
+          type="submit"
+          value="Sign Up"
+          disabled={!email || !username || !password || password !== password2}
         />
-      </label>
-      <div className="errors">{errors?.username}</div>
-      <label>
-        <span>Username</span>
-        <input type="text"
-          value={username}
-          onChange={update('username')}
-          placeholder="Username"
-        />
-      </label>
-      <div className="errors">{errors?.password}</div>
-      <label>
-        <span>Password</span>
-        <input type="password"
-          value={password}
-          onChange={update('password')}
-          placeholder="Password"
-        />
-      </label>
-      <div className="errors">
-        {password !== password2 && 'Confirm Password field must match'}
-      </div>
-      <label>
-        <span>Confirm Password</span>
-        <input type="password"
-          value={password2}
-          onChange={update('password2')}
-          placeholder="Confirm Password"
-        />
-      </label>
-      <input
-        type="submit"
-        value="Sign Up"
-        disabled={!email || !username || !password || password !== password2}
-      />
-    </form>
+      </form>
+    </div>
   );
 }
 

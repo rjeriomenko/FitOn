@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { sessionErrorsReducer } from './session';
-import { feedPostErrorsReducer } from './feedPost';
+import { feedPostErrorsReducer } from './feedPosts';
 
 export default combineReducers({
   session: sessionErrorsReducer,

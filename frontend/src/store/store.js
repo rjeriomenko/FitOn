@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import session from './session';
 import errors from './errors';
-import feedPosts from './feedPost';
+import feedPosts from './feedPosts';
 
 const rootReducer = combineReducers({
   session,

@@ -5,59 +5,24 @@ A healthy lifestyle is difficult to navigate. It is challenging to realize one's
 We recognize that it is rewarding to give and receive support. FitOn strives to build a community centered around promoting accountability and support between its users. FitOn allows users to create and share goals, along with the progress they've made to reach those goals. FitOn provides tools for users to create and customize exercise routines. Users are encouraged to share progress updates via exercise events. Those exercise events will populate users' feeds. 
 
 ## Functionality & MVP
-    Routines
-        -User routine-creation
-        -Skill Level
-        -Bonus:
-            -Expected Calorie Loss
-                =Not necessarily accurate
-                =Average lb person burns x calories with 30 minutes of cardio
+    - Goals: Users can create/set goals and track progress toward goals with different categories (e.g. strength, weight loss)
+         - Users can document/track their progress through routine milestones and document with photos (optional)
+         - Visualization of quantitative data (each exercise event is a data point) 
 
-    Goals
-        -Skill/Hobby/Flexibility/Class Mastery by doing 1000 hrs of the activity by a deadline
-        -I want to do x pushups
-        -I want to be able to do novice routines
-        -Ideal routine
-        -Starting Photo/Stats
-        -Finishing Photo/Stats
+    - Routines: Users can create workout routines based on skill level and goals
+        - sets, reps, intensity
 
-    Feed
-        -Posts
-            =Exercise Events
-            =Created Routine
-            =Created/Completed Goal
-        -Subscriptions
+    - Exercise Events:
+        - duration, which routine was completed, (optional) photo, (optional) user comment/description
 
-    Exercise Events
-        -Today's routine/photo
-        -Current Photo/Stats
+    
+    - Feed
+        - Subscription/follow-based 
+        - Index of followed-users' routines and goal updates (completing or *CREATING* a goal)
+         
+    - Bonus:
+        - Likes and Comments on Feed posts
 
-        Priority Check:
-            -Embed videos/video links (YouTube API)
-            -Upload videos
-            -Inhouse videos (Library of videos?)
-            -Routine Templates
-            -Draw from API that will build routines
-            **-Let users copy other users routine**
-
-
-    Bonus:
-        ***Profile
-            -Current Photo
-            -Stats and Stat Visualization
-                =Not abstract
-                =Concrete numbers (reps, distance, time, etc)
-        -Likes
-        -Comments
-        -Timelapse of exercise events
-        -Workout Timer
-        -Tool to track calorie and macronutrient intake
-            =Possible use of API
-        -Stat Goal
-            =I want to lose/gain x lbs
-            =Weight check-in system
-            =Enter your weight
-            =Nutrition logging
 
 ## Technologies & Technical Challenges
 

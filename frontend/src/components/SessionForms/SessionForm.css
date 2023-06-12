@@ -33,7 +33,7 @@ body {
 
 .session-form > h2 {
 	align-self: center;
-	font-size: 3em;
+	font-size: 3rem;
 	font-weight: 700;
 	letter-spacing: 2.5px;
 	color: var(--form-header-color);

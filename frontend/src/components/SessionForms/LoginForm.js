@@ -31,12 +31,9 @@ function LoginForm () {
       <form className="session-form" onSubmit={handleSubmit}>
         
         <h2>Login</h2>
-        {/* <div className="errors"></div> */}
 
         <div>
           <label className='text-input-container'>
-            {/* <span>Email</span> */}
-            <span></span>
             <input type="text"
               className='text-input'
               value={email}
@@ -49,8 +46,6 @@ function LoginForm () {
 
         <div>
           <label className='text-input-container'>
-            {/* <span>Password</span> */}
-            <span></span>
             <input type="password"
               className='text-input'
               value={password}

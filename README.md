@@ -1,31 +1,8 @@
 ## Background & Overview
-User Story:
-    Profile
-        -Progress Tracking
-            =Stat/API Data visuals
-        -Profile Picture
-        
-        History
-        -Routines and goals
 
-    Build Exercise Regiment
-        -Goal in Mind
-        -Copy other users' routines
-        -Routine Templates (routine builder?)
+A healthy lifestyle is difficult to navigate. It is challenging to realize one's own fitness goals. Consistency is the foundation of fitness success. As social beings, exercising with others can be very motivating. FitOn provides a social platform for users to work alongside each other as they carve out their best selves. 
 
-    **Social Motivation**
-        -Feed
-            =Posts
-        -Share Fitness Goals
-            -Comment on user goals
-        -Share Progress
-            =Log exercise events + Progress pics
-        -Comment on user routines
-            =Like user routines
-        -Subscribe to other users' progress
-            =Updates in feed when exercise event is created/goals achieved
-
-
+We recognize that it is rewarding to give and receive support. FitOn strives to build a community centered around promoting accountability and support between its users. FitOn allows users to create and share goals, along with the progress they've made to reach those goals. FitOn provides tools for users to create and customize exercise routines. Users are encouraged to share progress updates via exercise events. Those exercise events will populate users' feeds. 
 
 ## Functionality & MVP
     Routines

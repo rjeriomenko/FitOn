@@ -58,5 +58,9 @@ table {
 
 body {
 	margin: 10px;
-	font-family: 'DM Sans', sans-serif;
+	font-family: var(--form-font-family);
+}
+
+body input {
+	font-family: var(--form-font-family);
 }

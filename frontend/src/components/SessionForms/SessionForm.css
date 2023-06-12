@@ -1,3 +1,13 @@
+body {
+	--form-background-color: #024059;
+	--form-button-color: #730202;
+	--form-errors-color: yellow;
+	--form-text-input-color: white;
+	--form-header-color: #b0cdd9;
+	--form-font-family: Georgia, serif;
+	font-family: var(--form-font-family);
+	background-color: var(--form-background-color);
+}
 
 .session-form-container {
 	height: 80vh;
@@ -7,13 +17,9 @@
 }
 
 .session-form {
-	/* border: 1px solid rgb(221, 221, 221); */
-	/* box-sizing: border-box; */
-	/* border: 1px solid purple; */
 	border-radius: 8px;
 	padding: 30px;
 	animation: session-form-border 0.8s ease-in 0s 1 normal forwards;
-	/* height: 200px; */
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -29,7 +35,8 @@
 	align-self: center;
 	font-size: 3em;
 	font-weight: 700;
-	/* letter-spacing: 0.1em; */
+	letter-spacing: 2.5px;
+	color: var(--form-header-color);
 }
 
 .text-input-container {
@@ -44,41 +51,47 @@
 .session-form .errors {
 	font-style: italic;
 	margin-top: 0.5em;
-	/* margin-left: 0.5em; */
-  color: red;
+  color: var(--form-errors-color);
   font-size: 0.875em;
   height: 0.875em;
 	width: 400px;
   display: flex;
   align-items: center;
-	/* overflow: scroll; */
 }
 
 .text-input {
 	border: none;
-	border-bottom: 2px solid rgba(221,221,221,1);
+	border-bottom: 2px solid var(--form-header-color);
 	width: 100%;
-	/* font-size: 2em; */
+	background-color: var(--form-background-color);
+	color: var(--form-text-input-color);
+	font-family: var(--form-font-family);
+}
+
+.text-input::placeholder {
+	color: var(--form-text-input-color);
 }
 
 .session-form-submit {
 	align-self: center;
-	border: 1px solid green;
-	border-radius: 12px;
-	color: white;
-	background-color: green;
+	border: 0px solid var(--form-button-color);
+	border-radius: 20px;
+	background-color: var(--form-button-color);
 	width: 100px;
-	padding: 5px;
+	padding: 10px;
+	color: var(--form-text-input-color);
+	font-family: var(--form-font-family);
+	letter-spacing: 1px;
 }
 
 .session-form-submit:hover {
 	cursor: pointer;
-	background-color: lightgreen;
-	border-color: lightgreen;
-	animation: session-form-submit-hover 1s ease-in-out 0.5s 1 forwards forwards;
+	background-color: var(--form-button-color);
+	border-color: var(--form-button-color);
+	/* animation: session-form-submit-hover 1s ease-in-out 0.5s 1 forwards forwards; */
 }
 
-@keyframes session-form-submit-hover {
+/* @keyframes session-form-submit-hover {
 	0% {
 		background-color: green;
 	}
@@ -88,7 +101,7 @@
 	100% {
 		background-color: black;
 	}
-}
+} */
 
 @keyframes session-form-border {
 	0% {

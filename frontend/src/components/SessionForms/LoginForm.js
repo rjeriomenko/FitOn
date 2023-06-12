@@ -30,7 +30,7 @@ function LoginForm () {
     <div className='session-form-container'>
       <form className="session-form" onSubmit={handleSubmit}>
         
-        <h2>Log In</h2>
+        <h2>Login</h2>
         {/* <div className="errors"></div> */}
 
         <div>
@@ -64,7 +64,7 @@ function LoginForm () {
         <input
           className='session-form-submit'
           type="submit"
-          value="Log In"
+          value="Login"
           disabled={!email || !password}
         />
       </form>

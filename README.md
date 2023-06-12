@@ -60,9 +60,20 @@ We recognize that it is rewarding to give and receive support. FitOn strives to 
             =Nutrition logging
 
 ## Technologies & Technical Challenges
+### Technologies 
+- MongoDB (Atlas) 
+- Passport
+- Express
+- React 
+- Redux
+- Node.js
+- JavaScript 
+- AWS 
+- D3
 
--Describe MERN
--Mention AWS Implementation
+### Technical Challenges
+- Implementing interactive feed
+- Intuitive and robust routine creation user interface
 
 ## Group Members & Work Breakdown
 

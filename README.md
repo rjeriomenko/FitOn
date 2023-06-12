@@ -41,5 +41,32 @@ We recognize that it is rewarding to give and receive support. FitOn strives to 
 - Intuitive and robust routine creation user interface
 
 ## Group Members & Work Breakdown
+### Group Members: 
+- Carvey Hor 
+- Michele Zhang
+- Rokas Jeriomenko
+- Sam Oh
 
--Discuss at end
+
+### Monday, 6/12
+- Setup backend user auth - Sam Oh
+- Setup frontend user auth - Carvey Hor 
+- Build signup/login pages - Rokas Jeriomenko
+- Build splash page - Michele Zhang
+
+### Tuesday, 6/13
+- Setup backend API routes - Sam Oh
+- Build routine creator - Carvey Hor, Michele Zhang, Rokas Jeriomenko, Sam Oh
+- Build homepage/feed - Carvey Hor, Michele Zhang, Rokas Jeriomenko, Sam Oh
+
+### Wednesday, 6/14
+- Setup/configure AWS - Sam Oh
+- Build goal creator - Carvey Hor, Michele Zhang
+- Build exercise event creator - Rokas Jeriomenko, Sam Oh
+
+### Thursday, 6/15
+- Polish and debug - Carvey Hor, Michele Zhang, Rokas Jeriomenko, Sam Oh
+- Build about page - Carvey Hor, Michele Zhang
+- Implement likes/comments (time permitting) - Rokas Jeriomenko, Sam Oh
+
+

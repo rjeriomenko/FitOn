@@ -23,3 +23,12 @@
 - Workouts
 - Goal create / goal complete
 
+
+Page - Modal:
+
+Landing - Auth Form
+Goal Create
+Goal Show
+Feed - Workout Event Modal
+NavBar
+Routines

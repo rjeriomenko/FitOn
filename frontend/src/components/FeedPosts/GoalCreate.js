@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearFeedPostErrors, createFeedPost } from '../../store/feedPosts';
 import FeedPostBlock from './FeedPostBlock';
+import FeedPostEditable from './FeedPostEditable';
 import './GoalCreate.css';
 
 function GoalCreate () {
@@ -38,11 +39,13 @@ function GoalCreate () {
       </form>
       <div className="feed-post-preview">
         <h3>Feed Post Preview</h3>
-        {text ? <FeedPostBlock feedPost={{text, author}} /> : undefined}
+        {/* {text ? <FeedPostBlock feedPost={{text, author}} /> : undefined} */}
+        {text ? <FeedPostEditable feedPost={{text, setText, author}} /> : undefined}
       </div>
       <div className="previous-feed-post">
         <h3>Previous Feed Post</h3>
-        {newFeedPost ? <FeedPostBlock feedPost={newFeedPost} /> : undefined}
+        {/* {newFeedPost ? <FeedPostBlock feedPost={newFeedPost} /> : undefined} */}
+        {newFeedPost ? <FeedPostEditable feedPost={newFeedPost} /> : undefined}
       </div>
     </>
   )

@@ -1,0 +1,40 @@
+#modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	/* align-items: center; */
+	/* align-items: stretch; */
+	z-index: 100;
+	padding: 40px;
+	/* height: 100%; */
+}
+
+#modal-background {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	/* background-color: rgba(0,0,0,0.2); */
+	animation: fadeIn 0.4s linear both;
+}
+
+#modal-content {
+	display: flex;
+	position: absolute;
+	top: 40px;
+	bottom: 40px;
+}
+
+@keyframes fadeIn {
+	0% {
+		background-color: rgba(0,0,0,0);
+	}
+	100% {
+		background-color: rgba(0,0,0,0.5);
+	}
+}

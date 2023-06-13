@@ -1,9 +1,58 @@
 input[type=textarea] {
-  min-height: 30px;
+  min-height: 50px;
   min-width: 393px;
   margin-top: 5px;
+  border-radius: 8px;
 }
 
 .feed-post-preview {
   min-height: 150px;
+}
+
+.create-feed-post-container {
+	height: 80vh;
+	display: flex;
+  flex-direction: column;
+	justify-content: center;
+	align-items: center;
+  margin-bottom: 20px;
+}
+
+.create-feed-post {
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+
+}
+
+.create-feed-post > span {
+  color: var(--form-text-input-color);
+  margin-bottom: 2px;
+  margin-left: 2px;
+}
+
+.feed-post-form-text, .feed-post-form-date {
+  margin-bottom: 20px;
+}
+
+.feed-post-form-date {
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.create-feed-post-submit {
+  align-self: center;
+	border: 0px solid var(--form-button-color);
+	border-radius: 20px;
+	background-color: var(--form-button-color);
+	width: 100px;
+	padding: 10px;
+	color: var(--form-text-input-color);
+	font-family: var(--form-font-family);
+	letter-spacing: 1px;
+}
+
+.goal-create-step-inputs {
+  display: flex;
+  flex-direction: column;
 }

@@ -7,13 +7,17 @@ p, h3 {
   border-radius: 10px;
   margin-bottom: 5px;
   min-height: 57px;
+	box-sizing: border-box;
 }
 
 .feed-post-editable-container {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: space-between;
+	/* justify-content: space-between; */
+	justify-content: stretch;
+	width: 60vw;
+	margin-left: 10vw;
 }
 
 .feed-post-editable-container > * {

@@ -10,6 +10,7 @@ function FeedPostEditable ({feedPost, type}) {
 	const [content, setContent] = useState(text);
 	const [editable, setEditable] = useState(false);
 	const loggedIn = useSelector(state => !!state.session.user);
+	// need logic for if sessionUser === post's author
 
 
 	const handleContentChange = e => {
@@ -36,6 +37,7 @@ function FeedPostEditable ({feedPost, type}) {
 				</div>
 				<br/>
 				{!editable && <p>{content}</p>}
+				{/* need logic check sessionUser === post's author */}
 				{editable && <>
 					<textarea id="feed-post-text-edit"
 						contentEditable={true}

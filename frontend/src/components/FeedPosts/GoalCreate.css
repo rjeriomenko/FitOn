@@ -51,3 +51,8 @@ input[type=textarea] {
 	font-family: var(--form-font-family);
 	letter-spacing: 1px;
 }
+
+.goal-create-step-inputs {
+  display: flex;
+  flex-direction: column;
+}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearFeedPostErrors, createFeedPost } from '../../store/feedPosts';
 import FeedPostBlock from './FeedPostBlock';
+import FeedPostEditable from './FeedPostEditable';
 import './GoalCreate.css';
 
 function GoalCreate () {

@@ -30,7 +30,22 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+	/* COLORSPACE */
+	--dark-blue: #024059;
+	--medium-blue: #6BA7BE;
+	--light-blue: #b0cdd9;
+	--orange: #F2490C;
+	--dark-red: #730202;
+	--yellow: yellow;
+	--soft-white: #FBFAF5;
+	--white: white;
+	/* FONTSPACE */
+	--serif: Georgia, serif;
+	--sans-serif: Arial, Helvetica, sans-serif;
+
 	line-height: 1;
+	background-color: var(--light-blue);
+	background-color: var(--form-background-color);
 }
 ol, ul {
 	list-style: none;
@@ -56,11 +71,20 @@ table {
 	outline: none;
 }
 
+a, a:visited, a:hover, a:active {
+	color: inherit;
+}
+
+.app-container {
+	position: relative;
+}
+
 body * {
 	/* margin: 10px; */
 	font-family: var(--form-font-family);
 	text-decoration: none;
 	font-size: 16px;
+	list-style: none;
 }
 
 body input {

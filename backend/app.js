@@ -12,7 +12,6 @@ require('./config/passport');
 const passport = require('passport');
 
 const usersRouter = require('./routes/api/users');
-const routinesRouter = require('./routes/api/routines');
 const csrfRouter = require('./routes/api/csrf');
 
 const app = express();
@@ -38,7 +37,6 @@ app.use(
 
 // Attach Express routers
 app.use('/api/users', usersRouter);
-app.use('/api/routines', routinesRouter);
 app.use('/api/csrf', csrfRouter);
 app.use(passport.initialize()); //*
 

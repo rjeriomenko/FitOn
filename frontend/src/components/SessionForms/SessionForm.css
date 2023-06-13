@@ -1,12 +1,12 @@
 body {
-	--form-background-color: #024059;
-	--form-button-color: #730202;
-	--form-errors-color: yellow;
-	--form-text-input-color: white;
-	--form-header-color: #b0cdd9;
-	--form-font-family: Georgia, serif;
+	--form-background-color: var(--dark-blue);
+	--form-button-color: var(--dark-red);
+	--form-errors-color: var(--yellow);
+	--form-text-input-color: var(--white);
+	--form-header-color: var(--light-blue);
+	--form-font-family: var(--serif);
+	
 	font-family: var(--form-font-family);
-	background-color: var(--form-background-color);
 }
 
 .session-form-container {
@@ -14,6 +14,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	background-color: var(--form-background-color);
 }
 
 .session-form {

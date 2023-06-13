@@ -13,11 +13,14 @@ const validateGoalInput = require('../../validations/goals');
 
 // Auth from here till ~line 97
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.json({
-    message: "GET /api/users"
-  });
+// GET /api/users - get all users
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await User.find({});
+    return res.json(users);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // POST /api/users/register

@@ -3,7 +3,7 @@ p, h3 {
 }
 
 .feedPostBlock {
-  border: 2px solid blue;
+  border: 2px solid var(--medium-blue);
   border-radius: 10px;
   margin-bottom: 5px;
   min-height: 57px;
@@ -24,6 +24,16 @@ p, h3 {
 	width: 70%;
 	word-wrap: break-word;
 	box-sizing: border-box;
+}
+
+.feed-post-heading {
+	display: flex;
+	flex-direction: row;
+	column-gap: 1em;
+}
+
+.feed-post-heading > * {
+	/* margin: 0px 1em; */
 }
 
 #feed-post-text-edit {

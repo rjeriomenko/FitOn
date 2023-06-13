@@ -16,7 +16,7 @@ function NavBar () {
     if (loggedIn) {
       return (
         <ul className="links-nav nav-links">
-          <li><Link to={'/feedPosts'}>All FeedPosts</Link></li>
+          <li><Link to={'/feed'}>Explore</Link></li>
           <li><Link to={'/profile'}>Profile</Link></li>
           <li><Link to={'/feedPosts/newGoal'}>Create a new goal</Link></li>
           {/* <button onClick={logoutUser}>Logout</button> */}

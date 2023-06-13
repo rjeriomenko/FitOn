@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearFeedPostErrors, fetchFeedPosts } from '../../store/feedPosts';
 import FeedPostBlock from './FeedPostBlock';
 
-import './FeedPosts.css';
+import './Feed.css';
 
 function FeedPosts () {
   const dispatch = useDispatch();

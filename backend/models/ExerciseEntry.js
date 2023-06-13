@@ -11,7 +11,7 @@ const ExerciseEntrySchema = new Schema({
     ],
     date: {
         type: String,
-        required: true
+        required: true,
     },
     note: {
         type: String,
@@ -19,4 +19,5 @@ const ExerciseEntrySchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('ExerciseEntry', ExerciseEntrySchema);
+module.exports = ExerciseEntrySchema;
+mongoose.model('ExerciseEntry', ExerciseEntrySchema);

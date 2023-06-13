@@ -25,7 +25,8 @@ const ExerciseSchema = new Schema({
     name: {
         type: String,
         required: true
-    },
+    }
 })
 
-module.exports = mongoose.model('Exercise', ExerciseSchema);
+module.exports = ExerciseSchema;
+mongoose.model('Exercise', ExerciseSchema);

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const ExerciseSchema = require('./exercise');
+const ExerciseSchema = require('./Exercise');
 
 const RoutineSchema = new Schema({
     name: {
@@ -16,4 +16,5 @@ const RoutineSchema = new Schema({
 })
 
 
-module.exports = mongoose.model('Routine', RoutineSchema);
+module.exports = RoutineSchema;
+mongoose.model('Routine', RoutineSchema);

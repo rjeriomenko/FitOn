@@ -13,6 +13,8 @@ import Profile from './components/Profile/Profile';
 import GoalCreate from './components/FeedPosts/GoalCreate';
 
 import { getCurrentUser } from './store/session';
+import FloatingMenu from './components/FloatingMenu/FloatingMenu';
+import MainPageWrapper from './components/MainPageWrapper/MainPageWrapper';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -22,18 +24,21 @@ function App() {
   }, [dispatch]);
 
   return loaded && (
-    <>
+    <div className='app-container'>
       <NavBar />
-      <Switch>
-        <AuthRoute exact path="/" component={LandingPage} />
-        <AuthRoute exact path="/login" component={LoginForm} />
-        <AuthRoute exact path="/signup" component={SignupForm} />
+      <FloatingMenu />
+      <MainPageWrapper>
+        <Switch>
+          <AuthRoute exact path="/" component={LandingPage} />
+          <AuthRoute exact path="/login" component={LoginForm} />
+          <AuthRoute exact path="/signup" component={SignupForm} />
 
-        <ProtectedRoute exact path="/feedPosts" component={FeedPosts} />
-        <ProtectedRoute exact path="/profile" component={Profile} />
-        <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />
-      </Switch>
-    </>
+          <ProtectedRoute exact path="/feedPosts" component={FeedPosts} />
+          <ProtectedRoute exact path="/profile" component={Profile} />
+          <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />
+        </Switch>
+      </MainPageWrapper>
+    </div>
   );
 }
 

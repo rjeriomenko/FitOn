@@ -56,11 +56,20 @@ table {
 	outline: none;
 }
 
+a, a:visited, a:hover, a:active {
+	color: inherit;
+}
+
+.app-container {
+	position: relative;
+}
+
 body * {
 	/* margin: 10px; */
 	font-family: var(--form-font-family);
 	text-decoration: none;
 	font-size: 16px;
+	list-style: none;
 }
 
 body input {

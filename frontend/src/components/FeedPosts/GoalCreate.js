@@ -8,7 +8,9 @@ function GoalCreate () {
   const today = new Date().toISOString().split('T')[0];
   const [text, setText] = useState('');
   const [date, setDate] = useState(today);
-  const [step, setStep] = useState(today);
+
+  const [steps, setSteps] = useState({});
+  
   const dispatch = useDispatch();
   const author = useSelector(state => state.session.user);
   const newFeedPost = useSelector(state => state.feedPosts.new);
@@ -25,7 +27,6 @@ function GoalCreate () {
     setDate(today);
 
     // console.log('')
-
   };
 
   let inputCount = 2;
@@ -40,7 +41,8 @@ function GoalCreate () {
   const addInputField = e => {
     e.preventDefault();
     const stepNum = `step${inputCount}`
-    // const [`step${inputCount}`, `set${stepNum}`] = useState('')
+    
+    // const [`step${inputCount}`, `setStep${inputCount}`] = useState('')
 
     const stepsDiv = document.querySelector("div.goal-create-step-inputs");
     const input = document.createElement("input");
@@ -99,8 +101,8 @@ function GoalCreate () {
               className="step"
               id="step-1"
               type="text"
-              value={step}
-              onChange={e => setStep(e.currentTarget.value)}
+              // value={step}
+              // onChange={e => setStep(e.currentTarget.value)}
               placeholder="Step one towards achieving your goals"
             />
 

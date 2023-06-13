@@ -22,8 +22,7 @@ input[type=textarea] {
   display: flex;
   flex-direction: column;
   padding: 50px;
-  /* background-color: yellow;
-  border-radius: 8px; */
+
 }
 
 .create-feed-post > span {
@@ -38,6 +37,7 @@ input[type=textarea] {
 
 .feed-post-form-date {
   border-radius: 8px;
+  margin-top: 5px;
 }
 
 .create-feed-post-submit {

@@ -36,6 +36,7 @@ function NavBar () {
   return (
     <div className='nav-bar-container'>
       <h1>FitOn</h1>
+      <div className='nav-bar-divider'></div>
 			<div className='links-menu'>
       	{ getLinks() }
 

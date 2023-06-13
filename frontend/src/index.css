@@ -30,7 +30,21 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+	/* COLORSPACE */
+	--dark-blue: #024059;
+	--medium-blue: #6BA7BE;
+	--light-blue: #b0cdd9;
+	--orange: #F2490C;
+	--dark-red: #730202;
+	--yellow: yellow;
+	--white: white;
+	/* FONTSPACE */
+	--serif: Georgia, serif;
+	--sans-serif: Arial, Helvetica, sans-serif;
+
 	line-height: 1;
+	background-color: var(--light-blue);
+	background-color: var(--form-background-color);
 }
 ol, ul {
 	list-style: none;

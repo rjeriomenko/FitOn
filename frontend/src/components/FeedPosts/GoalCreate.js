@@ -9,13 +9,14 @@ function GoalCreate () {
   const today = new Date().toISOString().split('T')[0];
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState(today);
+  const [deadline, setDeadline] = useState(today);
 
   
   const dispatch = useDispatch();
   const author = useSelector(state => state.session.user);
   const newFeedPost = useSelector(state => state.feedPosts.new);
   const errors = useSelector(state => state.errors.feedPosts);
+  const id = author._id;
 
   useEffect(() => {
     return () => dispatch(clearFeedPostErrors());
@@ -23,10 +24,12 @@ function GoalCreate () {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(createFeedPost({ title, description, date })); 
+    // dispatch action to be updated: goals reducer 
+    dispatch(createFeedPost({ title, description, deadline }, id)); 
     setTitle('');
     setDescription('');
-    setDate(today);
+    setDeadline(today);
+
   };
 
   return (
@@ -57,8 +60,8 @@ function GoalCreate () {
             <input 
               type="date"
               className="feed-post-form-date"
-              value={date}
-              onChange={e => setDate(e.currentTarget.value)}
+              value={deadline}
+              onChange={e => setDeadline(e.currentTarget.value)}
             />
           <input 
             className="create-feed-post-submit"

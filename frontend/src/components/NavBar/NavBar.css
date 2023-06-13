@@ -4,15 +4,27 @@ body {
 	/* background-color: blue; */
 }
 
-.links-auth {
+.links-menu li {
+	margin: 0px 5px;
+	cursor: pointer;
+	font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.nav-links {
+	display: flex;
+	flex-direction: row;
 }
 
 .nav-bar-container {
+	position: sticky;
+	top:0px;
+	z-index: 10;
 	width: 100%;
 	background-color: var(--nav-bar-background-color);
 	padding: 10px;
+	box-sizing: border-box;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }

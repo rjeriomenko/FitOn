@@ -27,17 +27,19 @@ function App() {
     <div className='app-container'>
       <NavBar />
       <FloatingMenu />
-      <MainPageWrapper>
         <Switch>
-          <AuthRoute exact path="/" component={LandingPage} />
           <AuthRoute exact path="/login" component={LoginForm} />
           <AuthRoute exact path="/signup" component={SignupForm} />
+          
+      <MainPageWrapper>
+          <AuthRoute exact path="/" component={LandingPage} />
 
           <ProtectedRoute exact path="/feedPosts" component={FeedPosts} />
           <ProtectedRoute exact path="/profile" component={Profile} />
           <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />
-        </Switch>
       </MainPageWrapper>
+      
+        </Switch>
     </div>
   );
 }

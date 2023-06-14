@@ -24,16 +24,12 @@ function LandingPage() {
     window.updateGoal = updateGoal;
     window.deleteGoal = deleteGoal;
     
-    // const newGoal = useSelector(getNewGoal);
+    const goal = useSelector(getGoal('648a1a1604e5d0d3c703386d'));
+    // console.log(goal)
 
-    useEffect(() => {
-        // dispatch(createGoal('64875c1e2a098afd82dbc9f6', {
-        //         completionDate: 'kek',
-        //         deadline: 'kek',
-        //         description: 'kek',
-        //         title: 'kek'
-        // }));
-    }, [])
+    // useEffect(() => {
+    //     dispatch(fetchAllUserGoals());
+    // }, [])
     
     return (
         <>

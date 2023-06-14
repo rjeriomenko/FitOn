@@ -116,9 +116,9 @@ export const createGoal = (userId, goal) => async dispatch => {
     }
 };
 
-//-------------------------------UNMODIFIED, UNTESTED
 export const updateGoal = (userId, goal) => async dispatch => {
     try {
+        console.log("userId-", userId, "goal._id-", goal._id)
         const res = await jwtFetch(`/api/users/${userId}/goals/${goal._id}`, {
             method: 'PATCH',
             body: JSON.stringify(goal)
@@ -133,7 +133,6 @@ export const updateGoal = (userId, goal) => async dispatch => {
     }
 };
 
-//-------------------------------UNMODIFIED, UNTESTED
 export const deleteGoal = (userId, goalId) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}`, {
@@ -149,10 +148,9 @@ export const deleteGoal = (userId, goalId) => async dispatch => {
 };
 
 //Selectors
-//-------------------------------MODIFIED, UNTESTED
 export const getGoal = (goalId) => state => {
     if (state?.goals.all[goalId]) {
-        return state.goals.all[goalId].goal;
+        return state.goals.all[goalId];
     } else {
         return null;
     }
@@ -203,7 +201,6 @@ const goalsReducer = (state = { all: {}, user: {}, updated: undefined, new: unde
     switch (action.type) {
         case RECEIVE_GOALS:
             return { ...newState, all: action.goals, updated: undefined, new: undefined };
-        //-------------------------------MODIFIED, UNTESTED
         case RECEIVE_UPDATED_GOAL:
             return { ...newState, all: { ...newState.all, ...action.goal }, updated: action.goal, new: undefined };
         case RECEIVE_USER_GOAL:
@@ -212,7 +209,6 @@ const goalsReducer = (state = { all: {}, user: {}, updated: undefined, new: unde
             return { ...newState, user: action.goals, updated: undefined, new: undefined };
         case RECEIVE_NEW_GOAL:
             return { ...newState, updated: undefined, new: action.goal };
-        //-------------------------------MODIFIED, UNTESTED
         case REMOVE_GOAL:
             const cloneStateAll = { ...newState.all };
             delete cloneStateAll[action.goalId]

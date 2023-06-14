@@ -1,3 +1,4 @@
+import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearGoalErrors, createGoal  } from '../../store/goals';
@@ -10,6 +11,7 @@ function GoalCreate () {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [deadline, setDeadline] = useState(today);
+  const [submit, setSubmit] = useState(false);
   
   const dispatch = useDispatch();
   const author = useSelector(state => state.session.user);
@@ -27,8 +29,12 @@ function GoalCreate () {
     setTitle('');
     setDescription('');
     setDeadline(today);
-
+    setSubmit(true);
   };
+
+  if (submit === true) {
+    return <Redirect to="/feedPosts/myGoal" />
+  }
 
   return (
     <>

@@ -27,7 +27,7 @@ const UserSchema = new Schema({
             type: RoutineSchema,
             required: false
         }
-    ],
+    ]
 }, {
     timestamps: true
 });

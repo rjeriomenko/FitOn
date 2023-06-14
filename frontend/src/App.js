@@ -32,6 +32,7 @@ function App() {
   return loaded && (
     <div className='app-container'>
       {setupTestEnv()}
+      <div className='nav-bar-offset'/>
       <NavBar />
       <FloatingMenu />
         <Switch>

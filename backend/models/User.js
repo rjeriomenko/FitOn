@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const GoalSchema = require('./Goal');
-const RoutineSchema = require('./Routine');
 
 const UserSchema = new Schema({
     username: {
@@ -22,12 +21,12 @@ const UserSchema = new Schema({
             required: false
         }
     ],
-    routines: [
+    exercises: [
         {
-            type: RoutineSchema,
-            required: false
+            type: Schema.Types.ObjectId,
+            ref: 'Exercise'
         }
-    ]
+    ],
 }, {
     timestamps: true
 });

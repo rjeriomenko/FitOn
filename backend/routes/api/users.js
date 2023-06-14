@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Goal = mongoose.model('Goal');
+const ExerciseEntry = mongoose.model('ExerciseEntry');
 const passport = require('passport');
 const { loginUser, restoreUser, requireUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
@@ -249,7 +250,7 @@ router.post('/:userId/goals/:goalId/entries', requireUser, validateExerciseEntry
       error.statusCode = 404;
       throw error;
     }
-    let goal = user.goals.filter(goal => goal.id = req.params.goalId);
+    let goal = user.goals.filter(goal => goal.id === req.params.goalId)[0];
     goal.exerciseEntries.push(newEntry);
     user.save();
 
@@ -269,7 +270,7 @@ router.get('/:userId/goals/:goalId/entries/:entryId', async (req, res, next) => 
       error.statusCode = 404;
       throw error;
     }
-    const entryObject = user.goals.filter(goal => goal.id === req.params.goalId)[0].entries.filter(entry => entry.id === req.params.entryId)[0];
+    const entryObject = user.goals.filter(goal => goal.id === req.params.goalId)[0].exerciseEntries.filter(entry => entry.id === req.params.entryId)[0];
 
     return res.json(entryObject || { message: 'Entry not found' });
   } catch (err) {
@@ -287,7 +288,7 @@ router.get('/:userId/goals/:goalId/entries', requireUser, async (req, res, next)
       error.statusCode = 404;
       throw error;
     }
-    const entries = user.goals.filter(goal => goal.id === req.params.goalId)[0].entries;
+    const entries = user.goals.filter(goal => goal.id === req.params.goalId)[0].exerciseEntries;
 
     return res.json(entries || { message: 'Entry not found' });
   } catch (err) {
@@ -307,7 +308,7 @@ router.get('/:userId/entries', requireUser, async (req, res, next) => {
 
     const entries = [];
     user.goals.forEach(goal => 
-      goal.entries.forEach(entry => 
+      goal.exerciseEntries.forEach(entry => 
         entries.push(entry)))
     
     return res.json(entries || { message: 'Entry not found'})
@@ -327,7 +328,7 @@ router.patch('/:userId/goals/:goalId/entries/:entryId', requireUser, validateExe
       throw error;
     }
 
-    const oldEntry = user.goals.filter(goal => goal.id === req.params.goalId)[0].entries.filter(entry => entry.id === req.params.entryId);
+    const oldEntry = user.goals.filter(goal => goal.id === req.params.goalId)[0].exerciseEntries.filter(entry => entry.id === req.params.entryId)[0];
     oldEntry.date = req.body.date || oldEntry.date
     oldEntry.note = req.body.note || oldEntry.note
     oldEntry.rating = req.body.rating || oldEntry.rating
@@ -353,9 +354,9 @@ router.delete('/:userId/goals/:goalId/entries/:entryId', requireUser, async (req
     }
 
     const goalObj = user.goals.filter(goal => goal.id === req.params.goalId)[0];
-    const otherEntries = goalObj.entries.filter(entry => entry.id !== req.params.entryId);
+    const otherEntries = goalObj.exerciseEntries.filter(entry => entry.id !== req.params.entryId);
 
-    user.goals.goalObj.entries = otherEntries;
+    goalObj.exerciseEntries = otherEntries;
 
     user.save();
 

@@ -82,10 +82,9 @@ function ExerciseCreateForm () {
         
 
         removeStep.addEventListener("click", e => {
-            // const targetDiv = document.querySelector("div.exercise-input-container");
-            e.target.remove()
-            console.log("button")
-            console.log(e)
+            const num = e.target.id.slice(-1)
+            const targetDiv = document.querySelector(`div.exercise-div-${num}`);    
+            targetDiv.remove();
         })
       
         inputCount ++

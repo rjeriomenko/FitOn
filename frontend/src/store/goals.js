@@ -1,7 +1,7 @@
 import jwtFetch from './jwt';
 
 const RECEIVE_GOALS = "goal/RECEIVE_GOALS";
-const RECEIVE_GOAL = "goal/RECEIVE_GOAL";
+const RECEIVE_UPDATED_GOAL = "goal/RECEIVE_UPDATED_GOAL";
 const RECEIVE_USER_GOAL = "goal/RECEIVE_USER_GOAL";
 const RECEIVE_USER_GOALS = "goal/RECEIVE_USER_GOALS";
 const RECEIVE_NEW_GOAL = "goal/RECEIVE_NEW_GOAL";
@@ -14,9 +14,8 @@ export const receiveGoals = (goals) => ({
     goals
 });
 
-//this needs to account for the fact that goal is an array and you are updating a single goal from a user
-export const receiveGoal = (goal) => ({
-    type: RECEIVE_GOAL,
+export const receiveUpdatedGoal = (goal) => ({
+    type: RECEIVE_UPDATED_GOAL,
     goal
 });
 
@@ -35,7 +34,6 @@ export const receiveNewGoal = (goal) => ({
     goal
 });
 
-//this needs to account for the fact that goal is an array and you are deleting a single goal from a user
 export const removeGoal = (userId, goalId) => ({
     type: REMOVE_GOAL,
     goalId,
@@ -119,7 +117,7 @@ export const updateGoal = (userId, goal) => async dispatch => {
             body: JSON.stringify(goal)
         });
         const responseGoal = await res.json();
-        dispatch(receiveGoal({ userId: [responseGoal] }));
+        dispatch(receiveUpdatedGoal({ userId: [responseGoal] }));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -142,7 +140,7 @@ export const deleteGoal = (userId, goalId) => async dispatch => {
     }
 };
 
-const getGoal = (userId, goalId) => state => {
+export const getGoal = (userId, goalId) => state => {
     if (state?.goals.all[userId]) {
         return state.goals.all[userId].goals[goalId];
     } else {
@@ -150,7 +148,7 @@ const getGoal = (userId, goalId) => state => {
     }
 }
 
-const getGoals = state => {
+export const getGoals = state => {
     if (state?.goals) {
         return state.goals.all
     } else {
@@ -158,7 +156,7 @@ const getGoals = state => {
     }
 }
 
-const getUserGoals = state => {
+export const getUserGoals = state => {
     if (state?.goals) {
         return state.goals.user
     } else {
@@ -166,7 +164,7 @@ const getUserGoals = state => {
     }
 }
 
-const getNewGoal = state => {
+export const getNewGoal = state => {
     if (state?.goals) {
         return state.goals.new
     } else {
@@ -189,66 +187,36 @@ export const goalErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-
-
 // ////////////////////////////////////////////////////////////////////////////////////
-// export const receiveGoals = (goals) => ({
-//     type: RECEIVE_GOALS,
-//     goals
-// });
-
-// //this needs to account for the fact that goal is an array and you are updating a single goal from a user
-// export const receiveGoal = (goal) => ({
-//     type: RECEIVE_GOAL,
-//     goal
-// });
-
-// export const receiveUserGoal = (goal) => ({
-//     type: RECEIVE_USER_GOAL,
-//     goal
-// });
-
-// export const receiveUserGoals = (goals) => ({
-//     type: RECEIVE_USER_GOALS,
-//     goals
-// });
-
-// export const receiveNewGoal = (goal) => ({
-//     type: RECEIVE_NEW_GOAL,
-//     goal
-// });
-
 // //this needs to account for the fact that goal is an array and you are deleting a single goal from a user
 // export const removeGoal = (userId, goalId) => ({
 //     type: REMOVE_GOAL,
 //     goalId,
 //     userId
 // });
-
-// export const receiveGoalErrors = errors => ({
-//     type: RECEIVE_GOAL_ERRORS,
-//     errors
-// });
-
-// export const clearGoalErrors = errors => ({
-//     type: CLEAR_GOAL_ERRORS,
-//     errors
-// });
 // ////////////////////////////////////////////////////////////////////////////////////
 
+const goalsReducer = (state = { all: {}, user: {}, updated: undefined, new: undefined }, action) => {
+    let newState = {...state};
 
-const goalsReducer = (state = { all: {}, user: {}, new: undefined }, action) => {
     switch (action.type) {
-        case RECEIVE_FEED_POSTS:
-            return { ...state, all: action.tweets, new: undefined };
-        case RECEIVE_USER_FEED_POSTS:
-            return { ...state, user: action.tweets, new: undefined };
-        case RECEIVE_NEW_FEED_POST:
-            return { ...state, new: action.tweet };
-        case RECEIVE_USER_LOGOUT:
-            return { ...state, user: {}, new: undefined }
+        case RECEIVE_GOALS:
+            return { ...newState, all: action.goals, updated: undefined, new: undefined };
+        case RECEIVE_UPDATED_GOAL:
+            return { ...newState, updated: action.goal, new: undefined };
+        case RECEIVE_USER_GOAL:
+            return { ...newState, user: action.goal, updated: undefined, new: undefined };
+        case RECEIVE_USER_GOALS:
+            return { ...newState, user: action.goals, updated: undefined, new: undefined };
+        case RECEIVE_NEW_GOAL:
+            return { ...newState, updated: undefined, new: action.goal };
+        case REMOVE_GOAL:
+            const oldGoalsArray = newState.all[action.userId];
+            const filteredGoalsArray = oldGoalsArray.filter(goal => goal.id !== action.goalId);
+            newState.all[action.userId] = filteredGoalsArray;
+            return { ...newState, updated: undefined, new: undefined };
         default:
-            return state;
+            return newState;
     }
 };
 

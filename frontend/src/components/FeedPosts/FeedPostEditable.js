@@ -20,6 +20,7 @@ function FeedPostEditable ({feedPost, type}) {
 		const lastEntry = exerciseEntries[exerciseEntries.length - 1];
 		const lastDate = formatDate(lastEntry.date);
 		const text = `Latest workout: ${lastEntry.note} - ${lastDate}`
+		return text;
 	}
 
 	// exerciseEntries ||= [];
@@ -117,7 +118,7 @@ function FeedPostEditable ({feedPost, type}) {
 					{/* {`Latest workout: ${exerciseEntries[exerciseEntries.length - 1]?.note} ${new Date(exerciseEntries[exerciseEntries.length - 1]?.date)}`} */}
 					{/* <br /> */}
 					{/* {exerciseEntries[exerciseEntries.length - 1] ? exerciseEntries[exerciseEntries.length - 1] + " " : "No workouts yet"} */}
-					{latestExerciseText}
+					{latestExerciseText()}
 				</div>
 			</div>
 			{/* CONTENT - END */}

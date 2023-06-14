@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const ExerciseSchema = require('./Exercise')
+const ExerciseSchema = require('./Exercise');
 
 const ExerciseEntrySchema = new Schema({
     exercises: [
         {
-            type: ExerciseSchema,
-            required: false // this is false for testing purposes until we get exercises ready
+            type: Schema.Types.ObjectId,
+            ref: 'Exercise'
         }
     ],
     date: {

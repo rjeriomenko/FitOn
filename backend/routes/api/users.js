@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Goal = mongoose.model('Goal');
+const ExerciseEntry = mongoose.model('ExerciseEntry');
 const passport = require('passport');
 const { loginUser, restoreUser, requireUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
@@ -16,7 +17,7 @@ const validateExerciseEntryInput = require('../../validations/exerciseEntries');
 // Table of Contents: (+/- a few lines)
 // Auth until line 106
 // Goals from line 114 to 218
-// Exercise Entries afterward
+// Exercise Entries 235
 
 
 // GET /api/users - get all users
@@ -118,8 +119,8 @@ router.get('/:userId', async (req, res, next) => {
   }
 });
 
-// since goals and routines are embedded in Users, all goal and routine 
-// routes will actually be written out in the User.js file
+// since goals are embedded in Users, all goal routes will be 
+// written out in the User.js file. eEntries under goals
 
 
 // CREATE GOAL (post)
@@ -159,7 +160,7 @@ router.get('/:userId/goals/:goalId', async (req, res, next) => {
     }
     const goal = user.goals.filter(goal => goal.id === req.params.goalId)[0];
 
-    return res.json(goal || { message: 'Goal not found'});
+    return res.json(goal || { message: 'Goal not found' });
   } catch (err) {
     next(err);
   }
@@ -180,7 +181,7 @@ router.patch('/:userId/goals/:goalId', requireUser, validateGoalInput, async (re
     oldGoal.description = req.body.description || oldGoal.description;
     oldGoal.deadline = req.body.deadline || oldGoal.deadline;
     oldGoal.completionDate = req.body.completionDate || oldGoal.completionDate;
-    
+
     user.save();
 
     return res.json(oldGoal);
@@ -202,7 +203,7 @@ router.delete('/:userId/goals/:goalId', requireUser, async (req, res, next) => {
 
     const goalsArray = user.goals.filter(goal => goal.id !== req.params.goalId);
     user.goals = goalsArray;
-    
+
     user.save();
 
     return res.json({ message: 'Goal successfully deleted' });
@@ -249,7 +250,7 @@ router.post('/:userId/goals/:goalId/entries', requireUser, validateExerciseEntry
       error.statusCode = 404;
       throw error;
     }
-    let goal = user.goals.filter(goal => goal.id = req.params.goalId);
+    let goal = user.goals.filter(goal => goal.id === req.params.goalId)[0];
     goal.exerciseEntries.push(newEntry);
     user.save();
 
@@ -260,7 +261,107 @@ router.post('/:userId/goals/:goalId/entries', requireUser, validateExerciseEntry
 })
 
 
-// SHOW POST (get)
-// router.get('/:userId/goals/:goalId/entries/:entryId', async (req, res, next) => {
-//   try {}
-// })
+// SHOW ENTRY (get)
+router.get('/:userId/goals/:goalId/entries/:entryId', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    }
+    const entryObject = user.goals.filter(goal => goal.id === req.params.goalId)[0].exerciseEntries.filter(entry => entry.id === req.params.entryId)[0];
+
+    return res.json(entryObject || { message: 'Entry not found' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+
+// per goal ENTRY INDEX (get)
+router.get('/:userId/goals/:goalId/entries', requireUser, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    }
+    const entries = user.goals.filter(goal => goal.id === req.params.goalId)[0].exerciseEntries;
+
+    return res.json(entries || { message: 'Entry not found' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// per user ENTRY INDEX (get)
+router.get('/:userId/entries', requireUser, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const entries = [];
+    user.goals.forEach(goal => 
+      goal.exerciseEntries.forEach(entry => 
+        entries.push(entry)))
+    
+    return res.json(entries || { message: 'Entry not found'})
+  } catch (err) {
+    next(err);
+  }
+});
+
+
+// EDIT AN ENTRY (patch)
+router.patch('/:userId/goals/:goalId/entries/:entryId', requireUser, validateExerciseEntryInput, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const oldEntry = user.goals.filter(goal => goal.id === req.params.goalId)[0].exerciseEntries.filter(entry => entry.id === req.params.entryId)[0];
+    oldEntry.date = req.body.date || oldEntry.date
+    oldEntry.note = req.body.note || oldEntry.note
+    oldEntry.rating = req.body.rating || oldEntry.rating
+    oldEntry.exercises = req.body.exercises || oldEntry.exercises
+
+    user.save();
+
+    return res.json(oldEntry);
+  } catch (err) {
+    next(err);
+  }
+});
+
+
+// DELETE ENTRY (delete)
+router.delete('/:userId/goals/:goalId/entries/:entryId', requireUser, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const goalObj = user.goals.filter(goal => goal.id === req.params.goalId)[0];
+    const otherEntries = goalObj.exerciseEntries.filter(entry => entry.id !== req.params.entryId);
+
+    goalObj.exerciseEntries = otherEntries;
+
+    user.save();
+
+    return res.json({ message: 'Entry successfully deleted' });
+  } catch (err) {
+    next(err);
+  }
+});

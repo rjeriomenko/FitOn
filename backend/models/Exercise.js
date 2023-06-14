@@ -25,6 +25,16 @@ const ExerciseSchema = new Schema({
     name: {
         type: String,
         required: true
+    },
+    entryId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 })
 

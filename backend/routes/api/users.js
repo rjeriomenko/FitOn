@@ -10,8 +10,12 @@ const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
 const validateGoalInput = require('../../validations/goals');
+const validateExerciseEntryInput = require('../../validations/exerciseEntries');
 
-// Auth from here till ~line 100
+// Table of Contents: (+/- a few lines)
+// Auth until line 106
+// Goals from line 114 to 218
+// Exercise Entries afterward
 
 
 // POST /api/users/register
@@ -214,4 +218,32 @@ router.get('/:userId/goals', requireUser, async (req, res, next) => {
 module.exports = router;
 
 
+// due to our nested/embedded structure, it seems the vast majority of 
+// routes will be in this file lol
 
+// EXERCISE ENTRIES 
+
+// CREATE ENTRY (post)
+router.post('/:userId/goals/:goalId/entries', requireUser, validateExerciseEntryInput, async (req, res, next) => {
+  try {
+    const newEntry = new ExerciseEntry({
+      date: req.body.date,
+      note: req.body.note,
+      rating: req.body.rating
+    });
+
+    let user = await User.findById(req.params.userId);
+    if (!user) {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    }
+    let goal = user.goals.filter(goal => goal.id = req.params.goalId);
+    goal.exerciseEntries.push(newEntry);
+    user.save();
+
+    return res.json(goal.exerciseEntries.slice(-1));
+  } catch (err) {
+    next(err);
+  }
+})

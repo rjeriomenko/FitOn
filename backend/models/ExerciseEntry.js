@@ -6,7 +6,7 @@ const ExerciseEntrySchema = new Schema({
     exercises: [
         {
             type: ExerciseSchema,
-            required: true
+            required: false // this is false for testing purposes until we get exercises ready
         }
     ],
     date: {
@@ -16,6 +16,10 @@ const ExerciseEntrySchema = new Schema({
     note: {
         type: String,
         required: false
+    },
+    rating: {
+        type: Number,
+        required: true
     }
 })
 

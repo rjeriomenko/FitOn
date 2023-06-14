@@ -51,7 +51,7 @@ export const clearGoalErrors = errors => ({
 
 //Thunks
 
-//Returns all goals ordered by [{ userId: [userGoals] }]
+//Returns all goals ordered by { userId: [userGoals], user2Id: [user2Goals], ...  }
 export const fetchAllUserGoals = () => async dispatch => {
     try {
         const res = await jwtFetch('/api/users');

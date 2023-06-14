@@ -1,6 +1,8 @@
+import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearFeedPostErrors, createFeedPost } from '../../store/feedPosts';
+import { clearGoalErrors, createGoal  } from '../../store/goals';
 import FeedPostEditable from './FeedPostEditable';
 import './GoalCreate.css';
 
@@ -9,6 +11,7 @@ function GoalCreate () {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [deadline, setDeadline] = useState(today);
+  const [submit, setSubmit] = useState(false);
   
   const dispatch = useDispatch();
   const author = useSelector(state => state.session.user);
@@ -17,18 +20,21 @@ function GoalCreate () {
   const id = author._id;
 
   useEffect(() => {
-    return () => dispatch(clearFeedPostErrors());
+    return () => dispatch(clearGoalErrors());
   }, [dispatch]);
 
   const handleSubmit = e => {
     e.preventDefault();
-    // dispatch action to be updated: goals reducer 
-    dispatch(createFeedPost({ title, description, deadline }, id)); 
+    dispatch(createGoal( id, { title, description, deadline })); 
     setTitle('');
     setDescription('');
     setDeadline(today);
-
+    setSubmit(true);
   };
+
+  if (submit === true) {
+    return <Redirect to="/feedPosts/myGoal" />
+  }
 
   return (
     <>

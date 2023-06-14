@@ -19,15 +19,14 @@ export const sortFeedPostsBy = (postsArray, sortRule) => {
       })    
       break;
     default:
-      sortedArray =  "PLEASE SPECIFY SORT FILTER";
+      sortedArray = "PLEASE SPECIFY SORT FILTER";
       break;
   }
   return sortedArray;
 }
 
 // Filter posts by post options object of types:["type1", ...] and/or ownerIds:[id1, ...]
-export const filterPostsBy = (postsArray, options) => {
-  options ||= {};
+export const filterPostsBy = (postsArray, options = {}) => {
   const { types, ownerIds } = options;
   const fitleredArray = postsArray.filter(post => {
     return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.ownerId) : true);
@@ -35,13 +34,12 @@ export const filterPostsBy = (postsArray, options) => {
   return fitleredArray;
 }
 
-function Feed (options) {
-  options ||= {};
+function Feed (options = {}) {
   const dispatch = useDispatch();
   const goalPosts = useSelector(state => state.goals?.all ? Object.values(state.goals.all) : {});
   
   // Filter posts by options
-  const filteredGoalPosts = filterPostsBy(goalPosts);
+  const filteredGoalPosts = filterPostsBy(goalPosts, options);
 
   // Sort posts by date
   const sortedGoalPosts = sortFeedPostsBy(filteredGoalPosts, "updatedAt");

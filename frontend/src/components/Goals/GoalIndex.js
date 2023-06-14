@@ -22,12 +22,6 @@ function GoalShow () {
             <div> Loading... </div>
         )
     }
-
-    // const handleNewClick = e => {
-    //     e.preventDefault();
-    //     const history = useHistory();
-    //     history.push('/feedPosts/newGoal');
-    // }
     
     const currentGoal = userGoals.slice(-1)[0];
     const goalItems = userGoals.slice(0,-1).map(goal => <GoalIndexItem goal={goal} />)
@@ -44,13 +38,8 @@ function GoalShow () {
                                 <p>{currentGoal.description}</p>
                                 <p> Deadline: {currentGoal.deadline}</p>     
                             </div> 
-                            <div>
-                                <input 
-                                    className="edit-current-goal" 
-                                    type="submit" 
-                                    value="Edit Current Goal" 
-                                    // onClick={handleClick}
-                                />
+                            <div className="edit-current-goal">
+                                <Link to={'/feedPosts/editGoal'}>Edit Goal</Link>
                             </div>          
                         </div>
                     ) : (

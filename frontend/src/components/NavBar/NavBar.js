@@ -21,6 +21,7 @@ function NavBar () {
           <li><Link to={'/'}>Friends</Link></li>
           <li><Link to={'/'}>Progress</Link></li>
           <li><Link to={'/feedPosts/newGoal'}>Create a new goal</Link></li>
+          <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li>
           <li><Link to={'/'}>Your Goal</Link></li>
           <li><Link to={'/feedPosts/myGoal'}>My Goals</Link></li>
           <li><div onClick={logoutUser}>Logout</div></li>

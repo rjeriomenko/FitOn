@@ -2,8 +2,8 @@ import GoalIndexItem from './GoalIndexItem';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserGoals, getUserKeyGoals } from '../../store/goals'
-import './GoalIndex.css'
 import { Link } from 'react-router-dom';
+import './GoalIndex.css'
 
 
 function GoalShow () {
@@ -15,7 +15,7 @@ function GoalShow () {
     
     useEffect(() => {
         dispatch(fetchUserGoals(sessionUser._id))
-    }, [])
+    }, [userGoalsObj])
     
     if (!userGoals) {
         return (

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateGoal, clearGoalErrors, getUserKeyGoals } from '../../store/goals';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 
 function GoalEdit () {
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function GoalEdit () {
     const [title, setTitle] = useState(currentGoal?.title);
     const [description, setDescription] = useState(currentGoal?.description);
     const [deadline, setDeadline] = useState(currentGoal?.deadline);
-    
+    const [submit, setSubmit] = useState(false)
     if (!userGoals) {
         <div> Loading... </div>
     }
@@ -30,9 +31,12 @@ function GoalEdit () {
         setTitle('');
         setDescription('');
         setDeadline('');
-        
+        setSubmit(true)
     };
 
+    if (submit === true) {
+        return <Redirect to="/feedPosts/myGoal" />
+    }
 
   return (
     <>

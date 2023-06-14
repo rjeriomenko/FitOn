@@ -39,7 +39,10 @@ p, h3 {
 }
 
 .feed-post-content {
+	display: flex;
+	flex-direction: column;
 	width: 70%;
+	max-width: 70%;
 	word-wrap: break-word;
 	box-sizing: border-box;
 }
@@ -66,7 +69,8 @@ p, h3 {
 
 }
 
-#feed-post-text-edit {
+.feed-post-text-edit {
+	box-sizing: border-box;
 	word-wrap: break-word;
 	width: 100%;
 	/* min-height: 0px; */
@@ -78,7 +82,7 @@ p, h3 {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	align-items: flex-start;
+	align-items: center;
 }
 
 .feed-post-crud-button {
@@ -96,8 +100,9 @@ p, h3 {
 }
 
 .post-divider {
-	width: 60%;
-	border-bottom: 1px solid var(--medium-blue);
+	/* align-self: center; */
+	width: 100%;
+	border-bottom: 0.5px solid var(--medium-blue);
 	margin: 20px 0px;
 
 }

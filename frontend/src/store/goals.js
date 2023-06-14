@@ -60,8 +60,6 @@ export const fetchAllUserGoals = () => async dispatch => {
         const usersGoals = {};
         users.forEach(user => {
             if(user.goals.length) {
-                // usersGoals[user._id] = user.goals
-
                 user.goals.forEach(goal => {
                     usersGoals[goal._id] = {goalId: goal._id, ...goal, setter: user.username, setterId: user._id}
                 })
@@ -216,13 +214,17 @@ const goalsReducer = (state = { all: {}, user: {}, updated: undefined, new: unde
             return { ...newState, updated: undefined, new: action.goal };
         //prev state in Redux Console will reflect new state before action reaches store
         case REMOVE_GOAL:
-            const oldGoalsArray = newState.all[action.userId];
-            const filteredGoalsArray = oldGoalsArray.filter(goal => goal._id !== action.goalId);
-            const cloneState = { ...newState };
+            // const oldGoalsArray = newState.all[action.userId];
+            // debugger
+            // const filteredGoalsArray = oldGoalsArray.filter(goal => goal._id !== action.goalId);
+            // const cloneState = { ...newState };
 
-            cloneState.all[action.userId] = filteredGoalsArray;
+            // cloneState.all[action.userId] = filteredGoalsArray;
             
-            return { ...newState, ...cloneState, updated: undefined, new: undefined };
+            // return { ...newState, ...cloneState, updated: undefined, new: undefined };
+            
+            delete newState.all[action.goalId]
+            return newState
         default:
             return newState;
     }

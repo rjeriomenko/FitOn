@@ -6,11 +6,17 @@ import FeedPostEditable from './FeedPostEditable';
 import './GoalCreate.css';
 
 function GoalCreate () {
-  const [text, setText] = useState('');
+  const today = new Date().toISOString().split('T')[0];
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [deadline, setDeadline] = useState(today);
+
+  
   const dispatch = useDispatch();
   const author = useSelector(state => state.session.user);
   const newFeedPost = useSelector(state => state.feedPosts.new);
   const errors = useSelector(state => state.errors.feedPosts);
+  const id = author._id;
 
   useEffect(() => {
     return () => dispatch(clearFeedPostErrors());
@@ -18,34 +24,62 @@ function GoalCreate () {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(createFeedPost({ text })); 
-    setText('');
-  };
+    // dispatch action to be updated: goals reducer 
+    dispatch(createFeedPost({ title, description, deadline }, id)); 
+    setTitle('');
+    setDescription('');
+    setDeadline(today);
 
-  const update = e => setText(e.currentTarget.value);
+  };
 
   return (
     <>
-      <form className="create-feed-post" onSubmit={handleSubmit}>
-        <input 
-          type="textarea"
-          value={text}
-          onChange={update}
-          placeholder="Write your Feed Post..."
-          required
-        />
-        <div className="errors">{errors?.text}</div>
-        <input type="submit" value="Submit" />
-      </form>
-      <div className="feed-post-preview">
-        <h3>Feed Post Preview</h3>
-        {/* {text ? <FeedPostBlock feedPost={{text, author}} /> : undefined} */}
-        {text ? <FeedPostEditable feedPost={{text, setText, author}} /> : undefined}
-      </div>
-      <div className="previous-feed-post">
-        <h3>Previous Feed Post</h3>
-        {/* {newFeedPost ? <FeedPostBlock feedPost={newFeedPost} /> : undefined} */}
-        {newFeedPost ? <FeedPostEditable feedPost={newFeedPost} /> : undefined}
+      <div className="create-feed-post-container">
+        <form className="create-feed-post" onSubmit={handleSubmit}>
+          <span>Title</span>
+          <input 
+            className="feed-post-form-text"
+            type="textarea"
+            value={title}
+            onChange={e => setTitle(e.currentTarget.value)}
+            placeholder={`Set your next goal, ${author.username}!`}
+            required
+          />
+          <div className="errors">{errors?.text}</div>
+          
+          <span>Description</span>
+          <input 
+            className="feed-post-form-text"
+            type="textarea" 
+            value={description}
+            onChange={e => setDescription(e.currentTarget.value)}
+            placeholder="Tell me more about your goal"
+          />
+
+          <span>Target Deadline</span>
+            <input 
+              type="date"
+              className="feed-post-form-date"
+              value={deadline}
+              onChange={e => setDeadline(e.currentTarget.value)}
+            />
+          <input 
+            className="create-feed-post-submit"
+            type="submit" 
+            value="Submit"
+          />
+
+        </form>
+
+        {/* <div className="feed-post-preview">
+          <h3>Feed Post Preview</h3>
+          {text ? <FeedPostBlock feedPost={{text, author}} /> : undefined}
+        </div> */}
+
+        {/* <div className="previous-feed-post">
+          <h3>Previous Feed Post</h3>
+          {newFeedPost ? <FeedPostBlock feedPost={newFeedPost} /> : undefined}
+        </div> */}
       </div>
     </>
   )

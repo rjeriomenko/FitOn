@@ -8,7 +8,7 @@ import NavBar from './components/NavBar/NavBar';
 import LandingPage from './components/LandingPage/LandingPage';
 import LoginForm from './components/SessionForms/LoginForm';
 import SignupForm from './components/SessionForms/SignupForm';
-import FeedPosts from './components/FeedPosts/FeedPosts';
+import Feed from './components/FeedPosts/Feed';
 import Profile from './components/Profile/Profile';
 import GoalCreate from './components/FeedPosts/GoalCreate';
 import Test from './components/Test/Test';
@@ -41,7 +41,7 @@ function App() {
       <MainPageWrapper>
           <AuthRoute exact path="/" component={LandingPage} />
 
-          <ProtectedRoute exact path="/feedPosts" component={FeedPosts} />
+          <ProtectedRoute exact path="/feed" component={Feed} />
           <ProtectedRoute exact path="/profile" component={Profile} />
           <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />
       </MainPageWrapper>

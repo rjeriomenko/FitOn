@@ -15,7 +15,9 @@ function GoalShow () {
     
     useEffect(() => {
         dispatch(fetchUserGoals(sessionUser._id))
-    }, [userGoalsObj])
+    // }, [userGoalsObj]) // console.log goes crazy
+    }, []) // will need to refresh page to see updated goal details
+    
     
     if (!userGoals) {
         return (

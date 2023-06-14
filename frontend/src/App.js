@@ -13,6 +13,7 @@ import Profile from './components/Profile/Profile';
 import GoalCreate from './components/FeedPosts/GoalCreate';
 import GoalIndex from './components/Goals/GoalIndex';
 import GoalEdit from './components/Goals/GoalEdit';
+import ExerciseCreateForm from './components/Exercise/ExerciseCreateForm';
 import Test from './components/Test/Test';
 
 import { getCurrentUser } from './store/session';
@@ -49,6 +50,8 @@ function App() {
           <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />
           <ProtectedRoute exact path="/feedPosts/editGoal" component={GoalEdit} />
           <ProtectedRoute exact path="/feedPosts/myGoal" component={GoalIndex} />
+          <ProtectedRoute exact path="/gains" component={ExerciseCreateForm} />
+
 
       </MainPageWrapper>
       

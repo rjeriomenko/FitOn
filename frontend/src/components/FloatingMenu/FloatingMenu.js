@@ -2,6 +2,7 @@ import './FloatingMenu.css';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Modal } from '../../context/Modal';
+import ExerciseCreateForm from '../Exercise/ExerciseCreateForm';
 
 // Just to test modal popup
 import LoginForm from '../SessionForms/LoginForm';
@@ -21,6 +22,7 @@ const FloatingMenu = (props) => {
 			}
 			{showExerciseEntry && <Modal onClose={e => setShowExerciseEntry(false)}>
 				<LoginForm />
+				{/* <ExerciseCreateForm /> */}
 			</Modal>}
 		</>
 	)

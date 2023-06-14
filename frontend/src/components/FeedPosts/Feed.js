@@ -9,29 +9,42 @@ import './Feed.css';
 export const POST_TYPE_GOAL = "feedPost/GOAL"
 export const POST_TYPE_EXERCISE_ENTRY = "feedPost/EXERCISE_ENTRY"
 
-export const sortFeedPostsBy = (postsArray, filter) => {
+// Sort posts my most recent.
+export const sortFeedPostsBy = (postsArray, sortRule) => {
   let sortedArray;
-  
-  switch(filter) {
+  switch(sortRule) {
     case "updatedAt":
       sortedArray = postsArray.toSorted((a, b) => {
-        return new Date(a.updatedAt) - new Date(b.updatedAt)
+        return new Date(b.updatedAt) - new Date(a.updatedAt)
       })    
       break;
     default:
       sortedArray =  "PLEASE SPECIFY SORT FILTER";
       break;
   }
-
   return sortedArray;
 }
 
-function Feed () {
+// Filter posts by post options object of types:["type1", ...] and/or ownerIds:[id1, ...]
+export const filterPostsBy = (postsArray, options) => {
+  options ||= {};
+  const { types, ownerIds } = options;
+  const fitleredArray = postsArray.filter(post => {
+    return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.ownerId) : true);
+  })
+  return fitleredArray;
+}
+
+function Feed (options) {
+  options ||= {};
   const dispatch = useDispatch();
   const goalPosts = useSelector(state => state.goals?.all ? Object.values(state.goals.all) : {});
   
+  // Filter posts by options
+  const filteredGoalPosts = filterPostsBy(goalPosts);
+
   // Sort posts by date
-  const sortedGoalPosts = sortFeedPostsBy(goalPosts, "updatedAt");
+  const sortedGoalPosts = sortFeedPostsBy(filteredGoalPosts, "updatedAt");
 
   useEffect(() => {
     dispatch(fetchAllUserGoals())
@@ -48,13 +61,12 @@ function Feed () {
 
   return (
     <>
-    
-    <div className='feed-posts-container'>
-      <h2>everyone...</h2>
-      {sortedGoalPosts.map(goalPost => (
-        <FeedPostEditable key={goalPost.goalId} feedPost={goalPost} type={POST_TYPE_GOAL}/>
-      ))}
-    </div>
+      <div className='feed-posts-container'>
+        <h2>everyone...</h2>
+        {sortedGoalPosts.map(goalPost => (
+          <FeedPostEditable key={goalPost.goalId} feedPost={goalPost} type={POST_TYPE_GOAL}/>
+        ))}
+      </div>
     </>
   );
 }

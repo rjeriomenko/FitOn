@@ -70,7 +70,7 @@ function FeedPostEditable ({feedPost, type}) {
 			{/* CONTENT - START */}
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
-				<div className="feed-post-row">
+				<div className="feed-post-row feed-post-header">
 					<div className="post-username">{username}</div>
 					<div>{timestamp}</div>
 				</div>
@@ -111,10 +111,13 @@ function FeedPostEditable ({feedPost, type}) {
 			<div className="feed-post-crud-controls">
 				{(sessionUser._id === setterId) &&
 					<>
-					<div className="feed-post-crud-button" onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
-						{editable ? "Cancel" : "Update"}
-					</div>
-					<div className="feed-post-crud-button" onClick={handleDeleteGoal}>Delete</div>
+						<div className="feed-post-crud-button" onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
+							{/* {editable ? "Cancel" : "Update"} */}
+							<i class="far fa-edit"></i>
+						</div>
+						<div className="feed-post-crud-button" onClick={handleDeleteGoal}>
+							<i class="fa-solid fa-trash-can"></i>
+						</div>
 					</>
 				}
 			</div>

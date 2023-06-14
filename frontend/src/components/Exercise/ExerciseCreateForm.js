@@ -40,6 +40,7 @@ function ExerciseCreateForm () {
         return span;
     }
 
+    console.log('WHY NOT')
     const addInputFields = e => {
         e.preventDefault();
         

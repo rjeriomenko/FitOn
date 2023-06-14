@@ -1,0 +1,68 @@
+/* .grid-item1 { grid-area: current}
+.grid-item {grid-area: previous} */
+
+.goals-container {
+    padding: 40px 90px;
+}
+
+.goals-container > h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: var(--soft-white);
+    text-shadow: 1px 1px 4px var(--light-blue);
+}
+
+#current-goal {
+    outline: 1px solid var(--light-blue);
+    outline-offset: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.goals-grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto;
+    row-gap: 10px;
+    column-gap: 10px;
+
+    /* grid-template-areas: 
+        ". current . "
+        "previous previous previous"
+        "previous previous previous" */
+}
+
+.grid-item {
+    border: 1px solid var(--medium-blue);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+div > p {
+    margin: 20px 0;
+    color: var(--white);
+
+}
+
+#current-goal {
+    grid-column: 1 / span 3;
+}
+
+#previous-goal {
+    grid-column: span 1;
+}
+
+.edit-current-goal {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--dark-red);
+    border: 1px solid var(--dark-red);
+    color: var(--soft-white);
+}
+
+.edit-current-goal:hover {
+    cursor: pointer;
+    transition: 0.3s ease;
+    transform: scale(1.01);
+    box-shadow: 5px 5px 5px #05384d;
+}

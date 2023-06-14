@@ -46,7 +46,7 @@ function FormAddInput () {
 
     removeStep.addEventListener("click", e => {
 
-      console.log(e.target)
+      // console.log(e.target)
       e.target.remove()
 
     })

@@ -2,26 +2,39 @@ p, h3 {
   margin-left: 5px;
 }
 
-.feedPostBlock {
-  border: 2px solid var(--medium-blue);
-  border-radius: 10px;
-  margin-bottom: 5px;
-  min-height: 57px;
-	box-sizing: border-box;
-}
 
 .feed-post-editable-container {
+	border: 1px solid var(--medium-blue);
+	border-radius: 10px;
+	margin-bottom: 5px;
+	min-height: 57px;
+	box-sizing: border-box;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	/* justify-content: space-between; */
 	justify-content: stretch;
-	width: 60vw;
+	width: 40vw;
+	margin: 15px;
 	margin-left: 10vw;
+	border-right: none;
+	border-bottom: none;
+	border: none;
+	box-shadow: 0px 0px 3px var(--medium-blue);
+	transition: background-color 0.5s;
+}
+
+.feed-post-editable-container:hover {
+	background-color: var(--dark-blue-lighter);
+	/* color: black; */
 }
 
 .feed-post-editable-container > * {
 	margin: 10px;
+}
+
+.feed-post-editable-container * {
+	font-size: 16px;
 }
 
 .feed-post-content {
@@ -30,14 +43,26 @@ p, h3 {
 	box-sizing: border-box;
 }
 
-.feed-post-heading {
+.feed-post-row {
 	display: flex;
 	flex-direction: row;
 	column-gap: 1em;
 }
 
-.feed-post-heading > * {
+.feed-post-row > * {
 	/* margin: 0px 1em; */
+}
+
+.post-username {
+	color: var(--medium-blue);
+}
+
+.post-goal-title {
+	color: var(--orange);
+}
+
+.post-goal-description {
+
 }
 
 #feed-post-text-edit {
@@ -61,4 +86,17 @@ p, h3 {
 	padding: 5px;
 	margin: 5px;
 	width: 100px;
+	font-family: var(--sans-serif);
+	text-align: center;
+}
+
+.feed-post-crud-button:hover{
+	background-color: var(--orange);
+}
+
+.post-divider {
+	width: 60%;
+	border-bottom: 1px solid var(--medium-blue);
+	margin: 20px 0px;
+
 }

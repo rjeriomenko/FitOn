@@ -11,6 +11,8 @@ import SignupForm from './components/SessionForms/SignupForm';
 import Feed from './components/FeedPosts/Feed';
 import Profile from './components/Profile/Profile';
 import GoalCreate from './components/FeedPosts/GoalCreate';
+import GoalIndex from './components/Goals/GoalIndex';
+import Test from './components/Test/Test';
 
 import { getCurrentUser } from './store/session';
 import FloatingMenu from './components/FloatingMenu/FloatingMenu';
@@ -23,8 +25,15 @@ function App() {
     dispatch(getCurrentUser()).then(() => setLoaded(true));
   }, [dispatch]);
 
+  const setupTestEnv = () => {
+    if (process.env.NODE_ENV !== 'production') { return (<Test />) };
+  }
+
+
   return loaded && (
     <div className='app-container'>
+      {setupTestEnv()}
+      <div className='nav-bar-offset'/>
       <NavBar />
       <FloatingMenu />
         <Switch>
@@ -37,6 +46,8 @@ function App() {
           <ProtectedRoute exact path="/feed" component={Feed} />
           <ProtectedRoute exact path="/profile" component={Profile} />
           <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />
+          <ProtectedRoute exact path="/feedPosts/myGoal" component={GoalIndex} />
+
       </MainPageWrapper>
       
         </Switch>

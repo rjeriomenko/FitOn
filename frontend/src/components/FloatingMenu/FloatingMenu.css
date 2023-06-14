@@ -20,4 +20,5 @@
 
 .floating-menu-container:hover {
 	background-color: azure;
+	transition: background-color 0.5s;
 }

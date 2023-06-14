@@ -12,11 +12,22 @@ const validateLoginInput = require('../../validations/login');
 const validateGoalInput = require('../../validations/goals');
 const validateExerciseEntryInput = require('../../validations/exerciseEntries');
 
+
 // Table of Contents: (+/- a few lines)
 // Auth until line 106
 // Goals from line 114 to 218
 // Exercise Entries afterward
 
+
+// GET /api/users - get all users
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await User.find({});
+    return res.json(users);
+  } catch (err) {
+    next(err);
+  }
+});
 
 // POST /api/users/register
 router.post('/register', validateRegisterInput, async (req, res, next) => {

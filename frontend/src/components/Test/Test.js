@@ -37,7 +37,7 @@ function LandingPage() {
     
     return (
         <>
-            {console.log('TEST COMPONENT ENABLED')}
+            {/* {console.log('TEST COMPONENT ENABLED')} */}
         </>
     );
 }

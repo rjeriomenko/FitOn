@@ -29,9 +29,30 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* RESET - END */
+/* RESET - END */
+/* RESET - END */
+
 body {
 	/* COLORSPACE */
 	--dark-blue: #024059;
+	--dark-blue-lighter: #025a7d;
+	--dark-blue-lighter: #04445e;
+	--dark-blue-lighter: #064a66;
 	--medium-blue: #6BA7BE;
 	--light-blue: #b0cdd9;
 	--orange: #F2490C;
@@ -50,22 +71,6 @@ body {
 ol, ul {
 	list-style: none;
 }
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-/* RESET - END */
-/* RESET - END */
-/* RESET - END */
 
 *:focus {
 	outline: none;
@@ -76,7 +81,7 @@ a, a:visited, a:hover, a:active {
 }
 
 .app-container {
-	position: relative;
+	/* position: relative; */
 }
 
 body * {

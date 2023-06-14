@@ -25,6 +25,7 @@ function App() {
 
   return loaded && (
     <div className='app-container'>
+      <div className='nav-bar-offset'/>
       <NavBar />
       <FloatingMenu />
         <Switch>

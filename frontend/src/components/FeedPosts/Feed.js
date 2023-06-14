@@ -1,27 +1,43 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
-// import FeedPostBlock from './FeedPostBlock';
-import FeedPostEditable from './FeedPostEditable';
 import { useState } from 'react';
+import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
+import { fetchAllUserGoals } from '../../store/goals';
+import FeedPostEditable from './FeedPostEditable';
 
 import './Feed.css';
 
 export const POST_TYPE_GOAL = "feedPost/GOAL"
 export const POST_TYPE_EXERCISE_ENTRY = "feedPost/EXERCISE_ENTRY"
 
-export const sortFeedPostsBy = (feedPosts, filter) => {
+export const sortFeedPostsBy = (postsArray, filter) => {
+  let sortedArray;
   
+  switch(filter) {
+    case "updatedAt":
+      sortedArray = postsArray.toSorted((a, b) => {
+        return new Date(a.updatedAt) - new Date(b.updatedAt)
+      })    
+      break;
+    default:
+      sortedArray =  "PLEASE SPECIFY SORT FILTER";
+      break;
+  }
+
+  return sortedArray;
 }
 
 function Feed () {
   const dispatch = useDispatch();
   const feedPosts = useSelector(state => state.feedPosts?.all ? Object.values(state.feedPosts.all) : []);
-  // const userFeedPosts = useSelector(state => state.feedPosts?.user ? Object.values(state.feedPosts.user) : []);
+  const goalPosts = useSelector(state => state.goals?.all ? Object.values(state.goals.all) : {});
+  
+  const sortedGoalPosts = sortFeedPostsBy(goalPosts, "updatedAt");
+
+  // console.log(sortedGoalPosts)
   
   useEffect(() => {
-    dispatch(fetchFeedPosts());
-    dispatch(fetchUserFeedPosts());
+    dispatch(fetchAllUserGoals())
     return () => dispatch(clearFeedPostErrors());
   }, [dispatch])
 
@@ -36,15 +52,10 @@ function Feed () {
     author: {username: "Michele"}
   }
 
-  if (feedPosts.length === 0) return (
+  if (sortedGoalPosts.length === 0) return (
     <>
     <div className='feed-posts-container'>
       <div>There are no Feed Posts</div>
-      <br/>
-
-      {/* Placeholder */}
-      {/* <FeedPostEditable feedPost={feedPost} type={POST_TYPE_EXERCISE_ENTRY}/> */}
-      {/* <FeedPostEditable feedPost={feedPost2} type={POST_TYPE_EXERCISE_ENTRY}/> */}
     </div>
     </> 
   )
@@ -56,9 +67,11 @@ function Feed () {
     
     <div className='feed-posts-container'>
       <h2>everyone...</h2>
-      {feedPosts.map(feedPost => (
-        // <FeedPostBlock key={feedPost._id} feedPost={feedPost} />
+      {/* {feedPosts.map(feedPost => (
         <FeedPostEditable feedPost={feedPost} type={POST_TYPE_GOAL}/>
+      ))} */}
+      {sortedGoalPosts.map(goalPost => (
+        <FeedPostEditable key={goalPost.goalId} feedPost={goalPost} type={POST_TYPE_GOAL}/>
       ))}
     </div>
     </>

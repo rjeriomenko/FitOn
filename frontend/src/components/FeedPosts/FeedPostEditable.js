@@ -6,21 +6,14 @@ import { useEffect } from "react";
 // import { Link } from "react-router-dom";
 
 function FeedPostEditable ({feedPost, type}) {
-  // const { text, author } = feedPost;
-  // const { username } = author;
-  const { title, description, deadline, completionDate, exerciseEntries, updatedAt } = feedPost;
+  const { setter, setterId, title, description, deadline, completionDate, exerciseEntries, updatedAt } = feedPost;
 	exerciseEntries ||= [];
-	// let username = undefined;
-	// let timestamp = undefined;
-	// let contentString = undefined;
 	const [username, setUsername] = useState("undefined-user")
 	const [timestamp, setTimeStamp] = useState('')
 	// const [contentString, setContentString] = useState('')
 	const [content, setContent] = useState('');
 	const [editable, setEditable] = useState(false);
-	const loggedIn = useSelector(state => !!state.session.user);
-	// need logic for if sessionUser === post's author
-	// debugger
+	const sessionUser = useSelector(state => state.session.user);
 
 	const handleContentChange = e => {
 		setContent(e.target.value);
@@ -38,8 +31,8 @@ function FeedPostEditable ({feedPost, type}) {
 			case POST_TYPE_EXERCISE_ENTRY:
 				break;
 			case POST_TYPE_GOAL:
-				// username
-				setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric"})) 
+				setUsername(setter)
+				setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 
 				// timestamp = completionDate ? completionDate : updatedAt;
 				// exerciseEntries ||= [];
 				const contentString = 
@@ -89,10 +82,14 @@ function FeedPostEditable ({feedPost, type}) {
 			{/* CRUD BUTTONS - START */}
 			{/* CRUD BUTTONS - START */}
 			<div className="feed-post-crud-controls">
-				<div className="feed-post-crud-button" onClick={e => setEditable(true)}>
-					Update
-				</div>
-				<div className="feed-post-crud-button">Delete</div>
+				{(sessionUser._id === setterId) &&
+					<>
+					<div className="feed-post-crud-button" onClick={e => setEditable(true)}>
+						Update
+					</div>
+					<div className="feed-post-crud-button">Delete</div>
+					</>
+				}
 			</div>
 			{/* CRUD BUTTONS - END */}
 			{/* CRUD BUTTONS - END */}

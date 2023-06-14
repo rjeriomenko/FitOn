@@ -60,7 +60,11 @@ export const fetchAllUserGoals = () => async dispatch => {
         const usersGoals = {};
         users.forEach(user => {
             if(user.goals.length) {
-                usersGoals[user._id] = user.goals
+                // usersGoals[user._id] = user.goals
+
+                user.goals.forEach(goal => {
+                    usersGoals[goal._id] = {goalId: goal._id, ...goal, setter: user.username, setterId: user._id}
+                })
             }
         });
         dispatch(receiveGoals(usersGoals));

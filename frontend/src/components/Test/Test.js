@@ -28,7 +28,7 @@ function LandingPage() {
     // console.log(goal)
 
     // useEffect(() => {
-    //     dispatch(fetchAllUserGoals());
+    //     dispatch();
     // }, [])
     
     return (

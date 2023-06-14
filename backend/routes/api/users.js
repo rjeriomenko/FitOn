@@ -247,3 +247,9 @@ router.post('/:userId/goals/:goalId/entries', requireUser, validateExerciseEntry
     next(err);
   }
 })
+
+
+// SHOW POST (get)
+// router.get('/:userId/goals/:goalId/entries/:entryId', async (req, res, next) => {
+//   try {}
+// })

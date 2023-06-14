@@ -8,8 +8,22 @@ import { deleteGoal, updateGoal } from "../../store/goals";
 
 function FeedPostEditable ({feedPost, type}) {
   // props
-	const { goalId, setter, setterId, title, description, deadline, completionDate, exerciseEntries, updatedAt } = feedPost;
-	exerciseEntries ||= [];
+	const { goalId, setter, setterId, title, description, deadline, completionDate, updatedAt } = feedPost;
+	let { exerciseEntries } = feedPost;
+
+	const formatDate = (dateText) => {
+		return new Date(dateText).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})
+	}
+
+	const latestExerciseText = () => {
+		if(!exerciseEntries || exerciseEntries.length === 0) return "No workouts yet";
+		const lastEntry = exerciseEntries[exerciseEntries.length - 1];
+		const lastDate = formatDate(lastEntry.date);
+		const text = `Latest workout: ${lastEntry.note} - ${lastDate}`
+		return text;
+	}
+
+	// exerciseEntries ||= [];
 
 	// Redux
 	const dispatch = useDispatch();
@@ -26,6 +40,7 @@ function FeedPostEditable ({feedPost, type}) {
 	const [content, setContent] = useState('');
 	const [formTitle, setFormTitle] = useState('');
 	const [formDescription, setFormDescription] = useState('');
+	const [lastExercise, setLastExercise] = useState(undefined);
 
 	// Text-area height expands/contracts with input size
 	const handleDescriptionChange = e => {
@@ -53,12 +68,12 @@ function FeedPostEditable ({feedPost, type}) {
 				setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 
 				setFormTitle(title)
 				setFormDescription(description)
-				const contentString = 
-					(title ? title + " " : "") + 
-					(description ? description + " " : "") + 
-					(exerciseEntries[exerciseEntries.length - 1] ? exerciseEntries[exerciseEntries.length - 1] + " " : "")
-					;
-				setContent(contentString);
+				// const contentString = 
+				// 	(title ? title + " " : "") + 
+				// 	(description ? description + " " : "") + 
+				// 	(exerciseEntries[exerciseEntries.length - 1] ? exerciseEntries[exerciseEntries.length - 1] + " " : "")
+				// 	;
+				// setContent(contentString);
 				break;
 			default: 
 				break;
@@ -70,7 +85,7 @@ function FeedPostEditable ({feedPost, type}) {
 			{/* CONTENT - START */}
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
-				<div className="feed-post-row">
+				<div className="feed-post-row feed-post-header">
 					<div className="post-username">{username}</div>
 					<div>{timestamp}</div>
 				</div>
@@ -100,7 +115,10 @@ function FeedPostEditable ({feedPost, type}) {
 				</>}
 				<div className="post-divider"></div>
 				<div>
-					{exerciseEntries[exerciseEntries.length - 1] ? exerciseEntries[exerciseEntries.length - 1] + " " : "No workouts yet"}
+					{/* {`Latest workout: ${exerciseEntries[exerciseEntries.length - 1]?.note} ${new Date(exerciseEntries[exerciseEntries.length - 1]?.date)}`} */}
+					{/* <br /> */}
+					{/* {exerciseEntries[exerciseEntries.length - 1] ? exerciseEntries[exerciseEntries.length - 1] + " " : "No workouts yet"} */}
+					{latestExerciseText()}
 				</div>
 			</div>
 			{/* CONTENT - END */}
@@ -111,10 +129,13 @@ function FeedPostEditable ({feedPost, type}) {
 			<div className="feed-post-crud-controls">
 				{(sessionUser._id === setterId) &&
 					<>
-					<div className="feed-post-crud-button" onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
-						{editable ? "Cancel" : "Update"}
-					</div>
-					<div className="feed-post-crud-button" onClick={handleDeleteGoal}>Delete</div>
+						<div className="feed-post-crud-button" onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
+							{/* {editable ? "Cancel" : "Update"} */}
+							<i class="far fa-edit"></i>
+						</div>
+						<div className="feed-post-crud-button" onClick={handleDeleteGoal}>
+							<i class="fa-solid fa-trash-can"></i>
+						</div>
 					</>
 				}
 			</div>

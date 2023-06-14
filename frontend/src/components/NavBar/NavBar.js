@@ -17,9 +17,13 @@ function NavBar () {
       return (
         <ul className="links-nav nav-links">
           <li><Link to={'/feed'}>Explore</Link></li>
-          <li><Link to={'/profile'}>Profile</Link></li>
-          <li><Link to={'/feedPosts/newGoal'}>Create a new goal</Link></li>
-          {/* <button onClick={logoutUser}>Logout</button> */}
+          {/* need to define route */}
+          <li><Link to={'/'}>Friends</Link></li>
+          {/* need to define route */}
+          <li><Link to={'/'}>Progress</Link></li>
+          <li><Link to={'/feedPosts/newGoal'}>Create a new goal /</Link></li>
+          {/* need to define route */}
+          <li><Link to={'/'}>Your Goal</Link></li>
           <li><div onClick={logoutUser}>Logout</div></li>
         </ul>
       );

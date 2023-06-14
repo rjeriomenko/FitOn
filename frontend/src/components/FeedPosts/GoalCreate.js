@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearFeedPostErrors, createFeedPost } from '../../store/feedPosts';
+import { clearGoalErrors, createGoal  } from '../../store/goals';
 import FeedPostBlock from './FeedPostBlock';
 import FeedPostEditable from './FeedPostEditable';
 import './GoalCreate.css';
@@ -18,13 +18,12 @@ function GoalCreate () {
   const id = author._id;
 
   useEffect(() => {
-    return () => dispatch(clearFeedPostErrors());
+    return () => dispatch(clearGoalErrors());
   }, [dispatch]);
 
   const handleSubmit = e => {
     e.preventDefault();
-    // dispatch action to be updated: goals reducer 
-    dispatch(createFeedPost({ title, description, deadline }, id)); 
+    dispatch(createGoal( id, { title, description, deadline })); 
     setTitle('');
     setDescription('');
     setDeadline(today);

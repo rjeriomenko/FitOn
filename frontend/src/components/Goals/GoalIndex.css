@@ -66,3 +66,8 @@ div > p {
     transform: scale(1.01);
     box-shadow: 5px 5px 5px #05384d;
 }
+
+.goal-title {
+    font-weight: bold;
+    color: var(--medium-blue);
+}

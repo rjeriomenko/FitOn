@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from "react-redux";
 import './GoalIndex.css'
 
+// import { fetchUserGoals } from '../../store/goals'
+
 function GoalShow () {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
@@ -11,7 +13,7 @@ function GoalShow () {
     // const goal = useSelector(state => state.feedPosts.new[0])
 
     // useEffect(() => {
-    //     dispatch()
+    //     dispatch(fetchUserGoals(sessionUser._id))
     //     // add thunk action and dependency
     // }, [])
 

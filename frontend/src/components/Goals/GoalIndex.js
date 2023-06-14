@@ -1,7 +1,7 @@
 import GoalIndexItem from './GoalIndexItem';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserGoals, getUserKeyGoals } from '../../store/goals'
+import { deleteGoal, fetchUserGoals, getUserKeyGoals } from '../../store/goals'
 import { Link } from 'react-router-dom';
 import './GoalIndex.css'
 
@@ -25,6 +25,8 @@ function GoalShow () {
         )
     }
     
+    // Change currentGoal to be the first goal in userGoals from the back without a completedDate,
+    // if not found, no currentGoal.
     const currentGoal = userGoals.slice(-1)[0];
     const goalItems = userGoals.slice(0,-1).map(goal => <GoalIndexItem goal={goal} />)
 
@@ -47,7 +49,8 @@ function GoalShow () {
                                     </div>
                                 {/* ADD ROUTE TO DELETE GOAL */}
                                 <div className="delete-current-goal">
-                                    <Link to={'/feedPosts/editGoal'}><i class="fa-solid fa-trash-can"></i></Link>
+                                    {/* <Link to={'/feedPosts/editGoal'}><i class="fa-solid fa-trash-can"></i></Link> */}
+                                    <div onClick={e => dispatch(deleteGoal(sessionUserId, currentGoal._id))}><i class="fa-solid fa-trash-can"></i></div>
                                 </div>  
                             </div>
         

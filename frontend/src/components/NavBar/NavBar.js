@@ -19,6 +19,7 @@ function NavBar () {
           <li><Link to={'/feed'}>Explore</Link></li>
           <li><Link to={'/profile'}>Profile</Link></li>
           <li><Link to={'/feedPosts/newGoal'}>Create a new goal</Link></li>
+          <li><Link to={'/feedPosts/myGoal'}>My Goals</Link></li>
           {/* <button onClick={logoutUser}>Logout</button> */}
           <li><div onClick={logoutUser}>Logout</div></li>
         </ul>

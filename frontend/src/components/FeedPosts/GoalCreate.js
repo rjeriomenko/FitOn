@@ -10,7 +10,6 @@ function GoalCreate () {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [deadline, setDeadline] = useState(today);
-
   
   const dispatch = useDispatch();
   const author = useSelector(state => state.session.user);

@@ -50,6 +50,8 @@ export const clearGoalErrors = errors => ({
     errors
 });
 
+//Thunks
+
 //Returns all goals ordered by [{ userId: [userGoals] }]
 export const fetchAllUserGoals = () => async dispatch => {
     try {
@@ -57,7 +59,9 @@ export const fetchAllUserGoals = () => async dispatch => {
         const users = await res.json();
         const usersGoals = {};
         users.forEach(user => {
-            usersGoals[user.id] = user.goals
+            if(user.goals.length) {
+                usersGoals[user._id] = user.goals
+            }
         });
         dispatch(receiveGoals(usersGoals));
     } catch (err) {
@@ -72,7 +76,7 @@ export const fetchUserGoals = userId => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users/${userId}/goals`);
         const userGoals = await res.json();
-        dispatch(receiveUserGoals({ userId: userGoals }));
+        dispatch(receiveUserGoals({ [userId]: userGoals }));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -81,11 +85,12 @@ export const fetchUserGoals = userId => async dispatch => {
     }
 };
 
+//Stores error message in user key goals array
 export const fetchUserGoal = (userId, goalId) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}`);
         const userGoal = await res.json();
-        dispatch(receiveUserGoal({ userId: [userGoal] }));
+        dispatch(receiveUserGoal({ [userId]: [userGoal] }));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -101,7 +106,7 @@ export const createGoal = (userId, goal) => async dispatch => {
             body: JSON.stringify(goal)
         });
         const responseGoal = await res.json();
-        dispatch(receiveNewGoal({ userId: [responseGoal] }));
+        dispatch(receiveNewGoal({ [userId]: [responseGoal] }));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -112,7 +117,7 @@ export const createGoal = (userId, goal) => async dispatch => {
 
 export const updateGoal = (userId, goal) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goal.id}`, {
+        const res = await jwtFetch(`/api/users/${userId}/goals/${goal._id}`, {
             method: 'PATCH',
             body: JSON.stringify(goal)
         });
@@ -140,9 +145,13 @@ export const deleteGoal = (userId, goalId) => async dispatch => {
     }
 };
 
+//Selectors
+
 export const getGoal = (userId, goalId) => state => {
     if (state?.goals.all[userId]) {
-        return state.goals.all[userId].goals[goalId];
+        const userGoals = state.goals.all[userId];
+        const goal = userGoals.filter(goal => goal._id === goalId);
+        return goal;
     } else {
         return null;
     }
@@ -156,7 +165,7 @@ export const getGoals = state => {
     }
 }
 
-export const getUserGoals = state => {
+export const getUserKeyGoals = state => {
     if (state?.goals) {
         return state.goals.user
     } else {
@@ -187,15 +196,6 @@ export const goalErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-// ////////////////////////////////////////////////////////////////////////////////////
-// //this needs to account for the fact that goal is an array and you are deleting a single goal from a user
-// export const removeGoal = (userId, goalId) => ({
-//     type: REMOVE_GOAL,
-//     goalId,
-//     userId
-// });
-// ////////////////////////////////////////////////////////////////////////////////////
-
 const goalsReducer = (state = { all: {}, user: {}, updated: undefined, new: undefined }, action) => {
     let newState = {...state};
 
@@ -210,11 +210,15 @@ const goalsReducer = (state = { all: {}, user: {}, updated: undefined, new: unde
             return { ...newState, user: action.goals, updated: undefined, new: undefined };
         case RECEIVE_NEW_GOAL:
             return { ...newState, updated: undefined, new: action.goal };
+        //prev state in Redux Console will reflect new state before action reaches store
         case REMOVE_GOAL:
             const oldGoalsArray = newState.all[action.userId];
-            const filteredGoalsArray = oldGoalsArray.filter(goal => goal.id !== action.goalId);
-            newState.all[action.userId] = filteredGoalsArray;
-            return { ...newState, updated: undefined, new: undefined };
+            const filteredGoalsArray = oldGoalsArray.filter(goal => goal._id !== action.goalId);
+            const cloneState = { ...newState };
+
+            cloneState.all[action.userId] = filteredGoalsArray;
+            
+            return { ...newState, ...cloneState, updated: undefined, new: undefined };
         default:
             return newState;
     }

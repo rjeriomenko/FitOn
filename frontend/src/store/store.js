@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import session from './session';
 import errors from './errors';
 import feedPosts from './feedPosts';
+import goals from './goals';
 
 const rootReducer = combineReducers({
   session,
 	errors,
-  feedPosts
+  feedPosts,
+  goals
 });
 
 let enhancer;

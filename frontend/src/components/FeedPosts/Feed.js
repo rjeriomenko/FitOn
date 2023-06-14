@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
-import FeedPostBlock from './FeedPostBlock';
+// import FeedPostBlock from './FeedPostBlock';
 import FeedPostEditable from './FeedPostEditable';
 import { useState } from 'react';
 
@@ -10,9 +10,12 @@ import './Feed.css';
 export const POST_TYPE_GOAL = "feedPost/GOAL"
 export const POST_TYPE_EXERCISE_ENTRY = "feedPost/EXERCISE_ENTRY"
 
+export const sortFeedPostsBy = (feedPosts, filter) => {
+  
+}
+
 function Feed () {
   const dispatch = useDispatch();
-  // const feedPosts = useSelector(state => state.feedPosts?.all ? Object.values(state.feedPosts.all) : []);
   const feedPosts = useSelector(state => state.feedPosts?.all ? Object.values(state.feedPosts.all) : []);
   // const userFeedPosts = useSelector(state => state.feedPosts?.user ? Object.values(state.feedPosts.user) : []);
   
@@ -32,8 +35,6 @@ function Feed () {
     text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
     author: {username: "Michele"}
   }
-  console.log(feedPosts)
-  // debugger
 
   if (feedPosts.length === 0) return (
     <>
@@ -47,7 +48,6 @@ function Feed () {
     </div>
     </> 
   )
-  // console.log("feed rendering")
 
   // Sort feedposts by date...
 

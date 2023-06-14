@@ -54,10 +54,8 @@ function FeedPostEditable ({feedPost, type}) {
 		}
 	}, [])
 
-	console.log("Hi", timestamp)
-
   return (
-		<div className="feedPostBlock feed-post-editable-container">
+		<div className="feed-post-editable-container">
 			{/* CONTENT - START */}
 			{/* CONTENT - START */}
 			<div className="feed-post-content">

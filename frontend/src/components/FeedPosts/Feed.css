@@ -16,6 +16,13 @@
 	/* padding-right: 5vw; */
 }
 
+.feed-posts-container > h2 {
+	/* position: absolute; */
+	/* top: 200px; */
+	margin: 20px 0px;
+	/* z-index: -1; */
+}
+
 #toggle1 {
 	display:none;
 }

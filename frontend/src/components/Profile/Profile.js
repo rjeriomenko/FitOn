@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserFeedPosts, clearFeedPostErrors } from '../../store/feedPosts';
-import FeedPostBlock from '../FeedPosts/FeedPostBlock';
 
 function Profile () {
   const dispatch = useDispatch();
@@ -19,12 +18,9 @@ function Profile () {
     return (
       <>
         <h2>All of {currentUser.username}'s FeedPosts</h2>
-        {userFeedPosts.map(feedPost => (
-          <FeedPostBlock
-            key={feedPost._id}
-            feedPost={feedPost}
-          />
-        ))}
+        {/* {userFeedPosts.map(feedPost => (
+          <FeedPostBlock key={feedPost._id} feedPost={feedPost} />
+        ))} */}
       </>
     );
   }

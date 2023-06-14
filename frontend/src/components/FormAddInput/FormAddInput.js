@@ -45,14 +45,10 @@ function FormAddInput () {
     newDiv.append(removeStep);
 
     removeStep.addEventListener("click", e => {
-
-      // console.log(e.target)
       e.target.remove()
-
     })
     
     stepsDiv.append(newDiv)
-  
   
   }
 

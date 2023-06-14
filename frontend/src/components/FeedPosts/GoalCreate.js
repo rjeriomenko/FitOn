@@ -1,8 +1,8 @@
 import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { clearFeedPostErrors, createFeedPost } from '../../store/feedPosts';
 import { clearGoalErrors, createGoal  } from '../../store/goals';
-import FeedPostBlock from './FeedPostBlock';
 import FeedPostEditable from './FeedPostEditable';
 import './GoalCreate.css';
 

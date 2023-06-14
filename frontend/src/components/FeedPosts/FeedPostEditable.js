@@ -3,34 +3,45 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { POST_TYPE_GOAL, POST_TYPE_EXERCISE_ENTRY } from "./Feed";
 import { useEffect } from "react";
-// import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { deleteGoal, updateGoal } from "../../store/goals";
 
 function FeedPostEditable ({feedPost, type}) {
-  // const { text, author } = feedPost;
-  // const { username } = author;
-  const { title, description, deadline, completionDate, exerciseEntries, updatedAt } = feedPost;
+  // props
+	const { goalId, setter, setterId, title, description, deadline, completionDate, exerciseEntries, updatedAt } = feedPost;
 	exerciseEntries ||= [];
-	// let username = undefined;
-	// let timestamp = undefined;
-	// let contentString = undefined;
+
+	// Redux
+	const dispatch = useDispatch();
+	
+	// useSelectors
+	const sessionUser = useSelector(state => state.session.user);
+	
+	// component logic states
+	const [editable, setEditable] = useState(false);
+
+	// controlled inputs
 	const [username, setUsername] = useState("undefined-user")
 	const [timestamp, setTimeStamp] = useState('')
-	// const [contentString, setContentString] = useState('')
 	const [content, setContent] = useState('');
-	const [editable, setEditable] = useState(false);
-	const loggedIn = useSelector(state => !!state.session.user);
-	// need logic for if sessionUser === post's author
-	// debugger
+	const [formTitle, setFormTitle] = useState('');
+	const [formDescription, setFormDescription] = useState('');
 
-	const handleContentChange = e => {
-		setContent(e.target.value);
+	// Text-area height expands/contracts with input size
+	const handleDescriptionChange = e => {
+		setFormDescription(e.target.value);
 		e.target.style.height = "auto";
 		e.target.style.height = e.target.scrollHeight + "px";
 	}
 
-	const handleUpdate = e => {
+	const handleUpdateGoal = e => {
 		setEditable(false);
-		const updatedPost = { title, description, deadline, completionDate, exerciseEntries, updatedAt }
+		const updatedGoal = { title:formTitle, description:formDescription, deadline, completionDate, exerciseEntries, updatedAt }
+		dispatch(updateGoal(setterId, updatedGoal));
+	}
+
+	const handleDeleteGoal = e => {
+		dispatch(deleteGoal(setterId, goalId))
 	}
 
 	useEffect(() => {
@@ -38,10 +49,10 @@ function FeedPostEditable ({feedPost, type}) {
 			case POST_TYPE_EXERCISE_ENTRY:
 				break;
 			case POST_TYPE_GOAL:
-				// username
-				setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric"})) 
-				// timestamp = completionDate ? completionDate : updatedAt;
-				// exerciseEntries ||= [];
+				setUsername(setter)
+				setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 
+				setFormTitle(title)
+				setFormDescription(description)
 				const contentString = 
 					(title ? title + " " : "") + 
 					(description ? description + " " : "") + 
@@ -54,10 +65,8 @@ function FeedPostEditable ({feedPost, type}) {
 		}
 	}, [])
 
-	console.log("Hi", timestamp)
-
   return (
-		<div className="feedPostBlock feed-post-editable-container">
+		<div className="feed-post-editable-container">
 			{/* CONTENT - START */}
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
@@ -67,18 +76,27 @@ function FeedPostEditable ({feedPost, type}) {
 				</div>
 				<br/>
 				{!editable && <div className="feed-post-row">
-					<span className="post-goal-title">{title}</span>
+					<span className="post-goal-title">{formTitle}</span>
 					<span>·</span>
-					<span className="post-goal-description">{description}</span>
+					<span className="post-goal-description">{formDescription}</span>
 				</div>}
 				
 				{editable && <>
-					<textarea id="feed-post-text-edit"
-						contentEditable={true}
-						value={content}
-						onChange={handleContentChange}
-					/>
-					<div className="feed-post-crud-button" onClick={handleUpdate}>Update</div>
+					<label>Title
+						<input className="feed-post-text-edit"
+							type="text"
+							value={formTitle}
+							onChange={e => setFormTitle(e.target.value)}
+						/>
+					</label>
+					<label>Description
+						<textarea className="feed-post-text-edit"
+							contentEditable={true}
+							value={formDescription}
+							onChange={handleDescriptionChange}
+						/>
+					</label>
+					<div className="feed-post-crud-button" onClick={handleUpdateGoal}>Update</div>
 				</>}
 				<div className="post-divider"></div>
 				<div>
@@ -91,10 +109,14 @@ function FeedPostEditable ({feedPost, type}) {
 			{/* CRUD BUTTONS - START */}
 			{/* CRUD BUTTONS - START */}
 			<div className="feed-post-crud-controls">
-				<div className="feed-post-crud-button" onClick={e => setEditable(true)}>
-					Update
-				</div>
-				<div className="feed-post-crud-button">Delete</div>
+				{(sessionUser._id === setterId) &&
+					<>
+					<div className="feed-post-crud-button" onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
+						{editable ? "Cancel" : "Update"}
+					</div>
+					<div className="feed-post-crud-button" onClick={handleDeleteGoal}>Delete</div>
+					</>
+				}
 			</div>
 			{/* CRUD BUTTONS - END */}
 			{/* CRUD BUTTONS - END */}

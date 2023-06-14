@@ -15,7 +15,11 @@ router.get('/', requireUser, async (req, res, next) => {
         // instantiate blank object, populate an object with each unique goal's stuff, then send the array of those objects?
         // (send BOTH updated and created), date, title, description/body, user+id?
         users.forEach(user => {
+            const name = user.username;
+            const nameId = user.id
             user.goals.forEach(goal => {
+                goal.setter = name;
+                goal.setterId = nameId;
                 feedItems.push(goal); //where goal completed = false? where goal = new? when completed = true? could be a bit complex
                 // goal.exerciseEntries.forEach(entry => {
                 //     feedItems.push(entry);

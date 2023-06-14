@@ -52,15 +52,15 @@ div > p {
     grid-column: span 1;
 }
 
-.edit-current-goal {
-    padding: 20px;
+.edit-current-goal, .delete-current-goal {
+    padding: 10px;
     border-radius: 8px;
     background-color: var(--dark-red);
     border: 1px solid var(--dark-red);
     color: var(--soft-white);
 }
 
-.edit-current-goal:hover {
+.edit-current-goal:hover, .delete-current-goal:hover {
     cursor: pointer;
     transition: 0.3s ease;
     transform: scale(1.01);

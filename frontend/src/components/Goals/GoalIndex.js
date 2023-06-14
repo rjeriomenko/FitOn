@@ -38,9 +38,17 @@ function GoalShow () {
                                 <p>{currentGoal.description}</p>
                                 <p> Deadline: {currentGoal.deadline}</p>     
                             </div> 
-                            <div className="edit-current-goal">
-                                <Link to={'/feedPosts/editGoal'}>Edit Goal</Link>
-                            </div>          
+
+                            <div className="goal-crud">
+                                <div className="edit-current-goal">
+                                    <Link to={'/feedPosts/editGoal'}><i class="far fa-edit"></i></Link>
+                                    </div>
+                                {/* ADD ROUTE TO DELETE GOAL */}
+                                <div className="delete-current-goal">
+                                    <Link to={'/feedPosts/editGoal'}><i class="fa-solid fa-trash-can"></i></Link>
+                                </div>  
+                            </div>
+        
                         </div>
                     ) : (
                         <div className="grid-item" id="current-goal">

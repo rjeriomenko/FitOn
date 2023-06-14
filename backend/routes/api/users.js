@@ -11,8 +11,17 @@ const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
 const validateGoalInput = require('../../validations/goals');
 
-// Auth from here till ~line 100
+// Auth from here till ~line 115
 
+// GET /api/users - get all users
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await User.find({});
+    return res.json(users);
+  } catch (err) {
+    next(err);
+  }
+});
 
 // POST /api/users/register
 router.post('/register', validateRegisterInput, async (req, res, next) => {

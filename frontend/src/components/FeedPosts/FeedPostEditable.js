@@ -23,8 +23,6 @@ function FeedPostEditable ({feedPost, type}) {
 		return text;
 	}
 
-	// exerciseEntries ||= [];
-
 	// Redux
 	const dispatch = useDispatch();
 	
@@ -37,10 +35,8 @@ function FeedPostEditable ({feedPost, type}) {
 	// controlled inputs
 	const [username, setUsername] = useState("undefined-user")
 	const [timestamp, setTimeStamp] = useState('')
-	const [content, setContent] = useState('');
 	const [formTitle, setFormTitle] = useState('');
 	const [formDescription, setFormDescription] = useState('');
-	const [lastExercise, setLastExercise] = useState(undefined);
 
 	// Text-area height expands/contracts with input size
 	const handleDescriptionChange = e => {
@@ -51,7 +47,7 @@ function FeedPostEditable ({feedPost, type}) {
 
 	const handleUpdateGoal = e => {
 		setEditable(false);
-		const updatedGoal = { title:formTitle, description:formDescription, deadline, completionDate, exerciseEntries, updatedAt }
+		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, deadline, completionDate, exerciseEntries, updatedAt }
 		dispatch(updateGoal(setterId, updatedGoal));
 	}
 
@@ -68,12 +64,6 @@ function FeedPostEditable ({feedPost, type}) {
 				setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 
 				setFormTitle(title)
 				setFormDescription(description)
-				// const contentString = 
-				// 	(title ? title + " " : "") + 
-				// 	(description ? description + " " : "") + 
-				// 	(exerciseEntries[exerciseEntries.length - 1] ? exerciseEntries[exerciseEntries.length - 1] + " " : "")
-				// 	;
-				// setContent(contentString);
 				break;
 			default: 
 				break;

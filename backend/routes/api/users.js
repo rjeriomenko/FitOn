@@ -11,13 +11,16 @@ const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
 const validateGoalInput = require('../../validations/goals');
 
-// Auth from here till ~line 97
+// Auth from here till ~line 115
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.json({
-    message: "GET /api/users"
-  });
+// GET /api/users - get all users
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await User.find({});
+    return res.json(users);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // POST /api/users/register
@@ -117,8 +120,10 @@ router.get('/:userId', async (req, res, next) => {
 router.post('/:userId/goals', requireUser, validateGoalInput, async (req, res, next) => {
   try {
     const newGoal = new Goal({
+      title: req.body.title,
       description: req.body.description,
       deadline: req.body.deadline,
+      completionDate: req.body.completionDate
     });
 
     let user = await User.findById(req.params.userId);
@@ -130,6 +135,7 @@ router.post('/:userId/goals', requireUser, validateGoalInput, async (req, res, n
     user.goals.push(newGoal);
     user.save();
 
+    // return res.json({ message: 'it finally fucking works maybe?'})
     return res.json(user.goals.slice(-1));
   } catch (err) {
     next(err);
@@ -164,8 +170,10 @@ router.patch('/:userId/goals/:goalId', requireUser, validateGoalInput, async (re
     }
 
     const oldGoal = user.goals.filter(goal => goal.id === req.params.goalId)[0];
+    oldGoal.title = req.body.title || oldGoal.title
     oldGoal.description = req.body.description || oldGoal.description;
     oldGoal.deadline = req.body.deadline || oldGoal.deadline;
+    oldGoal.completionDate = req.body.completionDate || oldGoal.completionDate;
     
     user.save();
 

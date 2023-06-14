@@ -34,8 +34,9 @@ export const clearFeedPostErrors = errors => ({
 
 export const fetchFeedPosts = () => async dispatch => {
   try {
-    const res = await jwtFetch ('/api/feedPosts');
+    const res = await jwtFetch ('/api/feed');
     const feedPosts = await res.json();
+    // debugger
     dispatch(receiveFeedPosts(feedPosts));
   } catch (err) {
     const resBody = await err.json();
@@ -58,9 +59,10 @@ export const fetchUserFeedPosts = id => async dispatch => {
   }
 };
 
-export const createFeedPost = data => async dispatch => {
+export const createFeedPost = (data, id) => async dispatch => {
   try {
-    const res = await jwtFetch('/api/feedPosts/', {
+    // const res = await jwtFetch('/api/feedPosts/', {
+    const res = await jwtFetch(`/api/users/${id}/goals`, {
       method: 'POST',
       body: JSON.stringify(data)
     });
@@ -91,11 +93,11 @@ export const feedPostErrorsReducer = (state = nullErrors, action) => {
 const feedPostsReducer = (state = { all: {}, user: {}, new: undefined }, action) => {
   switch(action.type) {
     case RECEIVE_FEED_POSTS:
-      return { ...state, all: action.tweets, new: undefined};
+      return { ...state, all: action.feedPosts, new: undefined};
     case RECEIVE_USER_FEED_POSTS:
-      return { ...state, user: action.tweets, new: undefined};
+      return { ...state, user: action.feedPosts, new: undefined};
     case RECEIVE_NEW_FEED_POST:
-      return { ...state, new: action.tweet};
+      return { ...state, new: action.feedPost};
     case RECEIVE_USER_LOGOUT:
       return { ...state, user: {}, new: undefined }
     default:

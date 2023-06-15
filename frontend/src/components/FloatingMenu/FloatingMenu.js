@@ -10,6 +10,7 @@ import LoginForm from '../SessionForms/LoginForm';
 const FloatingMenu = (props) => {
 	const loggedIn = useSelector(state => !!state.session.user);
 	const [showExerciseEntry, setShowExerciseEntry] = useState(false);
+
 	return (
 		<>
 			{loggedIn && <div className="floating-menu-container" onClick={e => setShowExerciseEntry(true)}>
@@ -21,8 +22,7 @@ const FloatingMenu = (props) => {
 				</div>
 			}
 			{showExerciseEntry && <Modal onClose={e => setShowExerciseEntry(false)}>
-				{/* <LoginForm /> */}
-				<ExerciseEventForm />
+				<ExerciseEventForm setShowExerciseEntry={setShowExerciseEntry}/>
 			</Modal>}
 		</>
 	)

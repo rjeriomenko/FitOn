@@ -8,7 +8,7 @@ import { clearExerciseEntryErrors, receiveExerciseEntryErrors } from '../../stor
 import { getUserKeyGoals, getGoals } from '../../store/goals';
 
 
-function ExerciseEventForm () {
+function ExerciseEventForm ({setShowExerciseEntry}) {
     const dispatch = useDispatch();
     const today = new Date().toISOString().split('T')[0];
     const [date, setDate] = useState(today);
@@ -59,16 +59,20 @@ function ExerciseEventForm () {
         // const exercise = { date, note, rating, exercises: exerciseInputs };
         const exercise = { date, note, rating };
 
-        dispatch(createExerciseEntry( sessionUserId, currentGoalId, { date, note, rating: Number(rating) }));
+        dispatch(createExerciseEntry( sessionUserId, currentGoalId, { date, note, rating: Number(rating) }))
+            .then(() => {
+                setShowExerciseEntry(false)
+            })
 
-        setDate(today);
-        setNote('');
-        setRating('');
+        // setDate(today);
+        // setNote('');
+        // setRating('');
 
         console.log(exercise);
         // console.log(exerciseInputs);
 
         setSubmit(true)
+
     };
 
 

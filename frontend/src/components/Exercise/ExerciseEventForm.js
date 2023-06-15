@@ -21,30 +21,19 @@ function ExerciseEventForm () {
     const sessionUser = useSelector(state => state.session.user);
     const sessionUserId = sessionUser._id;
     const userGoalsObj = useSelector(getUserKeyGoals);
-    const userGoals = userGoalsObj[`${sessionUserId}`];
+    const userGoals = userGoalsObj ? userGoalsObj[`${sessionUserId}`] : null;
+    const currentGoal = userGoals ? userGoals.slice(-1)[0] : null;
 
-    const allGoals = useSelector(getGoals);
+    const currentGoalId = currentGoal?._id;
 
     useEffect(() => {
         return () => dispatch(clearExerciseEntryErrors());
     }, [dispatch])
 
-    if (!userGoals || !allGoals) {
+    if ( !userGoalsObj ) {
         <div> Loading... </div>
     }
 
-    const sessionUserGoals = allGoals[`${sessionUserId}`];
-    console.log(allGoals)
-    console.log(sessionUserGoals)
-
-    const currentGoal = userGoals?.slice(-1)[0];
-
-    if (!currentGoal) {
-        <div> Loading... </div>
-    }
-
-    console.log (currentGoal)
-    // const currentGoalId = currentGoal._id;
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
@@ -69,9 +58,7 @@ function ExerciseEventForm () {
         // const exercise = { date, note, rating, exercises: exerciseInputs };
         const exercise = { date, note, rating };
 
-        debugger
-
-        // createExerciseEntry( sessionUserId, currentGoalId, { date, note, rating }) 
+        dispatch(createExerciseEntry( sessionUserId, currentGoalId, { date, note, rating: Number(rating) }));
 
         setDate(today);
         setNote('');
@@ -122,7 +109,6 @@ function ExerciseEventForm () {
                 <div className="exercise-input-container">
                     {exerciseInputs.map((input, index) => (
                     <div id="exercise-input-div" key={index} className={`exercise-div-${index}`}>
-                        <hr></hr>
                         <span id="exercise-input-span">Exercise:</span>
                         <input
                             type="text"

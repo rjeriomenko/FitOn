@@ -109,6 +109,10 @@ function DataVis () {
         },
         y: {
           stacked: true,
+          title: {
+            display: true, 
+            text: 'Reps X Sets'
+          }
         },
       },
     };

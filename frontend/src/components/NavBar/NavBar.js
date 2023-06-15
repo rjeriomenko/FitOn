@@ -21,6 +21,7 @@ function NavBar () {
           {/* need to define routes: Friends, Progress */}
           <li className='under-construction'><Link to={'/'}>Friends</Link></li>
           <li><Link to={`/feed/${sessionUser._id}`}>Progress</Link></li>
+          <li><Link to={'/profile'}>Profile</Link></li>
           <li><Link to={'/feedPosts/newGoal'}>Create a new goal</Link></li>
           <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li>
           <li><Link to={'/'}>Your Goal</Link></li>

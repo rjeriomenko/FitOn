@@ -49,7 +49,7 @@ function ExerciseEventForm () {
                         onChange={e => setDate(e.currentTarget.value)}
                         required
                     />
-                    <div className="errors">{errors?.date}</div>
+                    {/* <div className="errors">{errors?.date}</div> */}
 
                     <span>Rating</span>
                     <input
@@ -60,7 +60,7 @@ function ExerciseEventForm () {
                         onChange={e => setRating(e.currentTarget.value)}
                         required
                     />
-                    <div className="errors">{errors?.rating}</div>
+                    {/* <div className="errors">{errors?.rating}</div> */}
                     
                     <span>Notes</span>
                     <input
@@ -69,7 +69,7 @@ function ExerciseEventForm () {
                         onChange={e => setNote(e.currentTarget.value)}
                         placeholder="How was your workout? o.o"
                     />
-                    <div className="errors">{errors?.note}</div>
+                    {/* <div className="errors">{errors?.note}</div> */}
 
                 </div>
 
@@ -85,7 +85,7 @@ function ExerciseEventForm () {
                             value={input.name}
                             onChange={(e) => handleInputChange(e, index)}
                         />
-                        <div className="errors">{errors?.name}</div>
+                        {/* <div className="errors">{errors?.name}</div> */}
 
                         <span id="exercise-input-span">Sets:</span>
                         <input
@@ -96,7 +96,7 @@ function ExerciseEventForm () {
                             value={input.sets}
                             onChange={(e) => handleInputChange(e, index)}
                         />
-                        <div className="errors">{errors?.sets}</div>
+                        {/* <div className="errors">{errors?.sets}</div> */}
 
                         <span id="exercise-input-span">Reps:</span>
                         <input
@@ -107,7 +107,7 @@ function ExerciseEventForm () {
                             value={input.reps}
                             onChange={(e) => handleInputChange(e, index)}
                         />
-                        <div className="errors">{errors?.reps}</div>
+                        {/* <div className="errors">{errors?.reps}</div> */}
 
                         <span id="exercise-input-span">Time (in minutes):</span>
                         <input
@@ -116,7 +116,7 @@ function ExerciseEventForm () {
                             value={input.time}
                             onChange={(e) => handleInputChange(e, index)}
                         />
-                        <div className="errors">{errors?.time}</div>
+                        {/* <div className="errors">{errors?.time}</div> */}
 
                         {index > 0 && (
                         <button

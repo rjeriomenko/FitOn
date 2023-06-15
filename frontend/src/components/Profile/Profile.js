@@ -12,6 +12,8 @@ import ExerciseEntryTile from './ExerciseEntryTile';
 
 import './Profile.css';
 
+import DataVis from './DataVis';
+
 function Profile () {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
@@ -33,17 +35,17 @@ function Profile () {
   
   const generateEntryTilesForGoal = (goalId, exerciseEntriesArray) => {
     // Filter for the goal
-    debugger
+    // debugger 
     const filteredByGoal = exerciseEntriesArray.filter(exerciseEntry => {
       return exerciseEntry.goalId === goalId;
     })
     // Sort by the date
-    debugger
+    // debugger
     const sortedByDate = filteredByGoal.toSorted((a, b) => {
       return new Date(a.exerciseEntry.date) - new Date(b.exerciseEntry.date)
     })
     // Generate tiles
-    debugger
+    // debugger
     const generatedTiles = [];
     sortedByDate.forEach(entry => {
       generatedTiles.push(<ExerciseEntryTile rating={entry.exerciseEntry.rating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/>)
@@ -54,7 +56,7 @@ function Profile () {
 
   const sampleExerciseEntryTiles = generateEntryTilesForGoal(21, sampleExerciseEntryData);
 
-  debugger
+  // debugger
   if (!userExerciseEntries) {
     return (
       <div> Loading... </div>
@@ -74,9 +76,12 @@ function Profile () {
 
       {/* DATA VIZ - START */}
       {/* DATA VIZ - START */}
-      <div className="profile-container-styles profile-data-vis-container">
-        <h2>DATA VIZ</h2>
+
+      <h2>DATA VIZ</h2>
+      <div>
+        <DataVis />
       </div>
+
       {/* DATA VIZ - END */}
       {/* DATA VIZ - END */}
 

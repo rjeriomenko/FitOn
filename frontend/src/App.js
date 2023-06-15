@@ -21,6 +21,7 @@ import FloatingMenu from './components/FloatingMenu/FloatingMenu';
 import MainPageWrapper from './components/MainPageWrapper/MainPageWrapper';
 
 import Exercise2 from './components/Exercise/Exercise2';
+import Ex3 from './components/Exercise/Ex3';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -55,6 +56,8 @@ function App() {
           <ProtectedRoute exact path="/gains" component={ExerciseCreateForm} />
 
           <ProtectedRoute exact path="/gains2" component={Exercise2} />
+          <ProtectedRoute exact path="/gains3" component={Ex3} />
+
 
       </MainPageWrapper>
       

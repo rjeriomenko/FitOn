@@ -1,162 +1,145 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-// import clear and create from exercise entry/exercise from store
-// prob want to pull sessionUser??
+function ExerciseCreateForm() {
+  const dispatch = useDispatch();
+  const today = new Date().toISOString().split('T')[0];
+  const [date, setDate] = useState(today);
+  const [note, setNote] = useState('');
+  const [rating, setRating] = useState('');
+  const [exerciseInputs, setExerciseInputs] = useState([]);
+  const [inputCount, setInputCount] = useState(1);
 
-function Exercise2 () {
-    const dispatch = useDispatch();
-    const today = new Date().toISOString().split('T')[0];
-    const [ date, setDate ] = useState(today);
-    const [ note, setNote ] = useState('');
-    const [ rating, setRating ] = useState(''); // 1-5
+//   const createDeleteButton = (index) => (
+//     <input
+//       type="submit"
+//       value="Delete"
+//       onClick={() => removeInputField(index)}
+//     />
+//   );
 
-    const createDeleteButton = () => {
-        const removeButton = document.createElement("input");
-        removeButton.type = "submit";
-        removeButton.value = "Delete";
-        return removeButton;
-    }
+//   const createNumberInput = (id, name, value) => (
+//     <input
+//       type="number"
+//       min="1"
+//       max="1000000"
+//       id={id}
+//       name={name}
+//       value={value}
+//       onChange={(e) => handleInputChange(e, id)}
+//     />
+//   );
+  
+  const createTextInput = (id, name, value) => (
+    <input
+      type="text"
+      id={id}
+      name={name}
+      value={value}
+      onChange={(e) => handleInputChange(e, id)}
+    />
+  );
 
-    const createNumberInput = () => {
-        const numInput = document.createElement("input");
-        numInput.type = "number";
-        numInput.min = "1";
-        numInput.max = "1000000";
-        return numInput;
-    }
+  const createSpan = (text) => <span>{text}</span>;
 
-    const createTextInput = () => {
-        const textInput = document.createElement("input");
-        textInput.type = "text";
-        return textInput;
-    }
-    
+//   const removeInputField = (index) => {
+//     setExerciseInputs((prevState) => {
+//       const updatedInputs = [...prevState];
+//       updatedInputs.splice(index, 1);
+//       return updatedInputs;
+//     });
+//   };
 
-    const createSpan = () => {
-        const span = document.createElement("span");
-        return span;
-    }
-
-    let inputCount = 1;
-    
-    const addInputFields = e => {
-        e.preventDefault();
-
-        // creating 
-        const removeBtn = createDeleteButton();
-        removeBtn.id = `del-btn-${inputCount}`;
-
-        const nameSpan = createSpan();
-        nameSpan.innerHTML = "Exercise"
-        const nameInput = createTextInput();
-        nameInput.id = `name-${inputCount}`;
-
-        const setSpan = createSpan();
-        setSpan.innerHTML = "Sets";
-        const setInput = createNumberInput();
-        setInput.id = `set-${inputCount}`;
-
-        const repSpan = createSpan();
-        repSpan.innerHTML = "Reps";
-        const repInput = createNumberInput();
-        repInput.id = `rep-${inputCount}`;
-
-        const timeSpan = createSpan();
-        timeSpan.innerHTML = "Time(in minutes)";
-        const timeInput = createTextInput();
-        timeInput.id = `time-${inputCount}`;
+  const handleInputChange = (e, id) => {
+    const { name, value } = e.target;
+    setExerciseInputs((prevState) => {
+      const updatedInputs = prevState.map((input) => {
         
+        if (input.id === id.toString()) {
+          return { ...input, [name]: value };
+        }
+        return input;
+      });
+      return updatedInputs;
+    });
+  };
 
-        const createExerciseDiv = document.querySelector("div.exercise-input-container");
-        const exerciseDiv = document.createElement("div");
-        exerciseDiv.className = `exercise-div-${inputCount}`;
+  const addInputFields = (e) => {
+    e.preventDefault();
 
+    const newInput = {
+      id: inputCount.toString(),
+      name: '',
+      sets: '',
+      reps: '',
+      time: '',
+    };
 
-        // appending
-        createExerciseDiv.append(exerciseDiv);
+    setExerciseInputs((prevState) => [...prevState, newInput]);
+    setInputCount((prevCount) => prevCount + 1);
+  };
 
-        exerciseDiv.append(nameSpan);
-        exerciseDiv.append(nameInput);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const exercise = { date, note, rating, exercises: exerciseInputs };
+    console.log(exercise);
+    console.log(exerciseInputs)
+  };
 
-        exerciseDiv.append(setSpan);
-        exerciseDiv.append(setInput);
+  return (
+    <>
+      <h1>gains for days my brotha</h1>
 
-        exerciseDiv.append(repSpan);
-        exerciseDiv.append(repInput);
+      <div className="exercise-form-container">
+        <form className="exercise-form" onSubmit={handleSubmit}>
+          <div className="exercise-entry-form">
+            <span>Workout Date</span>
+            <input type="date" value={date} onChange={(e) => setDate(e.currentTarget.value)} />
 
-        exerciseDiv.append(timeSpan);
-        exerciseDiv.append(timeInput);
-        
-        exerciseDiv.append(removeBtn);
-        
-        removeBtn.addEventListener("click", e => {
-            const num = e.target.id.slice(-1)
-            const targetDiv = document.querySelector(`div.exercise-div-${num}`);    
-            targetDiv.remove();
-        })
-      
-        inputCount ++
-    }
+            <span>Note</span>
+            <input
+              type="textarea"
+              value={note}
+              onChange={(e) => setNote(e.currentTarget.value)}
+              placeholder="MUCH SWOLE, MUCH GAINS"
+            />
 
-    const handleSubmit = e => {
-        e.preventDefault();
-        const exercise = { date, note, rating}
-        console.log(exercise)
-    }
+            <span>Rating</span>
+            <input
+              type="number"
+              min="1"
+              max="5"
+              value={rating}
+              onChange={(e) => setRating(e.currentTarget.value)}
+            />
+          </div>
 
-    return (
-        <>
-            <h1>gains for days my brotha</h1>
+          <div className="exercise-input-container">
+            {exerciseInputs.map((input, index) => (
+              <div key={input.id} className={`exercise-div-${input.id}`}>
+                {createSpan('Exercise')}
+                {createTextInput(`name-${input.id}`, 'name', input.name)}
 
-            <div className="exercise-form-container">
-                <form className="exercise-form" onSubmit={handleSubmit}>
-                    <div className="exercise-entry-form">
-                        <span>Workout Date</span>
-                        <input 
-                            type="date"
-                            value={date}
-                            onChange={e => setDate(e.currentTarget.value)}
-                            // required
-                        />
+                {/* {createSpan('Sets')}
+                {createNumberInput(`set-${input.id}`, 'sets', input.sets)}
 
-                        <span>Note</span>
-                        <input
-                            type="textarea"
-                            value={note}
-                            onChange={e => setNote(e.currentTarget.value)}
-                            placeholder="MUCH SWOLE, MUCH GAINS"
-                        />
-                        
-                        <span>Rating</span>
-                        <input
-                            type="number"
-                            min="1"
-                            max="5"
-                            value={rating}
-                            onChange={e => setRating(e.currentTarget.value)}
-                            // required
-                        />
-                    </div>
+                {createSpan('Reps')}
+                {createNumberInput(`rep-${input.id}`, 'reps', input.reps)}
 
-                    <div className="exercise-input-container">
-                    </div>
+                {createSpan('Time(in minutes)')}
+                {createTextInput(`time-${input.id}`, 'time', input.time)} */}
 
-                    <input 
-                        type="submit" 
-                        value="Add Exercise"
-                        onClick={addInputFields}
-                    />
+                {/* {createDeleteButton(index)} */}
+              </div>
+            ))}
+          </div>
 
-                    <input 
-                        type="submit" 
-                        value="Submit"
-                    />
-
-                </form>
-            </div>
-        </>
-    )
+          <input type="submit" value="Add Exercise" onClick={addInputFields} />
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    </>
+  );
 }
 
-export default Exercise2;
+export default ExerciseCreateForm;

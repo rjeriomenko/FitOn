@@ -256,7 +256,7 @@ router.post('/:userId/goals/:goalId/entries', requireUser, validateExerciseEntry
     user.save();
 
     const entry = goal.exerciseEntries.slice(-1);
-    const formattedEntry = { [entry.id]: { exerciseEntry: entry, exerciseEntryId: entry.id, setter: user.username, setterId: user.id, goalId: goal.id } };
+    const formattedEntry = { [newEntry.id]: { exerciseEntry: newEntry, exerciseEntryId: newEntry.id, setter: user.username, setterId: user.id, goalId: goal.id } };
     return res.json(formattedEntry);
   } catch (err) {
     next(err);

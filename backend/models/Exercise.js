@@ -26,12 +26,12 @@ const ExerciseSchema = new Schema({
         type: String,
         required: true
     },
-    entryId: {
+    setter: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    userId: {
+    entryId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true

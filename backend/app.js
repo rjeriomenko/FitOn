@@ -14,6 +14,7 @@ const passport = require('passport');
 const usersRouter = require('./routes/api/users');
 const csrfRouter = require('./routes/api/csrf');
 const feedRouter = require('./routes/api/feed');
+const exercisesRouter = require('./routes/api/exercises');
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use(
 app.use('/api/users', usersRouter);
 app.use('/api/csrf', csrfRouter);
 app.use('/api/feed', feedRouter);
+app.use('/api/exercises', exercisesRouter);
 app.use(passport.initialize()); //*
 
 if (isProduction) {

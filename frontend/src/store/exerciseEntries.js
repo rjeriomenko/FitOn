@@ -126,6 +126,7 @@ export const fetchGoalExerciseEntries = (userId, goalId) => async dispatch => {
 };
 
 export const createExerciseEntry = (userId, goalId, exerciseEntry) => async dispatch => {
+    debugger
     try {
         const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries`, {
             method: 'POST',
@@ -134,11 +135,13 @@ export const createExerciseEntry = (userId, goalId, exerciseEntry) => async disp
         const responseExerciseEntry = await res.json();
         dispatch(receiveNewExerciseEntry(responseExerciseEntry));
     } catch (err) {
+        debugger
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
             return dispatch(receiveExerciseEntryErrors(resBody.errors));
         }
     }
+    debugger
 };
 
 export const updateExerciseEntry = (userId, goalId, exerciseEntry) => async dispatch => {

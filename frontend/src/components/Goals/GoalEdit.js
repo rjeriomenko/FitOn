@@ -20,6 +20,7 @@ function GoalEdit () {
     const [description, setDescription] = useState(currentGoal?.description);
     const [deadline, setDeadline] = useState(currentGoal?.deadline);
     const [submit, setSubmit] = useState(false)
+    
     if (!userGoals) {
         <div> Loading... </div>
     }

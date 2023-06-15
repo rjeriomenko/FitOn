@@ -231,7 +231,7 @@ module.exports = router;
 
 
 // due to our nested/embedded structure, it seems the vast majority of 
-// routes will be in this file lol
+// routes will be in this file
 
 // EXERCISE ENTRIES 
 
@@ -241,7 +241,8 @@ router.post('/:userId/goals/:goalId/entries', requireUser, validateExerciseEntry
     const newEntry = new ExerciseEntry({
       date: req.body.date,
       note: req.body.note,
-      rating: req.body.rating
+      rating: req.body.rating,
+      exercises: req.body.exercises
     });
 
     let user = await User.findById(req.params.userId);
@@ -254,7 +255,9 @@ router.post('/:userId/goals/:goalId/entries', requireUser, validateExerciseEntry
     goal.exerciseEntries.push(newEntry);
     user.save();
 
-    return res.json(goal.exerciseEntries.slice(-1));
+    const entry = goal.exerciseEntries.slice(-1);
+    const formattedEntry = { [entry.id]: { exerciseEntry: entry, exerciseEntryId: entry.id, setter: user.username, setterId: user.id, goalId: goal.id } };
+    return res.json(formattedEntry);
   } catch (err) {
     next(err);
   }
@@ -283,7 +286,6 @@ router.get('/:userId/goals/:goalId/entries/:entryId', async (req, res, next) => 
   }
 });
 
-
 // per goal ENTRY INDEX (get)
 router.get('/:userId/goals/:goalId/entries', requireUser, async (req, res, next) => {
   try {
@@ -293,9 +295,14 @@ router.get('/:userId/goals/:goalId/entries', requireUser, async (req, res, next)
       error.statusCode = 404;
       throw error;
     }
-    const entries = user.goals.filter(goal => goal.id === req.params.goalId)[0].exerciseEntries;
 
-    return res.json(entries || { message: 'Entry not found' });
+    const goal = user.goals.filter(goal => goal.id === req.params.goalId)[0];
+    const entries = goal.exerciseEntries;
+    const formattedEntries = {};
+    entries.forEach(entry => {
+      formattedEntries[entry.id] = { exerciseEntry: entry, exerciseEntryId: entry.id, setter: user.username, setterId: user.id, goalId: goal.id }
+    }) 
+    return res.json(Object.keys(formattedEntries).length ? formattedEntries : { message: 'Entries not found' })
   } catch (err) {
     next(err);
   }
@@ -333,15 +340,30 @@ router.patch('/:userId/goals/:goalId/entries/:entryId', requireUser, validateExe
       throw error;
     }
 
-    const oldEntry = user.goals.filter(goal => goal.id === req.params.goalId)[0].exerciseEntries.filter(entry => entry.id === req.params.entryId)[0];
-    oldEntry.date = req.body.date || oldEntry.date
-    oldEntry.note = req.body.note || oldEntry.note
-    oldEntry.rating = req.body.rating || oldEntry.rating
-    oldEntry.exercises = req.body.exercises || oldEntry.exercises
+    const goal = user.goals.filter(goal => goal.id === req.params.goalId)[0];
+    if (!goal) {
+      const error = new Error('Goal not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const oldEntry = goal.exerciseEntries.filter(entry => entry.id === req.params.entryId)[0];
+    if (!oldEntry) {
+      const error = new Error('Entry not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    oldEntry.date = req.body.date || oldEntry.date;
+    oldEntry.note = req.body.note || oldEntry.note;
+    oldEntry.rating = req.body.rating || oldEntry.rating;
+    oldEntry.exercises = req.body.exercises || oldEntry.exercises;
 
     user.save();
 
-    return res.json(oldEntry);
+    const formattedEntry = { [oldEntry.id]: { exerciseEntry: oldEntry, exerciseEntryId: oldEntry.id, setter: user.username, setterId: user.id, goalId: goal.id } }
+    return res.json(formattedEntry);
+
   } catch (err) {
     next(err);
   }

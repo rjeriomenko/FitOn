@@ -4,7 +4,8 @@ import './DataVis.css'
 
 function DataVis () {
     const chartRef = useRef(null);
-
+    const today = new Date().toISOString().split('T')[0];
+    console.log(today)
     const chartData = {
         labels: ['Label 1', 'Label 2', 'Label 3'],
         datasets: [
@@ -17,7 +18,7 @@ function DataVis () {
             label: 'Dump Truck 2',
             backgroundColor: '#2196f3',
             data: [15, 25, 35],
-            },
+            }
         ]
     }
 

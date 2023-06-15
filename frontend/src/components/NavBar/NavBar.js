@@ -20,6 +20,7 @@ function NavBar () {
           {/* need to define routes: Friends, Progress */}
           <li><Link to={'/'}>Friends</Link></li>
           <li><Link to={'/'}>Progress</Link></li>
+          <li><Link to={'/profile'}>Profile</Link></li>
           <li><Link to={'/feedPosts/newGoal'}>Create a new goal</Link></li>
           <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li>
           <li><Link to={'/'}>Your Goal</Link></li>

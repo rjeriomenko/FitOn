@@ -1,6 +1,12 @@
+import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './ExerciseEventForm.css'
+
+import { createExerciseEntry } from '../../store/exerciseEntries';
+import { clearExerciseEntryErrors, receiveExerciseEntryErrors } from '../../store/exerciseEntries';
+import { getUserKeyGoals, getGoals } from '../../store/goals';
+
 
 function ExerciseEventForm () {
     const dispatch = useDispatch();
@@ -9,6 +15,25 @@ function ExerciseEventForm () {
     const [note, setNote] = useState('');
     const [rating, setRating] = useState('');
     const [exerciseInputs, setExerciseInputs] = useState([{ name: '', sets: '', reps: '', time: '' }]);
+    const [submit, setSubmit] = useState(false);
+    const errors = useSelector(state => state.errors.exerciseEntries) // is this where errors live?
+
+    const sessionUser = useSelector(state => state.session.user);
+    const sessionUserId = sessionUser._id;
+    const userGoalsObj = useSelector(getUserKeyGoals);
+    const userGoals = userGoalsObj ? userGoalsObj[`${sessionUserId}`] : null;
+    const currentGoal = userGoals ? userGoals.slice(-1)[0] : null;
+
+    const currentGoalId = currentGoal?._id;
+
+    useEffect(() => {
+        return () => dispatch(clearExerciseEntryErrors());
+    }, [dispatch])
+
+    if ( !userGoalsObj ) {
+        <div> Loading... </div>
+    }
+
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
@@ -30,9 +55,17 @@ function ExerciseEventForm () {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const exercise = { date, note, rating, exercises: exerciseInputs };
+        // const exercise = { date, note, rating, exercises: exerciseInputs };
+        const exercise = { date, note, rating };
+
+        dispatch(createExerciseEntry( sessionUserId, currentGoalId, { date, note, rating: Number(rating) }));
+
+        setDate(today);
+        setNote('');
+        setRating('');
+
         console.log(exercise);
-        console.log(exerciseInputs);
+        // console.log(exerciseInputs);
     };
 
     return (
@@ -49,7 +82,7 @@ function ExerciseEventForm () {
                         onChange={e => setDate(e.currentTarget.value)}
                         required
                     />
-                    {/* <div className="errors">{errors?.date}</div> */}
+                    <div className="errors">{errors?.date}</div>
 
                     <span>Rating</span>
                     <input
@@ -60,7 +93,7 @@ function ExerciseEventForm () {
                         onChange={e => setRating(e.currentTarget.value)}
                         required
                     />
-                    {/* <div className="errors">{errors?.rating}</div> */}
+                    <div className="errors">{errors?.rating}</div>
                     
                     <span>Notes</span>
                     <input
@@ -69,14 +102,13 @@ function ExerciseEventForm () {
                         onChange={e => setNote(e.currentTarget.value)}
                         placeholder="How was your workout? o.o"
                     />
-                    {/* <div className="errors">{errors?.note}</div> */}
+                    <div className="errors">{errors?.note}</div>
 
                 </div>
 
                 <div className="exercise-input-container">
                     {exerciseInputs.map((input, index) => (
                     <div id="exercise-input-div" key={index} className={`exercise-div-${index}`}>
-                        <hr></hr>
                         <span id="exercise-input-span">Exercise:</span>
                         <input
                             type="text"
@@ -85,7 +117,7 @@ function ExerciseEventForm () {
                             value={input.name}
                             onChange={(e) => handleInputChange(e, index)}
                         />
-                        {/* <div className="errors">{errors?.name}</div> */}
+                        <div className="errors">{errors?.name}</div>
 
                         <span id="exercise-input-span">Sets:</span>
                         <input
@@ -96,7 +128,7 @@ function ExerciseEventForm () {
                             value={input.sets}
                             onChange={(e) => handleInputChange(e, index)}
                         />
-                        {/* <div className="errors">{errors?.sets}</div> */}
+                        <div className="errors">{errors?.sets}</div>
 
                         <span id="exercise-input-span">Reps:</span>
                         <input
@@ -107,7 +139,7 @@ function ExerciseEventForm () {
                             value={input.reps}
                             onChange={(e) => handleInputChange(e, index)}
                         />
-                        {/* <div className="errors">{errors?.reps}</div> */}
+                        <div className="errors">{errors?.reps}</div>
 
                         <span id="exercise-input-span">Time (in minutes):</span>
                         <input
@@ -116,7 +148,7 @@ function ExerciseEventForm () {
                             value={input.time}
                             onChange={(e) => handleInputChange(e, index)}
                         />
-                        {/* <div className="errors">{errors?.time}</div> */}
+                        <div className="errors">{errors?.time}</div>
 
                         {index > 0 && (
                         <button

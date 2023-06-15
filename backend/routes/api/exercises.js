@@ -28,13 +28,15 @@ router.post('/', requireUser, validateExerciseInput, async (req, res, next) => {
             error.statusCode = 422;
             throw error;
         }
-        await exercise.populate('setter', '_id username');
+        await exercise ///THIS NO WORK
+            .populate('setter', '_id username')
+            .populate('entryId', '_id date');
 
         const user = await User.findById(req.body.userId);
         user.exercises.push(exercise._id);
 
         user.goals.forEach((goal) => {
-            const exerciseEntry = goal.exerciseEntries.find(
+            const exerciseEntry = goal.exerciseEntries.find(    ////SHOULD THIS BE FILTER???
                 (entry) => entry._id.toString() === req.body.entryId
             );
             exerciseEntry.exercises.push(exercise._id);
@@ -42,7 +44,7 @@ router.post('/', requireUser, validateExerciseInput, async (req, res, next) => {
 
         await user.save();
 
-        return res.json(exercise);
+        return res.json({ [exercise.id]: exercise });
     } catch (err) {
         next(err);
     }
@@ -52,7 +54,7 @@ router.post('/', requireUser, validateExerciseInput, async (req, res, next) => {
 // show (singular and index?) (use .populate()!!)
 router.get('/:exerciseId', async (req, res, next) => {
     try {
-        const exercise = await Exercise.findById(req.params.exerciseId).populate('setter', '_id username');
+        const exercise = await Exercise.findById(req.params.exerciseId).populate('setter', '_id username').populate('entryId', '_id date');
 
         if (!exercise) {
             const error = new Error('Exercise not found');
@@ -69,9 +71,47 @@ router.get('/:exerciseId', async (req, res, next) => {
 //get all exercises (index)
 router.get('/', async (req, res, next) => {
     try {
-        const exercises = await Exercise.find({}).populate('setter', '_id username');
+        const formattedExercises = {};
+        const exercises = await Exercise.find({})
+            .populate('setter', '_id username')
+            .populate('entryId', '_id date');
 
-        return res.json(exercises);
+        exercises.forEach(exercise => {
+            formattedExercises[exercise.id] = exercise;
+        })
+        return res.json(Object.keys(formattedExercises).length ? formattedExercises : { message: 'Exercises not found' });
+    } catch (err) {
+        next(err);
+    }
+});
+
+// per user exercise index (get)
+router.get('/:userId', requireUser, async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) {
+            const error = new Error('User not found');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        const combinedExerciseArrays = [];
+        const formattedExercises = {};
+        user.goals.forEach(goal =>
+            goal.exerciseEntries.forEach(entry =>
+                combinedExerciseArrays.concat(entry.exercises)
+            )
+        )
+        
+        const exercises = await Exercise.find({ _id: { $in: combinedExerciseArrays } })
+            .populate('setter', '_id username')
+            .populate('entryId', '_id date');
+
+        exercises.forEach(exercise => {
+            formattedExercises[exercise.id] = exercise;
+        })
+
+        return res.json(Object.keys(formattedExercises).length ? formattedExercises : { message: 'Exercises not found' })
     } catch (err) {
         next(err);
     }

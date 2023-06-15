@@ -3,10 +3,12 @@ import { sessionErrorsReducer } from './session';
 import { feedPostErrorsReducer } from './feedPosts';
 import { goalErrorsReducer } from './goals';
 import { exerciseEntryErrorsReducer } from './exerciseEntries';
+import { exerciseErrorsReducer } from './exercises';
 
 export default combineReducers({
   session: sessionErrorsReducer,
   feedPosts: feedPostErrorsReducer,
   goals: goalErrorsReducer,
-  exerciseEntries: exerciseEntryErrorsReducer
+  exerciseEntries: exerciseEntryErrorsReducer,
+  exercises: exerciseErrorsReducer
 });

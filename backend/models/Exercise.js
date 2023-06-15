@@ -29,11 +29,11 @@ const ExerciseSchema = new Schema({
     setter: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: false
     },
     entryId: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'ExerciseEntry',
         required: true
     }
 })

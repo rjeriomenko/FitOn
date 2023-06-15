@@ -6,12 +6,17 @@ import {
     fetchUserGoal, 
     createGoal, 
     updateGoal, 
-    deleteGoal, 
+    deleteGoal,
     getGoal, 
     getGoals, 
     getUserKeyGoals,
     getNewGoal 
 } from '../../store/goals';
+
+import {
+    fetchUserExerciseEntries, 
+} from '../../store/exerciseEntries';
+
 
 function LandingPage() {
     const dispatch = useDispatch();
@@ -23,6 +28,7 @@ function LandingPage() {
     window.createGoal = createGoal;
     window.updateGoal = updateGoal;
     window.deleteGoal = deleteGoal;
+    window.fetchUserExerciseEntries = fetchUserExerciseEntries;
     
     const goal = useSelector(getGoal('648a1a1604e5d0d3c703386d'));
     // console.log(goal)

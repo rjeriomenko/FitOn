@@ -62,7 +62,6 @@ export const clearExerciseEntryErrors = errors => ({
 
 //Thunks
 
-//Returns all exerciseEntries ordered by { userId: {{ userGoal1Id: [exerciseEntries] }, { userGoal2Id: [exerciseEntries] }}, ...  }
 export const fetchAllUserExerciseEntries = () => async dispatch => {
     try {
         const res = await jwtFetch('/api/users');
@@ -88,12 +87,13 @@ export const fetchAllUserExerciseEntries = () => async dispatch => {
     }
 };
 
-
 //CREATED THUNKS UP UNTIL THIS POINT (LEFT OFF HERE)
-export const fetchUserGoals = userId => async dispatch => {
+//get array of exercise entries
+export const fetchUserExerciseEntries = userId => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/exerciseEntries`);
+        const res = await jwtFetch(`/api/users/${userId}/entries`);
         const userGoals = await res.json();
+        console.log(userGoals)
         dispatch(receiveUserGoals({ [userId]: userGoals }));
     } catch (err) {
         const resBody = await err.json();

@@ -117,6 +117,27 @@ function Profile () {
         {/* STICKY EXERCISE BREAKDOWN - START */}
         <div className="profile-exercise-chart workout-component">
         <h2>EXERCISE CHART</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
         </div>
         {/* STICKY EXERCISE BREAKDOWN - END */}
 

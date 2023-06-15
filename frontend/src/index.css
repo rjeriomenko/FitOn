@@ -62,7 +62,7 @@ body {
 	--white: white;
 
 	/* COLORSPACE: RATING GRADIENT */
-	--rating-transparency: 0.7;
+	--rating-transparency: 0.9;
 	--rating-5: rgba(255, 255, 0, var(--rating-transparency));
 	--rating-4: rgba(255, 237, 88, var(--rating-transparency));
 	--rating-3: rgba(255, 223, 132, var(--rating-transparency));

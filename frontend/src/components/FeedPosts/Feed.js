@@ -62,7 +62,8 @@ function Feed ({options = {}}) {
   const sortedGoalPosts = sortFeedPostsBy(filteredGoalPosts, "updatedAt");
 
   // Conditional header text
-  const headerText = (userId ? sessionUser.username + "..." : "everyone")
+  // const headerText = (userId ? sessionUser.username + "..." : "everyone")
+  const headerText = (userId ? "just you..." : "everyone...")
 
   if (sortedGoalPosts.length === 0) return (
     <>

@@ -72,13 +72,11 @@ function DataVis () {
       // console.log(data)
       // const userExercises = [] /
       
-   
       const filteredData = data.filter(obj => obj.setter._id === sessionUserId);
       console.log('Filtered data:', filteredData);
       console.log('monka')
     } catch (err) {
       console.log('Error fetching data:', err)
-      
     }
   }
 
@@ -87,15 +85,15 @@ function DataVis () {
 
 
   const chartData = {
-      labels: ['Label 1', 'Label 2', 'Label 3'],
+      labels: ['Monday', 'Tuesday', 'Wedneday'],
       datasets: [
           {
-          label: 'Dump Truck 1',
+          label: 'Dump Truck Exercise 1',
           backgroundColor: '#f44336',
           data: [10, 20, 30],
           },
           {
-          label: 'Dump Truck 2',
+          label: 'Dump Truck Exercise 2',
           backgroundColor: '#2196f3',
           data: [15, 25, 35],
           }
@@ -103,7 +101,7 @@ function DataVis () {
   }
 
   const chartOptions = {
-      responsive: false,
+      responsive: true,
       maintainAspectRatio: false,
       scales: {
         x: {

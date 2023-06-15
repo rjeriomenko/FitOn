@@ -20,7 +20,7 @@ function Profile () {
   
   const userExerciseEntries = useSelector(getUserKeyExerciseEntries);
 
-  const [mouseOverTextData, setMouseOverTextData] = useState('');
+  const [mouseOverTextData, setMouseOverTextData] = useState(undefined);
   const [sampleTileSet, setSampleTileSet] = useState([]);
   const [mouseOverTextDataRows, setMouseOverTextDataRows] = useState([]);
 
@@ -142,14 +142,15 @@ function Profile () {
         <div className="profile-exercise-chart workout-component">
           <div className='exercise-entry-deets'>
             <div className='exercise-entry-deets-header'>
-              <span>{mouseOverTextData?.exerciseEntry?.date}</span>
-              <span>{`${mouseOverTextData?.exerciseEntry?.rating}/5`}</span>
+              <span>{mouseOverTextData ? mouseOverTextData?.exerciseEntry?.date : ""}</span>
+              <span>{mouseOverTextData ? `${mouseOverTextData?.exerciseEntry?.rating}/5` : ""}</span>
             </div>
-            <span>{mouseOverTextData?.exerciseEntry?.note}</span>
+            <span className='exercise-entry-deets-note'>{mouseOverTextData?.exerciseEntry?.note}</span>
           </div>
+          <div className='chart-div'></div>
           <table className='exercise-chart-table'>
             <thead>
-              <tr>
+              <tr className='exercise-chart-header-row'>
                 <th>Name</th>
                 <th>Sets</th>
                 <th>Reps</th>
@@ -157,6 +158,9 @@ function Profile () {
               </tr>
             </thead>
             <tbody>
+              {mouseOverTextDataRows}
+              {mouseOverTextDataRows}
+              {mouseOverTextDataRows}
               {mouseOverTextDataRows}
             </tbody>
           </table>

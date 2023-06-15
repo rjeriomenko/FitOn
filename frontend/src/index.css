@@ -79,6 +79,11 @@ body {
 	--serif: Georgia, serif;
 	--sans-serif: Arial, Helvetica, sans-serif;
 
+	/* STANDARD DIVIDER BORDER STYLE */
+	--dark-red-divider: 1px solid var(--dark-red);
+	--white-divider: 1px solid var(--white);
+	--soft-white-divider: 1px solid var(--soft-white);
+
 	line-height: 1;
 	background-color: var(--light-blue);
 	background-color: var(--form-background-color);

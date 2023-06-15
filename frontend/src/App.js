@@ -45,6 +45,7 @@ function App() {
           <AuthRoute exact path="/" component={LandingPage} />
 
           <ProtectedRoute exact path="/feed" component={Feed} />
+          <ProtectedRoute exact path="/feed/:userId" component={Feed} />
           <ProtectedRoute exact path="/profile" component={Profile} />
           <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />
           <ProtectedRoute exact path="/feedPosts/editGoal" component={GoalEdit} />

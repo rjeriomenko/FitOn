@@ -5,6 +5,7 @@ import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../s
 import { fetchAllUserGoals } from '../../store/goals';
 import FeedPostEditable from './FeedPostEditable';
 import './Feed.css';
+import { useParams } from 'react-router-dom';
 
 export const POST_TYPE_GOAL = "feedPost/GOAL"
 export const POST_TYPE_EXERCISE_ENTRY = "feedPost/EXERCISE_ENTRY"
@@ -28,26 +29,40 @@ export const sortFeedPostsBy = (postsArray, sortRule) => {
 // Filter posts by post options object of types:["type1", ...] and/or ownerIds:[id1, ...]
 export const filterPostsBy = (postsArray, options = {}) => {
   const { types, ownerIds } = options;
+  // debugger
   const fitleredArray = postsArray.filter(post => {
-    return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.ownerId) : true);
+    // debugger
+    return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.setterId) : true);
   })
   return fitleredArray;
 }
 
-function Feed (options = {}) {
+function Feed ({options = {}}) {
+  const {userId} = useParams();
   const dispatch = useDispatch();
   const goalPosts = useSelector(state => state.goals?.all ? Object.values(state.goals.all) : {});
+  const sessionUser = useSelector(state => state.session.user);
+  const filterOptions = {...options};
   
-  // Filter posts by options
-  const filteredGoalPosts = filterPostsBy(goalPosts, options);
-
-  // Sort posts by date
-  const sortedGoalPosts = sortFeedPostsBy(filteredGoalPosts, "updatedAt");
-
   useEffect(() => {
     dispatch(fetchAllUserGoals())
     return () => dispatch(clearFeedPostErrors());
   }, [dispatch])
+
+  if(userId) {
+    filterOptions.ownerIds ||= [];
+    // debugger
+    filterOptions.ownerIds.push(userId);
+  }
+
+  // Filter posts by options
+  const filteredGoalPosts = filterPostsBy(goalPosts, filterOptions);
+
+  // Sort posts by date
+  const sortedGoalPosts = sortFeedPostsBy(filteredGoalPosts, "updatedAt");
+
+  // Conditional header text
+  const headerText = (userId ? sessionUser.username + "..." : "everyone")
 
   if (sortedGoalPosts.length === 0) return (
     <>
@@ -60,7 +75,7 @@ function Feed (options = {}) {
   return (
     <>
       <div className='feed-posts-container'>
-        <h2>everyone...</h2>
+        <h2>{headerText}</h2>
         {sortedGoalPosts.map(goalPost => (
           <FeedPostEditable key={goalPost.goalId} feedPost={goalPost} type={POST_TYPE_GOAL}/>
         ))}

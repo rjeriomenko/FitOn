@@ -22,31 +22,55 @@ function Profile () {
   const userExerciseEntries = useSelector(getUserKeyExerciseEntries);
 
   
-
+  const [mouseOverText, setMouseOverText] = useState('');
 
   useEffect(() => {
     dispatch(fetchUserGoals(sessionUser._id))
     dispatch(fetchUserExerciseEntries(sessionUser._id))
   }, [])
   
+
   const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
   
+
+
+  const handleMouseEnter = (e) => {
+    // console.log(e.target)
+    // console.log(e.currentTarget.getAttribute('dataExerciseEntryId'))
+    const tileId = e.currentTarget.getAttribute('dataExerciseEntryId');
+    const matchingExerciseEntry = sampleExerciseEntryData.find(exerciseEntry => {
+      // debugger
+      return exerciseEntry.exerciseEntryId.toString() === tileId
+    });
+    // debugger
+    // mouseOverText = matchingExerciseEntry.exerciseEntry.note;
+    setMouseOverText(matchingExerciseEntry.exerciseEntry.note);
+  }
+
+
   const generateEntryTilesForGoal = (goalId, exerciseEntriesArray) => {
     // Filter for the goal
-    debugger
+    // debugger
     const filteredByGoal = exerciseEntriesArray.filter(exerciseEntry => {
       return exerciseEntry.goalId === goalId;
     })
     // Sort by the date
-    debugger
+    // debugger
     const sortedByDate = filteredByGoal.toSorted((a, b) => {
       return new Date(a.exerciseEntry.date) - new Date(b.exerciseEntry.date)
     })
     // Generate tiles
-    debugger
+    // debugger
     const generatedTiles = [];
     sortedByDate.forEach(entry => {
-      generatedTiles.push(<ExerciseEntryTile rating={entry.exerciseEntry.rating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/>)
+      const tile = <>
+        <div onMouseEnter={handleMouseEnter} dataExerciseEntryId={entry.exerciseEntryId} >
+          <ExerciseEntryTile rating={entry.exerciseEntry.rating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/>
+        </div>
+      </>
+
+      // tile.dataset.exerciseEntryId = entry.exerciseEntryId;
+      generatedTiles.push(tile)
     })
     return generatedTiles;
   };
@@ -54,7 +78,9 @@ function Profile () {
 
   const sampleExerciseEntryTiles = generateEntryTilesForGoal(21, sampleExerciseEntryData);
 
-  debugger
+
+
+  // debugger
   if (!userExerciseEntries) {
     return (
       <div> Loading... </div>
@@ -116,7 +142,10 @@ function Profile () {
 
         {/* STICKY EXERCISE BREAKDOWN - START */}
         <div className="profile-exercise-chart workout-component">
-        <h2>EXERCISE CHART</h2>
+        {/* <h2>Date Note Rating</h2> */}
+        <h4>Date Note Rating</h4>
+        <h5>Name Sets Reps Time</h5>
+        <h5>{mouseOverText}</h5>
 
 
 
@@ -137,7 +166,8 @@ function Profile () {
 
 
 
-        
+
+
         </div>
         {/* STICKY EXERCISE BREAKDOWN - END */}
 

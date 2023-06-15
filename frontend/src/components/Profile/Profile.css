@@ -38,8 +38,8 @@
 .workout-component {
 	/* background-color: azure; */
 	/* margin: 20px; */
-	min-width: 50px;
-	min-height: 50px;
+	/* min-width: 50px; */
+	/* min-height: 50px; */
 }
 
 .profile-workout-selector-container {
@@ -61,12 +61,46 @@
 .profile-exercise-chart {
 	position: sticky;
 	top: 200px;
-	height: 200px;
-	flex-grow: 1;
-	/* width: 25%; */
+
+	/* STICKY CAN TAKE A MIN HEIGHT */
+	min-height: 200px;
+	/* THIS ALLOWS STICKY TO EXPAND WITH CONTENTS WHILE STILL EXHIBITING "STICKY" BEHAVIOR */
+	height: 100%;
+	/* flex-grow: 1; */
 	flex-basis: 0;
 	background-color: blanchedalmond;
+	min-width: 300px;
+
+	display: flex;
+	flex-direction: column;
 }
+
+.profile-exercise-chart * {
+	font-family: var(--sans-serif);
+	margin-bottom: 5px;
+}
+
+.exercise-entry-deets {
+	/* padding: 3px; */
+}
+
+.exercise-entry-deets-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.exercise-chart-table th,td {
+	/* padding: 5px; */
+}
+
+
+
+
+
+
+
+
 
 .profile-footer {
 	height: 1000px;

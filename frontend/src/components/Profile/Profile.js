@@ -10,89 +10,81 @@ import { getUserKeyExerciseEntries } from '../../store/exerciseEntries';
 import { sampleExerciseEntries } from './ProfileSeedData';
 import ExerciseEntryTile from './ExerciseEntryTile';
 
+import { formatTwoDigitNumberString } from '../../utils/utils';
+
 import './Profile.css';
 
 function Profile () {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
-  // const sessionUserId = sessionUser._id;
-  const userGoalsObj = useSelector(getUserKeyGoals);
-  const userGoals = userGoalsObj[`${sessionUser._id}`];
+  // const userGoalsObj = useSelector(getUserKeyGoals);
+  // const userGoals = userGoalsObj[`${sessionUser._id}`];
   
   const userExerciseEntries = useSelector(getUserKeyExerciseEntries);
 
-  
   const [mouseOverText, setMouseOverText] = useState('');
-
-  useEffect(() => {
-    dispatch(fetchUserGoals(sessionUser._id))
-    dispatch(fetchUserExerciseEntries(sessionUser._id))
-  }, [])
-  
+  const [sampleTileSet, setSampleTileSet] = useState([]);
 
   const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
-  
-
 
   const handleMouseEnter = (e) => {
-    // console.log(e.target)
-    // console.log(e.currentTarget.getAttribute('dataExerciseEntryId'))
     const tileId = e.currentTarget.getAttribute('dataExerciseEntryId');
     const matchingExerciseEntry = sampleExerciseEntryData.find(exerciseEntry => {
-      // debugger
       return exerciseEntry.exerciseEntryId.toString() === tileId
     });
-    // debugger
-    // mouseOverText = matchingExerciseEntry.exerciseEntry.note;
     setMouseOverText(matchingExerciseEntry.exerciseEntry.note);
   }
 
-
   const generateEntryTilesForGoal = (goalId, exerciseEntriesArray) => {
     // Filter for the goal
-    // debugger
     const filteredByGoal = exerciseEntriesArray.filter(exerciseEntry => {
       return exerciseEntry.goalId === goalId;
     })
     // Sort by the date
-    // debugger
     const sortedByDate = filteredByGoal.toSorted((a, b) => {
       return new Date(a.exerciseEntry.date) - new Date(b.exerciseEntry.date)
     })
-    // Generate tiles
-    // debugger
-    const generatedTiles = [];
-    sortedByDate.forEach(entry => {
-      const tile = <>
-        <div onMouseEnter={handleMouseEnter} dataExerciseEntryId={entry.exerciseEntryId} >
-          <ExerciseEntryTile rating={entry.exerciseEntry.rating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/>
-        </div>
-      </>
 
-      // tile.dataset.exerciseEntryId = entry.exerciseEntryId;
-      generatedTiles.push(tile)
-    })
+    // Generate tiles
+    const generatedTiles = [];
+
+    // Create 23 fake sets of same seed data:
+    for(let i = 0; i < 23; i++){
+
+      sortedByDate.forEach(entry => {
+        
+          // Seed only: generate random ratings and associated photos:
+          const displayedRating = Math.floor(Math.random() * 5) + 1;
+          const numSamplePhotos = 7;
+          const randomImageNumber = Math.floor(Math.random() * numSamplePhotos) + 1;
+          const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
+
+          const tile = <>
+            <div onMouseEnter={handleMouseEnter} dataExerciseEntryId={entry.exerciseEntryId} >
+              {/* NON sample dataset might look more like this: */}
+              {/* <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={entry.exerciseEntry.rating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/> */}
+              <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={displayedRating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/>
+            </div>
+          </>
+
+          generatedTiles.push(tile)
+        
+      })
+    }
     return generatedTiles;
   };
 
+  useEffect(() => {
+    dispatch(fetchUserGoals(sessionUser._id))
+    dispatch(fetchUserExerciseEntries(sessionUser._id))
+    setSampleTileSet(generateEntryTilesForGoal(21, sampleExerciseEntryData));
+  }, [])
 
-  const sampleExerciseEntryTiles = generateEntryTilesForGoal(21, sampleExerciseEntryData);
-
-
-
-  // debugger
   if (!userExerciseEntries) {
     return (
       <div> Loading... </div>
     )
   }
-
-  // console.log(userExerciseEntries)
-  
-  // Change currentGoal to be the first goal in userGoals from the back without a completedDate,
-  // if not found, no currentGoal.
-  // const currentGoal = userGoals.slice(-1)[0];
-  // const goalItems = userGoals.slice(0,-1).map(goal => <GoalIndexItem goal={goal} />)
 
   return (
     <div className='profile-container'>
@@ -111,38 +103,16 @@ function Profile () {
       <div className='profile-container-styles profile-goal-workout-content-container'>
 
         {/* WORKOUT SELECTOR - START */}
+        {/* WORKOUT SELECTOR - START */}
         <div className="profile-workout-selector-container workout-component">
-          {/* <h2>WORKOUT SELECTOR</h2> */}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
-          {sampleExerciseEntryTiles}
+          {sampleTileSet}
         </div>
+        {/* WORKOUT SELECTOR - END */}
         {/* WORKOUT SELECTOR - END */}
 
         {/* STICKY EXERCISE BREAKDOWN - START */}
+        {/* STICKY EXERCISE BREAKDOWN - START */}
         <div className="profile-exercise-chart workout-component">
-        {/* <h2>Date Note Rating</h2> */}
         <h4>Date Note Rating</h4>
         <h5>Name Sets Reps Time</h5>
         <h5>{mouseOverText}</h5>
@@ -153,22 +123,8 @@ function Profile () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
+        {/* STICKY EXERCISE BREAKDOWN - END */}
         {/* STICKY EXERCISE BREAKDOWN - END */}
 
       </div>

@@ -97,7 +97,6 @@ export const fetchUserExerciseEntries = userId => async dispatch => {
     }
 };
 
-//UNTESTED BELOW ----------------------------------------------------------------------------------------
 //Stores error message in user key exerciseEntries array
 export const fetchUserExerciseEntry = (userId, goalId, exerciseEntryId) => async dispatch => {
     try {
@@ -162,7 +161,7 @@ export const deleteExerciseEntry = (userId, goalId, exerciseEntryId) => async di
         const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries/${exerciseEntryId}`, {
             method: 'DELETE'
         });
-        dispatch(removeExerciseEntry(userId, goalId, exerciseEntryId));
+        dispatch(removeExerciseEntry(userId, exerciseEntryId));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -234,7 +233,7 @@ const exerciseEntriesReducer = (state = { all: {}, user: {}, goal: {}, updated: 
         case RECEIVE_EXERCISE_ENTRIES:
             return { ...newState, all: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_UPDATED_EXERCISE_ENTRY:
-            return { ...newState, updated: action.exerciseEntry, new: undefined };
+            return { ...newState, all: { ...newState.all, ...action.exerciseEntry }, updated: action.exerciseEntry, new: undefined };
         case RECEIVE_USER_EXERCISE_ENTRY:
             return { ...newState, user: action.exerciseEntry, updated: undefined, new: undefined };
         case RECEIVE_USER_EXERCISE_ENTRIES:

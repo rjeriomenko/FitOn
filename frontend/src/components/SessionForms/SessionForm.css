@@ -5,8 +5,6 @@ body {
 	--form-text-input-color: var(--white);
 	--form-header-color: var(--light-blue);
 	--form-font-family: var(--serif);
-	
-	font-family: var(--form-font-family);
 }
 
 .session-form-container {

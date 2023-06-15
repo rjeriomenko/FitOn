@@ -16,6 +16,7 @@ function ExerciseEventForm () {
     const [rating, setRating] = useState('');
     const [exerciseInputs, setExerciseInputs] = useState([{ name: '', sets: '', reps: '', time: '' }]);
     const [submit, setSubmit] = useState(false);
+
     const errors = useSelector(state => state.errors.exerciseEntries) // is this where errors live?
 
     const sessionUser = useSelector(state => state.session.user);
@@ -66,7 +67,14 @@ function ExerciseEventForm () {
 
         console.log(exercise);
         // console.log(exerciseInputs);
+
+        setSubmit(true)
     };
+
+
+    if (submit === true) {
+        return <Redirect to="/feedPosts/myGoal" />
+    }
 
     return (
         <div className="exercise-form-container">

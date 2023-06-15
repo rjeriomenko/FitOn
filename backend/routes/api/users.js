@@ -270,9 +270,14 @@ router.get('/:userId/goals/:goalId/entries/:entryId', async (req, res, next) => 
       error.statusCode = 404;
       throw error;
     }
-    const entryObject = user.goals.filter(goal => goal.id === req.params.goalId)[0].exerciseEntries.filter(entry => entry.id === req.params.entryId)[0];
 
-    return res.json(entryObject || { message: 'Entry not found' });
+    const goal = user.goals.filter(goal => goal.id === req.params.goalId)[0];
+    const entry = goal.exerciseEntries.filter(entry => entry.id === req.params.entryId)[0];
+    const formattedEntry = {
+      [entry.id]: { exerciseEntry: entry, exerciseEntryId: entry.id, setter: user.username, setterId: user.id, goalId: goal.id }
+    }
+
+    return res.json(Object.keys(formattedEntry).length ? formattedEntry : { message: 'Entry not found' })
   } catch (err) {
     next(err);
   }
@@ -306,12 +311,12 @@ router.get('/:userId/entries', requireUser, async (req, res, next) => {
       throw error;
     }
 
-    const entries = [];
+    const entries = {};
     user.goals.forEach(goal => 
       goal.exerciseEntries.forEach(entry => 
-        entries.push(entry)))
+        entries[entry.id] = { exerciseEntry: entry, exerciseEntryId: entry.id, setter: user.username, setterId: user.id, goalId: goal.id  }))
     
-    return res.json(entries || { message: 'Entry not found'})
+    return res.json(Object.keys(entries).length ? entries : { message: 'Entry not found'})
   } catch (err) {
     next(err);
   }

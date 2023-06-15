@@ -78,104 +78,102 @@ export const fetchAllUserExerciseEntries = () => async dispatch => {
                 })
             }
         });
-        dispatch(receiveGoals(usersExerciseEvents));
+        dispatch(receiveExerciseEntries(usersExerciseEvents));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
-            dispatch(receiveExerciseEventErrors(resBody.errors));
+            dispatch(receiveExerciseEntryErrors(resBody.errors));
         }
     }
 };
 
-//CREATED THUNKS UP UNTIL THIS POINT (LEFT OFF HERE)
-//get array of exercise entries
+//Fetches formatted exercise entries
 export const fetchUserExerciseEntries = userId => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users/${userId}/entries`);
-        const userGoals = await res.json();
-        console.log(userGoals)
-        dispatch(receiveUserGoals({ [userId]: userGoals }));
+        const userEntries = await res.json();
+        dispatch(receiveUserExerciseEntries(userEntries));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
-            dispatch(receiveGoalErrors(resBody.errors));
+            dispatch(receiveExerciseEntryErrors(resBody.errors));
         }
     }
 };
 
+//UNTESTED BELOW ----------------------------------------------------------------------------------------
 //Stores error message in user key exerciseEntries array
-export const fetchUserGoal = (userId, exerciseEntryId) => async dispatch => {
+export const fetchUserExerciseEntry = (userId, goalId, exerciseEntryId) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/exerciseEntries/${exerciseEntryId}`);
-        const userGoal = await res.json();
-        dispatch(receiveUserGoal({ [userId]: [userGoal] }));
+        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries/${exerciseEntryId}`);
+        const userExerciseEntry = await res.json();
+        dispatch(receiveUserExerciseEntry(userExerciseEntry));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
-            dispatch(receiveGoalErrors(resBody.errors));
+            dispatch(receiveExerciseEntryErrors(resBody.errors));
         }
     }
 };
 
-export const createGoal = (userId, exerciseEntry) => async dispatch => {
-    try {
-        const res = await jwtFetch(`/api/users/${userId}/exerciseEntries`, {
-            method: 'POST',
-            body: JSON.stringify(exerciseEntry)
-        });
-        const responseGoal = await res.json();
-        dispatch(receiveNewGoal({ [userId]: [responseGoal] }));
-    } catch (err) {
-        const resBody = await err.json();
-        if (resBody.statusCode === 400) {
-            return dispatch(receiveGoalErrors(resBody.errors));
-        }
-    }
-};
+///LEFT OFF HERE (THUNKS AND REDUCER INCOMPLETE)
+// export const createGoal = (userId, exerciseEntry) => async dispatch => {
+//     try {
+//         const res = await jwtFetch(`/api/users/${userId}/exerciseEntries`, {
+//             method: 'POST',
+//             body: JSON.stringify(exerciseEntry)
+//         });
+//         const responseGoal = await res.json();
+//         dispatch(receiveNewGoal({ [userId]: [responseGoal] }));
+//     } catch (err) {
+//         const resBody = await err.json();
+//         if (resBody.statusCode === 400) {
+//             return dispatch(receiveExerciseEntryErrors(resBody.errors));
+//         }
+//     }
+// };
 
-export const updateGoal = (userId, exerciseEntry) => async dispatch => {
-    try {
-        const res = await jwtFetch(`/api/users/${userId}/exerciseEntries/${exerciseEntry._id}`, {
-            method: 'PATCH',
-            body: JSON.stringify(exerciseEntry)
-        });
-        const responseGoal = await res.json();
-        dispatch(receiveUpdatedGoal({ userId: [responseGoal] }));
-    } catch (err) {
-        const resBody = await err.json();
-        if (resBody.statusCode === 400) {
-            return dispatch(receiveGoalErrors(resBody.errors));
-        }
-    }
-};
+// export const updateGoal = (userId, exerciseEntry) => async dispatch => {
+//     try {
+//         const res = await jwtFetch(`/api/users/${userId}/exerciseEntries/${exerciseEntry._id}`, {
+//             method: 'PATCH',
+//             body: JSON.stringify(exerciseEntry)
+//         });
+//         const responseGoal = await res.json();
+//         dispatch(receiveUpdatedGoal({ userId: [responseGoal] }));
+//     } catch (err) {
+//         const resBody = await err.json();
+//         if (resBody.statusCode === 400) {
+//             return dispatch(receiveExerciseEntryErrors(resBody.errors));
+//         }
+//     }
+// };
 
-export const deleteGoal = (userId, exerciseEntryId) => async dispatch => {
-    try {
-        const res = await jwtFetch(`/api/users/${userId}/exerciseEntries/${exerciseEntryId}`, {
-            method: 'DELETE'
-        });
-        dispatch(removeGoal(userId, exerciseEntryId));
-    } catch (err) {
-        const resBody = await err.json();
-        if (resBody.statusCode === 400) {
-            return dispatch(receiveGoalErrors(resBody.errors));
-        }
-    }
-};
+// export const deleteGoal = (userId, exerciseEntryId) => async dispatch => {
+//     try {
+//         const res = await jwtFetch(`/api/users/${userId}/exerciseEntries/${exerciseEntryId}`, {
+//             method: 'DELETE'
+//         });
+//         dispatch(removeGoal(userId, exerciseEntryId));
+//     } catch (err) {
+//         const resBody = await err.json();
+//         if (resBody.statusCode === 400) {
+//             return dispatch(receiveExerciseEntryErrors(resBody.errors));
+//         }
+//     }
+// };
 
 //Selectors
 
-export const getGoal = (userId, exerciseEntryId) => state => {
-    if (state?.exerciseEntries.all[userId]) {
-        const userGoals = state.exerciseEntries.all[userId];
-        const exerciseEntry = userGoals.filter(exerciseEntry => exerciseEntry._id === exerciseEntryId);
-        return exerciseEntry;
+export const getExerciseEntry = (exerciseEntryId) => state => {
+    if (state?.exerciseEntries.all[exerciseEntryId]) {
+        return state.exerciseEntries.all[exerciseEntryId];
     } else {
         return null;
     }
 }
 
-export const getGoals = state => {
+export const getExerciseEntries = state => {
     if (state?.exerciseEntries) {
         return state.exerciseEntries.all
     } else {
@@ -183,7 +181,7 @@ export const getGoals = state => {
     }
 }
 
-export const getUserKeyGoals = state => {
+export const getUserKeyExerciseEntries = state => {
     if (state?.exerciseEntries) {
         return state.exerciseEntries.user
     } else {
@@ -191,7 +189,7 @@ export const getUserKeyGoals = state => {
     }
 }
 
-export const getNewGoal = state => {
+export const getNewExerciseEntry = state => {
     if (state?.exerciseEntries) {
         return state.exerciseEntries.new
     } else {
@@ -228,7 +226,7 @@ const exerciseEntriesReducer = (state = { all: {}, user: {}, updated: undefined,
             return { ...newState, user: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_NEW_EXERCISE_ENTRY:
             return { ...newState, updated: undefined, new: action.exerciseEntry };
-        //prev state in Redux Console will reflect new state before action reaches store
+        //LEFT OFF HERE
         case REMOVE_EXERCISE_ENTRY:
             const oldGoalsArray = newState.all[action.userId];
             const filteredGoalsArray = oldGoalsArray.filter(exerciseEntry => exerciseEntry._id !== action.exerciseEntryId);

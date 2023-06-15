@@ -10,25 +10,25 @@ function ExerciseCreateForm() {
   const [exerciseInputs, setExerciseInputs] = useState([]);
   const [inputCount, setInputCount] = useState(1);
 
-//   const createDeleteButton = (index) => (
-//     <input
-//       type="submit"
-//       value="Delete"
-//       onClick={() => removeInputField(index)}
-//     />
-//   );
+  const createDeleteButton = (index) => (
+    <input
+      type="submit"
+      value="Delete"
+      onClick={() => removeInputField(index)}
+    />
+  );
 
-//   const createNumberInput = (id, name, value) => (
-//     <input
-//       type="number"
-//       min="1"
-//       max="1000000"
-//       id={id}
-//       name={name}
-//       value={value}
-//       onChange={(e) => handleInputChange(e, id)}
-//     />
-//   );
+  const createNumberInput = (id, name, value) => (
+    <input
+      type="number"
+      min="1"
+      max="1000000"
+      id={id}
+      name={name}
+      value={value}
+      onChange={(e) => handleInputChange(e, id)}
+    />
+  );
   
   const createTextInput = (id, name, value) => (
     <input
@@ -42,13 +42,13 @@ function ExerciseCreateForm() {
 
   const createSpan = (text) => <span>{text}</span>;
 
-//   const removeInputField = (index) => {
-//     setExerciseInputs((prevState) => {
-//       const updatedInputs = [...prevState];
-//       updatedInputs.splice(index, 1);
-//       return updatedInputs;
-//     });
-//   };
+  const removeInputField = (index) => {
+    setExerciseInputs((prevState) => {
+      const updatedInputs = [...prevState];
+      updatedInputs.splice(index, 1);
+      return updatedInputs;
+    });
+  };
 
   const handleInputChange = (e, id) => {
     const { name, value } = e.target;
@@ -120,16 +120,16 @@ function ExerciseCreateForm() {
                 {createSpan('Exercise')}
                 {createTextInput(`name-${input.id}`, 'name', input.name)}
 
-                {/* {createSpan('Sets')}
+                {createSpan('Sets')}
                 {createNumberInput(`set-${input.id}`, 'sets', input.sets)}
 
                 {createSpan('Reps')}
                 {createNumberInput(`rep-${input.id}`, 'reps', input.reps)}
 
                 {createSpan('Time(in minutes)')}
-                {createTextInput(`time-${input.id}`, 'time', input.time)} */}
+                {createTextInput(`time-${input.id}`, 'time', input.time)}
 
-                {/* {createDeleteButton(index)} */}
+                {createDeleteButton(index)}
               </div>
             ))}
           </div>

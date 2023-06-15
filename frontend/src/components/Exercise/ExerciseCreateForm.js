@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRef } from 'react';
 
 // import clear and create from exercise entry/exercise from store
 // prob want to pull sessionUser??

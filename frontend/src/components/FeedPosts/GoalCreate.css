@@ -1,4 +1,4 @@
-input[type=textarea] {
+.create-feed-post > input[type=textarea] {
   min-height: 50px;
   min-width: 393px;
   margin-top: 5px;

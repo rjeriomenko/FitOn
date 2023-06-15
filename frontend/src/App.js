@@ -21,7 +21,7 @@ import FloatingMenu from './components/FloatingMenu/FloatingMenu';
 import MainPageWrapper from './components/MainPageWrapper/MainPageWrapper';
 
 import Exercise2 from './components/Exercise/Exercise2';
-import Ex3 from './components/Exercise/Ex3';
+import ExerciseEventForm from './components/Exercise/ExerciseEventForm';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -53,10 +53,10 @@ function App() {
           <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />
           <ProtectedRoute exact path="/feedPosts/editGoal" component={GoalEdit} />
           <ProtectedRoute exact path="/feedPosts/myGoal" component={GoalIndex} />
-          <ProtectedRoute exact path="/gains" component={ExerciseCreateForm} />
+          <ProtectedRoute exact path="/gains1" component={ExerciseCreateForm} />
 
           <ProtectedRoute exact path="/gains2" component={Exercise2} />
-          <ProtectedRoute exact path="/gains3" component={Ex3} />
+          <ProtectedRoute exact path="/gains" component={ExerciseEventForm} />
 
 
       </MainPageWrapper>

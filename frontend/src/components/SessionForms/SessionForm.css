@@ -52,12 +52,12 @@ body {
 .session-form .errors {
 	font-style: italic;
 	margin-top: 0.5em;
-  color: var(--form-errors-color);
-  font-size: 0.875em;
-  height: 0.875em;
+	color: var(--form-errors-color);
+	font-size: 0.875em;
+	height: 0.875em;
 	width: 400px;
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .text-input {

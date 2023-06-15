@@ -24,7 +24,7 @@ function NavBar () {
           <li><Link to={'/profile'}>Profile</Link></li>
           <li><Link to={'/feedPosts/newGoal'}>Create a new goal</Link></li>
           <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li>
-          <li><Link to={'/feedPosts/myGoal'}>Your Goal</Link></li>
+          <li><Link to={'/feedPosts/myGoal'}>My Goal</Link></li>
           <li><div onClick={logoutUser}>Logout</div></li>
         </ul>
       );

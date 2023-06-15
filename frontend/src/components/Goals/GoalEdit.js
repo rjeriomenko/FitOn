@@ -36,7 +36,7 @@ function GoalEdit () {
     };
 
     if (submit === true) {
-        return <Redirect to="/feedPosts/myGoal" />
+      return <Redirect to="/feedPosts/myGoal" />
     }
 
   return (

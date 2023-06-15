@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // import clear and create from exercise entry/exercise from store
 // prob want to pull sessionUser??
 
-function ExerciseCreateForm () {
+function Exercise2 () {
     const dispatch = useDispatch();
     const today = new Date().toISOString().split('T')[0];
     const [ date, setDate ] = useState(today);
@@ -42,11 +42,6 @@ function ExerciseCreateForm () {
     
     const addInputFields = e => {
         e.preventDefault();
-        
-        // const [name, setName] = useState('');
-        // const [sets, setSets] = useState('');
-        // const [reps, setReps] = useState('');
-        // const [time, setTime] = useState('');
 
         // creating 
         const removeBtn = createDeleteButton();
@@ -164,4 +159,4 @@ function ExerciseCreateForm () {
     )
 }
 
-export default ExerciseCreateForm;
+export default Exercise2;

@@ -20,6 +20,8 @@ import { getCurrentUser } from './store/session';
 import FloatingMenu from './components/FloatingMenu/FloatingMenu';
 import MainPageWrapper from './components/MainPageWrapper/MainPageWrapper';
 
+import Exercise2 from './components/Exercise/Exercise2';
+
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -52,6 +54,7 @@ function App() {
           <ProtectedRoute exact path="/feedPosts/myGoal" component={GoalIndex} />
           <ProtectedRoute exact path="/gains" component={ExerciseCreateForm} />
 
+          <ProtectedRoute exact path="/gains2" component={Exercise2} />
 
       </MainPageWrapper>
       

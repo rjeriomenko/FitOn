@@ -6,6 +6,7 @@ import { fetchAllUserGoals } from '../../store/goals';
 import FeedPostEditable from './FeedPostEditable';
 import './Feed.css';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const POST_TYPE_GOAL = "feedPost/GOAL"
 export const POST_TYPE_EXERCISE_ENTRY = "feedPost/EXERCISE_ENTRY"
@@ -62,12 +63,13 @@ function Feed ({options = {}}) {
   const sortedGoalPosts = sortFeedPostsBy(filteredGoalPosts, "updatedAt");
 
   // Conditional header text
-  const headerText = (userId ? sessionUser.username + "..." : "everyone")
+  // const headerText = (userId ? sessionUser.username + "..." : "everyone")
+  const headerText = (userId ? "just you..." : "everyone...")
 
   if (sortedGoalPosts.length === 0) return (
     <>
     <div className='feed-posts-container'>
-      <div>There are no Feed Posts</div>
+      <h2>Add your <Link to={`/feedPosts/newGoal`}>goal</Link> to get started!</h2>
     </div>
     </> 
   )

@@ -89,11 +89,15 @@ p, h3 {
 }
 
 .feed-post-crud-controls {
-	width: 70px;
+	align-self: stretch;
+	/* height: 100%; */
+	width: 50px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
+	justify-content: flex-start;
 	align-items: center;
+	align-items: flex-end;
 }
 
 .feed-post-crud-button {
@@ -104,6 +108,9 @@ p, h3 {
 	/* width: 100px; */
 	font-family: var(--sans-serif);
 	text-align: center;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-start;
 }
 
 .feed-post-crud-button:hover{

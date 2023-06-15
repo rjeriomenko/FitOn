@@ -37,9 +37,9 @@
 
 .workout-component {
 	/* background-color: azure; */
-	margin: 20px;
-	min-width: 50px;
-	min-height: 50px;
+	/* margin: 20px; */
+	/* min-width: 50px; */
+	/* min-height: 50px; */
 }
 
 .profile-workout-selector-container {
@@ -61,12 +61,71 @@
 .profile-exercise-chart {
 	position: sticky;
 	top: 200px;
-	height: 200px;
-	flex-grow: 1;
-	/* width: 25%; */
+
+	/* STICKY CAN TAKE A MIN HEIGHT */
+	min-height: 200px;
+	/* THIS ALLOWS STICKY TO EXPAND WITH CONTENTS WHILE STILL EXHIBITING "STICKY" BEHAVIOR */
+	height: 100%;
+	/* flex-grow: 1; */
 	flex-basis: 0;
-	background-color: blanchedalmond;
+	/* background-color: blanchedalmond; */
+	min-width: 300px;
+
+	display: flex;
+	flex-direction: column;
+	padding-left:10px;
 }
+
+.profile-exercise-chart * {
+	font-family: var(--sans-serif);
+	margin-bottom: 5px;
+	color: var(--white);
+}
+
+.exercise-entry-deets {
+	margin-bottom: 10px;
+}
+
+.exercise-entry-deets-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	min-height: 0px;
+}
+
+.exercise-entry-deets-header * {
+	color: var(--light-blue);
+}
+
+.exercise-entry-deets-note {
+	font-style: italic;
+}
+
+.chart-div {
+	border-bottom: var(--soft-white-divider);
+}
+
+.exercise-chart-table tr {
+	padding: 3px 0px;
+}
+
+.exercise-chart-header-row * {
+	color: var(--light-blue);
+}
+
+.exercise-chart-table th,td {
+	text-align: left;
+	padding: 0.5px 0px;
+	/* margin: 5px 0px; */
+}
+
+
+
+
+
+
+
+
 
 .profile-footer {
 	height: 1000px;

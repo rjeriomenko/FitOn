@@ -64,7 +64,15 @@ function Feed ({options = {}}) {
 
   // Conditional header text
   // const headerText = (userId ? sessionUser.username + "..." : "everyone")
-  const headerText = (userId ? "just you..." : "everyone...")
+  // const headerText = (userId ? "just you..." : "everyone...")
+
+  let headerText;
+  if(userId){
+    if(userId === sessionUser._id) headerText = "just you..."
+    else headerText = `${sortedGoalPosts ? sortedGoalPosts[0].setter.concat(`...`) : "nothing here..."}`
+  } else {
+    headerText = "everyone..."
+  }
 
   if (sortedGoalPosts.length === 0) return (
     <>

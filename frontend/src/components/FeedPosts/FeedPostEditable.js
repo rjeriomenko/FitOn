@@ -77,7 +77,7 @@ function FeedPostEditable ({feedPost, type}) {
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
 					<div className="post-username">{username}</div>
-					<div>{timestamp}</div>
+					<div className="post-timestamp">{timestamp}</div>
 				</div>
 				<br/>
 				{!editable && <div className="feed-post-row">
@@ -104,7 +104,7 @@ function FeedPostEditable ({feedPost, type}) {
 					<div className="feed-post-crud-button" onClick={handleUpdateGoal}>Update</div>
 				</>}
 				<div className="post-divider"></div>
-				<div>
+				<div className="latest-exercise-text">
 					{/* {`Latest workout: ${exerciseEntries[exerciseEntries.length - 1]?.note} ${new Date(exerciseEntries[exerciseEntries.length - 1]?.date)}`} */}
 					{/* <br /> */}
 					{/* {exerciseEntries[exerciseEntries.length - 1] ? exerciseEntries[exerciseEntries.length - 1] + " " : "No workouts yet"} */}

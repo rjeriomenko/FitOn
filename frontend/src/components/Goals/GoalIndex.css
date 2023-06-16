@@ -8,7 +8,7 @@
 .goals-container > h2 {
     margin-top: 20px;
     margin-bottom: 20px;
-    color: var(--soft-white);
+    color: var(--dark-blue);
     text-shadow: 1px 1px 4px var(--light-blue);
 }
 
@@ -40,7 +40,7 @@
 
 div > p {
     margin: 20px 0;
-    color: var(--white);
+    color: var(--dark-blue);
 
 }
 
@@ -53,18 +53,19 @@ div > p {
 }
 
 .edit-current-goal, .delete-current-goal {
+    margin: 5px;
     padding: 10px;
     border-radius: 8px;
     background-color: var(--dark-red);
     border: 1px solid var(--dark-red);
-    color: var(--soft-white);
+    color: var(--white);
 }
 
 .edit-current-goal:hover, .delete-current-goal:hover {
     cursor: pointer;
     transition: 0.3s ease;
     transform: scale(1.01);
-    box-shadow: 5px 5px 5px #05384d;
+    box-shadow: 1px 1px 5px #05384d;
 }
 
 .goal-title {

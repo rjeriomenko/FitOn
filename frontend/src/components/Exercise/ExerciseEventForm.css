@@ -98,6 +98,7 @@
 .exercise-entry-form > input[type=date] {
     height: 30px;
     border-radius: 8px;
+    color: gray;
 }
 
 #exercise-input-div > input[type=text] {
@@ -133,4 +134,7 @@
 
 .exercise-event-form-btn:hover {
     cursor: pointer;
+    transition: 0.3s ease;
+    transform: scale(1.01);
+    box-shadow: 1px 1px 5px #05384d;
 }

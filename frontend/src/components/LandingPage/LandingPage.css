@@ -1,0 +1,69 @@
+.landing-page-container {
+	width: 100%;
+	height: calc(100vh - 230px);
+	/* height: 100vh; */
+	/* height: 5%; */
+	position: relative;
+	/* overflow: hidden; */
+}
+
+.landing-gif {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.background-gif-container {
+	/* width: 100%; */
+	/* height: 100%; */
+	/* object-fit: cover; */
+	/* display: flex; */
+}
+
+.blur-overlay {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,1);
+	/* background-color: red; */
+}
+
+.text-overlay {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 0;
+}
+
+.text-overlay p {
+	color: rgba(255,255,255,0);
+	/* text-shadow: 1px 1px 2px gray; */
+	font-size: 40px;
+}
+
+.text-overlay > p:nth-child(1) {
+	animation: white-text-fade-in 1s linear 2s 1 normal both;
+}
+
+.text-overlay > p:nth-child(2) {
+	animation: white-text-fade-in 1s linear 5s 1 normal both;
+}
+
+.text-overlay > p:nth-child(3) {
+	animation: white-text-fade-in 1s linear 8s 1 normal both;
+}
+
+@keyframes white-text-fade-in {
+	0% {
+		color: rgba(255,255,255,0);
+		text-shadow: 2px 2px 2px rgba(128,128,128,0)
+	}
+	100% {
+		color: #e5e1e1;
+		/* text-shadow: 1px 1px 2px gray; */
+		text-shadow: 2px 2px 2px rgba(128,128,128,1)
+	}
+}

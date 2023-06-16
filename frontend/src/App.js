@@ -45,8 +45,8 @@ function App() {
           <AuthRoute exact path="/login" component={LoginForm} />
           <AuthRoute exact path="/signup" component={SignupForm} />
           
-      <MainPageWrapper>
           <AuthRoute exact path="/" component={LandingPage} />
+      <MainPageWrapper>
 
           <ProtectedRoute exact path="/feed" component={Feed} />
           <ProtectedRoute exact path="/feed/:userId" component={Feed} />

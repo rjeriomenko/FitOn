@@ -181,6 +181,7 @@ router.patch('/:userId/goals/:goalId', requireUser, validateGoalInput, async (re
     oldGoal.description = req.body.description || oldGoal.description;
     oldGoal.deadline = req.body.deadline || oldGoal.deadline;
     oldGoal.completionDate = req.body.completionDate || oldGoal.completionDate;
+    oldGoal.updatedAt = Date.now();
 
     user.save();
 

@@ -47,7 +47,7 @@ function Feed ({options = {}}) {
   
   useEffect(() => {
     dispatch(fetchAllUserGoals())
-    return () => dispatch(clearFeedPostErrors());
+    // return () => dispatch(clearFeedPostErrors());
   }, [dispatch])
 
   if(userId) {

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { POST_TYPE_GOAL, POST_TYPE_EXERCISE_ENTRY } from "./Feed";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { deleteGoal, updateGoal } from "../../store/goals";
+import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
 
 function FeedPostEditable ({feedPost, type}) {
   // props
@@ -28,6 +28,7 @@ function FeedPostEditable ({feedPost, type}) {
 	
 	// useSelectors
 	const sessionUser = useSelector(state => state.session.user);
+	const currentGoal = useSelector(getGoal(goalId));
 	
 	// component logic states
 	const [editable, setEditable] = useState(false);
@@ -48,7 +49,11 @@ function FeedPostEditable ({feedPost, type}) {
 	const handleUpdateGoal = e => {
 		setEditable(false);
 		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, deadline, completionDate, exerciseEntries, updatedAt }
-		dispatch(updateGoal(setterId, updatedGoal));
+		dispatch(updateGoal(setterId, updatedGoal))
+			.then(res => {
+				// setTimeStamp(currentGoal.updatedAt)
+				// setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 
+			})
 	}
 
 	const handleDeleteGoal = e => {

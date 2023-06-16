@@ -20,6 +20,7 @@ import Test from './components/Test/Test';
 import { getCurrentUser } from './store/session';
 import FloatingMenu from './components/FloatingMenu/FloatingMenu';
 import MainPageWrapper from './components/MainPageWrapper/MainPageWrapper';
+import Footer from './components/Footer/Footer';
 
 
 function App() {
@@ -58,6 +59,8 @@ function App() {
       </MainPageWrapper>
       
         </Switch>
+      <div className='footer-offset'/>
+      <Footer />
     </div>
   );
 }

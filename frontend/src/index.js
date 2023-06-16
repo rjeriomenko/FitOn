@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import configureStore from './store/store';
 import { ModalProvider } from './context/Modal';
+import { ScrollToTop } from './utils/utils';
 
 const store = configureStore({});
 
@@ -14,6 +15,7 @@ function Root() {
     <ModalProvider>
       <Provider store={store}>
         <BrowserRouter>
+          <ScrollToTop />
           <App/>
         </BrowserRouter>
       </Provider>

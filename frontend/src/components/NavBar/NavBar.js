@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/session';
+import { Redirect } from 'react-router-dom';
 import './NavBar.css';
 
 function NavBar () {

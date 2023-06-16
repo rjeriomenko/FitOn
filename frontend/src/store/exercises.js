@@ -85,7 +85,6 @@ export const fetchUserExercises = userId => async dispatch => {
     }
 };
 
-//BUILT AND TESTED ABOVE
 export const createExercise = (exercise) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/exercises`, {
@@ -102,6 +101,7 @@ export const createExercise = (exercise) => async dispatch => {
     }
 };
 
+//BUILT AND TESTED ABOVE
 //Stores error message in user key exercises array
 export const fetchUserExercise = (userId, goalId, exerciseId) => async dispatch => {
     try {

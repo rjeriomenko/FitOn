@@ -18,25 +18,27 @@ router.post('/', requireUser, validateExerciseInput, async (req, res, next) => {
             reps: req.body.reps,
             time: req.body.time,
             name: req.body.name,
-            setter: req.body.userId, 
+            setter: req.body.setter, 
             entryId: req.body.entryId
         });
 
         const exercise = await newExercise.save();
+
         if (!exercise) {
             const error = new Error('Error saving exercise - please review inputs');
             error.statusCode = 422;
             throw error;
         }
-        await exercise ///THIS NO WORK
-            .populate('setter', '_id username')
-            .populate('entryId', '_id date');
 
-        const user = await User.findById(req.body.userId);
+        await exercise
+            .populate('setter', '_id username')
+            // .populate('entryId', '_id date');
+
+        const user = await User.findById(req.body.setter);
         user.exercises.push(exercise._id);
 
         user.goals.forEach((goal) => {
-            const exerciseEntry = goal.exerciseEntries.find(    ////SHOULD THIS BE FILTER???
+            const exerciseEntry = goal.exerciseEntries.find(
                 (entry) => entry._id.toString() === req.body.entryId
             );
             exerciseEntry.exercises.push(exercise._id);
@@ -54,7 +56,9 @@ router.post('/', requireUser, validateExerciseInput, async (req, res, next) => {
 // show (singular and index?) (use .populate()!!)
 router.get('/:exerciseId', async (req, res, next) => {
     try {
-        const exercise = await Exercise.findById(req.params.exerciseId).populate('setter', '_id username').populate('entryId', '_id date');
+        const exercise = await Exercise.findById(req.params.exerciseId)
+            .populate('setter', '_id username')
+            // .populate('entryId', '_id date');
 
         if (!exercise) {
             const error = new Error('Exercise not found');
@@ -74,7 +78,7 @@ router.get('/', async (req, res, next) => {
         const formattedExercises = {};
         const exercises = await Exercise.find({})
             .populate('setter', '_id username')
-            .populate('entryId', '_id date');
+            // .populate('entryId', '_id date');
 
         exercises.forEach(exercise => {
             formattedExercises[exercise.id] = exercise;
@@ -105,7 +109,7 @@ router.get('/:userId', requireUser, async (req, res, next) => {
         
         const exercises = await Exercise.find({ _id: { $in: combinedExerciseArrays } })
             .populate('setter', '_id username')
-            .populate('entryId', '_id date');
+            // .populate('entryId', '_id date');
 
         exercises.forEach(exercise => {
             formattedExercises[exercise.id] = exercise;

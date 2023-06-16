@@ -4,25 +4,25 @@ import { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import ExerciseEventForm from '../Exercise/ExerciseEventForm';
 
-// Just to test modal popup
-import LoginForm from '../SessionForms/LoginForm';
-
 const FloatingMenu = (props) => {
 	const loggedIn = useSelector(state => !!state.session.user);
 	const [showExerciseEntry, setShowExerciseEntry] = useState(false);
+	const [hover, setHover] = useState(false);
+
 	return (
 		<>
 			{loggedIn && <div className="floating-menu-container" onClick={e => setShowExerciseEntry(true)}>
-					<ul className='floating-menu-links-list'>
-						<li><i class="fa-solid fa-circle"></i></li>
-						<li><i class="fa-solid fa-circle"></i></li>
-						<li><i class="fa-solid fa-circle"></i></li>
+					<ul 
+						onMouseEnter={e => setHover(true)} 
+						onMouseLeave={e => setHover(false)}
+						className='floating-menu-links-list'>
+						{!hover && <li><i class="fa-solid fa-plus fa-2xl"></i></li>}
+						{hover && <li><i class="fa-solid fa-plus fa-fade fa-2xl"></i></li>}
 					</ul>
 				</div>
 			}
 			{showExerciseEntry && <Modal onClose={e => setShowExerciseEntry(false)}>
-				{/* <LoginForm /> */}
-				<ExerciseEventForm />
+				<ExerciseEventForm setShowExerciseEntry={setShowExerciseEntry}/>
 			</Modal>}
 		</>
 	)

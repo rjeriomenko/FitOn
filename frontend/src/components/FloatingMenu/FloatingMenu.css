@@ -2,23 +2,40 @@
 	position: fixed;
 	z-index: 11;
 	top: 50%;
-	right: 10px;
+	right: 20px;
 	transform: translate(-50%, -50%);
-	background-color: var(--form-header-color);
+	background-color: var(--yellow);
 	/* border: 1px solid red; */
 	min-width: 0px;
 	min-height: 0px;
 	padding: 5px;
-	border-radius: 20px;
-	box-shadow: 0px 0px 2px var(--form-header-color);
+	aspect-ratio: 1/1;
+	border-radius: 50%;
+	box-shadow: 0px 0px 2px var(--yellow);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: background-color 0.5s;
+	/* animation: pulsing-button ; */
+	animation: pulsing-button 1.8s ease-in-out 0s infinite alternate both;
+
+}
+
+@keyframes pulsing-button {
+	0% {
+		background-color: var(--yellow);
+	}
+	100% {
+		background-color: var(--white);
+	}
 }
 
 .floating-menu-links-list > li {
 	margin: 5px;
-	font-size: 10px;
+	font-size: 28px;
+	color: var(--black)
 }
 
 .floating-menu-container:hover {
 	background-color: azure;
-	transition: background-color 0.5s;
 }

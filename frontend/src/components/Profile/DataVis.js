@@ -122,7 +122,7 @@ function DataVis() {
         const stackedBarChart = new Chart(chartElement, {
           type: 'bar',
           data: chartData,
-          options: chartOptions,
+          options: chartOptions
         });
 
         return () => {

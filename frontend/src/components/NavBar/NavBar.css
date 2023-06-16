@@ -65,3 +65,8 @@ body {
 
 .nav-bar-container h1 {
 }
+
+#nav-link-id:hover {
+	transition: 0.3s ease;
+    transform: scale(1.01);
+}

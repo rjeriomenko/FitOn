@@ -5,6 +5,7 @@ import { POST_TYPE_GOAL, POST_TYPE_EXERCISE_ENTRY } from "./Feed";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
+import { Link } from "react-router-dom";
 
 function FeedPostEditable ({feedPost, type}) {
   // props
@@ -81,15 +82,15 @@ function FeedPostEditable ({feedPost, type}) {
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
-					<div className="post-username">{username}</div>
+					<Link to={`/feed/${setterId}`}><div className="post-username">{username}</div></Link>
 					<div className="post-timestamp">{timestamp}</div>
 				</div>
 				<br/>
-				{!editable && <div className="feed-post-row">
+				<Link to={`/profile`}>{!editable && <div className="feed-post-row">
 					<span className="post-goal-title">{formTitle}</span>
 					<span>·</span>
 					<span className="post-goal-description">{formDescription}</span>
-				</div>}
+				</div>}</Link>
 				
 				{editable && <>
 					<label>Title

@@ -5,7 +5,7 @@ body {
 }
 
 .links-menu li * {
-	margin: 0px 5px;
+	margin: 0px 8px;
 	cursor: pointer;
 	font-family: var(--sans-serif);
 	/* font-family: var(--serif); */

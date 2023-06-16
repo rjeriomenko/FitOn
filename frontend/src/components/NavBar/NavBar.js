@@ -17,21 +17,21 @@ function NavBar () {
     if (loggedIn) {
       return (
         <ul className="links-nav nav-links">
-          <li><Link to={'/feed'}>Explore</Link></li>
+          <li id="nav-link-id"><Link to={'/feed'}>Explore</Link></li>
           {/* <li className='under-construction'><Link to={'/'}>Friends</Link></li> */}
-          <li><Link to={`/feed/${sessionUser._id}`}>Progress</Link></li>
-          <li><Link to={'/profile'}>Profile</Link></li>
-          <li><Link to={'/feedPosts/newGoal'}>Create a new goal</Link></li>
-          <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li>
-          <li><Link to={'/feedPosts/myGoal'}>My Goal</Link></li>
-          <li><div onClick={logoutUser}>Logout</div></li>
+          <li id="nav-link-id"><Link to={`/feed/${sessionUser._id}`}>Progress</Link></li>
+          <li id="nav-link-id"><Link to={'/profile'}>Profile</Link></li>
+          <li id="nav-link-id"><Link to={'/feedPosts/newGoal'}>Create Goal</Link></li>
+          {/* <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li> */}
+          <li id="nav-link-id"><Link to={'/feedPosts/myGoal'}>My Goal</Link></li>
+          <li id="nav-link-id"><div onClick={logoutUser}>Logout</div></li>
         </ul>
       );
     } else {
       return (
         <ul className="links-auth nav-links">
-          <li><Link to={'/signup'}>Signup</Link></li>
-          <li><Link to={'/login'}>Login</Link></li>
+          <li id="nav-link-id" ><Link to={'/signup'}>Signup</Link></li>
+          <li id="nav-link-id" ><Link to={'/login'}>Login</Link></li>
         </ul>
       );
     }

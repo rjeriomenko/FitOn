@@ -28,7 +28,7 @@ function LoginForm () {
 
   const demoLogin = (e) => {
     e.preventDefault();
-    const demoEmail = "demo@demo.io"
+    const demoEmail = "seed@demo.io"
     const demoPassword = "password"
     setEmail(demoEmail)
     setPassword(demoPassword)

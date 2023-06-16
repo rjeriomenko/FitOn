@@ -309,7 +309,7 @@ router.get('/:userId/goals/:goalId/entries', requireUser, async (req, res, next)
 });
 
 // per user ENTRY INDEX (get)
-router.get('/:userId/entries', requireUser, async (req, res, next) => {
+router.get('/:userId/entries', async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
     if (!user) {

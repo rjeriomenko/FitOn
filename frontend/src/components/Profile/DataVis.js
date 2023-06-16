@@ -4,134 +4,149 @@ import axios from 'axios';
 import './DataVis.css'
 import { useSelector } from 'react-redux';
 
-// static data
-// function DataVis () {
-//   const chartRef = useRef(null);
-//   const today = new Date().toISOString().split('T')[0];
-  
-//   const chartData = {
-//       labels: ['Label 1', 'Label 2', 'Label 3'],
-//       datasets: [
-//           {
-//           label: 'Dump Truck 1',
-//           backgroundColor: '#f44336',
-//           data: [10, 20, 30],
-//           },
-//           {
-//           label: 'Dump Truck 2',
-//           backgroundColor: '#2196f3',
-//           data: [15, 25, 35],
-//           }
-//       ]
-//   }
-
-//   const chartOptions = {
-//       responsive: false,
-//       maintainAspectRatio: false,
-//       scales: {
-//         x: {
-//           stacked: true,
-//         },
-//         y: {
-//           stacked: true,
-//         },
-//       },
-//     };
-
-//   useEffect(() => {
-//       const chartElement = chartRef.current;
-//       const stackedBarChart = new Chart(chartElement, {
-//         type: 'bar',
-//         data: chartData,
-//         options: chartOptions,
-//       });
-    
-//       return () => {
-//         stackedBarChart.destroy();
-//       };
-//   }, []);
-
-//   return <canvas ref={chartRef} />;
-
-// }
-
-function DataVis () {
+function DataVis() {
   const chartRef = useRef(null);
-  const today = new Date().toISOString().split('T')[0];
-
-  const sessionUserId = useSelector(state => state.session.user._id)
-      
-  if (!sessionUserId) {
-    console.log('Error: sessionUserId is not available');
-  }
+  const session = useSelector(state => state.session);
+  const sessionUserId = session?.user?._id;
   
-  const fetchData = async () => {
+  const fetchExerciseEntry = async () => {
     try {
-      const res = await axios.get('./api/exercises/');
+      const res = await axios.get(`./api/users/${sessionUserId}/entries`);
       const data = res.data;
-      // console.log(data)
-      // const userExercises = [] /
-      
-      const filteredData = data.filter(obj => obj.setter._id === sessionUserId);
-      console.log('Filtered data:', filteredData);
-      console.log('monka')
+      const exerciseEntry = {};
+  
+      Object.keys(data).forEach(key => {
+        const { exerciseEntry: { exercises, date } } = data[key];
+        exerciseEntry[date] = exercises;
+      });
+  
+      const result = {};
+  
+      for (const date in exerciseEntry) {
+        const exerciseIds = exerciseEntry[date];
+  
+        const requests = exerciseIds.map(exerciseId => axios.get(`./api/exercises/${exerciseId}`));
+        const responses = await Promise.all(requests);
+        const exerciseData = responses.map(response => response.data);
+  
+        const exercises = exerciseData.reduce((acc, exercise) => {
+          const { name, sets, reps } = exercise;
+          acc[name] = sets * reps;
+          return acc;
+        }, {});
+  
+        result[date] = Object.entries(exercises).map(([name, total]) => ({ [name]: total }));
+      }
+
+      return result;
+  
     } catch (err) {
-      console.log('Error fetching data:', err)
+      console.log('Error fetching data:', err);
     }
-  }
-
-  fetchData()
-
-
-
-  const chartData = {
-      labels: ['Monday', 'Tuesday', 'Wedneday'],
-      datasets: [
-          {
-          label: 'Dump Truck Exercise 1',
-          backgroundColor: '#f44336',
-          data: [10, 20, 30],
-          },
-          {
-          label: 'Dump Truck Exercise 2',
-          backgroundColor: '#2196f3',
-          data: [15, 25, 35],
-          }
-      ]
-  }
-
-  const chartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        x: {
-          stacked: true,
-        },
-        y: {
-          stacked: true,
-          title: {
-            display: true, 
-            text: 'Reps X Sets'
-          }
-        },
-      },
-    };
+  };
 
   useEffect(() => {
-      const chartElement = chartRef.current;
-      const stackedBarChart = new Chart(chartElement, {
-        type: 'bar',
-        data: chartData,
-        options: chartOptions,
-      });
-    
-      return () => {
-        stackedBarChart.destroy();
-      };
+    const fetchData = async () => {
+      try {
+        const data = await fetchExerciseEntry();
+        const labels = Object.keys(data);
+
+        const totals = {
+          'Squats': [],
+          'Glute Bridges': [],
+          'Hip Thrusts': [],
+        };
+
+        labels.forEach(date => {
+          const exercises = data[date];
+          exercises.forEach(exercise => {
+            const exerciseName = Object.keys(exercise)[0];
+            const exerciseValue = exercise[exerciseName];
+            totals[exerciseName].push(exerciseValue);
+          });
+        });
+
+        const datasets = Object.entries(totals).map(([exercise, values]) => {
+          return {
+            label: exercise,
+            backgroundColor: generateRandomColor(),
+            data: values,
+          };
+        });
+
+        const chartData = {
+          labels: labels,
+          datasets: datasets,
+        };
+
+        const chartOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              stacked: true,
+              ticks: {
+                font: {
+                  size: 14
+                }
+              }
+            },
+            y: {
+              stacked: true,
+              ticks: {
+                font: {
+                  size: 14
+                }
+              },
+              title: {
+                display: true, 
+                text: 'Reps X Sets'
+              }
+            },
+          },
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                font: {
+                  size: 16
+                },
+              },
+            },
+          },
+        }
+        
+
+        // creating chart
+        const chartElement = chartRef.current;
+        const stackedBarChart = new Chart(chartElement, {
+          type: 'bar',
+          data: chartData,
+          options: chartOptions,
+        });
+
+        return () => {
+          stackedBarChart.destroy();
+        };
+
+      } catch (err) {
+        console.log('Error fetching data:', err);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  return <canvas ref={chartRef} />;
+  const generateRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
 
+  return <canvas ref={chartRef} />;
 }
 
 export default DataVis;

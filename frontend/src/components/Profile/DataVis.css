@@ -4,5 +4,10 @@ canvas {
 }
 
 .data-vis {
-    padding: 20px 0;
+    padding: 100px 60px;
+    padding-top: 50px;
+}
+
+.progress-title {
+    padding: 20px;
 }

@@ -120,6 +120,9 @@ function Profile () {
 
       {/* DATA VIZ - START */}
       {/* DATA VIZ - START */}
+      <div className="progress-title">
+        <h2>my progress...</h2>
+      </div>
 
       <div className="data-vis">
         <DataVis />

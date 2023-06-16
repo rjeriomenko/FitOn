@@ -41,7 +41,7 @@ function NavBar () {
     <div className='nav-bar-container'>
       {/* <h1>FitOn</h1> */}
       {/* Include logo image */}
-      <img className="nav-bar-logo" src={require(`../../images/logo-v1-03.png`)}/>
+      <Link to={"/"}><img className="nav-bar-logo" src={require(`../../images/logo-v1-03.png`)}/></Link>
       <div className='nav-bar-divider'></div>
 			<div className='links-menu'>
       	{ getLinks() }

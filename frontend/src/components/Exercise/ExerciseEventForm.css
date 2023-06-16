@@ -3,9 +3,17 @@
     flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background-color: var(--form-background-color);
+	background-color: var(--light-blue);
     padding: 0px 50px;
+    border: 0.75px solid var(--soft-white);
+    outline: 1px solid var(--light-blue);
+    outline-offset: 5px;
+    border-radius: 8px;
 	/* height: 80vh; */
+}
+
+.exercise-form-container input {
+    border: none;
 }
 
 .exercise-form {

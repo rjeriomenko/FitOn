@@ -39,6 +39,7 @@ function GoalCreate () {
   return (
     <>
       <div className="create-feed-post-container">
+        <div>Goal pls</div>
         <form className="create-feed-post" onSubmit={handleSubmit}>
           <span>Title</span>
           <input 

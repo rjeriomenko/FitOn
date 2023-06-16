@@ -82,7 +82,8 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
 
     return (
         <div className="exercise-form-container">
-            <h2>Add Your Workout</h2>
+            {/* <h2>Add Your Workout</h2> */}
+            <h2>· add your workout ·</h2>
             <br></br>
             {/* <h2>gigachad lookin monka swole</h2> */}
             <form className="exercise-form" onSubmit={handleSubmit}>
@@ -112,7 +113,7 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
                         type="textarea"
                         value={note}
                         onChange={e => setNote(e.currentTarget.value)}
-                        placeholder="How was your workout? o.o"
+                        placeholder="How was your workout?"
                     />
                     <div className="errors">{errors?.note}</div>
 

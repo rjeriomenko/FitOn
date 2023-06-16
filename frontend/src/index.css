@@ -50,30 +50,40 @@ table {
 body {
 	/* COLORSPACE */
 	--dark-blue: #024059;
-	--dark-blue-lighter: #025a7d;
-	--dark-blue-lighter: #04445e;
 	--dark-blue-lighter: #064a66;
 	--medium-blue: #6BA7BE;
+	--medium-blue-darker: #279bc9;
 	--light-blue: #b0cdd9;
+	--light-blue-darker: #b7d2de;
 	--orange: #F2490C;
 	--dark-red: #730202;
 	--yellow: yellow;
 	--soft-white: #FBFAF5;
 	--white: white;
+	--black: black;
 
 	/* COLORSPACE: RATING GRADIENT */
-	--rating-transparency: 0.9;
+
+	--rating-5: rgba(255, 255, 0, 1);
+	--rating-4: rgba(255, 237, 88, 1);
+	--rating-3: rgba(255, 223, 132, 1);
+	--rating-2: rgba(239, 212, 169, 1);
+	--rating-1: rgba(206, 205, 204, 1);
+
+
+	--rating-transparency: 0.95;
 	--rating-5: rgba(255, 255, 0, var(--rating-transparency));
 	--rating-4: rgba(255, 237, 88, var(--rating-transparency));
 	--rating-3: rgba(255, 223, 132, var(--rating-transparency));
 	--rating-2: rgba(239, 212, 169, var(--rating-transparency));
 	--rating-1: rgba(206, 205, 204, var(--rating-transparency));
 
-	--rating-5: rgba(251, 5, 11, var(--rating-transparency));
+
+	/* --rating-5: rgba(251, 5, 11, var(--rating-transparency));
 	--rating-4: rgba(207, 52, 32, var(--rating-transparency));
 	--rating-3: rgba(163, 65, 46, var(--rating-transparency));
 	--rating-2: rgba(119, 70, 58, var(--rating-transparency));
-	--rating-1: rgba(69, 69, 69, var(--rating-transparency));
+	--rating-1: rgba(69, 69, 69, var(--rating-transparency)); */
 
 	/* FONTSPACE */
 	--serif: Georgia, serif;
@@ -86,12 +96,12 @@ body {
 
 	line-height: 1;
 	background-color: var(--light-blue);
-	background-color: var(--form-background-color);
+	/* background-color: var(--form-background-color); */
 	height: 100%;
 }
 
 body {
-	
+
 }
 
 ol, ul {

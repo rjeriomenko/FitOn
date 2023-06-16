@@ -1,9 +1,9 @@
 body {
-	--form-background-color: var(--dark-blue);
+	--form-background-color: var(--medium-blue);
 	--form-button-color: var(--dark-red);
 	--form-errors-color: var(--yellow);
 	--form-text-input-color: var(--white);
-	--form-header-color: var(--light-blue);
+	--form-header-color: var(--dark-blue);
 	--form-font-family: var(--serif);
 }
 
@@ -60,7 +60,7 @@ body {
 
 .text-input {
 	border: none;
-	border-bottom: 2px solid var(--form-header-color);
+	border-bottom: 2px solid var(--light-blue);
 	width: 100%;
 	background-color: var(--form-background-color);
 	color: var(--form-text-input-color);

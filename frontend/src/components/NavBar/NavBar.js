@@ -18,8 +18,7 @@ function NavBar () {
       return (
         <ul className="links-nav nav-links">
           <li><Link to={'/feed'}>Explore</Link></li>
-          {/* need to define routes: Friends, Progress */}
-          <li className='under-construction'><Link to={'/'}>Friends</Link></li>
+          {/* <li className='under-construction'><Link to={'/'}>Friends</Link></li> */}
           <li><Link to={`/feed/${sessionUser._id}`}>Progress</Link></li>
           <li><Link to={'/profile'}>Profile</Link></li>
           <li><Link to={'/feedPosts/newGoal'}>Create a new goal</Link></li>
@@ -40,7 +39,9 @@ function NavBar () {
 
   return (
     <div className='nav-bar-container'>
-      <h1>FitOn</h1>
+      {/* <h1>FitOn</h1> */}
+      {/* Include logo image */}
+      <img className="nav-bar-logo" src={require(`../../images/logo-v1-03.png`)}/>
       <div className='nav-bar-divider'></div>
 			<div className='links-menu'>
       	{ getLinks() }

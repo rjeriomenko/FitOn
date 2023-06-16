@@ -33,7 +33,8 @@ function GoalShow () {
     return (
         <>
             <div className="goals-container">
-                <h2>My Current Goal</h2>
+                {/* <h2>My Current Goal</h2> */}
+                <h2>my current goal...</h2>
                 
                 {currentGoal ? (
                         <div className="grid-item" id="current-goal">
@@ -72,7 +73,7 @@ function GoalShow () {
                 <br></br>
                 <br></br>
 
-                <h2>Previous Goals</h2>
+                <h2>previous goals...</h2>
                 <div className="goals-grid-container">
                     {goalItems}
                 </div>

@@ -8,7 +8,7 @@
 	box-sizing: border-box;
 	width: var(--tile-side-length);
 	height:var(--tile-side-length);
-	/* background-color: var(--white); */
+	/* background-color: var(--dark-blue); */
 	/* border: 1px rgba(85, 0, 255, 0.648) dashed; */
 	/* margin: 1px; */
 }
@@ -45,9 +45,19 @@
 	color: var(--white);
 }
 
+.tile-rating-5 span {
+	color: var(--medium-blue);
+
+}
+
 .tile-date-text span:nth-child(1) {
 	color: var(--medium-blue);
 	font-weight: 400;
+}
+
+.tile-rating-5 span:nth-child(1) {
+	/* color: var(--medium-blue-darker); */
+	color:rgb(121, 119, 141);
 }
 
 

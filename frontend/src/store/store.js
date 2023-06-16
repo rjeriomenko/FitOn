@@ -5,13 +5,15 @@ import errors from './errors';
 import feedPosts from './feedPosts';
 import goals from './goals';
 import exerciseEntries from './exerciseEntries';
+import exercises from './exercises';
 
 const rootReducer = combineReducers({
   session,
 	errors,
   feedPosts,
   goals,
-  exerciseEntries
+  exerciseEntries,
+  exercises
 });
 
 let enhancer;

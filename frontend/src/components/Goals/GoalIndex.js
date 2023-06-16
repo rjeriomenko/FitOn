@@ -28,7 +28,7 @@ function GoalShow () {
     // Change currentGoal to be the first goal in userGoals from the back without a completedDate,
     // if not found, no currentGoal.
     const currentGoal = userGoals.slice(-1)[0];
-    const goalItems = userGoals.slice(0,-1).map(goal => <GoalIndexItem goal={goal} />)
+    const goalItems = userGoals.slice(0,-1).reverse().map(goal => <GoalIndexItem goal={goal} />)
 
     return (
         <>

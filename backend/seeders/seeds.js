@@ -25,77 +25,47 @@ const seedData = async () => {
     const seedUser = new User({
       username: 'bigSeedMan',
       email: 'seed@demo.io',
-      hashedPassword: bcrypt.hashSync('password', 10)
+      hashedPassword: bcrypt.hashSync('password', 10),
     });
-
-    // Define the week's dates
-    const weekDates = [
-      '2023/07/05',
-      '2023/07/06',
-      '2023/07/07',
-      '2023/07/08',
-      '2023/07/09',
-      '2023/07/10',
-      '2023/07/11'
-    ];
-
-    // Create an array to store the generated exercise entry IDs
-    const exerciseEntries = [];
-
-    // Create exercise entries for each date
-    for (let i = 0; i < weekDates.length; i++) {
-      const date = weekDates[i];
-
-      // Create an exercise entry for the current date
-      const exerciseEntry = new ExerciseEntry({
-        date: date,
-        note: 'Completed workout',
-        rating: Math.floor(Math.random() * 5) + 1
-      });
-
-      exerciseEntries.push(exerciseEntry);
-    }
-
-    // Generate routines and exercises for each entry
-    for (let i = 0; i < exerciseEntries.length; i++) {
-      const entry = exerciseEntries[i];
-      const routine = generateRandomRoutine(seedUser);
-
-      // Create exercises for the current entry
-      const entryExercises = routine.map((exercise) => {
-        const { name, sets, reps, setter } = exercise;
-        const newExercise = new Exercise({
-          name,
-          sets,
-          reps,
-          setter,
-          entryId: entry._id
-        });
-        seedUser.exercises.push(newExercise); // Add exercise reference to user's exercises array
-        return newExercise;
-      });
-
-      entry.exercises = entryExercises.map((exercise) => exercise._id);
-    }
 
     // Create a goal
     const seedGoal = new Goal({
       title: 'GROW THAT DUMPTRUCK',
       description: 'I want a BIG FAT DERRIER',
       deadline: '2023/07/28',
-      exerciseEntries: exerciseEntries.map((entry) => ({
-        exerciseEntry: entry._id,
-        rating: Math.floor(Math.random() * 5) + 1,
-        date: entry.date
-      })),
-      updatedAt: Date.now()
+      updatedAt: Date.now(),
     });
 
-    // Assign exercise entries and goal to the user
-    seedUser.exerciseEntries = exerciseEntries;
+    // Create an exercise entry
+    const exerciseEntry = new ExerciseEntry({
+      date: '2023/07/05',
+      note: 'Completed workout',
+      rating: Math.floor(Math.random() * 5) + 1,
+    });
+
+    // Generate exercises and assign entryId and user references
+    const exercises = [];
+    for (let i = 0; i < 3; i++) {
+      const exercise = new Exercise({
+        name: 'Exercise ' + (i + 1),
+        sets: getRandomNumber(3, 5),
+        reps: getRandomNumber(8, 12),
+        setter: seedUser._id,
+        entryId: exerciseEntry._id,
+      });
+      exercises.push(exercise);
+      seedUser.exercises.push(exercise);
+      exerciseEntry.exercises.push(exercise);
+    }
+
+    // Assign exercise entry and exercises to the goal
+    seedGoal.exerciseEntries.push(exerciseEntry);
+
+    // Assign goal to the user
     seedUser.goals.push(seedGoal);
 
-    // Save the user to the database
+    // Save the user and exercises to the database
+    await Promise.all(exercises.map(exercise => exercise.save()));
     await seedUser.save();
 
     console.log('Seed data created successfully!');
@@ -105,31 +75,6 @@ const seedData = async () => {
     // Close the MongoDB connection
     mongoose.connection.close();
   }
-};
-
-// Generate a random routine for a specific entry
-const generateRandomRoutine = (seedUser) => {
-  const exercises = [
-    {
-      name: 'Squats'
-    },
-    {
-      name: 'Glute Bridges'
-    },
-    {
-      name: 'Hip Thrusts'
-    }
-    // Add more exercises as needed
-  ];
-
-  return exercises.map((exercise) => {
-    return {
-      ...exercise,
-      sets: getRandomNumber(3, 5),
-      reps: getRandomNumber(8, 12),
-      setter: seedUser._id
-    };
-  });
 };
 
 // Generate a random number within a range

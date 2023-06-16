@@ -15,6 +15,11 @@ body {
 	background-color: var(--form-background-color);
 }
 
+.session-form-container + * {
+	background-color: var(--form-background-color);
+	
+}
+
 .session-form {
 	border-radius: 8px;
 	padding: 30px;

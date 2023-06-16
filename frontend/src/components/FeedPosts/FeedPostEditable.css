@@ -27,6 +27,7 @@ p, h3 {
 
 .feed-post-editable-container:hover {
 	background-color: var(--light-blue-darker);
+	background-color: var(--soft-white);
 	/* color: black; */
 }
 

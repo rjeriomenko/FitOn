@@ -25,6 +25,7 @@ function Profile () {
   const [mouseOverTextData, setMouseOverTextData] = useState(undefined);
   const [sampleTileSet, setSampleTileSet] = useState([]);
   const [mouseOverTextDataRows, setMouseOverTextDataRows] = useState([]);
+  const [mouseOverDataTotals, setMouseOverDataTotals] = useState({});
 
   const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
 
@@ -37,10 +38,17 @@ function Profile () {
     });
     setMouseOverTextData(matchingExerciseEntry); 
 
+    let totalSets = 0;
+    let totalReps = 0;
+    let totalTime = 0;
+
     // BELOW BUG!!! mouseOverTextData will not have updated via above line of code,
     // and read as 'undefined'.
     // setMouseOverTextDataRows(mouseOverTextData?.exerciseEntry?.exercises?.map(exercise => {
     setMouseOverTextDataRows(matchingExerciseEntry?.exerciseEntry?.exercises?.map(exercise => {
+      totalSets += exercise.sets
+      totalReps += exercise.reps
+      totalTime += exercise.time
       return (
         <tr>
           <td>{exercise.name}</td>      
@@ -50,6 +58,7 @@ function Profile () {
         </tr>
       )
     }))
+    setMouseOverDataTotals({sets: totalSets, reps: totalReps, time: totalTime})
 
   }
 
@@ -165,10 +174,16 @@ function Profile () {
             </thead>
             <tbody>
               {mouseOverTextDataRows}
-              {mouseOverTextDataRows}
-              {mouseOverTextDataRows}
-              {mouseOverTextDataRows}
+              
             </tbody>
+            <tfoot>
+              <tr>
+                <th>Totals</th>
+                <td>{mouseOverDataTotals.sets}</td>
+                <td>{mouseOverDataTotals.reps}</td>
+                <td>{mouseOverDataTotals.time}</td>
+              </tr>
+            </tfoot>
           </table>
         </div>
         {/* STICKY EXERCISE BREAKDOWN - END */}
@@ -178,9 +193,6 @@ function Profile () {
       {/* GOAL'S WORKOUT SELECTOR - END */}
       {/* GOAL'S WORKOUT SELECTOR - END */}
       
-      <div className='profile-container-styles profile-footer'>
-        <h2>FOOTER PLACEHOLDER</h2>
-      </div>
 
     </div>
   )

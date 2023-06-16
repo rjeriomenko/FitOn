@@ -20,7 +20,7 @@ function NavBar () {
           <li id="nav-link-id"><Link to={'/feed'}>Explore</Link></li>
           {/* <li className='under-construction'><Link to={'/'}>Friends</Link></li> */}
           <li id="nav-link-id"><Link to={`/feed/${sessionUser._id}`}>Progress</Link></li>
-          <li id="nav-link-id"><Link to={'/profile'}>Profile</Link></li>
+          <li id="nav-link-id"><Link to={'/profile'}>{sessionUser.username}</Link></li>
           <li id="nav-link-id"><Link to={'/feedPosts/newGoal'}>Create Goal</Link></li>
           {/* <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li> */}
           <li id="nav-link-id"><Link to={'/feedPosts/myGoal'}>My Goal</Link></li>

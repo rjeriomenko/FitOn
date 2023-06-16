@@ -69,7 +69,7 @@ function Feed ({options = {}}) {
   if (sortedGoalPosts.length === 0) return (
     <>
     <div className='feed-posts-container'>
-      <h2>Add your <Link to={`/feedPosts/newGoal`}>goal</Link> to get started!</h2>
+      <h2>add your goal to get started!</h2>
     </div>
     </> 
   )

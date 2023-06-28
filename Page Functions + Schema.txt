@@ -19,6 +19,9 @@ Fetch:
         Discover users' recent goals (non-essential)
         Subscribed/discovered users with recent updates (name)
         Images of subscribed/discovered users with recent updates
+        Create workout's exercise
+        Edit workout's exercise
+        Delete workout's exercise
         Likes by user's goal
         Likes by user's exercise entry
         Create Like for user's goal
@@ -42,6 +45,9 @@ Fetch:
         Edit image of own user's exercise entry
         Delete own user's exercise entry
         Delete image of own user's exercise entry
+        Create workout's exercise
+        Edit workout's exercise
+        Delete workout's exercise
         Likes by user's goal
         Likes by user's exercise entry
         Create Like for user's goal
@@ -68,6 +74,8 @@ Fetch:
         Destroy Like for user's current goal
         Create Like for user's exercise entry
         Destroy Like for user's exercise entry
+        Edit workout's exercise
+        Delete workout's exercise
         Image of user
         Create own image of user
         Destroy own image of user
@@ -107,6 +115,7 @@ Create Exercise Entry Form - Yellow PLUS widget
 Fetch:
     New:
         Create image of own user's exercise entry
+        Create exercise
     Unchanged:
         Create own user's exercise entry
 ----
@@ -151,34 +160,41 @@ Backend Routes:
         Get user's current goal's exercises (assuming current goal embedded in user, assuming selecting exercises from exercise collection) [userid] (array)
         Get exercise entry's exercises (assuming selecting exercises from exercise collection) [exerciseentryid] (array)
     Exercise Entry:
+        Create own user's exercise entry [goalid]
+        Destroy own user's exercise entry [exerciseentryid]
         Edit exercise entry [exerciseentryid]
         Get exercise entries by user (logged in user or other user, assuming selecting exerciseentryids from exerciseentry collection) [userid] (array)
-        Get subscribed users' exercise entries (assuming selecting subscribed userids from subscription collection, assuming selecting exerciseentryids from exerciseentry collection) (.populate imageid) [logged_in_userid] (array)
-        Get discovered users' exercise entries (assuming array of randomly sampled userids from all users in user collection, assuming selecting exerciseentryids from exerciseentry collection) (.populate imageid) [logged_in_userid] (array)
-        Get user's current goal's exercise entries (assuming current goal embedded in user, assuming selecting exerciseentryids from exerciseentry collection) (.populate imageid) [userid] (array)
+        Get subscribed users' exercise entries (assuming selecting subscribed userids from subscription collection, assuming selecting exerciseentryids from exerciseentry collection) [logged_in_userid] (array)
+        Get discovered users' exercise entries (assuming array of randomly sampled userids from all users in user collection, assuming selecting exerciseentryids from exerciseentry collection) [logged_in_userid] (array)
+        Get user's current goal's exercise entries (assuming current goal embedded in user, assuming selecting exerciseentryids from exerciseentry collection) [userid] (array)
     Users:
-        Get all users (.populate imageid)
+        Get all users
         Get user's current goal [userid]
-        Get user (.populate imageid) [userid]
-        Get subscribed users (assuming selecting subscribed userids from subscription collection) (.populate imageid) [logged_in_userid] (array)
+        Get user [userid]
+        Get subscribed users (assuming selecting subscribed userids from subscription collection) [logged_in_userid] (array)
     Goals:
+        Create own user's current goal [userid]
+        Destroy own user's goal (assuming destroying every dependant exercise entry from exercise entry collection) [goalid]
         Edit user's goal (not current goal) [goalid]
         Edit own user's current goal [logged_in_userid]
         Get Current goal of user (logged in user or other user) [userid]
         Get Goals by user (logged in user or other user, assuming selecting goalids from goal collection) [userid] (array)
-        Get subscribed users' goals (assuming selecting subscribed userids from subscription collection, assuming selecting goalids from goal collection) (.populate parent userid + imageid) [logged_in_userid] (array)
-        Get discovered users' goals (assuming array of randomly sampled userids from all users in user collection, assuming selecting goalids from goal collection) (.populate parent userid + imageid) [logged_in_userid] (array) *** INSTEAD OF POPULATING USERID YOU CAN EMBED USERNAME AND USER IMAGE ***
+        Get subscribed users' goals (assuming selecting subscribed userids from subscription collection, assuming selecting goalids from goal collection) (.populate parent userid) [logged_in_userid] (array)
+        Get discovered users' goals (assuming array of randomly sampled userids from all users in user collection, assuming selecting goalids from goal collection) (.populate parent userid) [logged_in_userid] (array) *** INSTEAD OF POPULATING USERID YOU CAN EMBED USERNAME AND USER IMAGE ***
     Subscriptions:
+        Create own user subscription [target userid]
+        Destroy own user subscription [subscriptionid]
         Get own user's subscriptions (assuming selecting target userids from subscription collection) [userid] (array)
     Likes:
+        Create Like for user's goal [goalid]
+        Destroy Like for user's own goal [likeid]
+        Create Like for user's exercise entry [exerciseentryid]
+        Destroy Like for user's exercise entry [likeid]
         Get likes by goal (assuming selecting likeids from like collection) [goalid] (array)
         Get likes by exercise entry (assuming selecting likeids from like collection) [exerciseentryid] (array)
-    Images:
-        Edit exercise entry image [imageid]
-        Edit own user image [imageid]
 
 Schema:
-    Users: (consider making reference array to own user's goals)
+    Users:
         
     Goals:
         Parent userid
@@ -195,9 +211,6 @@ Schema:
     Likes:
         Parent userid
         Targetid
-    Images:
-        Imageurl
-        Sourceid
     All distinct collections except:
         User current goal
 
@@ -209,28 +222,9 @@ Extra frontend functions:
     -Recent exercise events (generate array of recent exercise events from user's exercise events)
     -Use AWS API to get Image of user [WILL_NEED_MULTIPLE_FETCHES]
     -Use AWS API to get Image of exercise entry [WILL_NEED_MULTIPLE_FETCHES]
-
-
---
-REMAINING UNACCOUNTED-FOR FEATURES:
-    (do edit routes first, then index/individual get, then get by, then create/delete)
-    (creates and deletes will require the juggling of dependent destroy and updating in appropriate reference arrays, etc)
-    Create own user's current goal
-    Destroy own user's goal
-    Create own user's exercise entry
-    Destroy own user's exercise entry
-    Create Like for user's goal
-    Destroy Like for user's goal
-    Create Like for user's exercise entry
-    Destroy Like for user's exercise entry
-    Create own user subscription
-    Destroy own user subscription
-    Create image of own user's exercise entry
-    Destroy image of own user's exercise entry
-    Create own image of user
-    Destroy own image of user
+----
 
 Notes:
     All changes related to goals (creating, destroying, editing, giving/removing like) must be reflected in embedded current goal
     No reference arrays (consider using one for user's goals)
-    Not sure if .populate is comprehensive
+    Not sure if .populate is comprehensive   

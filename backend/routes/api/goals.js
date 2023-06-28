@@ -54,7 +54,7 @@ router.patch('/:goalId', requireUser, validateGoalInput, async (req, res, next) 
             const error = new Error('Goal not found');
             error.statusCode = 404;
             throw error;
-        } else if (req.user !== goal.user) {
+        } else if (req.user._id !== goal.user._id) {
             const error = new Error('Cannot edit this goal');
             error.statusCode = 403;
             throw error;

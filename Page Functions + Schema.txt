@@ -127,16 +127,16 @@ Subscriptions (non-essential)
 
 State:
     Users:
-        -Individual (single user)
+        -user (single user)
         -Subscribed (array of users a user is subscribed to) (non-essential)
         -All (all users)
     Goals: 
         -Current (Single user's current goal)
-        -Individual (array of goals one user has or array of previous goals one user has)
+        -user (object of goals one user has)
         -Subscribed (array of goals from all users a user is subscribed to)
         -Discovered (array of goals from all users a user has discovered)
     Exercise Entries:
-        -Individual (array of exercise entries one user has)
+        -user (array of exercise entries one user has)
         -Subscribed (array of exercise entries from all users a user is subscribed to)
         -Discovered (array of exercise entries from all users a user has discovered)
         -Current (array of exercise entries that belong to a user's current goal)
@@ -144,7 +144,7 @@ State:
         -Current (array of exercises that belong to a user's current goal)
         -ExerciseEntry (array of exercises that belong to an exercise entry)
     Subscriptions:
-        -Individual (array of users a logged in user is subscribed to)
+        -user (array of users a logged in user is subscribed to)
     Likes:
         -Goal (array of likes associated with a goal)
         -Exercise Entry (array of likes associated with an exercise entry)

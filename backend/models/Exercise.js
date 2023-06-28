@@ -22,20 +22,28 @@ const ExerciseSchema = new Schema({
             return !(this.reps || this.time)
         }
     },
+    weight: {
+        type: Number,
+        required: false
+    },
     name: {
         type: String,
         required: true
     },
-    setter: {
+    user: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: false
+        ref: 'User'
     },
-    entryId: {
+    goal: {
         type: Schema.Types.ObjectId,
-        ref: 'ExerciseEntry',
-        required: true
+        ref: 'Goal'
+    },
+    workout: {
+        type: Schema.Types.ObjectId,
+        ref: 'ExerciseEntry'
     }
+}, {
+    timestamps: true
 })
 
 module.exports = ExerciseSchema;

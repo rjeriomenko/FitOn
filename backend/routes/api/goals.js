@@ -104,8 +104,11 @@ router.get('/all/:userId', requireUser, async (req, res, next) => {
     try {
         const goals = await Goal.find({ user: req.params.userId })
             .populate('user', '_id username imgUrl createdAt');
+        
+        const goalsObj = {};
+        goals.forEach(goal => goalsObj[goal._id] = goal);
 
-        return res.json(goals);
+        return res.json(goalsObj);
     } catch (err) {
         next(err);
     }

@@ -73,7 +73,7 @@ export const fetchAllUserGoals = () => async dispatch => {
     }
 };
 
-export const fetchUserGoals = userId => async dispatch => {
+export const fetchUserGoals = userId => async dispatch => { /////NEED TO CHANGE THIS FOR A VISIBLE GOALS PAGE
     try {
         const res = await jwtFetch(`/api/users/${userId}/goals`);
         const userGoals = await res.json();
@@ -100,14 +100,14 @@ export const fetchUserGoal = (userId, goalId) => async dispatch => {
     }
 };
 
-export const createGoal = (userId, goal) => async dispatch => {
+export const createGoal = (goal) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/goals`, {
+        const res = await jwtFetch(`/api/goals`, {
             method: 'POST',
             body: JSON.stringify(goal)
         });
         const responseGoal = await res.json();
-        dispatch(receiveNewGoal({ [userId]: [responseGoal] }));
+        dispatch(receiveNewGoal({ [responseGoal._id]: [responseGoal] }));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -195,7 +195,7 @@ export const goalErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const goalsReducer = (state = { all: {}, user: {}, updated: undefined, new: undefined }, action) => {
+const goalsReducer = (state = { all: {}, user: {}, updated: undefined, new: undefined }, action) => {  ///DELETE ALL, UPDATED, AND USER WHEN READY
     let newState = { ...state };
 
     switch (action.type) {
@@ -208,7 +208,7 @@ const goalsReducer = (state = { all: {}, user: {}, updated: undefined, new: unde
         case RECEIVE_USER_GOALS:
             return { ...newState, user: action.goals, updated: undefined, new: undefined };
         case RECEIVE_NEW_GOAL:
-            return { ...newState, updated: undefined, new: action.goal };
+            return { ...newState, new: action.goal };
         case REMOVE_GOAL:
             const cloneStateAll = { ...newState.all };
             delete cloneStateAll[action.goalId];

@@ -1,14 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const ExerciseSchema = require('./Exercise');
 
+//'Workout'
 const ExerciseEntrySchema = new Schema({
-    exercises: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Exercise'
-        }
-    ],
     date: {
         type: String,
         required: true,
@@ -20,8 +14,22 @@ const ExerciseEntrySchema = new Schema({
     rating: {
         type: Number,
         required: true
+    },
+    imgUrl: {
+        type: String,
+        required: false
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    goal: {
+        type: Schema.Types.ObjectId,
+        ref: 'Goal'
     }
-})
+}, {
+    timestamps: true
+});
 
 module.exports = ExerciseEntrySchema;
 mongoose.model('ExerciseEntry', ExerciseEntrySchema);

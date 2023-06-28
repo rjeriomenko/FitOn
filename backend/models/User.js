@@ -15,18 +15,14 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    goals: [
-        {
-            type: GoalSchema,
-            required: false
-        }
-    ],
-    exercises: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Exercise'
-        }
-    ],
+    currentGoal: {
+        type: GoalSchema,
+        required: false
+    },
+    imgUrl: {
+        type: String,
+        required: false
+    }
 }, {
     timestamps: true
 });

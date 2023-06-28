@@ -8,6 +8,9 @@ const csurf = require('csurf');
 const { isProduction } = require('./config/keys');
 
 require('./models/User');
+require('./models/ExerciseEntry');
+require('./models/Goal');
+require('./models/Exercise');
 require('./config/passport');
 const passport = require('passport');
 
@@ -15,6 +18,7 @@ const usersRouter = require('./routes/api/users');
 const csrfRouter = require('./routes/api/csrf');
 const feedRouter = require('./routes/api/feed');
 const exercisesRouter = require('./routes/api/exercises');
+const goalsRouter = require('./routes/api/goals');
 
 const app = express();
 
@@ -42,6 +46,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/csrf', csrfRouter);
 app.use('/api/feed', feedRouter);
 app.use('/api/exercises', exercisesRouter);
+app.use('/api/goals', goalsRouter);
 app.use(passport.initialize()); //*
 
 if (isProduction) {

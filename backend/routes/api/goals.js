@@ -49,7 +49,7 @@ router.get('/:goalId', requireUser, async (req, res, next) => {
 // edit a goal (patch)
 router.patch('/:goalId', requireUser, validateGoalInput, async (req, res, next) => {
     try {
-        const goal = await Goal.findById(req.params.goalId);
+        let goal = await Goal.findById(req.params.goalId);
         if (!goal) {
             const error = new Error('Goal not found');
             error.statusCode = 404;
@@ -67,7 +67,9 @@ router.patch('/:goalId', requireUser, validateGoalInput, async (req, res, next) 
 
         await goal.save();
 
-        req.user.currentGoal = goal;
+        if (goal._id === req.user.currentGoal._id) {
+            req.user.currentGoal = goal;
+        }
         await req.user.save();
 
         goal = await goal.populate('user', '_id username imgUrl createdAt');
@@ -104,7 +106,7 @@ router.get('/all/:userId', requireUser, async (req, res, next) => {
     try {
         const goals = await Goal.find({ user: req.params.userId })
             .populate('user', '_id username imgUrl createdAt');
-        
+
         const goalsObj = {};
         goals.forEach(goal => goalsObj[goal._id] = goal);
 

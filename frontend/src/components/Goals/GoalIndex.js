@@ -10,16 +10,18 @@ function GoalShow () {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const sessionUserId = sessionUser._id;
-    const userGoalsObj = useSelector(getUserKeyGoals);
-    const userGoals = userGoalsObj[`${sessionUserId}`];
+    const userGoalsObj = useSelector(getUserKeyGoals); //RESTRUCTURE: will change to getIndividualGoals for a given user
+    // const userGoalsObj = useSelector(getIndividualGoals); //RESTRUCTURE: will change to getIndividualGoals for a given user
+    // const userGoals = userGoalsObj[`${sessionUserId}`]; //RESTRUCTURE: 
     
     useEffect(() => {
-        dispatch(fetchUserGoals(sessionUser._id))
+        // dispatch(fetchUserGoals(sessionUser._id))
+        debugger
     // }, [userGoalsObj]) // console.log goes crazy
     }, []) // will need to refresh page to see updated goal details
     
     
-    if (!userGoals) {
+    if (!userGoalsObj) {
         return (
             <div> Loading... </div>
         )
@@ -27,8 +29,13 @@ function GoalShow () {
     
     // Change currentGoal to be the first goal in userGoals from the back without a completedDate,
     // if not found, no currentGoal.
-    const currentGoal = userGoals.slice(-1)[0];
-    const goalItems = userGoals.slice(0,-1).reverse().map(goal => <GoalIndexItem goal={goal} />)
+    // const currentGoal = userGoals.slice(-1)[0];
+    // const goalItems = userGoals.slice(0,-1).reverse().map(goal => <GoalIndexItem goal={goal} />)
+    const currentGoal = sessionUser.currentGoal;
+    const goalItems = [];
+    for(let [goalId, goal] of Object.entries(userGoalsObj)) {
+        goalItems.push(<GoalIndexItem goal={goal} />)
+    }
 
     return (
         <>

@@ -6,6 +6,7 @@ import feedPosts from './feedPosts';
 import goals from './goals';
 import exerciseEntries from './exerciseEntries';
 import exercises from './exercises';
+import users from './users';
 
 const rootReducer = combineReducers({
   session,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   feedPosts,
   goals,
   exerciseEntries,
-  exercises
+  exercises,
+  users
 });
 
 let enhancer;

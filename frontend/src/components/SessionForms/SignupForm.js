@@ -53,7 +53,7 @@ function SignupForm () {
 
   const demoLogin = (e) => {
     e.preventDefault();
-    const demoEmail = "seed@demo.io"
+    const demoEmail = "sugar@email.com"
     const demoPassword = "password"
     setUsername(demoEmail)
     setEmail(demoEmail)

@@ -5,7 +5,7 @@ import './ExerciseEventForm.css'
 
 import { createExerciseEntry } from '../../store/exerciseEntries';
 import { clearExerciseEntryErrors, receiveExerciseEntryErrors } from '../../store/exerciseEntries';
-import { getUserKeyGoals, getGoals } from '../../store/goals';
+import { getUserGoals} from '../../store/goals';
 
 
 function ExerciseEventForm ({setShowExerciseEntry}) {
@@ -21,7 +21,7 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
 
     const sessionUser = useSelector(state => state.session.user);
     const sessionUserId = sessionUser._id;
-    const userGoalsObj = useSelector(getUserKeyGoals);
+    const userGoalsObj = useSelector(getUserGoals);
     const userGoals = userGoalsObj ? userGoalsObj[`${sessionUserId}`] : null;
     const currentGoal = userGoals ? userGoals.slice(-1)[0] : null;
 

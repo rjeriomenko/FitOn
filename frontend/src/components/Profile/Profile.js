@@ -1,7 +1,7 @@
 import GoalIndexItem from '../Goals/GoalIndexItem';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteGoal, fetchUserGoals, getUserKeyGoals } from '../../store/goals'
+import { deleteGoal, fetchUserGoals } from '../../store/goals'
 import { Link } from 'react-router-dom';
 
 import { fetchAllUserExerciseEntries, fetchUserExerciseEntries } from '../../store/exerciseEntries';

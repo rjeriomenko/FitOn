@@ -83,14 +83,22 @@ router.patch('/:goalId', requireUser, validateGoalInput, async (req, res, next) 
 // delete a goal (delete)
 router.delete('/:goalId', requireUser, async (req, res, next) => {
     try {
-        const goal = await Goal.findOneAndDelete({ _id: req.params.goalId });
+        const goal = await Goal.findById(req.params.goalId);
         if (!goal) {
             const error = new Error('Goal not found');
             error.statusCode = 404;
             throw error;
         }
 
-        if (req.user.currentGoal && req.user.currentGoal._id === goal._id) {
+        if (goal.user.toString() !== req.user._id.toString()) {
+            const error = new Error('You have no power here, Gandalf the Grey');
+            error.statusCode = 403;
+            throw error;
+        }
+
+        await goal.deleteOne();
+
+        if (req.user.currentGoal && req.user.currentGoal._id.toString() === goal._id.toString()) {
             req.user.currentGoal = null;
             await req.user.save();
         }

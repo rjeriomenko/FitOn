@@ -71,5 +71,56 @@ router.get('/byGoal/:goalId', requireUser, async (req, res, next) => {
     }
 });
 
+// PATCH workout 
+router.patch('/:entryId', requireUser, validateExerciseEntryInput, async (req, res, next) => {
+    try {
+        let entry = await ExerciseEntry.findById(req.params.entryId);
+        if (!entry) {
+            const error = new Error('Entry not found');
+            error.statusCode = 404;
+            throw error;
+        } else if (req.user._id.toString() !== entry.user.toString()) {
+            const error = new Error('Cannot edit this workout');
+            error.statusCode = 403;
+            throw error;
+        }
+
+        entry.date = req.body.date || entry.date
+        entry.note = req.body.note || entry.note
+        entry.rating = req.body.rating || entry.rating
+        entry.imgUrl = req.body.imgUrl || entry.imgUrl
+
+        await entry.save();
+
+        entry = await entry.populate('user', '_id username imgUrl createdAt');
+
+        return res.json(entry);
+    } catch (err) {
+        next(err);
+    }
+});
+
+// DELETE workout
+router.delete('/:entryId', requireUser, async (req, res, next) => {
+    try {
+        let entry = await ExerciseEntry.findById(req.params.entryId);
+        if (!entry) {
+            const error = new Error('Entry not found');
+            error.statusCode = 404;
+            throw error;
+        } else if (entry.user.toString() !== req.user._id.toString()) {
+            const error = new Error('You have no power here, Gandalf the Grey');
+            error.statusCode = 403;
+            throw error;
+        }
+
+        await entry.deleteOne();
+        
+        return res.json({ message: 'Workout successfully deleted' });
+
+    } catch (err) {
+        next(err);
+    }
+});
 
 module.exports = router;

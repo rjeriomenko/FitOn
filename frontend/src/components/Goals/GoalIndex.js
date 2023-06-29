@@ -5,6 +5,7 @@ import { deleteGoal, fetchUserGoals, getUserKeyGoals } from '../../store/goals'
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './GoalIndex.css'
+import { getCurrentUser } from '../../store/session';
 
 
 function GoalIndex () {
@@ -16,6 +17,7 @@ function GoalIndex () {
     
     useEffect(() => {
         dispatch(fetchUserGoals(userId))
+        dispatch(getCurrentUser())
     }, [userId]) // will need to refresh page to see updated goal details
     
     

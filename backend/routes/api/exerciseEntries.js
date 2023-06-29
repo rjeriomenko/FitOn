@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const ExerciseEntry = mongoose.model('ExerciseEntry');
+const Goal = mongoose.model('Goal');
 const validateExerciseEntryInput = require("../../validations/exerciseEntries");
 const { requireUser } = require('../../config/passport');
 
@@ -18,7 +19,7 @@ router.post('/:goalId', requireUser, validateExerciseEntryInput, async (req, res
             goal: req.params.goalId
         });
 
-        let goal = Goal.findById(req.params.goalId);
+        let goal = await Goal.findById(req.params.goalId);
         if (!goal) {
             const error = new Error('Goal not found');
             error.statusCode = 404;

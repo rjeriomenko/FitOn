@@ -1,26 +1,14 @@
 import jwtFetch from './jwt';
 
-const RECEIVE_GOALS = "goals/RECEIVE_GOALS";
 const RECEIVE_UPDATED_GOAL = "goals/RECEIVE_UPDATED_GOAL";
-const RECEIVE_USER_GOAL = "goals/RECEIVE_USER_GOAL";
 const RECEIVE_USER_GOALS = "goals/RECEIVE_USER_GOALS";
 const RECEIVE_NEW_GOAL = "goals/RECEIVE_NEW_GOAL";
 const REMOVE_GOAL = "goals/REMOVE_GOAL";
 const RECEIVE_GOAL_ERRORS = "goals/RECEIVE_GOAL_ERRORS";
 const CLEAR_GOAL_ERRORS = "goals/CLEAR_GOAL_ERRORS";
 
-export const receiveGoals = (goals) => ({
-    type: RECEIVE_GOALS,
-    goals
-});
-
 export const receiveUpdatedGoal = (goal) => ({
     type: RECEIVE_UPDATED_GOAL,
-    goal
-});
-
-export const receiveUserGoal = (goal) => ({
-    type: RECEIVE_USER_GOAL,
     goal
 });
 
@@ -51,47 +39,11 @@ export const clearGoalErrors = errors => ({
 
 //Thunks
 
-//Returns all goals ordered by { userId: [userGoals], user2Id: [user2Goals], ...  }
-export const fetchAllUserGoals = () => async dispatch => {
-    try {
-        const res = await jwtFetch('/api/users');
-        const users = await res.json();
-        const usersGoals = {};
-        users.forEach(user => {
-            if (user.goals.length) {
-                user.goals.forEach(goal => {
-                    usersGoals[goal._id] = { goalId: goal._id, ...goal, setter: user.username, setterId: user._id }
-                })
-            }
-        });
-        dispatch(receiveGoals(usersGoals));
-    } catch (err) {
-        const resBody = await err.json();
-        if (resBody.statusCode === 400) {
-            dispatch(receiveGoalErrors(resBody.errors));
-        }
-    }
-};
-
 export const fetchUserGoals = userId => async dispatch => {
     try {
         const res = await jwtFetch(`/api/goals/all/${userId}`);
         const userGoals = await res.json();
         dispatch(receiveUserGoals(userGoals));
-    } catch (err) {
-        const resBody = await err.json();
-        if (resBody.statusCode === 400) {
-            dispatch(receiveGoalErrors(resBody.errors));
-        }
-    }
-};
-
-//Stores error message in user key goals array
-export const fetchUserGoal = (userId, goalId) => async dispatch => {
-    try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}`);
-        const userGoal = await res.json();
-        dispatch(receiveUserGoal({ [userId]: [userGoal] }));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -149,22 +101,14 @@ export const deleteGoal = (goalId) => async dispatch => {
 
 //Selectors
 export const getGoal = (goalId) => state => {
-    if (state?.goals.all[goalId]) {
-        return state.goals.all[goalId];
+    if (state?.goals.user[goalId]) {
+        return state.goals.user[goalId];
     } else {
         return null;
     }
 }
 
-export const getGoals = state => {
-    if (state?.goals) {
-        return state.goals.all
-    } else {
-        return null;
-    }
-}
-
-export const getUserKeyGoals = state => {
+export const getUserGoals = state => {
     if (state?.goals) {
         return state.goals.user
     } else {

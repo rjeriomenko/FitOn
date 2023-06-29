@@ -4,11 +4,13 @@ import { feedPostErrorsReducer } from './feedPosts';
 import { goalErrorsReducer } from './goals';
 import { exerciseEntryErrorsReducer } from './exerciseEntries';
 import { exerciseErrorsReducer } from './exercises';
+import { userErrorsReducer } from './users';
 
 export default combineReducers({
   session: sessionErrorsReducer,
   feedPosts: feedPostErrorsReducer,
   goals: goalErrorsReducer,
   exerciseEntries: exerciseEntryErrorsReducer,
-  exercises: exerciseErrorsReducer
+  exercises: exerciseErrorsReducer,
+  users: userErrorsReducer
 });

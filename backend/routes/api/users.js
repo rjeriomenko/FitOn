@@ -24,7 +24,10 @@ const validateExerciseEntryInput = require('../../validations/exerciseEntries');
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.find({});
-    return res.json(users);
+    const usersObj = {};
+
+    users.forEach(user => usersObj[user._id] = user);
+    return res.json(usersObj);
   } catch (err) {
     next(err);
   }
@@ -114,15 +117,23 @@ router.get('/:userId', async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    return res.json(user);
+    return res.json({ [user._id]: user });
   } catch (err) {
     next(err);
   }
 });
 
-// since goals are embedded in Users, all goal routes will be 
-// written out in the User.js file. eEntries under goals
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await User.find({});
+    const usersObj = {};
 
+    users.forEach(user => usersObj[user._id] = user);
+    return res.json(usersObj);
+  } catch (err) {
+    next(err);
+  }
+});
 
 
 // DELETE ONE GOAL (delete)

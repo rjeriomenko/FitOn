@@ -68,7 +68,7 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
         // setNote('');
         // setRating('');
 
-        console.log(exercise);
+        // console.log(exercise);
         // console.log(exerciseInputs);
 
         setSubmit(true)

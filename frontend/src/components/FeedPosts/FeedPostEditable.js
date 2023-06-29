@@ -9,7 +9,10 @@ import { Link } from "react-router-dom";
 
 function FeedPostEditable ({feedPost, type}) {
   // props
-	const { goalId, setter, setterId, title, description, deadline, completionDate, updatedAt } = feedPost;
+	const { title, description, deadline, completionDate, updatedAt } = feedPost;
+	const goalId = feedPost._id
+	const setter = feedPost.user.username;
+	const setterId = feedPost.user._id;
 	let { exerciseEntries } = feedPost;
 
 	const formatDate = (dateText) => {

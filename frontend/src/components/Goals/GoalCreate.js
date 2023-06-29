@@ -18,7 +18,7 @@ function GoalCreate () {
   const id = sessionUser._id;
 
   useEffect(() => {
-    return () => dispatch(clearGoalErrors());
+    dispatch(clearGoalErrors());
   }, [dispatch]);
 
   const handleSubmit = e => {

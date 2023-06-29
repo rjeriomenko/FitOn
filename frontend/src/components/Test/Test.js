@@ -61,7 +61,6 @@ function LandingPage() {
     window.updateExercise = updateExercise;
     window.deleteExercise = deleteExercise;
     
-    const goal = useSelector(getGoal('648a1a1604e5d0d3c703386d'));
     // console.log(goal)
 
     // useEffect(() => {

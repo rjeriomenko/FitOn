@@ -1,5 +1,4 @@
 function GoalIndexItem ({goal}) {
-
     return (
         <>
             <div className="grid-item" id="previous-goal">

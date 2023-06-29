@@ -75,9 +75,9 @@ export const fetchAllUserGoals = () => async dispatch => {
 
 export const fetchUserGoals = userId => async dispatch => {
     try {
-        const res = await jwtFetch(`api/goals/all/${userId}`);
+        const res = await jwtFetch(`/api/goals/all/${userId}`);
         const userGoals = await res.json();
-        dispatch(receiveUserGoals({ userGoals }));
+        dispatch(receiveUserGoals(userGoals));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {

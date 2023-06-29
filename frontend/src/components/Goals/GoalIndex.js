@@ -11,13 +11,9 @@ function GoalShow () {
     const sessionUser = useSelector(state => state.session.user);
     const sessionUserId = sessionUser._id;
     const userGoalsObj = useSelector(getUserKeyGoals); //RESTRUCTURE: will change to getIndividualGoals for a given user
-    // const userGoalsObj = useSelector(getIndividualGoals); //RESTRUCTURE: will change to getIndividualGoals for a given user
-    // const userGoals = userGoalsObj[`${sessionUserId}`]; //RESTRUCTURE: 
     
     useEffect(() => {
-        // dispatch(fetchUserGoals(sessionUser._id))
-        debugger
-    // }, [userGoalsObj]) // console.log goes crazy
+        dispatch(fetchUserGoals(sessionUser._id))
     }, []) // will need to refresh page to see updated goal details
     
     
@@ -34,9 +30,8 @@ function GoalShow () {
     const currentGoal = sessionUser.currentGoal;
     const goalItems = [];
     for(let [goalId, goal] of Object.entries(userGoalsObj)) {
-        goalItems.push(<GoalIndexItem goal={goal} />)
+        goalItems.push(<GoalIndexItem key={goalId} goal={goal} />)
     }
-
     return (
         <>
             <div className="goals-container">

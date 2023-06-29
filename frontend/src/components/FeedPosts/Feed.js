@@ -30,9 +30,7 @@ export const sortFeedPostsBy = (postsArray, sortRule) => {
 // Filter posts by post options object of types:["type1", ...] and/or ownerIds:[id1, ...]
 export const filterPostsBy = (postsArray, options = {}) => {
   const { types, ownerIds } = options;
-  // debugger
   const fitleredArray = postsArray.filter(post => {
-    // debugger
     return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.setterId) : true);
   })
   return fitleredArray;
@@ -52,7 +50,6 @@ function Feed ({options = {}}) {
 
   if(userId) {
     filterOptions.ownerIds ||= [];
-    // debugger
     filterOptions.ownerIds.push(userId);
   }
 

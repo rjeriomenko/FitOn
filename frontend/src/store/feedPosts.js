@@ -36,8 +36,6 @@ export const fetchFeedPosts = () => async dispatch => {
   try {
     const res = await jwtFetch ('/api/feed');
     const feedPosts = await res.json();
-    console.log(feedPosts)
-    // debugger
     dispatch(receiveFeedPosts(feedPosts));
   } catch (err) {
     const resBody = await err.json();

@@ -12,11 +12,11 @@ router.post('/:followedUserId', requireUser, async (req, res, next) => {
             follower: req.user._id,
             followedUser: req.params.followedUserId
         })
-
+        
         let follow = await newFollow.save();
 
-        follow = await follow.populate('follower', '_id username')
-            .populate('followedUser', '_id username');
+        follow = await follow.populate('follower', '_id username');
+        follow = await follow.populate('followedUser', '_id username');
         
         return res.json({ [follow._id]: follow} );
     }
@@ -25,7 +25,7 @@ router.post('/:followedUserId', requireUser, async (req, res, next) => {
     }
 });
 
-
+// GOOD TO GO BABYYYY
 // delete a follow (DELETE)
 router.delete('/:followId', requireUser, async (req, res, next) => {
     try {
@@ -60,3 +60,5 @@ router.get('/:followerId', requireUser, async (req, res, next) => {
         next(err);
     }
 });
+
+module.exports = router;

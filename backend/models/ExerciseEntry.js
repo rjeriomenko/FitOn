@@ -9,7 +9,7 @@ const ExerciseEntrySchema = new Schema({
     },
     note: {
         type: String,
-        required: false
+        required: true
     },
     rating: {
         type: Number,

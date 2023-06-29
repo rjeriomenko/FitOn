@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const ExerciseEntry = mongoose.model('ExerciseEntry');
-const validateExerciseEntryInput = require("../../validations/goals");
+const validateExerciseEntryInput = require("../../validations/exerciseEntries");
 const { requireUser } = require('../../config/passport');
 
 
@@ -17,6 +17,17 @@ router.post('/:goalId', requireUser, validateExerciseEntryInput, async (req, res
             user: req.user._id,
             goal: req.params.goalId
         });
+
+        let goal = Goal.findById(req.params.goalId);
+        if (!goal) {
+            const error = new Error('Goal not found');
+            error.statusCode = 404;
+            throw error;
+        } else if (req.user._id.toString() !== goal.user.toString()) {
+            const error = new Error('stay in your lane, pal');
+            error.statusCode = 403;
+            throw error;
+        }
 
         let entry = await newEntry.save();
         return res.json(entry);

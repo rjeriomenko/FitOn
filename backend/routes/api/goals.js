@@ -23,7 +23,7 @@ router.post('/', requireUser, validateGoalInput, async (req, res, next) => {
         await req.user.save();
 
         goal = await goal.populate('user', '_id username imgUrl createdAt');
-        return res.json(goal);
+        return res.json({ [goal._id]: goal });
     }
     catch (err) {
         next(err);
@@ -40,7 +40,7 @@ router.get('/:goalId', requireUser, async (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        return res.json(goal);
+        return res.json({ [goal._id]: goal });
     } catch (err) {
         next(err);
     }
@@ -74,7 +74,7 @@ router.patch('/:goalId', requireUser, validateGoalInput, async (req, res, next) 
 
         goal = await goal.populate('user', '_id username imgUrl createdAt');
 
-        return res.json(goal);
+        return res.json({ [goal._id]: goal });
     } catch (err) {
         next(err);
     }

@@ -46,7 +46,7 @@ router.post('/', requireUser, validateExerciseInput, async (req, res, next) => {
 
         await user.save();
 
-        return res.json({ [exercise.id]: exercise });
+        return res.json({ [exercise._id]: exercise });
     } catch (err) {
         next(err);
     }
@@ -65,8 +65,9 @@ router.get('/:exerciseId', async (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
+        
 
-        return res.json(exercise);
+        return res.json({ [exercise._id]: exercise });
     } catch (err) {
         next(err);
     }
@@ -164,7 +165,7 @@ router.patch('/:exerciseId', requireUser, validateExerciseInput, async (req, res
 
         exercise.save();
 
-        return res.json(exercise);
+        return res.json({ [exercise._id]: exercise });
     } catch (err) {
         next(err);
     }

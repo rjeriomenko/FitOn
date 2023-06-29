@@ -1,23 +1,21 @@
 import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearFeedPostErrors, createFeedPost } from '../../store/feedPosts';
 import { clearGoalErrors, createGoal  } from '../../store/goals';
 import FeedPostEditable from './FeedPostEditable';
 import './GoalCreate.css';
 
 function GoalCreate () {
+  const dispatch = useDispatch();
   const today = new Date().toISOString().split('T')[0];
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [deadline, setDeadline] = useState(today);
   const [submit, setSubmit] = useState(false);
   
-  const dispatch = useDispatch();
-  const author = useSelector(state => state.session.user);
-  const newFeedPost = useSelector(state => state.feedPosts.new);
-  const errors = useSelector(state => state.errors.feedPosts);
-  const id = author._id;
+  const sessionUser = useSelector(state => state.session.user);
+  const errors = useSelector(state => state.errors.goals);
+  const id = sessionUser._id;
 
   useEffect(() => {
     return () => dispatch(clearGoalErrors());
@@ -25,7 +23,7 @@ function GoalCreate () {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(createGoal( id, { title, description, deadline })); 
+    dispatch(createGoal({ title, description, deadline })); 
     setTitle('');
     setDescription('');
     setDeadline(today);
@@ -47,7 +45,7 @@ function GoalCreate () {
             type="textarea"
             value={title}
             onChange={e => setTitle(e.currentTarget.value)}
-            placeholder={`Set your next goal, ${author.username}!`}
+            placeholder={`Set your next goal, ${sessionUser.username}!`}
             required
           />
           <div className="errors">{errors?.text}</div>
@@ -78,7 +76,7 @@ function GoalCreate () {
 
         {/* <div className="feed-post-preview">
           <h3>Feed Post Preview</h3>
-          {text ? <FeedPostBlock feedPost={{text, author}} /> : undefined}
+          {text ? <FeedPostBlock feedPost={{text, sessionUser}} /> : undefined}
         </div> */}
 
         {/* <div className="previous-feed-post">

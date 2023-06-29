@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateGoal, clearGoalErrors, getUserKeyGoals } from '../../store/goals';
+import { updateGoal, clearGoalErrors, getUserGoals } from '../../store/goals';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 
 function GoalEdit () {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const id = sessionUser._id;
-    const userGoalsObj = useSelector(getUserKeyGoals);
+    const userGoalsObj = useSelector(getUserGoals);
     const userGoals = userGoalsObj[`${id}`];
     const errors = useSelector(state => state.errors.feedPosts);
     

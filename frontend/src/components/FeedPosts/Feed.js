@@ -45,8 +45,8 @@ function Feed ({options = {}}) {
   const filterOptions = {...options};
   // debugger
   useEffect(() => {
-    // dispatch(fetchAllUserGoals())
     dispatch(fetchUserGoals(userId))
+    // dispatch(fetchAllUserGoals()) - do not use this thunk it will not work. Use updated thunks
     // return () => dispatch(clearFeedPostErrors());
   }, [dispatch])
 

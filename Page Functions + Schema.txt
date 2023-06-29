@@ -29,7 +29,6 @@ Fetch:
         Create Like for user's exercise entry
         Destroy Like for user's exercise entry
     Unchanged:
-        All users *** no longer needed ***
         Edit own user's goal ***
         Delete own user's goal ***
 
@@ -143,8 +142,6 @@ State:
     Exercises:
         -Current (array of exercises that belong to a user's current goal)
         -ExerciseEntry (array of exercises that belong to an exercise entry)
-    Subscriptions:
-        -user (array of users a logged in user is subscribed to)
     Likes:
         -Goal (array of likes associated with a goal)
         -Exercise Entry (array of likes associated with an exercise entry)

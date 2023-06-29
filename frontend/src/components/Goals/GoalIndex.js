@@ -1,8 +1,9 @@
 import GoalIndexItem from './GoalIndexItem';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteGoal, fetchUserGoals, getUserKeyGoals } from '../../store/goals'
+// import { deleteGoal, fetchUserGoals, getUserKeyGoals } from '../../store/goals'
 import { useParams } from 'react-router-dom';
+import { deleteGoal, fetchUserGoals, getUserGoals } from '../../store/goals'
 import { Link } from 'react-router-dom';
 import './GoalIndex.css'
 import { getCurrentUser } from '../../store/session';
@@ -12,8 +13,9 @@ function GoalIndex () {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const sessionUserId = sessionUser._id;
-    const userGoalsObj = useSelector(getUserKeyGoals); //RESTRUCTURE: will change to getIndividualGoals for a given user
+    // const userGoalsObj = useSelector(getUserKeyGoals); //RESTRUCTURE: will change to getIndividualGoals for a given user
     const { userId } = useParams();
+    const userGoalsObj = useSelector(getUserGoals); //RESTRUCTURE: will change to getIndividualGoals for a given user
     
     useEffect(() => {
         dispatch(fetchUserGoals(userId))

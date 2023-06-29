@@ -98,7 +98,7 @@ router.delete('/:goalId', requireUser, async (req, res, next) => {
 
         await goal.deleteOne();
 
-        if (req.user.currentGoal && req.user.currentGoal._id === goal._id) {
+        if (req.user.currentGoal && req.user.currentGoal._id.toString() === goal._id.toString()) {
             req.user.currentGoal = null;
             await req.user.save();
         }

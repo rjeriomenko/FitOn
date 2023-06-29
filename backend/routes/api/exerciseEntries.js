@@ -39,6 +39,37 @@ router.post('/:goalId', requireUser, validateExerciseEntryInput, async (req, res
 });
 
 
+// GET by userId
+router.get('/byUser/:userId', requireUser, async (req, res, next) => {
+    try {
+        const entries = await ExerciseEntry.find({ user: req.params.userId })
+            .populate('user', '_id username imgUrl createdAt')
+            .populate('goal', '_id title');
+
+        const entriesObj = {};
+        entries.forEach(entry => entriesObj[entry._id] = entry);
+
+        return res.json(entriesObj);
+    } catch (err) {
+        next(err);
+    }
+});
+
+// GET by goalId
+router.get('/byGoal/:goalId', requireUser, async (req, res, next) => {
+    try {
+        const entries = await ExerciseEntry.find({ goal: req.params.goalId })
+            .populate('user', '_id username imgUrl createdAt')
+            .populate('goal', '_id title');
+
+        const entriesObj = {};
+        entries.forEach(entry => entriesObj[entry._id] = entry);
+
+        return res.json(entriesObj);
+    } catch (err) {
+        next(err);
+    }
+});
 
 
 module.exports = router;

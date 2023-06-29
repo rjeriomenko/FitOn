@@ -133,9 +133,9 @@ export const updateGoal = (userId, goal) => async dispatch => {
     }
 };
 
-export const deleteGoal = (userId, goalId) => async dispatch => {
+export const deleteGoal = (goalId) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}`, {
+        const res = await jwtFetch(`/api/goals/${goalId}`, {
             method: 'DELETE'
         });
         dispatch(removeGoal(goalId));
@@ -195,24 +195,20 @@ export const goalErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const goalsReducer = (state = { all: {}, user: {}, updated: undefined, new: undefined }, action) => {  ///DELETE ALL, UPDATED, AND USER WHEN READY
+const goalsReducer = (state = { user: {}, updated: undefined, new: undefined }, action) => {  ///DELETE ALL, UPDATED WHEN READY
     let newState = { ...state };
 
     switch (action.type) {
-        case RECEIVE_GOALS:
-            return { ...newState, all: action.goals, updated: undefined, new: undefined };
-        case RECEIVE_UPDATED_GOAL:
-            return { ...newState, all: { ...newState.all, ...action.goal }, updated: action.goal, new: undefined };
-        case RECEIVE_USER_GOAL:
-            return { ...newState, user: action.goal, updated: undefined, new: undefined };
+        // case RECEIVE_UPDATED_GOAL:
+        //     return { ...newState, all: { ...newState.all, ...action.goal }, updated: action.goal, new: undefined };
         case RECEIVE_USER_GOALS:
             return { ...newState, user: action.goals, updated: undefined, new: undefined };
         case RECEIVE_NEW_GOAL:
             return { ...newState, new: action.goal };
         case REMOVE_GOAL:
-            const cloneStateAll = { ...newState.all };
-            delete cloneStateAll[action.goalId];
-            return { ...newState, all: cloneStateAll, updated: undefined, new: undefined };
+            const cloneStateUser = { ...newState.user };
+            delete cloneStateUser[action.goalId];
+            return { ...newState, user: cloneStateUser, updated: undefined, new: undefined };
         default:
             return newState;
     }

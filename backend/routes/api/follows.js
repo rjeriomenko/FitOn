@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const Follow = mongoose.model('Follow');
 const { requireUser } = require('../../config/passport');
 
-
 // create a follow (POST)
 router.post('/:followedUserId', requireUser, async (req, res, next) => {
     try {
@@ -12,6 +11,15 @@ router.post('/:followedUserId', requireUser, async (req, res, next) => {
             follower: req.user._id,
             followedUser: req.params.followedUserId
         })
+        
+        const existingFollow = await Follow.findOne({
+            follower: req.user._id,
+            followedUser: req.params.followedUserId
+        });
+    
+        if (existingFollow) {
+            return res.status(400).json({ message: 'You are already following this user.' });
+        }
         
         let follow = await newFollow.save();
 
@@ -25,7 +33,6 @@ router.post('/:followedUserId', requireUser, async (req, res, next) => {
     }
 });
 
-// GOOD TO GO BABYYYY
 // delete a follow (DELETE)
 router.delete('/:followId', requireUser, async (req, res, next) => {
     try {
@@ -49,7 +56,11 @@ router.delete('/:followId', requireUser, async (req, res, next) => {
 // get a user's follows (GET)
 router.get('/:followerId', requireUser, async (req, res, next) => {
     try {
-        const follows = Follow.find({ follower: req.user._id })
+        const follows = await Follow.find({ follower: req.user._id })
+
+        // if (follows) {
+        //     return res.json({ message: follows })
+        // }
 
         const followsObj = {};
         follows.forEach(follow => followsObj[follow._id] = follow);

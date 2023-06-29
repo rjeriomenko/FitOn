@@ -2,19 +2,21 @@ import GoalIndexItem from './GoalIndexItem';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteGoal, fetchUserGoals, getUserKeyGoals } from '../../store/goals'
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './GoalIndex.css'
 
 
-function GoalShow () {
+function GoalIndex () {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const sessionUserId = sessionUser._id;
     const userGoalsObj = useSelector(getUserKeyGoals); //RESTRUCTURE: will change to getIndividualGoals for a given user
+    const { userId } = useParams();
     
     useEffect(() => {
-        dispatch(fetchUserGoals(sessionUser._id))
-    }, []) // will need to refresh page to see updated goal details
+        dispatch(fetchUserGoals(userId))
+    }, [userId]) // will need to refresh page to see updated goal details
     
     
     if (!userGoalsObj) {
@@ -85,4 +87,4 @@ function GoalShow () {
     )}
 
 
-export default GoalShow;
+export default GoalIndex;

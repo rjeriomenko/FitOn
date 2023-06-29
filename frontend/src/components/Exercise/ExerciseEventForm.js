@@ -77,7 +77,7 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
 
 
     if (submit === true) {
-        return <Redirect to="/feedPosts/myGoal" />
+        return <Redirect to={`/users/${sessionUserId}/goals`} />
     }
 
     return (

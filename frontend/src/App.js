@@ -10,7 +10,7 @@ import LoginForm from './components/SessionForms/LoginForm';
 import SignupForm from './components/SessionForms/SignupForm';
 import Feed from './components/FeedPosts/Feed';
 import Profile from './components/Profile/Profile';
-import GoalCreate from './components/FeedPosts/GoalCreate';
+import GoalCreate from './components/Goals/GoalCreate';
 import GoalIndex from './components/Goals/GoalIndex';
 import GoalEdit from './components/Goals/GoalEdit';
 import ExerciseEventForm from './components/Exercise/ExerciseEventForm';
@@ -53,7 +53,7 @@ function App() {
           <ProtectedRoute exact path="/profile" component={Profile} />
           <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />
           <ProtectedRoute exact path="/feedPosts/editGoal" component={GoalEdit} />
-          <ProtectedRoute exact path="/feedPosts/myGoal" component={GoalIndex} />
+          <ProtectedRoute exact path="/users/:userId/goals" component={GoalIndex} />
           <ProtectedRoute exact path="/gains" component={ExerciseEventForm} />
 
       </MainPageWrapper>

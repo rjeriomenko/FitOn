@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
-import { fetchAllUserGoals } from '../../store/goals';
-import FeedPostEditable from './FeedPostEditable';
+import { fetchAllUserGoals, fetchUserGoals } from '../../store/goals';
+import FeedPostGoal from './FeedPostGoal';
 import './Feed.css';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 export const POST_TYPE_GOAL = "feedPost/GOAL"
 export const POST_TYPE_EXERCISE_ENTRY = "feedPost/EXERCISE_ENTRY"
 
-// Sort posts my most recent.
+// Sort posts by most recent.
 export const sortFeedPostsBy = (postsArray, sortRule) => {
   let sortedArray;
   switch(sortRule) {
@@ -31,26 +31,28 @@ export const sortFeedPostsBy = (postsArray, sortRule) => {
 export const filterPostsBy = (postsArray, options = {}) => {
   const { types, ownerIds } = options;
   const fitleredArray = postsArray.filter(post => {
-    return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.setterId) : true);
+    return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.user._id) : true);
   })
   return fitleredArray;
 }
 
 function Feed ({options = {}}) {
-  const {userId} = useParams();
   const dispatch = useDispatch();
-  const goalPosts = useSelector(state => state.goals?.all ? Object.values(state.goals.all) : {});
+  const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : {});
   const sessionUser = useSelector(state => state.session.user);
+  const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
   const filterOptions = {...options};
-  
+	const [triggerRender, setTriggerRender] = useState(0);
+  // debugger
   useEffect(() => {
+    dispatch(fetchUserGoals(userId))
     // dispatch(fetchAllUserGoals()) - do not use this thunk it will not work. Use updated thunks
     // return () => dispatch(clearFeedPostErrors());
   }, [dispatch])
 
   if(userId) {
-    filterOptions.ownerIds ||= [];
-    filterOptions.ownerIds.push(userId);
+    filterOptions.ownerIds ||= [userId];
+    // filterOptions.ownerIds.push(userId);
   }
 
   // Filter posts by options
@@ -62,7 +64,6 @@ function Feed ({options = {}}) {
   // Conditional header text
   // const headerText = (userId ? sessionUser.username + "..." : "everyone")
   // const headerText = (userId ? "just you..." : "everyone...")
-
   let headerText;
   if(userId){
     if(userId === sessionUser._id) headerText = "just you..."
@@ -78,13 +79,13 @@ function Feed ({options = {}}) {
     </div>
     </> 
   )
-
+  // debugger
   return (
     <>
       <div className='feed-posts-container'>
         <h2>{headerText}</h2>
         {sortedGoalPosts.map(goalPost => (
-          <FeedPostEditable key={goalPost.goalId} feedPost={goalPost} type={POST_TYPE_GOAL}/>
+          <FeedPostGoal key={goalPost.goalId} feedPost={goalPost} type={POST_TYPE_GOAL} triggerRender={triggerRender} setTriggerRender={setTriggerRender}/>
         ))}
       </div>
     </>

@@ -11,6 +11,7 @@ require('./models/User');
 require('./models/ExerciseEntry');
 require('./models/Goal');
 require('./models/Exercise');
+require('./models/Follow');
 require('./config/passport');
 const passport = require('passport');
 
@@ -20,6 +21,7 @@ const feedRouter = require('./routes/api/feed');
 const exercisesRouter = require('./routes/api/exercises');
 const goalsRouter = require('./routes/api/goals');
 const exerciseEntriesRouter = require('./routes/api/exerciseEntries');
+const followsRouter = require('./routes/api/follows');
 
 const app = express();
 
@@ -49,6 +51,7 @@ app.use('/api/feed', feedRouter);
 app.use('/api/exercises', exercisesRouter);
 app.use('/api/goals', goalsRouter);
 app.use('/api/exerciseEntries', exerciseEntriesRouter);
+app.use('/api/follows', followsRouter);
 app.use(passport.initialize()); //*
 
 if (isProduction) {

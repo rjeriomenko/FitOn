@@ -31,7 +31,7 @@ router.post('/:goalId', requireUser, validateExerciseEntryInput, async (req, res
         }
 
         let entry = await newEntry.save();
-        return res.json(entry);
+        return res.json({ [entry._id]: entry });
     }
     catch (err) {
         next(err);
@@ -94,7 +94,7 @@ router.patch('/:entryId', requireUser, validateExerciseEntryInput, async (req, r
 
         entry = await entry.populate('user', '_id username imgUrl createdAt');
 
-        return res.json(entry);
+        return res.json({ [entry._id]: entry });
     } catch (err) {
         next(err);
     }
@@ -115,7 +115,7 @@ router.delete('/:entryId', requireUser, async (req, res, next) => {
         }
 
         await entry.deleteOne();
-        
+
         return res.json({ message: 'Workout successfully deleted' });
 
     } catch (err) {

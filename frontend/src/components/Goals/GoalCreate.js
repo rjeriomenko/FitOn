@@ -2,7 +2,7 @@ import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearGoalErrors, createGoal  } from '../../store/goals';
-import FeedPostEditable from './FeedPostEditable';
+// import FeedPostGoal from './FeedPostGoal';
 import './GoalCreate.css';
 
 function GoalCreate () {
@@ -18,7 +18,7 @@ function GoalCreate () {
   const id = sessionUser._id;
 
   useEffect(() => {
-    return () => dispatch(clearGoalErrors());
+    dispatch(clearGoalErrors());
   }, [dispatch]);
 
   const handleSubmit = e => {
@@ -31,7 +31,7 @@ function GoalCreate () {
   };
 
   if (submit === true) {
-    return <Redirect to="/feedPosts/myGoal" />
+    return <Redirect to={`/users/${id}/goals`} />
   }
 
   return (

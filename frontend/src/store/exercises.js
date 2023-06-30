@@ -129,9 +129,9 @@ export const fetchGoalExercises = (userId, goalId) => async dispatch => {
     }
 };
 
-export const updateExercise = (userId, goalId, exercise) => async dispatch => {
+export const updateExercise = (exerciseId, exercise) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries/${exercise._id}`, {
+        const res = await jwtFetch(`/api/exercises/${exerciseId}`, {
             method: 'PATCH',
             body: JSON.stringify(exercise)
         });
@@ -222,7 +222,7 @@ const exercisesReducer = (state = { user: {}, follows: {}, discovers: {}, update
         case RECEIVE_EXERCISES:
             return { ...newState, all: action.exercises, updated: undefined, new: undefined };
         case RECEIVE_UPDATED_EXERCISE:
-            return { ...newState, all: { ...newState.all, ...action.exercise }, updated: action.exercise, new: undefined };
+            return { ...newState, user: { ...newState.user, ...action.exercise }, updated: action.exercise, new: undefined };
         case RECEIVE_USER_EXERCISE:
             return { ...newState, user: action.exercise, updated: undefined, new: undefined };
         case RECEIVE_USER_EXERCISES:

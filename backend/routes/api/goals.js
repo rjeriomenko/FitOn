@@ -32,6 +32,33 @@ router.post('/', requireUser, validateGoalInput, async (req, res, next) => {
     }
 });
 
+// fetch all goals from followed users
+// might been to change path name 
+router.get('/followed', requireUser, async (req, res, next) => {
+    try {
+
+        const follows = await Follow.find({ follower: req.user._id });
+        // this gives us an array (follows) of all of our follows
+
+        const followedUsers = await Promise.all(follows.map(async (follow) => {
+            let searchId = follow.followedUser;
+            const user = await User.findById(searchId);
+            return user;
+        }));
+        // now followedUsers is an array of user objects
+
+        const followedGoals = {};
+        await Promise.all(followedUsers.map(async (user) => {
+            const goals = await Goal.find({ user: user._id });
+            followedGoals[user._id] = goals;
+        }));
+
+        return res.json(followedGoals);
+    } catch (err) {
+        next(err);
+    }
+});
+
 // view a specific goal (GET)
 router.get('/:goalId', requireUser, async (req, res, next) => {
     try {
@@ -126,32 +153,7 @@ router.get('/all/:userId', requireUser, async (req, res, next) => {
     }
 });
 
-// fetch all goals from followed users
-// might been to change path name 
-router.get('/', requireUser, async (req, res, next) => {
-    try {
 
-        const follows = await Follow.find({ follower: req.user._id });
-        // this gives us an array (follows) of all of our follows
-
-        const followedUsers = await Promise.all(follows.map(async (follow) => {
-            let searchId = follow.followedUser;
-            const user = await User.findById(searchId);
-            return user;
-        }));
-        // now followedUsers is an array of user objects
-
-        const followedGoals = {};
-        await Promise.all(followedUsers.map(async (user) => {
-            const goals = await Goal.find({ user: user._id });
-            followedGoals[user._id] = goals;
-        }));
-
-        return res.json(followedGoals);
-    } catch (err) {
-        next(err);
-    }
-});
 
 
 

@@ -2,6 +2,8 @@ import jwtFetch from './jwt';
 
 const RECEIVE_UPDATED_GOAL = "goals/RECEIVE_UPDATED_GOAL";
 const RECEIVE_USER_GOALS = "goals/RECEIVE_USER_GOALS";
+const RECEIVE_FOLLOWS_GOALS = "goals/RECEIVE_FOLLOWS_GOALS";
+const RECEIVE_DISCOVERS_GOALS = "goals/RECEIVE_DISCOVERS_GOALS";
 const RECEIVE_NEW_GOAL = "goals/RECEIVE_NEW_GOAL";
 const REMOVE_GOAL = "goals/REMOVE_GOAL";
 const RECEIVE_GOAL_ERRORS = "goals/RECEIVE_GOAL_ERRORS";
@@ -14,6 +16,16 @@ export const receiveUpdatedGoal = (goal) => ({
 
 export const receiveUserGoals = (goals) => ({
     type: RECEIVE_USER_GOALS,
+    goals
+});
+
+export const receiveFollowsGoals = (goals) => ({
+    type: RECEIVE_FOLLOWS_GOALS,
+    goals
+});
+
+export const receiveDiscoversGoals = (goals) => ({
+    type: RECEIVE_DISCOVERS_GOALS,
     goals
 });
 
@@ -44,6 +56,32 @@ export const fetchUserGoals = userId => async dispatch => {
         const res = await jwtFetch(`/api/goals/all/${userId}`);
         const userGoals = await res.json();
         dispatch(receiveUserGoals(userGoals));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveGoalErrors(resBody.errors));
+        }
+    }
+};
+
+export const fetchFollowsGoals = () => async dispatch => {  //pre-emptive thunk
+    try {
+        const res = await jwtFetch(`/api/goals/byFollows`);
+        const followsGoals = await res.json();
+        dispatch(receiveFollowsGoals(followsGoals));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveGoalErrors(resBody.errors));
+        }
+    }
+};
+
+export const fetchDiscoversGoals = () => async dispatch => {  //pre-emptive thunk
+    try {
+        const res = await jwtFetch(`/api/goals/byDiscovers`);
+        const discoversGoals = await res.json();
+        dispatch(receiveDiscoversGoals(discoversGoals));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -115,6 +153,22 @@ export const getUserGoals = state => {
     }
 }
 
+export const getFollowsGoals = state => {
+    if (state?.goals) {
+        return state.goals.follows
+    } else {
+        return null;
+    }
+}
+
+export const getDiscoversGoals = state => {
+    if (state?.goals) {
+        return state.goals.discovers
+    } else {
+        return null;
+    }
+}
+
 export const getNewGoal = state => {
     if (state?.goals) {
         return state.goals.new
@@ -138,7 +192,7 @@ export const goalErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const goalsReducer = (state = { user: {}, updated: undefined, new: undefined }, action) => {
+const goalsReducer = (state = { user: {}, follows: {}, discovers: {}, updated: undefined, new: undefined }, action) => {
     let newState = { ...state };
 
     switch (action.type) {
@@ -146,6 +200,10 @@ const goalsReducer = (state = { user: {}, updated: undefined, new: undefined }, 
             return { ...newState, user: { ...newState.user, ...action.goal }, updated: action.goal, new: undefined };
         case RECEIVE_USER_GOALS:
             return { ...newState, user: action.goals, updated: undefined, new: undefined };
+        case RECEIVE_FOLLOWS_GOALS:
+            return { ...newState, follows: action.goals, updated: undefined, new: undefined };
+        case RECEIVE_DISCOVERS_GOALS:
+            return { ...newState, discovers: action.goals, updated: undefined, new: undefined };
         case RECEIVE_NEW_GOAL:
             return { ...newState, new: action.goal };
         case REMOVE_GOAL:

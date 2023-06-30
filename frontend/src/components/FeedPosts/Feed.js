@@ -34,10 +34,10 @@ export const sortFeedPostsBy = (postsArray, sortRule) => {
 // Filter posts by post options object of types:["type1", ...] and/or ownerIds:[id1, ...]
 export const filterPostsBy = (postsArray, options = {}) => {
   const { types, ownerIds } = options;
-  const fitleredArray = postsArray.filter(post => {
+  const filteredArray = postsArray.filter(post => {
     return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.user._id) : true);
   })
-  return fitleredArray;
+  return filteredArray;
 }
 
 function Feed ({discoverMode, options = {}}) {
@@ -50,7 +50,7 @@ function Feed ({discoverMode, options = {}}) {
   // const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
   const userId = useParams().userId
   const filterOptions = {...options};
-	const [triggerRender, setTriggerRender] = useState(0);
+	const [triggerRender, setTriggerRender] = useState(1);
 
   useEffect(() => {
     dispatch(fetchUserGoals(userId))
@@ -100,16 +100,21 @@ function Feed ({discoverMode, options = {}}) {
       </> 
     )
   }
+
+  const renderPosts = () => {
+    return sortedCombinedPosts.map(goalPost => goalPost.deadline ?
+      <FeedPostGoal key={goalPost._id} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />
+      : <FeedPostWorkout key={goalPost._id} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />
+    )
+  }
+
   return (
     <>
       <h2 className='feed-header'>{headerText}</h2>
       <div className='feed-posts-container'>
         <FollowNavBar />
         <div className='inner-feed-posts-container'>
-          {sortedCombinedPosts.map(goalPost => goalPost.deadline ? 
-            <FeedPostGoal key={goalPost._id} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender}/>
-            : <FeedPostWorkout key={goalPost._id} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender}/>
-          )}
+          {renderPosts()}
         </div>
       </div>
     </>

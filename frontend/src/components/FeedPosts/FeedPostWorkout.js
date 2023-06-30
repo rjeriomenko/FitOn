@@ -60,10 +60,10 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 	// 		.then(() => setTriggerRender(triggerRender + 1));
 	// }
 
-	useEffect(() => {
-			setTriggerChildRender(triggerChildRender + 1);
-			dispatch(fetchUserExerciseEntries(setterId))
-	}, [dispatch, triggerRender])
+	// useEffect(() => {
+	// 		setTriggerChildRender(triggerChildRender + 1);
+	// 		dispatch(fetchUserExerciseEntries(setterId))
+	// }, [dispatch, triggerRender])
 
 
 

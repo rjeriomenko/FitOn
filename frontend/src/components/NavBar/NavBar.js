@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/session';
 import { Redirect } from 'react-router-dom';
+import { createGoal } from "../../store/goals";
+
 import './NavBar.css';
 
 function NavBar () {
@@ -36,6 +38,22 @@ function NavBar () {
     }
   }
 
+  const handleDemoGoal = e => {
+    dispatch(createGoal({
+      title: Math.random(),
+      description: Math.random(),
+      deadline: `${9000 * Math.random()}-${12 * Math.random()}-${28 * Math.random()}`
+    }))
+  }
+
+  const renderTestLinks = () => {
+    if (process.env.NODE_ENV !== 'production') {
+      return (
+        <li className="test-button" onClick={handleDemoGoal}>Create Demo Goal</li>
+      )
+    }
+  }
+
   return (
     <div className='nav-bar-container'>
       {/* <h1>FitOn</h1> */}
@@ -44,8 +62,8 @@ function NavBar () {
       <div className='nav-bar-divider'></div>
 			<div className='links-menu'>
       	{ getLinks() }
-
 			</div>
+        { renderTestLinks() }
     </div>
   );
 }

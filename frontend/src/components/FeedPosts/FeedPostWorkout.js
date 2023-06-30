@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { fetchUserExerciseEntries,getUserExerciseEntries } from "../../store/exerciseEntries";
 
 function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
+	// debugger
   // props
 	// const { title, description, deadline, completionDate, updatedAt } = feedPost;
 	const { date, goal, note, rating, user } = feedPost;

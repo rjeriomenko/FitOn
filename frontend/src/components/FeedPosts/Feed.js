@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
-import { fetchAllUserGoals, fetchUserGoals } from '../../store/goals';
+import { fetchAllUserGoals, fetchUserGoals, fetchFollowsGoals } from '../../store/goals';
 import { fetchUserExerciseEntries, getUserExerciseEntries } from '../../store/exerciseEntries';
 import { fetchFollows, getFollows } from '../../store/follows';
 import FollowNavBar from './FollowNavBar';
@@ -46,12 +46,6 @@ function Feed ({discoverMode, options = {}}) {
   const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : {});
   const workoutPosts = Object.values(useSelector(getUserExerciseEntries))
   const follows = useSelector(getFollows);
-  const sessionUser = useSelector(state => state.session.user);
-  const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
-  const filterOptions = {...options};
-	const [triggerRender, setTriggerRender] = useState(0);
-  // debugger
-  // const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
   const userId = useParams().userId
   const filterOptions = {...options};
 	const [triggerRender, setTriggerRender] = useState(1);
@@ -60,6 +54,7 @@ function Feed ({discoverMode, options = {}}) {
     dispatch(fetchUserGoals(userId))
     dispatch(fetchUserExerciseEntries(userId))
     dispatch(fetchFollows(userId))
+    dispatch(fetchFollowsGoals())
     // dispatch(fetchAllUserGoals()) - do not use this thunk it will not work. Use updated thunks
     // return () => dispatch(clearFeedPostErrors());
   }, [dispatch, userId])

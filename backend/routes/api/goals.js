@@ -69,12 +69,12 @@ router.patch('/:goalId', requireUser, validateGoalInput, async (req, res, next) 
 
         if (goal._id === req.user.currentGoal._id) {
             req.user.currentGoal = goal;
+            await req.user.save();
         }
-        await req.user.save();
 
         goal = await goal.populate('user', '_id username imgUrl createdAt');
-
-        return res.json(goal);
+        
+        return res.json({ [goal._id]: goal });
     } catch (err) {
         next(err);
     }

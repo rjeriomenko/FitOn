@@ -68,15 +68,14 @@ export const createGoal = (goal) => async dispatch => {
     }
 };
 
-export const updateGoal = (userId, goal) => async dispatch => {
+export const updateGoal = (goal) => async dispatch => {
     try {
-        console.log("userId-", userId, "goal._id-", goal._id)
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goal._id}`, {
+        const res = await jwtFetch(`/api/goals/${goal._id}`, {
             method: 'PATCH',
             body: JSON.stringify(goal)
         });
         const responseGoal = await res.json();
-        dispatch(receiveUpdatedGoal({ [goal._id]: { goalId: goal._id, goal: responseGoal, setter: goal.setter, setterId: userId } }));
+        dispatch(receiveUpdatedGoal(responseGoal));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -139,12 +138,12 @@ export const goalErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const goalsReducer = (state = { user: {}, updated: undefined, new: undefined }, action) => {  ///DELETE ALL, UPDATED WHEN READY
+const goalsReducer = (state = { user: {}, updated: undefined, new: undefined }, action) => {
     let newState = { ...state };
 
     switch (action.type) {
-        // case RECEIVE_UPDATED_GOAL:
-        //     return { ...newState, all: { ...newState.all, ...action.goal }, updated: action.goal, new: undefined };
+        case RECEIVE_UPDATED_GOAL:
+            return { ...newState, user: { ...newState.user, ...action.goal }, updated: action.goal, new: undefined };
         case RECEIVE_USER_GOALS:
             return { ...newState, user: action.goals, updated: undefined, new: undefined };
         case RECEIVE_NEW_GOAL:

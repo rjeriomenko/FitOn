@@ -8,7 +8,7 @@ import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goal
 import { Link } from "react-router-dom";
 import { fetchUserExerciseEntries,getUserKeyExerciseEntries } from "../../store/exerciseEntries";
 
-function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
+function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
   // props
 	const { title, description, deadline, completionDate, updatedAt } = feedPost;
 	const goalId = feedPost._id

@@ -6,25 +6,17 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
 import { Link } from "react-router-dom";
+import { fetchUserExerciseEntries,getUserKeyExerciseEntries } from "../../store/exerciseEntries";
 
-function FeedPostWorkout ({feedPost, type}) {
+function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
   // props
-	const { title, description, deadline, completionDate, updatedAt } = feedPost;
-	const goalId = feedPost._id
+	// const { title, description, deadline, completionDate, updatedAt } = feedPost;
+	const { date, goal, note, rating, user } = feedPost;
+	const goalId = goal?._id
 	const setter = feedPost.user.username;
 	const setterId = feedPost.user._id;
-	let { exerciseEntries } = feedPost;
-
 	const formatDate = (dateText) => {
 		return new Date(dateText).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})
-	}
-
-	const latestExerciseText = () => {
-		if(!exerciseEntries || exerciseEntries.length === 0) return "No workouts yet";
-		const lastEntry = exerciseEntries[exerciseEntries.length - 1];
-		const lastDate = formatDate(lastEntry.date);
-		const text = `Latest workout: ${lastEntry.note} - ${lastDate}`
-		return text;
 	}
 
 	// Redux
@@ -32,52 +24,39 @@ function FeedPostWorkout ({feedPost, type}) {
 	
 	// useSelectors
 	const sessionUser = useSelector(state => state.session.user);
-	const currentGoal = useSelector(getGoal(goalId));
 	
 	// component logic states
 	const [editable, setEditable] = useState(false);
 
 	// controlled inputs
-	const [username, setUsername] = useState("undefined-user")
-	const [timestamp, setTimeStamp] = useState('')
-	const [formTitle, setFormTitle] = useState('');
-	const [formDescription, setFormDescription] = useState('');
+	const [formNote, setFormNote] = useState(note);
+	const [formRating, setFormRating] = useState(rating);
+	const [formDate, setFormDate] = useState(date);
+	const [timestamp, setTimeStamp] = useState(new Date(date).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true}))
 
-	// Text-area height expands/contracts with input size
-	const handleDescriptionChange = e => {
-		setFormDescription(e.target.value);
-		e.target.style.height = "auto";
-		e.target.style.height = e.target.scrollHeight + "px";
-	}
+	// internal state to trigger rerender - does not display or get used elsewhere
+	const [triggerChildRender, setTriggerChildRender] = useState(0);
 
-	const handleUpdateGoal = e => {
-		setEditable(false);
-		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, deadline, completionDate, exerciseEntries, updatedAt }
-		dispatch(updateGoal(setterId, updatedGoal))
-			.then(res => {
-				// setTimeStamp(currentGoal.updatedAt)
-				// setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 
-			})
-	}
+	// const handleUpdateWorkout = e => {
+	// 	setEditable(false);
+	// 	const updatedWorkout = { note:formNote, rating:formRating, date:formDate, goal, user }
+	// 	dispatch(updateGoal(updatedGoal)) //NEED NEW THUNK!!!!!!!!
+	// 		.then(res => {
+	// 			setTriggerRender(triggerRender + 1)
+	// 		})
+	// }
 
-	const handleDeleteGoal = e => {
-		dispatch(deleteGoal(goalId))
-	}
+	// const handleDeleteWorkout = e => {
+	// 	dispatch(deleteGoal(goalId)) //NEED NEW THUNK!!!!!!!!
+	// 		.then(() => setTriggerRender(triggerRender + 1));
+	// }
 
 	useEffect(() => {
-		switch(type){
-			case POST_TYPE_EXERCISE_ENTRY:
-				break;
-			case POST_TYPE_GOAL:
-				setUsername(setter)
-				setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 
-				setFormTitle(title)
-				setFormDescription(description)
-				break;
-			default: 
-				break;
-		}
-	}, [])
+			setTriggerChildRender(triggerChildRender + 1);
+			dispatch(fetchUserExerciseEntries(setterId))
+	}, [dispatch, triggerRender])
+
+
 
   return (
 		<div className="feed-post-editable-container">
@@ -85,40 +64,27 @@ function FeedPostWorkout ({feedPost, type}) {
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
-					<Link to={`/feed/${setterId}`}><div className="post-username">{username}</div></Link>
+					<Link to={`/feed/${setterId}`}><div className="post-username">{setter}</div></Link>
 					<div className="post-timestamp">{timestamp}</div>
 				</div>
 				<br/>
 				<Link to={`/profile`}>{!editable && <div className="feed-post-row">
-					<span className="post-goal-title">{formTitle}</span>
-					<span>·</span>
-					<span className="post-goal-description">{formDescription}</span>
+					<span className="post-goal-title">{formNote}</span>
+					<span className="post-goal-title">{formRating}</span>
 				</div>}</Link>
 				
 				{editable && <>
-					<label>Title
+					<label>Note: 
 						<input className="feed-post-text-edit"
 							type="text"
-							value={formTitle}
-							onChange={e => setFormTitle(e.target.value)}
+							value={formNote}
+							onChange={e => setFormNote(e.target.value)}
 						/>
 					</label>
-					<label>Description
-						<textarea className="feed-post-text-edit"
-							contentEditable={true}
-							value={formDescription}
-							onChange={handleDescriptionChange}
-						/>
-					</label>
-					<div className="feed-post-crud-button" onClick={handleUpdateGoal}>Update</div>
+					{/* <div className="feed-post-crud-button" onClick={handleUpdateWorkout}>Update</div> */}
+					<div className="feed-post-crud-button">Update</div>
 				</>}
 				<div className="post-divider"></div>
-				<div className="latest-exercise-text">
-					{/* {`Latest workout: ${exerciseEntries[exerciseEntries.length - 1]?.note} ${new Date(exerciseEntries[exerciseEntries.length - 1]?.date)}`} */}
-					{/* <br /> */}
-					{/* {exerciseEntries[exerciseEntries.length - 1] ? exerciseEntries[exerciseEntries.length - 1] + " " : "No workouts yet"} */}
-					{latestExerciseText()}
-				</div>
 			</div>
 			{/* CONTENT - END */}
 			{/* CONTENT - END */}
@@ -132,7 +98,8 @@ function FeedPostWorkout ({feedPost, type}) {
 							{/* {editable ? "Cancel" : "Update"} */}
 							<i class="far fa-edit"></i>
 						</div>
-						<div className="feed-post-crud-button" onClick={handleDeleteGoal}>
+						{/* <div className="feed-post-crud-button" onClick={handleDeleteWorkout}> */}
+						<div className="feed-post-crud-button">
 							<i class="fa-solid fa-trash-can"></i>
 						</div>
 					</>

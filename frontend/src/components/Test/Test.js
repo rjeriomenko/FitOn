@@ -13,7 +13,6 @@ import {
 
 import {
     fetchUserExerciseEntries,
-    fetchGoalExerciseEntries,
     createExerciseEntry,
     updateExerciseEntry,
     deleteExerciseEntry,
@@ -40,7 +39,6 @@ function LandingPage() {
     window.deleteGoal = deleteGoal;
 
     window.fetchUserExerciseEntries = fetchUserExerciseEntries;
-    window.fetchGoalExerciseEntries = fetchGoalExerciseEntries;
     window.createExerciseEntry = createExerciseEntry;
     window.updateExerciseEntry = updateExerciseEntry;
     window.deleteExerciseEntry = deleteExerciseEntry;

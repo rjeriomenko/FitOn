@@ -2,6 +2,7 @@ import jwtFetch from './jwt';
 
 const RECEIVE_FOLLOWS = "follows/RECEIVE_FOLLOWS";
 const RECEIVE_NEW_FOLLOW = "follows/RECEIVE_NEW_FOLLOW";
+const REMOVE_FOLLOW = "follows/REMOVE_FOLLOW";
 const RECEIVE_FOLLOW_ERRORS = "follows/RECEIVE_FOLLOW_ERRORS";
 const CLEAR_FOLLOW_ERRORS = "follows/CLEAR_FOLLOW_ERRORS";
 
@@ -13,6 +14,11 @@ export const receiveFollows = (follows) => ({
 export const receiveNewFollow = (follow) => ({
     type: RECEIVE_NEW_FOLLOW,
     follow
+});
+
+export const removeFollow = (followId) => ({
+    type: REMOVE_FOLLOW,
+    followId
 });
 
 export const receiveFollowErrors = errors => ({
@@ -40,13 +46,27 @@ export const fetchFollows = userId => async dispatch => {
     }
 };
 
-export const createFollow = (followingUserId, followedUserId) => async dispatch => {
+export const createFollow = (followedUserId) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/follows/${followedUserId}`, {
             method: 'POST'
         });
         const responseFollow = await res.json();
         dispatch(receiveNewFollow(responseFollow));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveFollowErrors(resBody.errors));
+        }
+    }
+};
+
+export const deleteFollow = (followId) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/follows/${followedUserId}`, {
+            method: 'DELETE'
+        });
+        dispatch(removeFollow(followId));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -104,6 +124,10 @@ const followsReducer = (state = { user: {}, new: undefined }, action) => {
             return { ...newState, user: action.follows, new: undefined };
         case RECEIVE_NEW_FOLLOW:
             return { ...newState, new: action.follow };
+        case REMOVE_FOLLOW:
+            const cloneStateUser = { ...newState.user };
+            delete cloneStateUser[action.followId];
+            return { ...newState, user: cloneStateUser, new: undefined };
         default:
             return newState;
     }

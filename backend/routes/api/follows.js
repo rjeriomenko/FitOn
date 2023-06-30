@@ -46,7 +46,6 @@ router.delete('/:followId', requireUser, async (req, res, next) => {
         await follow.deleteOne();
 
         return res.json({ message: 'Successfully unfollowed' });
-
     } 
     catch (err) {
         next(err);

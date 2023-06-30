@@ -17,6 +17,8 @@ function GoalIndex () {
     const { userId } = useParams();
     const userGoalsObj = useSelector(getUserGoals); //RESTRUCTURE: will change to getIndividualGoals for a given user
     
+    const [triggerRender, setTriggerRender] = useState(1);
+
     useEffect(() => {
         dispatch(fetchUserGoals(userId))
         dispatch(getCurrentUser())
@@ -31,13 +33,21 @@ function GoalIndex () {
     
     // Change currentGoal to be the first goal in userGoals from the back without a completedDate,
     // if not found, no currentGoal.
-    // const currentGoal = userGoals.slice(-1)[0];
-    // const goalItems = userGoals.slice(0,-1).reverse().map(goal => <GoalIndexItem goal={goal} />)
     const currentGoal = sessionUser.currentGoal;
+
+    // const renderPrevGoals = () => {
+    //     const goalItems = [];
+    //     for(let [goalId, goal] of Object.entries(userGoalsObj)) {
+    //         goalItems.push(<GoalIndexItem key={goalId} goal={goal} />)
+    //     }
+    //     return goalItems;
+    // }
+
     const goalItems = [];
     for(let [goalId, goal] of Object.entries(userGoalsObj)) {
-        goalItems.push(<GoalIndexItem key={goalId} goal={goal} />)
+        goalItems.push(<GoalIndexItem key={goalId} goal={goal} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />)
     }
+
     return (
         <>
             <div className="goals-container">
@@ -84,6 +94,7 @@ function GoalIndex () {
                 <h2>previous goals...</h2>
                 <div className="goals-grid-container">
                     {goalItems}
+                    {/* {renderPrevGoals()} */}
                 </div>
 
             </div>

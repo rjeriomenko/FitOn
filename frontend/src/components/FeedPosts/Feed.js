@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
 import { fetchAllUserGoals, fetchUserGoals } from '../../store/goals';
-import { fetchUserExerciseEntries, getUserKeyExerciseEntries } from '../../store/exerciseEntries';
+import { fetchUserExerciseEntries, getUserExerciseEntries } from '../../store/exerciseEntries';
 import { fetchFollows, getFollows } from '../../store/follows';
 import FollowNavBar from './FollowNavBar';
 import FeedPostWorkout from './FeedPostWorkout';
@@ -44,8 +44,12 @@ function Feed ({discoverMode, options = {}}) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : {});
-  const workoutPosts = Object.values(useSelector(getUserKeyExerciseEntries))
+  const workoutPosts = Object.values(useSelector(getUserExerciseEntries))
   const follows = useSelector(getFollows);
+  const sessionUser = useSelector(state => state.session.user);
+  const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
+  const filterOptions = {...options};
+	const [triggerRender, setTriggerRender] = useState(0);
   // debugger
   // const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
   const userId = useParams().userId

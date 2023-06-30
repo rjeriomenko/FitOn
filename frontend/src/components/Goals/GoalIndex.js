@@ -69,9 +69,7 @@ function GoalIndex () {
                         <div>
                             <p className="goal-title">No current goals</p>   
                         </div> 
-                        {/* give new className */}
-                        {/* give new className */}
-                        {/* give new className */}
+
                         <div className="edit-current-goal" > 
                             <Link to={'/feedPosts/newGoal'}>Create a new goal</Link>
                         </div>          

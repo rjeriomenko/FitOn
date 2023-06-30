@@ -124,6 +124,56 @@ router.get('/all/:userId', requireUser, async (req, res, next) => {
     }
 });
 
+// fetch all goals from followed users
+router.get('/followed', requireUser, async (req, res, next) => {
+    try {
+        const follows = await Follow.find({ follower: req.user._id });
+        // this gives us an array (follows) of all of our follows
+
+        const followedUsers = await Promise.all(follows.map(async (follow) => {
+            const user = await User.findById(follow.followedUser);
+            return user;
+        }));
+        // now followedUsers is an array of user objects
+
+        const followedGoals = {};
+        await Promise.all(followedUsers.map(async (user) => {
+            const goals = await Goal.find({ user: user._id });
+            followedGoals[user._id] = goals;
+        }));
+
+        return res.json(followedGoals);
+    } catch (err) {
+        next(err);
+    }
+});
+
+
+
+
+
+
+
+
+
 
 
 module.exports = router;
+
+
+
+
+
+// // goal: we are current_user and we are trying to find all goals of all followed users
+
+// // flow: Self - follows - followedPeople - goals
+
+// const follows = await Follow.find({ follower: req.user._id });
+// // this gives us an array (follows) of all of our follows
+
+// const followedUsers = follows.map(follow => await User.findById(follow.followedUser));
+// // now followedUsers is an array of user objects
+
+// const follwedGoals = {};
+// followedUsers.forEach(user => followedGoals[user._id] = await Goal.find({ user: user._id}))
+// //********

@@ -76,31 +76,6 @@ router.get('/byWorkout/:workoutId', requireUser, async (req, res, next) => {
 });
 
 
-
-
-// // delete
-// router.delete('/:exerciseId', requireUser, async (req, res, next) => {
-//     try {
-//         const exerciseId = req.params.exerciseId;
-
-//         await ExerciseEntry.updateMany(
-//             { exercises: exerciseId },
-//             { $pull: { exercises: exerciseId } }
-//         );
-
-//         await User.updateMany(
-//             { exercises: exerciseId },
-//             { $pull: { exercises: exerciseId } }
-//         );
-
-//         await Exercise.findByIdAndDelete(exerciseId);
-//         return res.json({ message: 'Exercise successfully deleted' });
-//     } catch (err) {
-//         next(err);
-//     }
-// });
-
-
 // update
 router.patch('/:exerciseId', requireUser, validateExerciseInput, async (req, res, next) => {
     try {

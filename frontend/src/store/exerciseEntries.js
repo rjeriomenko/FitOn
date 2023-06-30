@@ -73,9 +73,9 @@ export const fetchGoalExerciseEntries = (userId, goalId) => async dispatch => {
     }
 };
 
-export const createExerciseEntry = (userId, goalId, exerciseEntry) => async dispatch => {
+export const createExerciseEntry = (goalId, exerciseEntry) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries`, {
+        const res = await jwtFetch(`/api/exerciseEntries/${goalId}`, {
             method: 'POST',
             body: JSON.stringify(exerciseEntry)
         });
@@ -186,7 +186,7 @@ const exerciseEntriesReducer = (state = { user: {}, goal: {}, updated: undefined
         case RECEIVE_GOAL_EXERCISE_ENTRIES:
             return { ...newState, goal: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_NEW_EXERCISE_ENTRY:
-            return { ...newState, updated: undefined, new: action.exerciseEntry };
+            return { ...newState, updated: undefined, new: action.exerciseEntry }; //might be tricky to see dynamic changes
         case REMOVE_EXERCISE_ENTRY:
             const cloneStateAll = { ...newState.all };
             delete cloneStateAll[action.exerciseEntryId];

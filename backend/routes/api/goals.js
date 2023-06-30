@@ -33,7 +33,6 @@ router.post('/', requireUser, validateGoalInput, async (req, res, next) => {
 });
 
 // fetch all goals from followed users
-// might been to change path name 
 router.get('/followed', requireUser, async (req, res, next) => {
     try {
 

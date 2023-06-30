@@ -169,6 +169,14 @@ export const getDiscoversGoals = state => {
     }
 }
 
+export const getUpdatedGoal = state => {
+    if (state?.goals) {
+        return state.goals.updated
+    } else {
+        return null;
+    }
+}
+
 export const getNewGoal = state => {
     if (state?.goals) {
         return state.goals.new

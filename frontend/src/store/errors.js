@@ -5,6 +5,7 @@ import { goalErrorsReducer } from './goals';
 import { exerciseEntryErrorsReducer } from './exerciseEntries';
 import { exerciseErrorsReducer } from './exercises';
 import { userErrorsReducer } from './users';
+import { followErrorsReducer } from './follows';
 
 export default combineReducers({
   session: sessionErrorsReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   goals: goalErrorsReducer,
   exerciseEntries: exerciseEntryErrorsReducer,
   exercises: exerciseErrorsReducer,
-  users: userErrorsReducer
+  users: userErrorsReducer,
+  follows: followErrorsReducer
 });

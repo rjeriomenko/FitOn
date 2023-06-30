@@ -25,6 +25,10 @@ p, h3 {
 	transition: background-color 0.5s;
 }
 
+.feed-post-editable-container:nth-child(1) {
+	margin-top: 0px;
+}
+
 .feed-post-editable-container:hover {
 	background-color: var(--light-blue-darker);
 	background-color: var(--soft-white);

@@ -1,8 +1,12 @@
+.feed-header {
+	margin: 20px 0px;
+}
+
 .feed-posts-container {
-	/* position: absolute; */
+	position: relative;
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	flex-direction: row;
+	justify-content: flex-start;
 	align-items: flex-start;
 	/* height: 100vh; */
 	/* top:  */
@@ -16,10 +20,17 @@
 	/* padding-right: 5vw; */
 }
 
-.feed-posts-container > h2 {
+.inner-feed-posts-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.inner-feed-posts-container > h2 {
 	/* position: absolute; */
 	/* top: 200px; */
-	margin: 20px 0px;
+	/* margin: 20px 0px; */
 	/* z-index: -1; */
 }
 

@@ -1,4 +1,4 @@
-import "./FeedPostGoal.css"
+import "./FeedPost.css"
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { POST_TYPE_GOAL, POST_TYPE_EXERCISE_ENTRY } from "./Feed";

@@ -1,4 +1,4 @@
-import "./FeedPostGoal.css"
+import "./FeedPost.css"
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { POST_TYPE_GOAL, POST_TYPE_EXERCISE_ENTRY } from "./Feed";
@@ -17,6 +17,15 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 	const setterId = feedPost.user._id;
 	const formatDate = (dateText) => {
 		return new Date(dateText).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})
+	}
+
+	const followButtonText = () => {
+		// Should depend on whether we are following a user. Clicking will toggle.
+		// Follows slice of state should be populated in the Feed,
+		// and listen to updates triggered by buttons on child subcomponent
+
+		// Placeholder:
+		return "follow";
 	}
 
 	// Redux
@@ -65,6 +74,7 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
 					<Link to={`/feed/${setterId}`}><div className="post-username">{setter}</div></Link>
+					<div className="post-follow">{followButtonText()}</div>
 					<div className="post-timestamp">{timestamp}</div>
 				</div>
 				<br/>

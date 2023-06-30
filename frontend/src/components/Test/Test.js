@@ -12,9 +12,7 @@ import {
 } from '../../store/goals';
 
 import {
-    fetchUserExerciseEntries, 
-    fetchUserExerciseEntry, 
-    fetchAllUserExerciseEntries,
+    fetchUserExerciseEntries,
     fetchGoalExerciseEntries,
     createExerciseEntry,
     updateExerciseEntry,
@@ -41,10 +39,8 @@ function LandingPage() {
     window.updateGoal = updateGoal;
     window.deleteGoal = deleteGoal;
 
-    window.fetchUserExerciseEntry = fetchUserExerciseEntry;
     window.fetchUserExerciseEntries = fetchUserExerciseEntries;
     window.fetchGoalExerciseEntries = fetchGoalExerciseEntries;
-    window.fetchAllUserExerciseEntries = fetchAllUserExerciseEntries;
     window.createExerciseEntry = createExerciseEntry;
     window.updateExerciseEntry = updateExerciseEntry;
     window.deleteExerciseEntry = deleteExerciseEntry;

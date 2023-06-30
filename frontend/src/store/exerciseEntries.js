@@ -1,8 +1,6 @@
 import jwtFetch from './jwt';
 
-const RECEIVE_EXERCISE_ENTRIES = "exerciseEntries/RECEIVE_EXERCISE_ENTRIES";
 const RECEIVE_UPDATED_EXERCISE_ENTRY = "exerciseEntries/RECEIVE_UPDATED_EXERCISE_ENTRY";
-const RECEIVE_USER_EXERCISE_ENTRY = "exerciseEntries/RECEIVE_USER_EXERCISE_ENTRY";
 const RECEIVE_USER_EXERCISE_ENTRIES = "exerciseEntries/RECEIVE_USER_EXERCISE_ENTRIES";
 const RECEIVE_GOAL_EXERCISE_ENTRIES = "exerciseEntries/RECEIVE_GOAL_EXERCISE_ENTRIES";
 const RECEIVE_NEW_EXERCISE_ENTRY = "exerciseEntries/RECEIVE_NEW_EXERCISE_ENTRY";
@@ -10,18 +8,8 @@ const REMOVE_EXERCISE_ENTRY = "exerciseEntries/REMOVE_EXERCISE_ENTRY";
 const RECEIVE_EXERCISE_ENTRY_ERRORS = "exerciseEntries/RECEIVE_EXERCISE_ENTRY_ERRORS";
 const CLEAR_EXERCISE_ENTRY_ERRORS = "exerciseEntries/CLEAR_EXERCISE_ENTRY_ERRORS";
 
-export const receiveExerciseEntries = (exerciseEntries) => ({
-    type: RECEIVE_EXERCISE_ENTRIES,
-    exerciseEntries
-});
-
 export const receiveUpdatedExerciseEntry = (exerciseEntry) => ({
     type: RECEIVE_UPDATED_EXERCISE_ENTRY,
-    exerciseEntry
-});
-
-export const receiveUserExerciseEntry = (exerciseEntry) => ({
-    type: RECEIVE_USER_EXERCISE_ENTRY,
     exerciseEntry
 });
 
@@ -58,51 +46,12 @@ export const clearExerciseEntryErrors = errors => ({
 
 //Thunks
 
-export const fetchAllUserExerciseEntries = () => async dispatch => {
-    try {
-        const res = await jwtFetch('/api/users');
-        const users = await res.json();
-        const usersExerciseEvents = {};
-        users.forEach(user => {
-            if (user.goals.length) {
-                user.goals.forEach(goal => {
-                    if (goal.exerciseEntries.length) {
-                        goal.exerciseEntries.forEach(exerciseEntry => {
-                            usersExerciseEvents[exerciseEntry._id] = { exerciseEntry: exerciseEntry, goalId: goal._id, goal: goal.title, setter: user.username, setterId: user._id }
-                        })
-                    }
-                })
-            }
-        });
-        dispatch(receiveExerciseEntries(usersExerciseEvents));
-    } catch (err) {
-        const resBody = await err.json();
-        if (resBody.statusCode === 400) {
-            dispatch(receiveExerciseEntryErrors(resBody.errors));
-        }
-    }
-};
-
 //Fetches formatted exercise entries
 export const fetchUserExerciseEntries = userId => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/entries`);
+        const res = await jwtFetch(`/api/exerciseEntries/byUser/${userId}`);
         const userEntries = await res.json();
         dispatch(receiveUserExerciseEntries(userEntries));
-    } catch (err) {
-        const resBody = await err.json();
-        if (resBody.statusCode === 400) {
-            dispatch(receiveExerciseEntryErrors(resBody.errors));
-        }
-    }
-};
-
-//Stores error message in user key exerciseEntries array
-export const fetchUserExerciseEntry = (userId, goalId, exerciseEntryId) => async dispatch => {
-    try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries/${exerciseEntryId}`);
-        const userExerciseEntry = await res.json();
-        dispatch(receiveUserExerciseEntry(userExerciseEntry));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -172,21 +121,13 @@ export const deleteExerciseEntry = (userId, goalId, exerciseEntryId) => async di
 
 //Selectors
 
-export const getExerciseEntry = (exerciseEntryId) => state => {
-    if (state?.exerciseEntries.all[exerciseEntryId]) {
-        return state.exerciseEntries.all[exerciseEntryId];
-    } else {
-        return null;
-    }
-}
-
-export const getExerciseEntries = state => {
-    if (state?.exerciseEntries) {
-        return state.exerciseEntries.all
-    } else {
-        return null;
-    }
-}
+// export const getExerciseEntry = (exerciseEntryId) => state => {
+//     if (state?.exerciseEntries.all[exerciseEntryId]) {
+//         return state.exerciseEntries.all[exerciseEntryId];
+//     } else {
+//         return null;
+//     }
+// }
 
 export const getUserKeyExerciseEntries = state => {
     if (state?.exerciseEntries) {
@@ -211,6 +152,14 @@ export const getNewExerciseEntry = state => {
     }
 }
 
+export const getUpdatedExerciseEntry = state => {
+    if (state?.exerciseEntries) {
+        return state.exerciseEntries.updated
+    } else {
+        return null;
+    }
+}
+
 const nullErrors = null;
 
 //What other RECEIVE constants belong here?
@@ -226,16 +175,12 @@ export const exerciseEntryErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const exerciseEntriesReducer = (state = { all: {}, user: {}, goal: {}, updated: undefined, new: undefined }, action) => {
+const exerciseEntriesReducer = (state = { user: {}, goal: {}, updated: undefined, new: undefined }, action) => {
     let newState = { ...state };
 
     switch (action.type) {
-        case RECEIVE_EXERCISE_ENTRIES:
-            return { ...newState, all: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_UPDATED_EXERCISE_ENTRY:
             return { ...newState, all: { ...newState.all, ...action.exerciseEntry }, updated: action.exerciseEntry, new: undefined };
-        case RECEIVE_USER_EXERCISE_ENTRY:
-            return { ...newState, user: action.exerciseEntry, updated: undefined, new: undefined };
         case RECEIVE_USER_EXERCISE_ENTRIES:
             return { ...newState, user: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_GOAL_EXERCISE_ENTRIES:

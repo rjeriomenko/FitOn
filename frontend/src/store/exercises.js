@@ -5,6 +5,7 @@ const RECEIVE_UPDATED_EXERCISE = "exercises/RECEIVE_UPDATED_EXERCISE";
 const RECEIVE_USER_EXERCISE = "exercises/RECEIVE_USER_EXERCISE";
 const RECEIVE_USER_EXERCISES = "exercises/RECEIVE_USER_EXERCISES";
 const RECEIVE_GOAL_EXERCISES = "exercises/RECEIVE_GOAL_EXERCISES";
+const RECEIVE_WORKOUT_EXERCISES = "exercises/RECEIVE_WORKOUT_EXERCISES"
 const RECEIVE_NEW_EXERCISE = "exercises/RECEIVE_NEW_EXERCISE";
 const REMOVE_EXERCISE = "exercises/REMOVE_EXERCISE";
 const RECEIVE_EXERCISE_ERRORS = "exercises/RECEIVE_EXERCISE_ERRORS";
@@ -35,14 +36,18 @@ export const receiveGoalExercises = (exercises) => ({
     exercises
 });
 
+export const receiveWorkoutExercises = (exercises) => ({
+    type: RECEIVE_WORKOUT_EXERCISES,
+    exercises
+});
+
 export const receiveNewExercise = (exercise) => ({
     type: RECEIVE_NEW_EXERCISE,
     exercise
 });
 
-export const removeExercise = (userId, exerciseId) => ({
+export const removeExercise = (exerciseId) => ({
     type: REMOVE_EXERCISE,
-    userId,
     exerciseId
 });
 
@@ -85,9 +90,9 @@ export const fetchUserExercises = userId => async dispatch => {
     }
 };
 
-export const createExercise = (exercise) => async dispatch => {
+export const createExercise = (workoutId, exercise) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/exercises`, {
+        const res = await jwtFetch(`/api/exercises/${workoutId}`, {
             method: 'POST',
             body: JSON.stringify(exercise)
         });
@@ -107,7 +112,7 @@ export const fetchUserExercise = (userId, goalId, exerciseId) => async dispatch 
     try {
         const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries/${exerciseId}`);
         const userExercise = await res.json();
-        dispatch(receiveUserExercise(userExercise));
+        dispatch(receiveUserExercise({userExercise}));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -116,11 +121,12 @@ export const fetchUserExercise = (userId, goalId, exerciseId) => async dispatch 
     }
 };
 
-export const fetchGoalExercises = (userId, goalId) => async dispatch => {
+// get exercises PER GOAL
+export const fetchGoalExercises = (goalId) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries`);
-        const goalEntries = await res.json();
-        dispatch(receiveGoalExercises(goalEntries));
+        const res = await jwtFetch(`/api/exercises/byGoal/${goalId}`);
+        const exercises = await res.json();
+        dispatch(receiveGoalExercises(exercises));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -129,9 +135,23 @@ export const fetchGoalExercises = (userId, goalId) => async dispatch => {
     }
 };
 
-export const updateExercise = (userId, goalId, exercise) => async dispatch => {
+// get exercises PER WORKOUT
+export const fetchWorkoutExercises = (workoutId) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries/${exercise._id}`, {
+        const res = await jwtFetch(`/api/exercises/byWorkout/${workoutId}`);
+        const exercises = await res.json();
+        dispatch(receiveWorkoutExercises(exercises));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveExerciseErrors(resBody.errors));
+        }
+    }
+};
+
+export const updateExercise = (exerciseId, exercise) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/exercises/${exerciseId}`, {
             method: 'PATCH',
             body: JSON.stringify(exercise)
         });
@@ -145,12 +165,12 @@ export const updateExercise = (userId, goalId, exercise) => async dispatch => {
     }
 };
 
-export const deleteExercise = (userId, goalId, exerciseId) => async dispatch => {
+export const deleteExercise = (exerciseId) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries/${exerciseId}`, {
+        const res = await jwtFetch(`/api/exercises/${exerciseId}`, {
             method: 'DELETE'
         });
-        dispatch(removeExercise(userId, exerciseId));
+        dispatch(removeExercise(exerciseId));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -215,22 +235,26 @@ export const exerciseErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const exercisesReducer = (state = { all: {}, user: {}, goal: {}, updated: undefined, new: undefined }, action) => {
+const exercisesReducer = (state = { user: {}, follows: {}, discovers: {}, byWorkout: {}, byGoal: {}, updated: undefined, new: undefined }, action) => {
     let newState = { ...state };
 
     switch (action.type) {
         case RECEIVE_EXERCISES:
             return { ...newState, all: action.exercises, updated: undefined, new: undefined };
         case RECEIVE_UPDATED_EXERCISE:
-            return { ...newState, all: { ...newState.all, ...action.exercise }, updated: action.exercise, new: undefined };
+            return { ...newState, user: { ...newState.user, ...action.exercise }, updated: action.exercise, new: undefined };
         case RECEIVE_USER_EXERCISE:
             return { ...newState, user: action.exercise, updated: undefined, new: undefined };
         case RECEIVE_USER_EXERCISES:
             return { ...newState, user: action.exercises, updated: undefined, new: undefined };
         case RECEIVE_GOAL_EXERCISES:
-            return { ...newState, goal: action.exercises, updated: undefined, new: undefined };
+            return { ...newState, byGoal: action.exercises, updated: undefined, new: undefined };
+                /////
+        case RECEIVE_WORKOUT_EXERCISES:
+            return { ...newState, byWorkout: action.exercises, updated: undefined, new: undefined };
+                /////
         case RECEIVE_NEW_EXERCISE:
-            return { ...newState, updated: undefined, new: action.exercise };
+            return { ...newState, new: action.exercise };
         case REMOVE_EXERCISE:
             const cloneStateAll = { ...newState.all };
             delete cloneStateAll[action.exerciseId];

@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Goal = mongoose.model('Goal');
+const Follow = mongoose.model('Follow');
+const User = mongoose.model('User');
 const validateGoalInput = require("../../validations/goals");
 const { requireUser } = require('../../config/passport');
 
@@ -124,6 +126,59 @@ router.get('/all/:userId', requireUser, async (req, res, next) => {
     }
 });
 
+// fetch all goals from followed users
+// might been to change path name 
+router.get('/', requireUser, async (req, res, next) => {
+    try {
+
+        const follows = await Follow.find({ follower: req.user._id });
+        // this gives us an array (follows) of all of our follows
+
+        const followedUsers = await Promise.all(follows.map(async (follow) => {
+            let searchId = follow.followedUser;
+            const user = await User.findById(searchId);
+            return user;
+        }));
+        // now followedUsers is an array of user objects
+
+        const followedGoals = {};
+        await Promise.all(followedUsers.map(async (user) => {
+            const goals = await Goal.find({ user: user._id });
+            followedGoals[user._id] = goals;
+        }));
+
+        return res.json(followedGoals);
+    } catch (err) {
+        next(err);
+    }
+});
+
+
+
+
+
+
+
+
+
 
 
 module.exports = router;
+
+
+
+
+
+// // goal: we are current_user and we are trying to find all goals of all followed users
+
+// // flow: Self - follows - followedPeople - goals
+
+// const follows = await Follow.find({ follower: req.user._id });
+// // this gives us an array (follows) of all of our follows
+
+// const followedUsers = follows.map(follow => await User.findById(follow.followedUser));
+// // now followedUsers is an array of user objects
+
+// const follwedGoals = {};
+// followedUsers.forEach(user => followedGoals[user._id] = await Goal.find({ user: user._id}))
+// //********

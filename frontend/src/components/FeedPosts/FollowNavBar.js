@@ -8,7 +8,7 @@ const FollowNavBar = () => {
 		<div className="follow-nav-bar-container">
 			<ul>
 				<li><Link to={`/feed`}>Follows</Link></li>
-				<li><Link to={`/feed`}>Discover</Link></li>
+				<li><Link to={`/feed/discover`}>Discover</Link></li>
 				<li><Link to={`/feed/${sessionUser._id}`}>{sessionUser.username}</Link></li>
 			</ul>
 		</div>

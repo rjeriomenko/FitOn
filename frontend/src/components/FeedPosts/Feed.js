@@ -39,14 +39,16 @@ export const filterPostsBy = (postsArray, options = {}) => {
   return fitleredArray;
 }
 
-function Feed ({options = {}}) {
+function Feed ({discoverMode, options = {}}) {
   const dispatch = useDispatch();
   const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : {});
   const workoutPosts = Object.values(useSelector(getUserKeyExerciseEntries))
   const sessionUser = useSelector(state => state.session.user);
-  const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
+  // const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
+  const userId = useParams().userId
   const filterOptions = {...options};
 	const [triggerRender, setTriggerRender] = useState(0);
+
   useEffect(() => {
     dispatch(fetchUserGoals(userId))
     dispatch(fetchUserExerciseEntries(userId))
@@ -72,11 +74,16 @@ function Feed ({options = {}}) {
   // const headerText = (userId ? "just you..." : "everyone...")
   let headerText;
   if(userId){
-    if(userId === sessionUser._id) headerText = "just you..."
+    if(userId === sessionUser._id) headerText = "your goals and workouts"
     // else headerText = `${sortedGoalPosts ? sortedGoalPosts[0].setter.concat(`...`) : "nothing here..."}`
-    else headerText = `${sortedCombinedPosts ? sortedCombinedPosts[0].setter.concat(`...`) : "nothing here..."}`
+    else {
+      // debugger
+      headerText = `${sortedCombinedPosts?.length ? sortedCombinedPosts[0].user.username?.concat('s goals and workouts') : "nothing here..."}`
+    }
+  } else if(discoverMode){
+    headerText = "other amazing goal-getters";
   } else {
-    headerText = "everyone..."
+    headerText = "together is better"
   }
 
   if (sortedCombinedPosts.length === 0) return (

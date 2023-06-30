@@ -85,9 +85,9 @@ export const fetchUserExercises = userId => async dispatch => {
     }
 };
 
-export const createExercise = (exercise) => async dispatch => {
+export const createExercise = (workoutId, exercise) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/exercises`, {
+        const res = await jwtFetch(`/api/exercises/${workoutId}`, {
             method: 'POST',
             body: JSON.stringify(exercise)
         });

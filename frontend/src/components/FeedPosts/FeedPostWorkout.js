@@ -8,25 +8,15 @@ import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goal
 import { Link } from "react-router-dom";
 import { fetchUserExerciseEntries,getUserKeyExerciseEntries } from "../../store/exerciseEntries";
 
-function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
+function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
   // props
-	const { title, description, deadline, completionDate, updatedAt } = feedPost;
-	const goalId = feedPost._id
+	// const { title, description, deadline, completionDate, updatedAt } = feedPost;
+	const { date, goal, note, rating, user } = feedPost;
+	const goalId = goal?._id
 	const setter = feedPost.user.username;
 	const setterId = feedPost.user._id;
-	// let { exerciseEntries } = feedPost;
-	const exerciseEntries = Object.values(useSelector(getUserKeyExerciseEntries)).filter(entry => entry.goal?._id === goalId)
-	// debugger
 	const formatDate = (dateText) => {
 		return new Date(dateText).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})
-	}
-
-	const latestExerciseText = () => {
-		if(!exerciseEntries || exerciseEntries.length === 0) return "No workouts yet";
-		const lastEntry = exerciseEntries[exerciseEntries.length - 1];
-		const lastDate = formatDate(lastEntry.date);
-		const text = `Latest workout: ${lastEntry.note} - ${lastDate}`
-		return text;
 	}
 
 	// Redux
@@ -39,38 +29,27 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
 	const [editable, setEditable] = useState(false);
 
 	// controlled inputs
-	const [username, setUsername] = useState(setter)
-	const [timestamp, setTimeStamp] = useState(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true}))
-	const [formTitle, setFormTitle] = useState(title);
-	const [formDescription, setFormDescription] = useState(description);
+	const [formNote, setFormNote] = useState(note);
+	const [formRating, setFormRating] = useState(rating);
+	const [formDate, setFormDate] = useState(date);
+	const [timestamp, setTimeStamp] = useState(new Date(date).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true}))
 
 	// internal state to trigger rerender - does not display or get used elsewhere
 	const [triggerChildRender, setTriggerChildRender] = useState(0);
 
-	// Text-area height expands/contracts with input size
-	const handleDescriptionChange = e => {
-		setFormDescription(e.target.value);
-		e.target.style.height = "auto";
-		e.target.style.height = e.target.scrollHeight + "px";
-	}
+	// const handleUpdateWorkout = e => {
+	// 	setEditable(false);
+	// 	const updatedWorkout = { note:formNote, rating:formRating, date:formDate, goal, user }
+	// 	dispatch(updateGoal(updatedGoal)) //NEED NEW THUNK!!!!!!!!
+	// 		.then(res => {
+	// 			setTriggerRender(triggerRender + 1)
+	// 		})
+	// }
 
-	const handleUpdateGoal = e => {
-		setEditable(false);
-		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, deadline, completionDate, exerciseEntries, updatedAt }
-		dispatch(updateGoal(updatedGoal))
-			.then(res => {
-				setTriggerRender(triggerRender + 1)
-			})
-	}
-
-	const handleDeleteGoal = e => {
-		dispatch(deleteGoal(goalId))
-			.then(() => setTriggerRender(triggerRender + 1));
-	}
-
-	// useEffect(() => {
-	// 	setTriggerChildRender(triggerChildRender + 1);
-	// }, [triggerRender])
+	// const handleDeleteWorkout = e => {
+	// 	dispatch(deleteGoal(goalId)) //NEED NEW THUNK!!!!!!!!
+	// 		.then(() => setTriggerRender(triggerRender + 1));
+	// }
 
 	useEffect(() => {
 			setTriggerChildRender(triggerChildRender + 1);
@@ -85,37 +64,27 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
-					<Link to={`/feed/${setterId}`}><div className="post-username">{username}</div></Link>
+					<Link to={`/feed/${setterId}`}><div className="post-username">{setter}</div></Link>
 					<div className="post-timestamp">{timestamp}</div>
 				</div>
 				<br/>
 				<Link to={`/profile`}>{!editable && <div className="feed-post-row">
-					<span className="post-goal-title">{formTitle}</span>
-					<span>·</span>
-					<span className="post-goal-description">{formDescription}</span>
+					<span className="post-goal-title">{formNote}</span>
+					<span className="post-goal-title">{formRating}</span>
 				</div>}</Link>
 				
 				{editable && <>
-					<label>Title
+					<label>Note: 
 						<input className="feed-post-text-edit"
 							type="text"
-							value={formTitle}
-							onChange={e => setFormTitle(e.target.value)}
+							value={formNote}
+							onChange={e => setFormNote(e.target.value)}
 						/>
 					</label>
-					<label>Description
-						<textarea className="feed-post-text-edit"
-							contentEditable={true}
-							value={formDescription}
-							onChange={handleDescriptionChange}
-						/>
-					</label>
-					<div className="feed-post-crud-button" onClick={handleUpdateGoal}>Update</div>
+					{/* <div className="feed-post-crud-button" onClick={handleUpdateWorkout}>Update</div> */}
+					<div className="feed-post-crud-button">Update</div>
 				</>}
 				<div className="post-divider"></div>
-				<div className="latest-exercise-text">
-					{latestExerciseText()}
-				</div>
 			</div>
 			{/* CONTENT - END */}
 			{/* CONTENT - END */}
@@ -129,7 +98,8 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
 							{/* {editable ? "Cancel" : "Update"} */}
 							<i class="far fa-edit"></i>
 						</div>
-						<div className="feed-post-crud-button" onClick={handleDeleteGoal}>
+						{/* <div className="feed-post-crud-button" onClick={handleDeleteWorkout}> */}
+						<div className="feed-post-crud-button">
 							<i class="fa-solid fa-trash-can"></i>
 						</div>
 					</>
@@ -141,4 +111,4 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
   );
 }
 
-export default FeedPostGoal;
+export default FeedPostWorkout;

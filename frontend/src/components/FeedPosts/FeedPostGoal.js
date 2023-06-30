@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
 import { Link } from "react-router-dom";
+import { fetchUserExerciseEntries,getUserKeyExerciseEntries } from "../../store/exerciseEntries";
 
 function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
   // props
@@ -13,8 +14,9 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
 	const goalId = feedPost._id
 	const setter = feedPost.user.username;
 	const setterId = feedPost.user._id;
-	let { exerciseEntries } = feedPost;
-
+	// let { exerciseEntries } = feedPost;
+	const exerciseEntries = Object.values(useSelector(getUserKeyExerciseEntries)).filter(entry => entry.goal?._id === goalId)
+	// debugger
 	const formatDate = (dateText) => {
 		return new Date(dateText).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})
 	}
@@ -32,16 +34,9 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
 	
 	// useSelectors
 	const sessionUser = useSelector(state => state.session.user);
-	const currentGoal = useSelector(getGoal(goalId));
 	
 	// component logic states
 	const [editable, setEditable] = useState(false);
-
-	// // controlled inputs
-	// const [username, setUsername] = useState("undefined-user")
-	// const [timestamp, setTimeStamp] = useState('')
-	// const [formTitle, setFormTitle] = useState('');
-	// const [formDescription, setFormDescription] = useState('');
 
 	// controlled inputs
 	const [username, setUsername] = useState(setter)
@@ -65,8 +60,6 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
 		dispatch(updateGoal(updatedGoal))
 			.then(res => {
 				setTriggerRender(triggerRender + 1)
-				// setTimeStamp(currentGoal.updatedAt)
-				// setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 
 			})
 	}
 
@@ -81,18 +74,7 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
 
 	useEffect(() => {
 			setTriggerChildRender(triggerChildRender + 1);
-		// switch(type){
-		// 	case POST_TYPE_EXERCISE_ENTRY:
-		// 		break;
-		// 	case POST_TYPE_GOAL:
-		// 		setUsername(setter)
-		// 		setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 
-		// 		setFormTitle(title)
-		// 		setFormDescription(description)
-		// 		break;
-		// 	default: 
-		// 		break;
-		// }
+			dispatch(fetchUserExerciseEntries(setterId))
 	}, [dispatch, triggerRender])
 
 

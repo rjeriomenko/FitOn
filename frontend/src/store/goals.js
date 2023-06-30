@@ -97,7 +97,7 @@ export const createGoal = (goal) => async dispatch => {
             body: JSON.stringify(goal)
         });
         const responseGoal = await res.json();
-        dispatch(receiveNewGoal({ [responseGoal._id]: [responseGoal] }));
+        dispatch(receiveNewGoal(responseGoal));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {

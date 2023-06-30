@@ -215,7 +215,7 @@ export const exerciseErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const exercisesReducer = (state = { all: {}, user: {}, goal: {}, updated: undefined, new: undefined }, action) => {
+const exercisesReducer = (state = { user: {}, follows: {}, discovers: {}, updated: undefined, new: undefined }, action) => {
     let newState = { ...state };
 
     switch (action.type) {
@@ -230,7 +230,7 @@ const exercisesReducer = (state = { all: {}, user: {}, goal: {}, updated: undefi
         case RECEIVE_GOAL_EXERCISES:
             return { ...newState, goal: action.exercises, updated: undefined, new: undefined };
         case RECEIVE_NEW_EXERCISE:
-            return { ...newState, updated: undefined, new: action.exercise };
+            return { ...newState, new: action.exercise };
         case REMOVE_EXERCISE:
             const cloneStateAll = { ...newState.all };
             delete cloneStateAll[action.exerciseId];

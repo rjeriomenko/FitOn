@@ -32,10 +32,10 @@ export const sortFeedPostsBy = (postsArray, sortRule) => {
 // Filter posts by post options object of types:["type1", ...] and/or ownerIds:[id1, ...]
 export const filterPostsBy = (postsArray, options = {}) => {
   const { types, ownerIds } = options;
-  const fitleredArray = postsArray.filter(post => {
+  const filteredArray = postsArray.filter(post => {
     return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.user._id) : true);
   })
-  return fitleredArray;
+  return filteredArray;
 }
 
 function Feed ({options = {}}) {
@@ -45,7 +45,7 @@ function Feed ({options = {}}) {
   const sessionUser = useSelector(state => state.session.user);
   const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
   const filterOptions = {...options};
-	const [triggerRender, setTriggerRender] = useState(0);
+	const [triggerRender, setTriggerRender] = useState(1);
   useEffect(() => {
     dispatch(fetchUserGoals(userId))
     dispatch(fetchUserExerciseEntries(userId))
@@ -70,8 +70,8 @@ function Feed ({options = {}}) {
   // const headerText = (userId ? sessionUser.username + "..." : "everyone")
   // const headerText = (userId ? "just you..." : "everyone...")
   let headerText;
-  if(userId){
-    if(userId === sessionUser._id) headerText = "just you..."
+  if (userId) {
+    if (userId === sessionUser._id) headerText = "just you..."
     // else headerText = `${sortedGoalPosts ? sortedGoalPosts[0].setter.concat(`...`) : "nothing here..."}`
     else headerText = `${sortedCombinedPosts ? sortedCombinedPosts[0].setter.concat(`...`) : "nothing here..."}`
   } else {
@@ -80,19 +80,29 @@ function Feed ({options = {}}) {
 
   if (sortedCombinedPosts.length === 0) return (
     <>
-    <div className='feed-posts-container'>
-      <h2>Welcome to the beginning of time!</h2>
-    </div>
-    </> 
+      <div className='feed-posts-container'>
+        <h2>Welcome to the beginning of time!</h2>
+      </div>
+    </>
   )
+
+  const renderPosts = () => {
+    console.log(sortedCombinedPosts);
+    return sortedCombinedPosts.map(goalPost => goalPost.deadline ?
+      <FeedPostGoal key={`${Math.random()}` + goalPost.goalId} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />
+      : <FeedPostWorkout key={`${Math.random()}` + goalPost.goalId} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />
+    )
+  }
+
   return (
     <>
       <div className='feed-posts-container'>
         <h2>{headerText}</h2>
-        {sortedCombinedPosts.map(goalPost => goalPost.deadline ? 
+        {/* {sortedCombinedPosts.map(goalPost => goalPost.deadline ? 
           <FeedPostGoal key={goalPost.goalId} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender}/>
           : <FeedPostWorkout key={goalPost.goalId} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender}/>
-        )}
+        )} */}
+        {renderPosts()}
       </div>
     </>
   );

@@ -66,24 +66,22 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 		setEditable(false);
 		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, deadline, completionDate, exerciseEntries, updatedAt }
 		dispatch(updateGoal(updatedGoal))
-			.then(res => {
-				setTriggerRender(triggerRender + 1)
-			})
+			.then(() => setTriggerRender(triggerRender * Math.random()));
 	}
 
 	const handleDeleteGoal = e => {
 		dispatch(deleteGoal(goalId))
-			.then(() => setTriggerRender(triggerRender + 1));
+			.then(() => setTriggerRender(triggerRender * Math.random()));
 	}
 
 	// useEffect(() => {
 	// 	setTriggerChildRender(triggerChildRender + 1);
 	// }, [triggerRender])
 
-	useEffect(() => {
-			setTriggerChildRender(triggerChildRender + 1);
-			dispatch(fetchUserExerciseEntries(setterId))
-	}, [dispatch, triggerRender])
+	// useEffect(() => {
+	// 		setTriggerChildRender(triggerChildRender + 1);
+	// 		dispatch(fetchUserExerciseEntries(setterId))
+	// }, [dispatch, triggerRender])
 
 
 

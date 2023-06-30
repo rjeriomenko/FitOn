@@ -64,6 +64,22 @@ router.get('/followed', requireUser, async (req, res, next) => {
     }
 });
 
+// sample 10 random workouts
+router.get('/sample', requireUser, async (req, res, next) => {
+    try {
+        let workouts = await ExerciseEntry.find({});
+        let randomizedWorkouts = workouts.sort(() => Math.random() - 0.5);
+        let workoutsArray = randomizedWorkouts.slice(0, 9);
+        let workoutsObj = {};
+
+        workoutsArray.forEach(workout => workoutsObj[workout._id] = workout);
+
+        return res.json(workoutsObj)
+    } catch (err) {
+        next(err);
+    }
+});
+
 // GET by userId
 router.get('/byUser/:userId', requireUser, async (req, res, next) => {
     try {

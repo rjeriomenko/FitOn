@@ -23,6 +23,7 @@ import {
     fetchUserExercises,
     fetchAllUserExercises,
     fetchGoalExercises,
+    fetchWorkoutExercises,
     createExercise,
     updateExercise,
     deleteExercise,
@@ -46,6 +47,7 @@ function LandingPage() {
     window.fetchUserExercise = fetchUserExercise;
     window.fetchUserExercises = fetchUserExercises;
     window.fetchGoalExercises = fetchGoalExercises;
+    window.fetchWorkoutExercises = fetchWorkoutExercises;
     window.fetchAllUserExercises = fetchAllUserExercises;
     window.createExercise = createExercise;
     window.updateExercise = updateExercise;

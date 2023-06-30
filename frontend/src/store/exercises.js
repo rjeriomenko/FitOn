@@ -5,6 +5,7 @@ const RECEIVE_UPDATED_EXERCISE = "exercises/RECEIVE_UPDATED_EXERCISE";
 const RECEIVE_USER_EXERCISE = "exercises/RECEIVE_USER_EXERCISE";
 const RECEIVE_USER_EXERCISES = "exercises/RECEIVE_USER_EXERCISES";
 const RECEIVE_GOAL_EXERCISES = "exercises/RECEIVE_GOAL_EXERCISES";
+const RECEIVE_WORKOUT_EXERCISES = "exercises/RECEIVE_WORKOUT_EXERCISES"
 const RECEIVE_NEW_EXERCISE = "exercises/RECEIVE_NEW_EXERCISE";
 const REMOVE_EXERCISE = "exercises/REMOVE_EXERCISE";
 const RECEIVE_EXERCISE_ERRORS = "exercises/RECEIVE_EXERCISE_ERRORS";
@@ -32,6 +33,11 @@ export const receiveUserExercises = (exercises) => ({
 
 export const receiveGoalExercises = (exercises) => ({
     type: RECEIVE_GOAL_EXERCISES,
+    exercises
+});
+
+export const receiveWorkoutExercises = (exercises) => ({
+    type: RECEIVE_WORKOUT_EXERCISES,
     exercises
 });
 
@@ -129,6 +135,20 @@ export const fetchGoalExercises = (goalId) => async dispatch => {
     }
 };
 
+// get exercises PER WORKOUT
+export const fetchWorkoutExercises = (workoutId) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/exercises/byWorkout/${workoutId}`);
+        const exercises = await res.json();
+        dispatch(receiveWorkoutExercises(exercises));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveExerciseErrors(resBody.errors));
+        }
+    }
+};
+
 export const updateExercise = (exerciseId, exercise) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/exercises/${exerciseId}`, {
@@ -215,7 +235,7 @@ export const exerciseErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const exercisesReducer = (state = { user: {}, follows: {}, discovers: {}, updated: undefined, new: undefined }, action) => {
+const exercisesReducer = (state = { user: {}, follows: {}, discovers: {}, byWorkout: {}, byGoal: {}, updated: undefined, new: undefined }, action) => {
     let newState = { ...state };
 
     switch (action.type) {
@@ -228,7 +248,11 @@ const exercisesReducer = (state = { user: {}, follows: {}, discovers: {}, update
         case RECEIVE_USER_EXERCISES:
             return { ...newState, user: action.exercises, updated: undefined, new: undefined };
         case RECEIVE_GOAL_EXERCISES:
-            return { ...newState, user: action.exercises, updated: undefined, new: undefined };
+            return { ...newState, byGoal: action.exercises, updated: undefined, new: undefined };
+                /////
+        case RECEIVE_WORKOUT_EXERCISES:
+            return { ...newState, byWorkout: action.exercises, updated: undefined, new: undefined };
+                /////
         case RECEIVE_NEW_EXERCISE:
             return { ...newState, new: action.exercise };
         case REMOVE_EXERCISE:

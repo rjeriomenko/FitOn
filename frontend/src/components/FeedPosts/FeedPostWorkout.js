@@ -80,7 +80,7 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 				<br/>
 				<Link to={`/profile`}>{!editable && <div className="feed-post-row">
 					<span className="post-goal-title">{formNote}</span>
-					<span className="post-goal-title">{formRating}</span>
+					<span className="post-workout-rating">{formRating}</span>
 				</div>}</Link>
 				
 				{editable && <>

@@ -1,4 +1,4 @@
-import "./FeedPostEditable.css"
+import "./FeedPostGoal.css"
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { POST_TYPE_GOAL, POST_TYPE_EXERCISE_ENTRY } from "./Feed";
@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
 import { Link } from "react-router-dom";
 
-function FeedPostEditable ({feedPost, type}) {
+function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
   // props
 	const { title, description, deadline, completionDate, updatedAt } = feedPost;
 	const goalId = feedPost._id
@@ -61,7 +61,8 @@ function FeedPostEditable ({feedPost, type}) {
 	}
 
 	const handleDeleteGoal = e => {
-		dispatch(deleteGoal(setterId, goalId))
+		dispatch(deleteGoal(goalId))
+			.then(() => setTriggerRender(triggerRender + 1));
 	}
 
 	useEffect(() => {
@@ -77,7 +78,7 @@ function FeedPostEditable ({feedPost, type}) {
 			default: 
 				break;
 		}
-	}, [])
+	}, [dispatch, triggerRender])
 
   return (
 		<div className="feed-post-editable-container">
@@ -144,4 +145,4 @@ function FeedPostEditable ({feedPost, type}) {
   );
 }
 
-export default FeedPostEditable;
+export default FeedPostGoal;

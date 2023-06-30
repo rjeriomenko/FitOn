@@ -2,7 +2,7 @@ import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearGoalErrors, createGoal  } from '../../store/goals';
-// import FeedPostEditable from './FeedPostEditable';
+// import FeedPostGoal from './FeedPostGoal';
 import './GoalCreate.css';
 
 function GoalCreate () {

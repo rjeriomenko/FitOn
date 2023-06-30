@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
 import { fetchAllUserGoals, fetchUserGoals } from '../../store/goals';
-import FeedPostEditable from './FeedPostEditable';
+import FeedPostGoal from './FeedPostGoal';
 import './Feed.css';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -37,12 +37,12 @@ export const filterPostsBy = (postsArray, options = {}) => {
 }
 
 function Feed ({options = {}}) {
-  const {userId} = useParams();
   const dispatch = useDispatch();
-  // const goalPosts = useSelector(state => state.goals?.all ? Object.values(state.goals.all) : {});
   const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : {});
   const sessionUser = useSelector(state => state.session.user);
+  const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
   const filterOptions = {...options};
+	const [triggerRender, setTriggerRender] = useState(0);
   // debugger
   useEffect(() => {
     dispatch(fetchUserGoals(userId))
@@ -85,7 +85,7 @@ function Feed ({options = {}}) {
       <div className='feed-posts-container'>
         <h2>{headerText}</h2>
         {sortedGoalPosts.map(goalPost => (
-          <FeedPostEditable key={goalPost.goalId} feedPost={goalPost} type={POST_TYPE_GOAL}/>
+          <FeedPostGoal key={goalPost.goalId} feedPost={goalPost} type={POST_TYPE_GOAL} triggerRender={triggerRender} setTriggerRender={setTriggerRender}/>
         ))}
       </div>
     </>

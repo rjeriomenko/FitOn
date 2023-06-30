@@ -23,7 +23,8 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
     const sessionUserId = sessionUser._id;
     const userGoalsObj = useSelector(getUserGoals);
     const userGoals = userGoalsObj ? userGoalsObj[`${sessionUserId}`] : null;
-    const currentGoal = userGoals ? userGoals.slice(-1)[0] : null;
+    // const currentGoal = userGoals ? userGoals.slice(-1)[0] : null;
+    const currentGoal = sessionUser?.currentGoal;
 
     const currentGoalId = currentGoal?._id;
 
@@ -57,9 +58,9 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
     const handleSubmit = (e) => {
         e.preventDefault();
         // const exercise = { date, note, rating, exercises: exerciseInputs };
-        const exercise = { date, note, rating };
-
-        dispatch(createExerciseEntry( sessionUserId, currentGoalId, { date, note, rating: Number(rating) }))
+        // const exercise = { date, note, rating };
+        // debugger
+        dispatch(createExerciseEntry( currentGoalId, { date, note, rating: Number(rating) }))
             .then(() => {
                 setShowExerciseEntry(false)
             })

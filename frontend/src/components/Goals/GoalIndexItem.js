@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { deleteGoal } from '../../store/goals'
+import { deleteGoal, updateGoal } from '../../store/goals'
 
 import './GoalIndexItem.css'
 
@@ -8,13 +8,20 @@ function GoalIndexItem ({goal}) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
 	const [editable, setEditable] = useState(false);
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
+    const [title, setTitle] = useState(goal.title)
+    const [description, setDescription] = useState(goal.description)
 
-    const handleUpdate = e => {
-        const updatedGoal = { ...goal, title, description}
+    const handleDescriptionChange = e => {
+		setDescription(e.target.value);
+		e.target.style.height = "auto";
+		e.target.style.height = e.target.scrollHeight + "px";
+	}
 
-    }
+    const handleUpdateGoal = e => {
+		setEditable(false);
+		const updatedGoal = { ...goal, title, description}
+		dispatch(updateGoal(updatedGoal));
+	}
 
     const openMenu = () => {
         if (showMenu) return;
@@ -40,11 +47,39 @@ function GoalIndexItem ({goal}) {
     return (
         <>  
             <div className="grid-item-container">
+                
+            {!editable ? (
                 <div className="grid-item-previous" id="previous-goal">
-                    <p className="goal-title">{goal.title}</p>
-                    <p>{goal.description}</p>
-                    <p>Completed: {goal.deadline}</p>   
+                    <p className="goal-title">{title}</p>
+                    <p>{description}</p>
+                    <p>Completed: {goal.deadline}</p>
                 </div>
+            ) : (
+                <div className="feed-post-content">
+                <label>Title
+                <input
+                    className="feed-post-text-edit"
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                />
+                </label>
+
+                <label>Description
+                <textarea
+                    className="feed-post-text-edit"
+                    contentEditable={true}
+                    value={description}
+                    onChange={handleDescriptionChange}
+                />
+                </label>
+
+                <div className="feed-post-crud-button" onClick={handleUpdateGoal}>
+                    Update
+                </div>
+            </div>
+        )}
+
 
                 <div className="ellipsis" onClick={openMenu}>
                     <i id="ellipsis" className="fas fa-light fa-ellipsis-vertical"></i>
@@ -52,10 +87,10 @@ function GoalIndexItem ({goal}) {
 
                 {showMenu && (
                     <ul className="goal-dropdown">
-                        <li>Edit Goal</li>
+                        <li onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>Edit Goal</li>
+                        <div id="goal-dropdown-line"></div>
                         <li onClick={handleDel}>Delete Goal</li>
                     </ul>
-
                 )}
 
             </div>

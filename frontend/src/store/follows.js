@@ -63,7 +63,7 @@ export const createFollow = (followedUserId) => async dispatch => {
 
 export const deleteFollow = (followId) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/follows/${followedUserId}`, {
+        const res = await jwtFetch(`/api/follows/${followId}`, {
             method: 'DELETE'
         });
         dispatch(removeFollow(followId));

@@ -153,3 +153,5 @@ router.delete('/:exerciseId', requireUser, async (req, res, next) => {
 
 
 module.exports = router;
+
+// 

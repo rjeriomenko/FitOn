@@ -60,18 +60,18 @@ export const fetchUserExerciseEntries = userId => async dispatch => {
     }
 };
 
-export const fetchGoalExerciseEntries = (userId, goalId) => async dispatch => {
-    try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries`);
-        const goalEntries = await res.json();
-        dispatch(receiveGoalExerciseEntries(goalEntries));
-    } catch (err) {
-        const resBody = await err.json();
-        if (resBody.statusCode === 400) {
-            dispatch(receiveExerciseEntryErrors(resBody.errors));
-        }
-    }
-};
+// export const fetchGoalExerciseEntries = (userId, goalId) => async dispatch => {
+//     try {
+//         const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries`);
+//         const goalEntries = await res.json();
+//         dispatch(receiveGoalExerciseEntries(goalEntries));
+//     } catch (err) {
+//         const resBody = await err.json();
+//         if (resBody.statusCode === 400) {
+//             dispatch(receiveExerciseEntryErrors(resBody.errors));
+//         }
+//     }
+// };
 
 export const createExerciseEntry = (goalId, exerciseEntry) => async dispatch => {
     try {

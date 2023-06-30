@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
 import { Link } from "react-router-dom";
-import { fetchUserExerciseEntries,getUserKeyExerciseEntries } from "../../store/exerciseEntries";
+import { fetchUserExerciseEntries,getUserExerciseEntries } from "../../store/exerciseEntries";
 
 function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
   // props

@@ -1,7 +1,9 @@
 import jwtFetch from './jwt';
 
 const RECEIVE_USERS = "users/RECEIVE_USERS";
+const RECEIVE_FOLLOWS_USERS = "users/RECEIVE_FOLLOWS_USERS";
 const RECEIVE_USER = "users/RECEIVE_USER";
+const RECEIVE_UPDATED_USER = "users/RECEIVE_UPDATED_USER";
 const RECEIVE_USER_ERRORS = "users/RECEIVE_USER_ERRORS";
 const CLEAR_USER_ERRORS = "users/CLEAR_USER_ERRORS";
 
@@ -10,8 +12,18 @@ export const receiveUsers = (users) => ({
     users
 });
 
+export const receiveFollowsUsers = (user) => ({
+    type: RECEIVE_FOLLOWS_USERS,
+    user
+});
+
 export const receiveUser = (user) => ({
     type: RECEIVE_USER,
+    user
+});
+
+export const receiveUpdatedUser = (user) => ({
+    type: RECEIVE_UPDATED_USER,
     user
 });
 
@@ -40,6 +52,19 @@ export const fetchUsers = () => async dispatch => {
     }
 };
 
+export const fetchFollowsUsers = () => async dispatch => {  //pre-emptive thunk
+    try {
+        const res = await jwtFetch(`/api/users/byFollows`);
+        const followsUsers = await res.json();
+        dispatch(receiveFollowsUsers(followsUsers));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveUserErrors(resBody.errors));
+        }
+    }
+};
+
 export const fetchUser = userId => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users/${userId}`);
@@ -49,6 +74,23 @@ export const fetchUser = userId => async dispatch => {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
             dispatch(receiveUserErrors(resBody.errors));
+        }
+    }
+};
+
+
+export const updateUser = (user) => async dispatch => {  //pre-emptive thunk
+    try {
+        const res = await jwtFetch(`/api/users/${user._id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(user)
+        });
+        const responseUser = await res.json();
+        dispatch(receiveUpdatedUser(responseUser));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveUserErrors(resBody.errors));
         }
     }
 };
@@ -72,6 +114,22 @@ export const getUsers = state => {
     }
 }
 
+export const getFollowsUsers = state => {
+    if (state?.users) {
+        return state.users.follows
+    } else {
+        return null;
+    }
+}
+
+export const getUpdatedUser = state => {
+    if (state?.users) {
+        return state.users.updated
+    } else {
+        return null;
+    }
+}
+
 const nullErrors = null;
 
 //What other RECEIVE constants belong here?
@@ -86,12 +144,16 @@ export const userErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const usersReducer = (state = { individual: {}, all: {}, subscribed: {} }, action) => {
+const usersReducer = (state = { individual: {}, all: {}, follows: {}, updated: undefined}, action) => {
     let newState = { ...state };
 
     switch (action.type) {
         case RECEIVE_USERS:
             return { ...newState, all: action.users };
+        case RECEIVE_UPDATED_USER:
+            return { ...newState, updated: action.user};
+        case RECEIVE_FOLLOWS_USERS:
+            return { ...newState, follows: action.users };
         case RECEIVE_USER:
             return { ...newState, individual: action.user };
         default:

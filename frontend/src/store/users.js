@@ -53,23 +53,6 @@ export const fetchUser = userId => async dispatch => {
     }
 };
 
-// export const updateGoal = (userId, goal) => async dispatch => {     ----USE THIS AS A BASIS FOR updateUser THUNK
-//     try {
-//         console.log("userId-", userId, "goal._id-", goal._id)
-//         const res = await jwtFetch(`/api/users/${userId}/goals/${goal._id}`, {
-//             method: 'PATCH',
-//             body: JSON.stringify(goal)
-//         });
-//         const responseGoal = await res.json();
-//         dispatch(receiveUpdatedGoal({ [goal._id]: { goalId: goal._id, goal: responseGoal, setter: goal.setter, setterId: userId } }));
-//     } catch (err) {
-//         const resBody = await err.json();
-//         if (resBody.statusCode === 400) {
-//             return dispatch(receiveGoalErrors(resBody.errors));
-//         }
-//     }
-// };
-
 //Selectors
 export const getUser = (userId) => state => {
     if (state?.users.individual[userId]) {
@@ -110,7 +93,7 @@ const usersReducer = (state = { individual: {}, all: {}, subscribed: {} }, actio
         case RECEIVE_USERS:
             return { ...newState, all: action.users };
         case RECEIVE_USER:
-            return { ...newState, user: action.user };
+            return { ...newState, individual: action.user };
         default:
             return newState;
     }

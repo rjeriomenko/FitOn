@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
 import { fetchAllUserGoals, fetchUserGoals } from '../../store/goals';
 import { fetchUserExerciseEntries, getUserKeyExerciseEntries } from '../../store/exerciseEntries';
+import FollowNavBar from './FollowNavBar';
 import FeedPostWorkout from './FeedPostWorkout';
 import FeedPostGoal from './FeedPostGoal';
 import './Feed.css';
@@ -87,12 +88,15 @@ function Feed ({options = {}}) {
   )
   return (
     <>
+      <h2 className='feed-header'>{headerText}</h2>
       <div className='feed-posts-container'>
-        <h2>{headerText}</h2>
-        {sortedCombinedPosts.map(goalPost => goalPost.deadline ? 
-          <FeedPostGoal key={goalPost.goalId} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender}/>
-          : <FeedPostWorkout key={goalPost.goalId} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender}/>
-        )}
+        <FollowNavBar />
+        <div className='inner-feed-posts-container'>
+          {sortedCombinedPosts.map(goalPost => goalPost.deadline ? 
+            <FeedPostGoal key={goalPost.goalId} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender}/>
+            : <FeedPostWorkout key={goalPost.goalId} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender}/>
+          )}
+        </div>
       </div>
     </>
   );

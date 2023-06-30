@@ -79,7 +79,7 @@ export const fetchUser = userId => async dispatch => {
 };
 
 
-export const updateUser = (user) => async dispatch => {
+export const updateUser = (user) => async dispatch => {  //pre-emptive thunk
     try {
         const res = await jwtFetch(`/api/users/${user._id}`, {
             method: 'PATCH',

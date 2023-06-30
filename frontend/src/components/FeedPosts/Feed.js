@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
 import { fetchAllUserGoals, fetchUserGoals } from '../../store/goals';
-import { fetchUserExerciseEntries, getUserKeyExerciseEntries } from '../../store/exerciseEntries';
+import { fetchUserExerciseEntries, getUserExerciseEntries } from '../../store/exerciseEntries';
 import FeedPostWorkout from './FeedPostWorkout';
 import FeedPostGoal from './FeedPostGoal';
 import './Feed.css';
@@ -41,7 +41,7 @@ export const filterPostsBy = (postsArray, options = {}) => {
 function Feed ({options = {}}) {
   const dispatch = useDispatch();
   const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : {});
-  const workoutPosts = Object.values(useSelector(getUserKeyExerciseEntries))
+  const workoutPosts = Object.values(useSelector(getUserExerciseEntries))
   const sessionUser = useSelector(state => state.session.user);
   const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
   const filterOptions = {...options};

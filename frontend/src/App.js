@@ -49,6 +49,7 @@ function App() {
       <MainPageWrapper>
 
           <ProtectedRoute exact path="/feed" component={Feed} />
+          <ProtectedRoute exact path="/feed/discover" component={Feed} discoverMode={true} />
           <ProtectedRoute exact path="/feed/:userId" component={Feed} />
           <ProtectedRoute exact path="/profile" component={Profile} />
           <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />

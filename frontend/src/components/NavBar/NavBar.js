@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/session';
 import { Redirect } from 'react-router-dom';
+import { createGoal } from "../../store/goals";
+
 import './NavBar.css';
 
 function NavBar () {
@@ -18,10 +20,8 @@ function NavBar () {
     if (loggedIn) {
       return (
         <ul className="links-nav nav-links">
-          <li id="nav-link-id"><Link to={'/feed'}>Explore</Link></li>
-          {/* <li className='under-construction'><Link to={'/'}>Friends</Link></li> */}
-          <li id="nav-link-id"><Link to={`/feed/${sessionUser._id}`}>Progress</Link></li>
-          <li id="nav-link-id"><Link to={'/profile'}>{sessionUser.username}</Link></li>
+          <li id="nav-link-id"><Link to={'/feed'}>Home</Link></li>
+          <li id="nav-link-id"><Link to={'/profile'}>Tools</Link></li>
           <li id="nav-link-id"><Link to={'/feedPosts/newGoal'}>Create Goal</Link></li>
           {/* <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li> */}
           <li id="nav-link-id"><Link to={`/users/${sessionUser._id}/goals`}>My Goal</Link></li>
@@ -38,6 +38,22 @@ function NavBar () {
     }
   }
 
+  const handleDemoGoal = e => {
+    dispatch(createGoal({
+      title: Math.random(),
+      description: Math.random(),
+      deadline: `${Math.floor(9000 * Math.random())}-${Math.floor(12 * Math.random())}-${Math.floor(28 * Math.random())}`
+    }))
+  }
+
+  const renderTestLinks = () => {
+    if (process.env.NODE_ENV !== 'production') {
+      return (
+        <li className="test-button" onClick={handleDemoGoal}>Create Demo Goal</li>
+      )
+    }
+  }
+
   return (
     <div className='nav-bar-container'>
       {/* <h1>FitOn</h1> */}
@@ -46,8 +62,8 @@ function NavBar () {
       <div className='nav-bar-divider'></div>
 			<div className='links-menu'>
       	{ getLinks() }
-
 			</div>
+        { renderTestLinks() }
     </div>
   );
 }

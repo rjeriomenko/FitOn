@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
 import { fetchAllUserGoals, fetchUserGoals } from '../../store/goals';
 import { fetchUserExerciseEntries, getUserExerciseEntries } from '../../store/exerciseEntries';
+import { fetchFollows, getFollows } from '../../store/follows';
+import FollowNavBar from './FollowNavBar';
 import FeedPostWorkout from './FeedPostWorkout';
 import FeedPostGoal from './FeedPostGoal';
 import './Feed.css';
@@ -32,27 +34,35 @@ export const sortFeedPostsBy = (postsArray, sortRule) => {
 // Filter posts by post options object of types:["type1", ...] and/or ownerIds:[id1, ...]
 export const filterPostsBy = (postsArray, options = {}) => {
   const { types, ownerIds } = options;
-  const fitleredArray = postsArray.filter(post => {
+  const filteredArray = postsArray.filter(post => {
     return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.user._id) : true);
   })
-  return fitleredArray;
+  return filteredArray;
 }
 
-function Feed ({options = {}}) {
+function Feed ({discoverMode, options = {}}) {
   const dispatch = useDispatch();
+  const sessionUser = useSelector(state => state.session.user);
   const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : {});
   const workoutPosts = Object.values(useSelector(getUserExerciseEntries))
+  const follows = useSelector(getFollows);
   const sessionUser = useSelector(state => state.session.user);
   const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
   const filterOptions = {...options};
 	const [triggerRender, setTriggerRender] = useState(0);
   // debugger
+  // const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
+  const userId = useParams().userId
+  const filterOptions = {...options};
+	const [triggerRender, setTriggerRender] = useState(1);
+
   useEffect(() => {
     dispatch(fetchUserGoals(userId))
     dispatch(fetchUserExerciseEntries(userId))
+    dispatch(fetchFollows(userId))
     // dispatch(fetchAllUserGoals()) - do not use this thunk it will not work. Use updated thunks
     // return () => dispatch(clearFeedPostErrors());
-  }, [dispatch])
+  }, [dispatch, userId])
 
   if(userId) {
     filterOptions.ownerIds ||= [userId];
@@ -64,7 +74,6 @@ function Feed ({options = {}}) {
   const filteredWorkoutPosts = filterPostsBy(workoutPosts, filterOptions);
   const combinedPosts = [...filteredGoalPosts, ...filteredWorkoutPosts];
   const sortedCombinedPosts = sortFeedPostsBy(combinedPosts, "updatedAt");
-  debugger
   // const sortedGoalPosts = sortFeedPostsBy(filteredGoalPosts, "updatedAt");
   // const sortedWorkoutPosts = sortFeedPostsBy(filteredWorkoutPosts, "updatedAt");
 
@@ -73,29 +82,44 @@ function Feed ({options = {}}) {
   // const headerText = (userId ? "just you..." : "everyone...")
   let headerText;
   if(userId){
-    if(userId === sessionUser._id) headerText = "just you..."
+    if(userId === sessionUser._id) headerText = "your goals and workouts"
     // else headerText = `${sortedGoalPosts ? sortedGoalPosts[0].setter.concat(`...`) : "nothing here..."}`
-    else headerText = `${sortedCombinedPosts ? sortedCombinedPosts[0].setter.concat(`...`) : "nothing here..."}`
+    else {
+      // debugger
+      headerText = `${sortedCombinedPosts?.length ? sortedCombinedPosts[0].user.username?.concat('s goals and workouts') : "nothing here..."}`
+    }
+  } else if(discoverMode){
+    headerText = "other amazing goal-getters";
   } else {
-    headerText = "everyone..."
+    headerText = "together is better"
   }
 
-  if (sortedCombinedPosts.length === 0) return (
-    <>
-    <div className='feed-posts-container'>
-      <h2>Welcome to the beginning of time!</h2>
-    </div>
-    </> 
-  )
-  // debugger
+  if (sortedCombinedPosts.length === 0) {
+    // debugger
+    return (
+      <>
+      <div className='feed-posts-container'>
+        <h2>Welcome to the beginning of time!</h2>
+      </div>
+      </> 
+    )
+  }
+
+  const renderPosts = () => {
+    return sortedCombinedPosts.map(goalPost => goalPost.deadline ?
+      <FeedPostGoal key={goalPost._id} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />
+      : <FeedPostWorkout key={goalPost._id} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />
+    )
+  }
+
   return (
     <>
+      <h2 className='feed-header'>{headerText}</h2>
       <div className='feed-posts-container'>
-        <h2>{headerText}</h2>
-        {sortedCombinedPosts.map(goalPost => goalPost.deadline ? 
-          <FeedPostGoal key={goalPost.goalId} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender}/>
-          : <FeedPostWorkout key={goalPost.goalId} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender}/>
-        )}
+        <FollowNavBar />
+        <div className='inner-feed-posts-container'>
+          {renderPosts()}
+        </div>
       </div>
     </>
   );

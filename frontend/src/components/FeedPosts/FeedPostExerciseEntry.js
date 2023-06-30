@@ -1,3 +1,0 @@
-function FeedPostExerciseEntry (props) {
-	
-}

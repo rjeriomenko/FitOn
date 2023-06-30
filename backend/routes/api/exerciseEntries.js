@@ -3,6 +3,8 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const ExerciseEntry = mongoose.model('ExerciseEntry');
 const Goal = mongoose.model('Goal');
+const Follow = mongoose.model('Follow');
+const User = mongoose.model('User');
 const validateExerciseEntryInput = require("../../validations/exerciseEntries");
 const { requireUser } = require('../../config/passport');
 
@@ -38,6 +40,29 @@ router.post('/:goalId', requireUser, validateExerciseEntryInput, async (req, res
     }
 });
 
+
+//GET followed entries
+router.get('/followed', requireUser, async (req, res, next) => {
+    try {
+        const follows = await Follow.find({ follower: req.user._id });
+
+        const followedUsers = await Promise.all(follows.map(async (follow) => {
+            let searchId = follow.followedUser;
+            const user = await User.findById(searchId);
+            return user;
+        }));
+
+        const followedWorkouts = {};
+        await Promise.all(followedUsers.map(async (user) => {
+            const workouts = await ExerciseEntry.find({ user: user._id });
+            followedWorkouts[user._id] = workouts;
+        }));
+
+        return res.json(followedWorkouts);
+    } catch (err) {
+        next(err);
+    }
+});
 
 // GET by userId
 router.get('/byUser/:userId', requireUser, async (req, res, next) => {

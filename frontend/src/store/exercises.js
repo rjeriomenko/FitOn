@@ -40,9 +40,8 @@ export const receiveNewExercise = (exercise) => ({
     exercise
 });
 
-export const removeExercise = (userId, exerciseId) => ({
+export const removeExercise = (exerciseId) => ({
     type: REMOVE_EXERCISE,
-    userId,
     exerciseId
 });
 
@@ -145,12 +144,12 @@ export const updateExercise = (exerciseId, exercise) => async dispatch => {
     }
 };
 
-export const deleteExercise = (userId, goalId, exerciseId) => async dispatch => {
+export const deleteExercise = (exerciseId) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries/${exerciseId}`, {
+        const res = await jwtFetch(`/api/exercises/${exerciseId}`, {
             method: 'DELETE'
         });
-        dispatch(removeExercise(userId, exerciseId));
+        dispatch(removeExercise(exerciseId));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {

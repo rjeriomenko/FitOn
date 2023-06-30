@@ -10,6 +10,11 @@ export const receiveFollows = (follows) => ({
     follows
 });
 
+export const receiveNewFollow = (follow) => ({
+    type: RECEIVE_NEW_FOLLOW,
+    follow
+});
+
 export const receiveFollowErrors = errors => ({
     type: RECEIVE_FOLLOW_ERRORS,
     errors
@@ -27,6 +32,21 @@ export const fetchFollows = userId => async dispatch => {
         const res = await jwtFetch(`/api/follows/${userId}`);
         const follows = await res.json();
         dispatch(receiveFollows(follows));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveFollowErrors(resBody.errors));
+        }
+    }
+};
+
+export const createFollow = (followingUserId, followedUserId) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/follows/${followedUserId}`, {
+            method: 'POST'
+        });
+        const responseFollow = await res.json();
+        dispatch(receiveNewFollow(responseFollow));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {

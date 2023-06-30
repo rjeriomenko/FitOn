@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import './GoalIndexItem.css'
 import { useState, useEffect } from 'react';
+import './GoalIndexItem.css'
 
 function GoalIndexItem ({goal}) {
     const dispatch = useDispatch();

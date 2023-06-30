@@ -1,0 +1,12 @@
+.grid-item-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#ellipsis {
+    color: var(--dark-blue);
+}
+
+#ellipsis:hover {
+    cursor: pointer;
+}

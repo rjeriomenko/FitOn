@@ -13,14 +13,18 @@ const validateExerciseInput = require('../../validations/exercises');
 // create
 router.post('/:workoutId', requireUser, validateExerciseInput, async (req, res, next) => {
     try {
+        let workout = await ExerciseEntry.findById(req.params.workoutId);
+        const goalId = workout.goal;
+        const userId = workout.user;
+        
         const newExercise = new Exercise({
             sets: req.body.sets,
             reps: req.body.reps,
             time: req.body.time,
             weight: req.body.weight,
             name: req.body.name,
-            user: req.body.user,
-            goal: req.body.goal,
+            user: userId,
+            goal: goalId,
             workout: req.params.workoutId
         });
 
@@ -37,13 +41,15 @@ router.post('/:workoutId', requireUser, validateExerciseInput, async (req, res, 
 });
 
 // get exercises PER GOAL
-router.get('/byUser/:goalId', requireUser, async (req, res, next) => {
+router.get('/byGoal/:goalId', requireUser, async (req, res, next) => {
     try {
         const exercises = await Exercise.find({ goal: req.params.goalId })
             .populate('user', '_id username imgUrl')
-            .populate('goal', '_id title imgUrl')
-            .populate('workout', '_id date imgUrl');
-
+            .populate('workout', '_id date imgUrl')
+            // .populate('goal', '_id title imgUrl')
+                //  populate goal provides null to goal
+            
+            
         const exercisesObj = {};
         exercises.forEach(exercise => exercisesObj[exercise._id] = exercise);
 
@@ -57,8 +63,8 @@ router.get('/byUser/:goalId', requireUser, async (req, res, next) => {
 router.get('/byWorkout/:workoutId', requireUser, async (req, res, next) => {
     try {
         const exercises = await Exercise.find({ workout: req.params.workoutId })
-            .populate('user', '_id username imgUrl')
-            .populate('workout', '_id date imgUrl');
+        .populate('user', '_id username imgUrl')
+        .populate('workout', '_id date imgUrl');
 
         const exercisesObj = {};
         exercises.forEach(exercise => exercisesObj[exercise._id] = exercise);

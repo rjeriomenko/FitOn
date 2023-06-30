@@ -18,9 +18,7 @@ const ExerciseSchema = new Schema({
     },
     time: {
         type: String,
-        required: function () {
-            return !(this.reps || this.time)
-        }
+        required: true
     },
     weight: {
         type: Number,

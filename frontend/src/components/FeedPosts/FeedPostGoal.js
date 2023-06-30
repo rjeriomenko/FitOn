@@ -37,11 +37,20 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
 	// component logic states
 	const [editable, setEditable] = useState(false);
 
+	// // controlled inputs
+	// const [username, setUsername] = useState("undefined-user")
+	// const [timestamp, setTimeStamp] = useState('')
+	// const [formTitle, setFormTitle] = useState('');
+	// const [formDescription, setFormDescription] = useState('');
+
 	// controlled inputs
-	const [username, setUsername] = useState("undefined-user")
-	const [timestamp, setTimeStamp] = useState('')
-	const [formTitle, setFormTitle] = useState('');
-	const [formDescription, setFormDescription] = useState('');
+	const [username, setUsername] = useState(setter)
+	const [timestamp, setTimeStamp] = useState(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true}))
+	const [formTitle, setFormTitle] = useState(title);
+	const [formDescription, setFormDescription] = useState(description);
+
+	// internal state to trigger rerender - does not display or get used elsewhere
+	const [triggerChildRender, setTriggerChildRender] = useState(0);
 
 	// Text-area height expands/contracts with input size
 	const handleDescriptionChange = e => {
@@ -66,20 +75,27 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
 			.then(() => setTriggerRender(triggerRender + 1));
 	}
 
+	// useEffect(() => {
+	// 	setTriggerChildRender(triggerChildRender + 1);
+	// }, [triggerRender])
+
 	useEffect(() => {
-		switch(type){
-			case POST_TYPE_EXERCISE_ENTRY:
-				break;
-			case POST_TYPE_GOAL:
-				setUsername(setter)
-				setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 
-				setFormTitle(title)
-				setFormDescription(description)
-				break;
-			default: 
-				break;
-		}
+			setTriggerChildRender(triggerChildRender + 1);
+		// switch(type){
+		// 	case POST_TYPE_EXERCISE_ENTRY:
+		// 		break;
+		// 	case POST_TYPE_GOAL:
+		// 		setUsername(setter)
+		// 		setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 
+		// 		setFormTitle(title)
+		// 		setFormDescription(description)
+		// 		break;
+		// 	default: 
+		// 		break;
+		// }
 	}, [dispatch, triggerRender])
+
+
 
   return (
 		<div className="feed-post-editable-container">

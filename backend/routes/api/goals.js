@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Goal = mongoose.model('Goal');
+const Follow = mongoose.model('Follow');
+const User = mongoose.model('User');
 const validateGoalInput = require("../../validations/goals");
 const { requireUser } = require('../../config/passport');
 
@@ -125,13 +127,16 @@ router.get('/all/:userId', requireUser, async (req, res, next) => {
 });
 
 // fetch all goals from followed users
-router.get('/followed', requireUser, async (req, res, next) => {
+// might been to change path name 
+router.get('/', requireUser, async (req, res, next) => {
     try {
+
         const follows = await Follow.find({ follower: req.user._id });
         // this gives us an array (follows) of all of our follows
 
         const followedUsers = await Promise.all(follows.map(async (follow) => {
-            const user = await User.findById(follow.followedUser);
+            let searchId = follow.followedUser;
+            const user = await User.findById(searchId);
             return user;
         }));
         // now followedUsers is an array of user objects

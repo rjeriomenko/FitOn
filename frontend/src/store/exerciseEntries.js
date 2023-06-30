@@ -89,9 +89,9 @@ export const createExerciseEntry = (goalId, exerciseEntry) => async dispatch => 
     }
 };
 
-export const updateExerciseEntry = (userId, goalId, exerciseEntry) => async dispatch => {
+export const updateExerciseEntry = (exerciseEntryId, exerciseEntry) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries/${exerciseEntry._id}`, {
+        const res = await jwtFetch(`/api/exerciseEntries/${exerciseEntryId}`, {
             method: 'PATCH',
             body: JSON.stringify(exerciseEntry)
         });
@@ -105,12 +105,11 @@ export const updateExerciseEntry = (userId, goalId, exerciseEntry) => async disp
     }
 };
 
-export const deleteExerciseEntry = (userId, goalId, exerciseEntryId) => async dispatch => {
+export const deleteExerciseEntry = (exerciseEntryId) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries/${exerciseEntryId}`, {
+        const res = await jwtFetch(`/api/exerciseEntries/${exerciseEntryId}`, {
             method: 'DELETE'
         });
-        dispatch(removeExerciseEntry(userId, exerciseEntryId));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -180,17 +179,13 @@ const exerciseEntriesReducer = (state = { user: {}, goal: {}, updated: undefined
 
     switch (action.type) {
         case RECEIVE_UPDATED_EXERCISE_ENTRY:
-            return { ...newState, all: { ...newState.all, ...action.exerciseEntry }, updated: action.exerciseEntry, new: undefined };
+            return { ...newState, updated: action.exerciseEntry, new: undefined };
         case RECEIVE_USER_EXERCISE_ENTRIES:
             return { ...newState, user: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_GOAL_EXERCISE_ENTRIES:
             return { ...newState, goal: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_NEW_EXERCISE_ENTRY:
             return { ...newState, updated: undefined, new: action.exerciseEntry }; //might be tricky to see dynamic changes
-        case REMOVE_EXERCISE_ENTRY:
-            const cloneStateAll = { ...newState.all };
-            delete cloneStateAll[action.exerciseEntryId];
-            return { ...newState, all: cloneStateAll, updated: undefined, new: undefined };
         default:
             return newState;
     }

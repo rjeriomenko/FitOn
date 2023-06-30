@@ -11,40 +11,24 @@ const validateExerciseInput = require('../../validations/exercises');
 // entryID reference may not be necessary? 
 
 // create
-router.post('/', requireUser, validateExerciseInput, async (req, res, next) => {
+router.post('/:workoutId', requireUser, validateExerciseInput, async (req, res, next) => {
     try {
         const newExercise = new Exercise({
             sets: req.body.sets,
             reps: req.body.reps,
             time: req.body.time,
+            weight: req.body.weight,
             name: req.body.name,
-            setter: req.body.setter, 
-            entryId: req.body.entryId
+            user: req.body.user, 
+            goal: req.body.goal,
+            workout: req.params.workoutId
         });
 
-        const exercise = await newExercise.save();
+        const exercise = await newExercise.save(); 
 
-        if (!exercise) {
-            const error = new Error('Error saving exercise - please review inputs');
-            error.statusCode = 422;
-            throw error;
-        }
+        await exercise.populate('user', '_id username')
+        await exercise.populate('workout', '_id date');
 
-        await exercise
-            .populate('setter', '_id username')
-            // .populate('entryId', '_id date');
-
-        const user = await User.findById(req.body.setter);
-        user.exercises.push(exercise._id);
-
-        user.goals.forEach((goal) => {
-            const exerciseEntry = goal.exerciseEntries.find(
-                (entry) => entry._id.toString() === req.body.entryId
-            );
-            exerciseEntry.exercises.push(exercise._id);
-        });
-
-        await user.save();
 
         return res.json({ [exercise._id]: exercise });
     } catch (err) {
@@ -53,7 +37,7 @@ router.post('/', requireUser, validateExerciseInput, async (req, res, next) => {
 });
 
 
-// show (singular and index?) (use .populate()!!)
+// show (singular)
 router.get('/:exerciseId', async (req, res, next) => {
     try {
         const exercise = await Exercise.findById(req.params.exerciseId)
@@ -65,6 +49,8 @@ router.get('/:exerciseId', async (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
+
+
         
 
         return res.json({ [exercise._id]: exercise });
@@ -157,13 +143,16 @@ router.patch('/:exerciseId', requireUser, validateExerciseInput, async (req, res
         }
 
         exercise.sets = req.body.sets || exercise.sets;
-        exercise.reps = req.body.reps || exercise.sets;
-        exercise.time = req.body.time || exercise.sets;
-        exercise.name = req.body.name || exercise.sets;
-        exercise.setter = req.body.userId || exercise.sets;
-        exercise.entryId = req.body.entryId || exercise.sets;
+        exercise.reps = req.body.reps || exercise.reps;
+        exercise.time = req.body.time || exercise.time;
+        exercise.weight = req.body.weight || exercise.weight;
+        exercise.name = req.body.name || exercise.name;
+        exercise.user = req.body.user || exercise.user;
+        exercise.workout = req.body.workout || exercise.workout;
 
         exercise.save();
+        
+        exercise = await exercise.populate('')
 
         return res.json({ [exercise._id]: exercise });
     } catch (err) {

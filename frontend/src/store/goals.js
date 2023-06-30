@@ -147,8 +147,7 @@ const goalsReducer = (state = { user: {}, updated: undefined, new: undefined }, 
         case RECEIVE_USER_GOALS:
             return { ...newState, user: action.goals, updated: undefined, new: undefined };
         case RECEIVE_NEW_GOAL:
-            // return { ...newState, new: action.goal };
-            return { ...newState, user: {...newState.user, ...action.goal[0]}, new: action.goal };
+            return { ...newState, new: action.goal };
         case REMOVE_GOAL:
             const cloneStateUser = { ...newState.user };
             delete cloneStateUser[action.goalId];

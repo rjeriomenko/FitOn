@@ -37,7 +37,7 @@ function GoalIndexItem ({goal}) {
                 </div>
 
                 {showMenu && (
-                    <ul className="goal-dropdowm">
+                    <ul className="goal-dropdown">
                         <li>Edit Goal</li>
                         <li>Delete Goal</li>
                     </ul>

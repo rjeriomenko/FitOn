@@ -1,12 +1,32 @@
 .grid-item-container {
     display: flex;
     justify-content: space-between;
+    position: relative;
 }
 
 #ellipsis {
     color: var(--dark-blue);
+    padding: 5px
 }
 
 #ellipsis:hover {
     cursor: pointer;
+}
+
+.goal-dropdown {
+    position: absolute;
+    z-index: 1;
+    background-color: #f9f9f9;
+    border: 1px solid grey;
+    top: 20%;
+    right: 3%;
+    opacity: 95%;
+}
+
+.goal-dropdown li {
+    display: flex;
+    justify-content: flex-end;
+    padding: 2px;
+    margin-bottom: 3px;
+    font-family: var(--sans-serif);
 }

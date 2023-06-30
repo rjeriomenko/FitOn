@@ -46,7 +46,6 @@ function Feed ({options = {}}) {
   const userId = useParams().userId || sessionUser._id; //NEED TO CHANGE THE DEFAULT OR BEHAVIOR
   const filterOptions = {...options};
 	const [triggerRender, setTriggerRender] = useState(0);
-  // debugger
   useEffect(() => {
     dispatch(fetchUserGoals(userId))
     dispatch(fetchUserExerciseEntries(userId))
@@ -64,7 +63,6 @@ function Feed ({options = {}}) {
   const filteredWorkoutPosts = filterPostsBy(workoutPosts, filterOptions);
   const combinedPosts = [...filteredGoalPosts, ...filteredWorkoutPosts];
   const sortedCombinedPosts = sortFeedPostsBy(combinedPosts, "updatedAt");
-  debugger
   // const sortedGoalPosts = sortFeedPostsBy(filteredGoalPosts, "updatedAt");
   // const sortedWorkoutPosts = sortFeedPostsBy(filteredWorkoutPosts, "updatedAt");
 
@@ -87,7 +85,6 @@ function Feed ({options = {}}) {
     </div>
     </> 
   )
-  // debugger
   return (
     <>
       <div className='feed-posts-container'>

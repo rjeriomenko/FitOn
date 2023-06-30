@@ -66,6 +66,10 @@ p, h3 {
 	column-gap: 5px;
 }
 
+.feed-post-header * {
+	align-self: center;
+}
+
 .feed-post-row span {
 	margin-right: 5px;;
 }
@@ -75,12 +79,25 @@ p, h3 {
 }
 
 .post-username {
+	/* align-self: center; */
 	color: var(--medium-blue-darker);
 	font-weight: 800;
 }
 
+.post-follow {
+	font-weight: 600;
+	color: var(--orange);
+	/* padding: 2px; */
+	/* border: 1px solid black; */
+	/* border-radius: 8px; */
+}
+
+.post-follow:hover {
+	cursor: pointer;
+}
+
 .post-timestamp {
-	align-self: flex-end;
+	/* align-self: center; */
 	color: var(--dark-red);
 	font-weight: 400;
 	font-size: 14px;

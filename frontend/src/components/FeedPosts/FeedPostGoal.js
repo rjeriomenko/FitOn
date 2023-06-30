@@ -16,17 +16,25 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 	const setterId = feedPost.user._id;
 	// let { exerciseEntries } = feedPost;
 	const exerciseEntries = Object.values(useSelector(getUserKeyExerciseEntries)).filter(entry => entry.goal?._id === goalId)
-	// debugger
 	const formatDate = (dateText) => {
 		return new Date(dateText).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})
 	}
 
+	// Custom display text
 	const latestExerciseText = () => {
 		if(!exerciseEntries || exerciseEntries.length === 0) return "No workouts yet";
 		const lastEntry = exerciseEntries[exerciseEntries.length - 1];
 		const lastDate = formatDate(lastEntry.date);
 		const text = `Latest workout: ${lastEntry.note} - ${lastDate}`
 		return text;
+	}
+	const followButtonText = () => {
+		// Should depend on whether we are following a user. Clicking will toggle.
+		// Follows slice of state should be populated in the Feed,
+		// and listen to updates triggered by buttons on child subcomponent
+
+		// Placeholder:
+		return "follow";
 	}
 
 	// Redux
@@ -86,6 +94,7 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
 					<Link to={`/feed/${setterId}`}><div className="post-username">{username}</div></Link>
+					<div className="post-follow">{followButtonText()}</div>
 					<div className="post-timestamp">{timestamp}</div>
 				</div>
 				<br/>

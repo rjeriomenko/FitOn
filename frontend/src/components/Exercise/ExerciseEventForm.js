@@ -84,7 +84,9 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
     return (
         <div className="exercise-form-container">
             {/* <h2>Add Your Workout</h2> */}
-            <h2>· add your workout ·</h2>
+            {/* <h2>· add your workout ·</h2> */}
+            <h4>Another step towards:</h4>
+            <h2>· {currentGoal.title} ·</h2>
             <br></br>
             {/* <h2>gigachad lookin monka swole</h2> */}
             <form className="exercise-form" onSubmit={handleSubmit}>

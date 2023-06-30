@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
 import { Link } from "react-router-dom";
-import { fetchUserExerciseEntries,getUserKeyExerciseEntries } from "../../store/exerciseEntries";
+import { fetchUserExerciseEntries,getUserExerciseEntries } from "../../store/exerciseEntries";
 
 function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
   // props
@@ -15,7 +15,7 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 	const setter = feedPost.user.username;
 	const setterId = feedPost.user._id;
 	// let { exerciseEntries } = feedPost;
-	const exerciseEntries = Object.values(useSelector(getUserKeyExerciseEntries)).filter(entry => entry.goal?._id === goalId)
+	const exerciseEntries = Object.values(useSelector(getUserExerciseEntries)).filter(entry => entry.goal?._id === goalId)
 	// debugger
 	const formatDate = (dateText) => {
 		return new Date(dateText).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})

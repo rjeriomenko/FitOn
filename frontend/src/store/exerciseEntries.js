@@ -3,6 +3,8 @@ import jwtFetch from './jwt';
 const RECEIVE_UPDATED_EXERCISE_ENTRY = "exerciseEntries/RECEIVE_UPDATED_EXERCISE_ENTRY";
 const RECEIVE_USER_EXERCISE_ENTRIES = "exerciseEntries/RECEIVE_USER_EXERCISE_ENTRIES";
 const RECEIVE_GOAL_EXERCISE_ENTRIES = "exerciseEntries/RECEIVE_GOAL_EXERCISE_ENTRIES";
+const RECEIVE_FOLLOWS_EXERCISE_ENTRIES = "exerciseEntries/RECEIVE_FOLLOWS_EXERCISE_ENTRIES";
+const RECEIVE_DISCOVERS_EXERCISE_ENTRIES = "exerciseEntries/RECEIVE_DISCOVERS_EXERCISE_ENTRIES";
 const RECEIVE_NEW_EXERCISE_ENTRY = "exerciseEntries/RECEIVE_NEW_EXERCISE_ENTRY";
 const REMOVE_EXERCISE_ENTRY = "exerciseEntries/REMOVE_EXERCISE_ENTRY";
 const RECEIVE_EXERCISE_ENTRY_ERRORS = "exerciseEntries/RECEIVE_EXERCISE_ENTRY_ERRORS";
@@ -20,6 +22,16 @@ export const receiveUserExerciseEntries = (exerciseEntries) => ({
 
 export const receiveGoalExerciseEntries = (exerciseEntries) => ({
     type: RECEIVE_GOAL_EXERCISE_ENTRIES,
+    exerciseEntries
+});
+
+export const receiveFollowsExerciseEntries = (exerciseEntries) => ({
+    type: RECEIVE_FOLLOWS_EXERCISE_ENTRIES,
+    exerciseEntries
+});
+
+export const receiveDiscoversExerciseEntries = (exerciseEntries) => ({
+    type: RECEIVE_DISCOVERS_EXERCISE_ENTRIES,
     exerciseEntries
 });
 
@@ -60,18 +72,44 @@ export const fetchUserExerciseEntries = userId => async dispatch => {
     }
 };
 
-// export const fetchGoalExerciseEntries = (userId, goalId) => async dispatch => {
-//     try {
-//         const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries`);
-//         const goalEntries = await res.json();
-//         dispatch(receiveGoalExerciseEntries(goalEntries));
-//     } catch (err) {
-//         const resBody = await err.json();
-//         if (resBody.statusCode === 400) {
-//             dispatch(receiveExerciseEntryErrors(resBody.errors));
-//         }
-//     }
-// };
+export const fetchGoalExerciseEntries = (goalId) => async dispatch => {  //pre-emptive thunk
+    try {
+        const res = await jwtFetch(`/api/exerciseEntries/byGoal/${goalId}`);
+        const goalEntries = await res.json();
+        dispatch(receiveGoalExerciseEntries(goalEntries));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveExerciseEntryErrors(resBody.errors));
+        }
+    }
+};
+
+export const fetchFollowsExerciseEntries = () => async dispatch => {  //pre-emptive thunk
+    try {
+        const res = await jwtFetch(`/api/exerciseEntries/byFollows`);
+        const followsExerciseEntries = await res.json();
+        dispatch(receiveFollowsExerciseEntries(followsExerciseEntries));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveExerciseEntryErrors(resBody.errors));
+        }
+    }
+};
+
+export const fetchDiscoversExerciseEntries = () => async dispatch => {  //pre-emptive thunk
+    try {
+        const res = await jwtFetch(`/api/exerciseEntries/byDiscovers`);
+        const discoversExerciseEntries = await res.json();
+        dispatch(receiveDiscoversExerciseEntries(discoversExerciseEntries));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveExerciseEntryErrors(resBody.errors));
+        }
+    }
+};
 
 export const createExerciseEntry = (goalId, exerciseEntry) => async dispatch => {
     try {
@@ -128,16 +166,33 @@ export const deleteExerciseEntry = (exerciseEntryId) => async dispatch => {
 //     }
 // }
 
-export const getUserKeyExerciseEntries = state => {
+export const getUserExerciseEntries = state => {
     if (state?.exerciseEntries) {
         return state.exerciseEntries.user
     } else {
         return null;
     }
 }
-export const getGoalKeyExerciseEntries = state => {
+
+export const getGoalExerciseEntries = state => {
     if (state?.exerciseEntries) {
         return state.exerciseEntries.goal
+    } else {
+        return null;
+    }
+}
+
+export const getFollowsExerciseEntries = state => {
+    if (state?.exerciseEntries) {
+        return state.exerciseEntries.follows
+    } else {
+        return null;
+    }
+}
+
+export const getDiscoversExerciseEntries = state => {
+    if (state?.exerciseEntries) {
+        return state.exerciseEntries.discovers
     } else {
         return null;
     }
@@ -174,7 +229,7 @@ export const exerciseEntryErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const exerciseEntriesReducer = (state = { user: {}, goal: {}, updated: undefined, new: undefined }, action) => {
+const exerciseEntriesReducer = (state = { user: {}, goal: {}, follows: {}, discovers: {}, updated: undefined, new: undefined }, action) => {
     let newState = { ...state };
 
     switch (action.type) {
@@ -184,6 +239,10 @@ const exerciseEntriesReducer = (state = { user: {}, goal: {}, updated: undefined
             return { ...newState, user: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_GOAL_EXERCISE_ENTRIES:
             return { ...newState, goal: action.exerciseEntries, updated: undefined, new: undefined };
+        case RECEIVE_FOLLOWS_EXERCISE_ENTRIES:
+            return { ...newState, follows: action.exerciseEntries, updated: undefined, new: undefined };
+        case RECEIVE_DISCOVERS_EXERCISE_ENTRIES:
+            return { ...newState, discovers: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_NEW_EXERCISE_ENTRY:
             return { ...newState, updated: undefined, new: action.exerciseEntry }; //might be tricky to see dynamic changes
         default:

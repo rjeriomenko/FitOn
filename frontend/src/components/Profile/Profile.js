@@ -5,7 +5,7 @@ import { deleteGoal, fetchUserGoals } from '../../store/goals'
 import { Link } from 'react-router-dom';
 
 import { fetchAllUserExerciseEntries, fetchUserExerciseEntries } from '../../store/exerciseEntries';
-import { getUserKeyExerciseEntries } from '../../store/exerciseEntries';
+import { getUserExerciseEntries } from '../../store/exerciseEntries';
 
 import { sampleExerciseEntries } from './ProfileSeedData';
 import ExerciseEntryTile from './ExerciseEntryTile';
@@ -20,7 +20,7 @@ function Profile () {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   
-  const userExerciseEntries = useSelector(getUserKeyExerciseEntries);
+  const userExerciseEntries = useSelector(getUserExerciseEntries);
 
   const [mouseOverTextData, setMouseOverTextData] = useState(undefined);
   const [sampleTileSet, setSampleTileSet] = useState([]);

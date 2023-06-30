@@ -106,7 +106,7 @@ export const fetchUserExercise = (userId, goalId, exerciseId) => async dispatch 
     try {
         const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries/${exerciseId}`);
         const userExercise = await res.json();
-        dispatch(receiveUserExercise(userExercise));
+        dispatch(receiveUserExercise({userExercise}));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -115,11 +115,12 @@ export const fetchUserExercise = (userId, goalId, exerciseId) => async dispatch 
     }
 };
 
-export const fetchGoalExercises = (userId, goalId) => async dispatch => {
+// get exercises PER GOAL
+export const fetchGoalExercises = (goalId) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/users/${userId}/goals/${goalId}/entries`);
-        const goalEntries = await res.json();
-        dispatch(receiveGoalExercises(goalEntries));
+        const res = await jwtFetch(`/api/exercises/byGoal/${goalId}`);
+        const exercises = await res.json();
+        dispatch(receiveGoalExercises(exercises));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -227,7 +228,7 @@ const exercisesReducer = (state = { user: {}, follows: {}, discovers: {}, update
         case RECEIVE_USER_EXERCISES:
             return { ...newState, user: action.exercises, updated: undefined, new: undefined };
         case RECEIVE_GOAL_EXERCISES:
-            return { ...newState, goal: action.exercises, updated: undefined, new: undefined };
+            return { ...newState, user: action.exercises, updated: undefined, new: undefined };
         case RECEIVE_NEW_EXERCISE:
             return { ...newState, new: action.exercise };
         case REMOVE_EXERCISE:

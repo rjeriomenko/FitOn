@@ -53,8 +53,9 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
 	const handleUpdateGoal = e => {
 		setEditable(false);
 		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, deadline, completionDate, exerciseEntries, updatedAt }
-		dispatch(updateGoal(setterId, updatedGoal))
+		dispatch(updateGoal(updatedGoal))
 			.then(res => {
+				setTriggerRender(triggerRender + 1)
 				// setTimeStamp(currentGoal.updatedAt)
 				// setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 
 			})
@@ -115,9 +116,6 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
 				</>}
 				<div className="post-divider"></div>
 				<div className="latest-exercise-text">
-					{/* {`Latest workout: ${exerciseEntries[exerciseEntries.length - 1]?.note} ${new Date(exerciseEntries[exerciseEntries.length - 1]?.date)}`} */}
-					{/* <br /> */}
-					{/* {exerciseEntries[exerciseEntries.length - 1] ? exerciseEntries[exerciseEntries.length - 1] + " " : "No workouts yet"} */}
 					{latestExerciseText()}
 				</div>
 			</div>

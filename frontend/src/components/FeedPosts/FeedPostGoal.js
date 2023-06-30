@@ -53,7 +53,7 @@ function FeedPostGoal ({feedPost, type, triggerRender, setTriggerRender}) {
 	const handleUpdateGoal = e => {
 		setEditable(false);
 		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, deadline, completionDate, exerciseEntries, updatedAt }
-		dispatch(updateGoal(setterId, updatedGoal))
+		dispatch(updateGoal(updatedGoal))
 			.then(res => {
 				// setTimeStamp(currentGoal.updatedAt)
 				// setTimeStamp(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})) 

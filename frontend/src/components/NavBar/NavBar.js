@@ -42,7 +42,7 @@ function NavBar () {
     dispatch(createGoal({
       title: Math.random(),
       description: Math.random(),
-      deadline: `${9000 * Math.random()}-${12 * Math.random()}-${28 * Math.random()}`
+      deadline: `${Math.floor(9000 * Math.random())}-${Math.floor(12 * Math.random())}-${Math.floor(28 * Math.random())}`
     }))
   }
 

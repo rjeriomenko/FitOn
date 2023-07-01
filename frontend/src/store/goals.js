@@ -64,9 +64,9 @@ export const fetchUserGoals = userId => async dispatch => {
     }
 };
 
-export const fetchFollowsGoals = () => async dispatch => {  //pre-emptive thunk
+export const fetchFollowsGoals = () => async dispatch => {  
     try {
-        const res = await jwtFetch(`/api/goals/byFollows`);
+        const res = await jwtFetch(`/api/goals/followed`);
         const followsGoals = await res.json();
         dispatch(receiveFollowsGoals(followsGoals));
     } catch (err) {
@@ -77,9 +77,9 @@ export const fetchFollowsGoals = () => async dispatch => {  //pre-emptive thunk
     }
 };
 
-export const fetchDiscoversGoals = () => async dispatch => {  //pre-emptive thunk
+export const fetchDiscoversGoals = () => async dispatch => {  
     try {
-        const res = await jwtFetch(`/api/goals/byDiscovers`);
+        const res = await jwtFetch(`/api/goals/sample`);
         const discoversGoals = await res.json();
         dispatch(receiveDiscoversGoals(discoversGoals));
     } catch (err) {

@@ -162,11 +162,8 @@ router.patch('/:userId', requireUser, async (req, res, next) => {
 
     let user = await User.findById(req.params.userId).select('-hashedPassword -currentGoal');
 
-    user = {
-      ...user,
-      username: req.body.username,
-      imgUrl: req.body.imgUrl
-    };
+    user.username = req.body.username || user.username
+    user.imgUrl = req.body.imgUrl || user.imgUrl;
 
     await user.save();
 

@@ -5,6 +5,8 @@ import {
     createGoal, 
     updateGoal, 
     deleteGoal,
+    fetchFollowsGoals,
+    fetchDiscoversGoals,
     getGoal, 
     getGoals, 
     getUserGoals,
@@ -38,6 +40,8 @@ function LandingPage() {
     window.createGoal = createGoal;
     window.updateGoal = updateGoal;
     window.deleteGoal = deleteGoal;
+    window.fetchFollowsGoals = fetchFollowsGoals;
+    window.fetchDiscoversGoals = fetchDiscoversGoals;
 
     window.fetchUserExerciseEntries = fetchUserExerciseEntries;
     window.createExerciseEntry = createExerciseEntry;

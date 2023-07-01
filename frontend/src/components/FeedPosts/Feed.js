@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
-import { fetchAllUserGoals, fetchUserGoals, fetchFollowsGoals } from '../../store/goals';
+import { fetchAllUserGoals, fetchUserGoals, fetchFollowsGoals, fetchDiscoversGoals, getFollowsGoals, getDiscoversGoals } from '../../store/goals';
 import { fetchUserExerciseEntries, getUserExerciseEntries } from '../../store/exerciseEntries';
 import { fetchFollows, getFollows } from '../../store/follows';
 import FollowNavBar from './FollowNavBar';
@@ -34,6 +34,7 @@ export const sortFeedPostsBy = (postsArray, sortRule) => {
 // Filter posts by post options object of types:["type1", ...] and/or ownerIds:[id1, ...]
 export const filterPostsBy = (postsArray, options = {}) => {
   const { types, ownerIds } = options;
+  debugger
   const filteredArray = postsArray.filter(post => {
     return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.user._id) : true);
   })
@@ -46,16 +47,38 @@ function Feed ({discoverMode, options = {}}) {
   const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : {});
   const workoutPosts = Object.values(useSelector(getUserExerciseEntries))
   const follows = useSelector(getFollows);
+  const followsGoalsFromState = useSelector(getFollowsGoals);
+  const followsGoals = Object.values(followsGoalsFromState)[0]
   const userId = useParams().userId
+  // debugger
   const filterOptions = {...options};
 	const [triggerRender, setTriggerRender] = useState(1);
-
+  // debugger
   useEffect(() => {
-    dispatch(fetchUserGoals(userId))
-    dispatch(fetchUserExerciseEntries(userId))
-    dispatch(fetchFollows(userId))
-    dispatch(fetchFollowsGoals())
+    // If only want feed items for a specific user
+    if(userId) {
+      dispatch(fetchUserGoals(userId))
+      dispatch(fetchUserExerciseEntries(userId))
+      dispatch(fetchFollows(userId))
+    }
+
+    // Otherwise want "megafeed" consisting of:
+    else {
+      // Session user's items
+      dispatch(fetchUserGoals(sessionUser._id))
+      dispatch(fetchUserExerciseEntries(sessionUser._id))
+      dispatch(fetchFollows(sessionUser._id))
+
+      // Follows items
+      dispatch(fetchFollowsGoals())
+
+      // Discover items
+      // dispatch(fetchDiscoversGoals()) // doesn't do anything yet - pending backend route
+    }
+
     // dispatch(fetchAllUserGoals()) - do not use this thunk it will not work. Use updated thunks
+
+    // Cleanup:
     // return () => dispatch(clearFeedPostErrors());
   }, [dispatch, userId])
 
@@ -67,10 +90,11 @@ function Feed ({discoverMode, options = {}}) {
   // Filter each GOAL and WORKOUT posts by desired userIds then combine them and sort by options (usually last updated)
   const filteredGoalPosts = filterPostsBy(goalPosts, filterOptions);
   const filteredWorkoutPosts = filterPostsBy(workoutPosts, filterOptions);
-  const combinedPosts = [...filteredGoalPosts, ...filteredWorkoutPosts];
+  console.log(followsGoals)
+  const filteredFollowGoalPosts = filterPostsBy(followsGoals, filterOptions);
+  const combinedPosts = [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts];
+  // const combinedPosts = [...filteredGoalPosts, ...filteredWorkoutPosts];
   const sortedCombinedPosts = sortFeedPostsBy(combinedPosts, "updatedAt");
-  // const sortedGoalPosts = sortFeedPostsBy(filteredGoalPosts, "updatedAt");
-  // const sortedWorkoutPosts = sortFeedPostsBy(filteredWorkoutPosts, "updatedAt");
 
   // Conditional header text
   // const headerText = (userId ? sessionUser.username + "..." : "everyone")

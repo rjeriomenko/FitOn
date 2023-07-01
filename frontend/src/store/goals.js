@@ -66,7 +66,7 @@ export const fetchUserGoals = userId => async dispatch => {
 
 export const fetchFollowsGoals = () => async dispatch => {  //pre-emptive thunk
     try {
-        const res = await jwtFetch(`/api/goals/byFollows`);
+        const res = await jwtFetch(`/api/goals/followed`);
         const followsGoals = await res.json();
         dispatch(receiveFollowsGoals(followsGoals));
     } catch (err) {

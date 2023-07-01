@@ -129,23 +129,51 @@ router.get('/', async (req, res, next) => {
 // get people you follow
 router.get('/followed', requireUser, async (req, res, next) => {
   try {
-      const follows = await Follow.find({ follower: req.user._id });
+    const follows = await Follow.find({ follower: req.user._id });
 
-      if (follows.length === 0) {
-        return res.json({message: 'No follows found'});
-      }
+    if (follows.length === 0) {
+      return res.json({ message: 'No follows found' });
+    }
 
-      const followedUsers = await Promise.all(follows.map(async (follow) => {
-          let searchId = follow.followedUser;
-          const user = await User.findById(searchId);
-          return user;
-      }));
+    const followedUsers = await Promise.all(follows.map(async (follow) => {
+      let searchId = follow.followedUser;
+      const user = await User.findById(searchId).select('-hashedPassword -currentGoal');
+      return user;
+    }));
 
-      let usersObj = {};
-      followedUsers.forEach(user => usersObj[user._id] = user);
 
-      return res.json(usersObj);
+    let usersObj = {};
+    followedUsers.forEach(user => usersObj[user._id] = user);
+
+    return res.json(usersObj);
   } catch (err) {
-      next(err);
+    next(err);
   }
 });
+
+//edit user
+router.patch('/:userId', requireUser, async (req, res, next) => {
+  try {
+    if (req.params.userId.toString() !== req.user._id.toString()) {
+      const error = new Error('You have no power here, Gandalf the Grey');
+      error.statusCode = 403;
+      throw error;
+    }
+
+    let user = await User.findById(req.params.userId).select('-hashedPassword -currentGoal');
+
+    user = {
+      ...user,
+      username: req.body.username,
+      imgUrl: req.body.imgUrl
+    };
+
+    await user.save();
+
+    return res.json(user)
+  } catch (err) {
+    next(err);
+  }
+});
+
+module.exports = router;

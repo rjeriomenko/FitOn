@@ -72,7 +72,7 @@ export const fetchUserExerciseEntries = userId => async dispatch => {
     }
 };
 
-export const fetchGoalExerciseEntries = (goalId) => async dispatch => {  //pre-emptive thunk
+export const fetchGoalExerciseEntries = (goalId) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/exerciseEntries/byGoal/${goalId}`);
         const goalEntries = await res.json();
@@ -85,9 +85,9 @@ export const fetchGoalExerciseEntries = (goalId) => async dispatch => {  //pre-e
     }
 };
 
-export const fetchFollowsExerciseEntries = () => async dispatch => {  //pre-emptive thunk
+export const fetchFollowsExerciseEntries = () => async dispatch => {  
     try {
-        const res = await jwtFetch(`/api/exerciseEntries/byFollows`);
+        const res = await jwtFetch(`/api/exerciseEntries/followed`);
         const followsExerciseEntries = await res.json();
         dispatch(receiveFollowsExerciseEntries(followsExerciseEntries));
     } catch (err) {
@@ -98,9 +98,9 @@ export const fetchFollowsExerciseEntries = () => async dispatch => {  //pre-empt
     }
 };
 
-export const fetchDiscoversExerciseEntries = () => async dispatch => {  //pre-emptive thunk
+export const fetchDiscoversExerciseEntries = () => async dispatch => {  
     try {
-        const res = await jwtFetch(`/api/exerciseEntries/byDiscovers`);
+        const res = await jwtFetch(`/api/exerciseEntries/sample`);
         const discoversExerciseEntries = await res.json();
         dispatch(receiveDiscoversExerciseEntries(discoversExerciseEntries));
     } catch (err) {

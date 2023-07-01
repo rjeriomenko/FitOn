@@ -18,6 +18,9 @@ import {
     createExerciseEntry,
     updateExerciseEntry,
     deleteExerciseEntry,
+    fetchFollowsExerciseEntries,
+    fetchDiscoversExerciseEntries,
+    fetchGoalExerciseEntries
 } from '../../store/exerciseEntries';
 
 import {
@@ -47,6 +50,9 @@ function LandingPage() {
     window.createExerciseEntry = createExerciseEntry;
     window.updateExerciseEntry = updateExerciseEntry;
     window.deleteExerciseEntry = deleteExerciseEntry;
+    window.fetchFollowsExerciseEntries = fetchFollowsExerciseEntries;
+    window.fetchDiscoversExerciseEntries = fetchDiscoversExerciseEntries;
+    window.fetchGoalExerciseEntries = fetchGoalExerciseEntries;
 
     window.fetchUserExercise = fetchUserExercise;
     window.fetchUserExercises = fetchUserExercises;

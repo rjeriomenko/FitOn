@@ -7,9 +7,10 @@ import { useDispatch } from "react-redux";
 import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
 import { Link } from "react-router-dom";
 import { fetchUserExerciseEntries,getUserExerciseEntries } from "../../store/exerciseEntries";
+import { getFollows } from "../../store/follows";
 
 function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
-	// debugger
+	debugger
   // props
 	// const { title, description, deadline, completionDate, updatedAt } = feedPost;
 	const { date, goal, note, rating, user } = feedPost;
@@ -20,20 +21,13 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 		return new Date(dateText).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})
 	}
 
-	const followButtonText = () => {
-		// Should depend on whether we are following a user. Clicking will toggle.
-		// Follows slice of state should be populated in the Feed,
-		// and listen to updates triggered by buttons on child subcomponent
-
-		// Placeholder:
-		return "follow";
-	}
-
 	// Redux
 	const dispatch = useDispatch();
 	
 	// useSelectors
 	const sessionUser = useSelector(state => state.session.user);
+	const follows = useSelector(getFollows);
+	const followedIds = Object.values(follows).map(followObj => followObj.followedUser);
 	
 	// component logic states
 	const [editable, setEditable] = useState(false);
@@ -66,7 +60,17 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 	// 		dispatch(fetchUserExerciseEntries(setterId))
 	// }, [dispatch, triggerRender])
 
-
+	const followButtonText = () => {
+		// Should depend on whether we are following a user. Clicking will toggle.
+		// Follows slice of state should be populated in the Feed,
+		// and listen to updates triggered by buttons on child subcomponent
+		let followButtonText;
+		if (setterId === sessionUser._id) followButtonText = "";
+		else if (followedIds.includes(setterId)) followButtonText = "unfollow"
+		else followButtonText = "follow";
+		// Placeholder:
+		return followButtonText;
+	}
 
   return (
 		<div className="feed-post-editable-container">

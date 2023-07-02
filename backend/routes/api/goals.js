@@ -48,7 +48,8 @@ router.get('/followed', requireUser, async (req, res, next) => {
 
         const followedGoals = {};
         await Promise.all(followedUsers.map(async (user) => {
-            const goals = await Goal.find({ user: user._id });
+            const goals = await Goal.find({ user: user._id })
+                .populate('user', '_id username imgUrl createdAt');
             followedGoals[user._id] = goals;
         }));
 

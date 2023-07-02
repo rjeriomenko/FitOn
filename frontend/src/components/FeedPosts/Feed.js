@@ -47,8 +47,9 @@ function Feed ({discoverMode, options = {}}) {
   const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : {});
   const workoutPosts = Object.values(useSelector(getUserExerciseEntries))
   const follows = useSelector(getFollows);
-  const followsGoalsFromState = useSelector(getFollowsGoals);
-  const followsGoals = Object.values(followsGoalsFromState)[0]
+  const followsGoalsBase = Object.values(useSelector(getFollowsGoals))
+  const followsGoals = followsGoalsBase.length > 0 ? followsGoalsBase[0] : []
+  debugger
   const userId = useParams().userId
   // debugger
   const filterOptions = {...options};
@@ -60,6 +61,7 @@ function Feed ({discoverMode, options = {}}) {
       dispatch(fetchUserGoals(userId))
       dispatch(fetchUserExerciseEntries(userId))
       dispatch(fetchFollows(userId))
+      debugger
     }
 
     // Otherwise want "megafeed" consisting of:
@@ -104,7 +106,6 @@ function Feed ({discoverMode, options = {}}) {
     if(userId === sessionUser._id) headerText = "your goals and workouts"
     // else headerText = `${sortedGoalPosts ? sortedGoalPosts[0].setter.concat(`...`) : "nothing here..."}`
     else {
-      // debugger
       headerText = `${sortedCombinedPosts?.length ? sortedCombinedPosts[0].user.username?.concat('s goals and workouts') : "nothing here..."}`
     }
   } else if(discoverMode){
@@ -114,11 +115,10 @@ function Feed ({discoverMode, options = {}}) {
   }
 
   if (sortedCombinedPosts.length === 0) {
-    // debugger
     return (
       <>
       <div className='feed-posts-container'>
-        <h2>Welcome to the beginning of time!</h2>
+        <h2>No posts yet. Create a goal or checkout what others have been up to in Discover!</h2>
       </div>
       </> 
     )

@@ -25,7 +25,7 @@ function NavBar () {
           <li id="nav-link-id"><Link to={'/feedPosts/newGoal'}>Create Goal</Link></li>
           {/* <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li> */}
           <li id="nav-link-id"><Link to={`/users/${sessionUser._id}/goals`}>My Goal</Link></li>
-          <li id="nav-link-id"><div onClick={logoutUser}>Logout</div></li>
+          <li id="nav-link-id"><a onClick={logoutUser}>Logout</a></li>
         </ul>
       );
     } else {
@@ -58,7 +58,8 @@ function NavBar () {
     <div className='nav-bar-container'>
       {/* <h1>FitOn</h1> */}
       {/* Include logo image */}
-      <Link to={"/"}><img className="nav-bar-logo" src={require(`../../images/logo-v1-03.png`)}/></Link>
+      {/* <Link to={"/"}><img className="nav-bar-logo" src={require(`../../images/logo-v1-03.png`)}/></Link> */}
+      <div className='text-logo'>g<i class="fa-solid fa-arrows-to-circle"></i>algetters</div>
       <div className='nav-bar-divider'></div>
 			<div className='links-menu'>
       	{ getLinks() }

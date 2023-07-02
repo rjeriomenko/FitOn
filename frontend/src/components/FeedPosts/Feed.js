@@ -82,7 +82,7 @@ function Feed ({discoverMode, options = {}}) {
 
     // Cleanup:
     // return () => dispatch(clearFeedPostErrors());
-  }, [dispatch, userId])
+  }, [dispatch])
 
   if(userId) {
     filterOptions.ownerIds ||= [userId];

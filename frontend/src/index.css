@@ -88,6 +88,8 @@ body {
 	/* FONTSPACE */
 	--serif: Georgia, serif;
 	--sans-serif: Arial, Helvetica, sans-serif;
+	--montserrat: 'Montserrat', sans-serif;
+	--remu: 'Reem Kufi Ink', sans-serif;
 
 	/* STANDARD DIVIDER BORDER STYLE */
 	--dark-red-divider: 1px solid var(--dark-red);

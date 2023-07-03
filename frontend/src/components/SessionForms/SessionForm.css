@@ -96,6 +96,15 @@ body {
 	/* animation: session-form-submit-hover 1s ease-in-out 0.5s 1 forwards forwards; */
 }
 
+.login-buttons {
+	display: flex;
+	justify-content: center;
+}
+
+.login-buttons > button:not(:first-child) {
+	margin-left: 10px;
+}
+
 /* @keyframes session-form-submit-hover {
 	0% {
 		background-color: green;

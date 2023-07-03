@@ -10,7 +10,7 @@ import { fetchUserExerciseEntries,getUserExerciseEntries } from "../../store/exe
 import { getFollows } from "../../store/follows";
 
 function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
-	debugger
+	// debugger
   // props
 	// const { title, description, deadline, completionDate, updatedAt } = feedPost;
 	const { date, goal, note, rating, user } = feedPost;

@@ -88,7 +88,7 @@ body {
 .nav-bar-container h1 {
 }
 
-#nav-link-id:hover {
+.nav-link-id:hover {
 	transition: 0.2s ease;
     /* transform: scale(1.05); */
 		color: var(--orange);

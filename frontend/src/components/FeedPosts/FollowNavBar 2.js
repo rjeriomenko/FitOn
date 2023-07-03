@@ -1,15 +1,15 @@
 import "./FollowNavBar.css";
 import { useSelector } from "react-redux";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const FollowNavBar = () => {
 	const sessionUser = useSelector(state => state.session.user);
 	return (
 		<div className="follow-nav-bar-container">
 			<ul>
-				<li><NavLink exact to={`/discover`}>Discover</NavLink></li>
-				<li><NavLink exact to={`/feed`}>Follows</NavLink></li>
-				<li><NavLink exact to={`/feed/${sessionUser._id}`}>{sessionUser.username}</NavLink></li>
+				<li><Link to={`/feed`}>Follows</Link></li>
+				<li><Link to={`/feed/discover`}>Discover</Link></li>
+				<li><Link to={`/feed/${sessionUser._id}`}>{sessionUser.username}</Link></li>
 			</ul>
 		</div>
 	)

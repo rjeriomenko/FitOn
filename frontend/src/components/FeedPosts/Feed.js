@@ -34,21 +34,24 @@ export const sortFeedPostsBy = (postsArray, sortRule) => {
 // Filter posts by post options object of types:["type1", ...] and/or ownerIds:[id1, ...]
 export const filterPostsBy = (postsArray, options = {}) => {
   const { types, ownerIds } = options;
-  debugger
+  // debugger
   const filteredArray = postsArray.filter(post => {
     return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.user._id) : true);
   })
+  // debugger
   return filteredArray;
 }
 
 function Feed ({discoverMode, options = {}}) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
-  const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : {});
+  const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : []);
   const workoutPosts = Object.values(useSelector(getUserExerciseEntries))
   const follows = useSelector(getFollows);
   const followsGoalsBase = Object.values(useSelector(getFollowsGoals))
-  const followsGoals = followsGoalsBase.length > 0 ? followsGoalsBase[0] : []
+  // debugger
+  // const followsGoals = followsGoalsBase.length > 0 ? followsGoalsBase[0] : []
+  const followsGoals = followsGoalsBase.flat()
   debugger
   const userId = useParams().userId
   // debugger
@@ -61,7 +64,7 @@ function Feed ({discoverMode, options = {}}) {
       dispatch(fetchUserGoals(userId))
       dispatch(fetchUserExerciseEntries(userId))
       dispatch(fetchFollows(userId))
-      debugger
+      
     }
 
     // Otherwise want "megafeed" consisting of:
@@ -73,6 +76,7 @@ function Feed ({discoverMode, options = {}}) {
 
       // Follows items
       dispatch(fetchFollowsGoals())
+      // debugger
 
       // Discover items
       // dispatch(fetchDiscoversGoals()) // doesn't do anything yet - pending backend route
@@ -94,7 +98,9 @@ function Feed ({discoverMode, options = {}}) {
   const filteredWorkoutPosts = filterPostsBy(workoutPosts, filterOptions);
   console.log(followsGoals)
   const filteredFollowGoalPosts = filterPostsBy(followsGoals, filterOptions);
-  const combinedPosts = [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts];
+  // const combinedPosts = [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts];
+  const combinedPosts = userId ? [...filteredGoalPosts, ...filteredWorkoutPosts] : [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts];
+  // debugger
   // const combinedPosts = [...filteredGoalPosts, ...filteredWorkoutPosts];
   const sortedCombinedPosts = sortFeedPostsBy(combinedPosts, "updatedAt");
 
@@ -125,7 +131,8 @@ function Feed ({discoverMode, options = {}}) {
   }
 
   const renderPosts = () => {
-    return sortedCombinedPosts.map(goalPost => goalPost.deadline ?
+    // debugger
+    return sortedCombinedPosts.map((goalPost, index) => goalPost.deadline ?
       <FeedPostGoal key={goalPost._id} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />
       : <FeedPostWorkout key={goalPost._id} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />
     )

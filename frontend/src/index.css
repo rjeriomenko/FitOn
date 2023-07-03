@@ -119,6 +119,10 @@ a, a:visited, a:hover, a:active {
 	color: inherit;
 }
 
+a.active {
+	color: var(--orange);
+}
+
 .app-container {
 	/* min-height: 100vh; */
 	/* display: flex; */

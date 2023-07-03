@@ -21,21 +21,21 @@ function NavBar () {
   const getLinks = () => {
     if (loggedIn) {
       return (
-        <ul className="links-nav nav-links">
-          <li id="nav-link-id"><Link to={'/feed'}>Home</Link></li>
-          <li id="nav-link-id"><Link to={'/profile'}>Tools</Link></li>
-          <li id="nav-link-id"><Link to={'/feedPosts/newGoal'}>Create Goal</Link></li>
+        <>
+          <li className="nav-link-id"><Link to={'/feed'}>Home</Link></li>
+          <li className="nav-link-id"><Link to={'/profile'}>Tools</Link></li>
+          <li className="nav-link-id"><Link to={'/feedPosts/newGoal'}>Create Goal</Link></li>
           {/* <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li> */}
-          <li id="nav-link-id"><Link to={`/users/${sessionUser._id}/goals`}>My Goal</Link></li>
-          <li id="nav-link-id"><a onClick={logoutUser}>Logout</a></li>
-        </ul>
+          <li className="nav-link-id"><Link to={`/users/${sessionUser._id}/goals`}>My Goal</Link></li>
+          <li className="nav-link-id"><a onClick={logoutUser}>Logout</a></li>
+        </>
       );
     } else {
       return (
-        <ul className="links-auth nav-links">
-          <li id="nav-link-id" ><Link to={'/signup'}>Signup</Link></li>
-          <li id="nav-link-id" ><Link to={'/login'}>Login</Link></li>
-        </ul>
+        <>
+          <li className="nav-link-id" ><Link to={'/signup'}>Signup</Link></li>
+          <li className="nav-link-id" ><Link to={'/login'}>Login</Link></li>
+        </>
       );
     }
   }
@@ -51,7 +51,7 @@ function NavBar () {
   const renderTestLinks = () => {
     if (process.env.NODE_ENV !== 'production') {
       return (
-        <li className="test-button" onClick={handleDemoGoal}>Create Demo Goal</li>
+        <li className="nav-link-id test-button" onClick={handleDemoGoal}><a>Create Demo Goal</a></li>
       )
     }
   }
@@ -67,9 +67,11 @@ function NavBar () {
         {/* <div className='text-logo'>g<i class="fa-solid fa-bullseye fa-fade"></i>algetters</div> */}
         <div className='nav-bar-divider'></div>
         <div className='links-menu'>
-          { getLinks() }
+          <ul className="links-auth nav-links">
+            { getLinks() }
+            { renderTestLinks() }
+          </ul>
         </div>
-          { renderTestLinks() }
       </div>
     </>
   );

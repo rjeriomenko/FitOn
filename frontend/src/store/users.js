@@ -12,9 +12,9 @@ export const receiveUsers = (users) => ({
     users
 });
 
-export const receiveFollowsUsers = (user) => ({
+export const receiveFollowsUsers = (users) => ({
     type: RECEIVE_FOLLOWS_USERS,
-    user
+    users
 });
 
 export const receiveUser = (user) => ({
@@ -54,7 +54,7 @@ export const fetchUsers = () => async dispatch => {
 
 export const fetchFollowsUsers = () => async dispatch => {  //pre-emptive thunk
     try {
-        const res = await jwtFetch(`/api/users/byFollows`);
+        const res = await jwtFetch(`/api/users/followed`);
         const followsUsers = await res.json();
         dispatch(receiveFollowsUsers(followsUsers));
     } catch (err) {
@@ -79,7 +79,7 @@ export const fetchUser = userId => async dispatch => {
 };
 
 
-export const updateUser = (user) => async dispatch => {  //pre-emptive thunk
+export const updateUser = (user) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users/${user._id}`, {
             method: 'PATCH',

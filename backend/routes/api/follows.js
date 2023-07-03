@@ -56,7 +56,8 @@ router.delete('/:followId', requireUser, async (req, res, next) => {
 router.get('/:followerId', requireUser, async (req, res, next) => {
     try {
         const follows = await Follow.find({ follower: req.user._id })
-
+        .populate('follower', '_id username')
+        .populate('followedUser', '_id username')
         // if (follows) {
         //     return res.json({ message: follows })
         // }

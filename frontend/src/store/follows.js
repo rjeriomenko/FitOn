@@ -123,11 +123,13 @@ const followsReducer = (state = { user: {}, new: undefined }, action) => {
         case RECEIVE_FOLLOWS:
             return { ...newState, user: action.follows, new: undefined };
         case RECEIVE_NEW_FOLLOW:
-            return { ...newState, new: action.follow };
+            // return { ...newState, new: action.follow };
+            return { user: {...newState.user, ...action.follow}, new: action.follow };
         case REMOVE_FOLLOW:
             const cloneStateUser = { ...newState.user };
             delete cloneStateUser[action.followId];
-            return { ...newState, user: cloneStateUser, new: undefined };
+            // return { ...newState, user: cloneStateUser, new: undefined };
+            return { user: cloneStateUser, new: undefined };
         default:
             return newState;
     }

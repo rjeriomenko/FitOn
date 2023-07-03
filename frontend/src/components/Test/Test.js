@@ -5,6 +5,8 @@ import {
     createGoal, 
     updateGoal, 
     deleteGoal,
+    fetchFollowsGoals,
+    fetchDiscoversGoals,
     getGoal, 
     getGoals, 
     getUserGoals,
@@ -16,7 +18,15 @@ import {
     createExerciseEntry,
     updateExerciseEntry,
     deleteExerciseEntry,
+    fetchFollowsExerciseEntries,
+    fetchDiscoversExerciseEntries,
+    fetchGoalExerciseEntries
 } from '../../store/exerciseEntries';
+
+import {
+    receiveFollowsUsers,
+    updateUser
+} from '../../store/users';
 
 import {
     fetchUserExercise,
@@ -38,11 +48,16 @@ function LandingPage() {
     window.createGoal = createGoal;
     window.updateGoal = updateGoal;
     window.deleteGoal = deleteGoal;
+    window.fetchFollowsGoals = fetchFollowsGoals;
+    window.fetchDiscoversGoals = fetchDiscoversGoals;
 
     window.fetchUserExerciseEntries = fetchUserExerciseEntries;
     window.createExerciseEntry = createExerciseEntry;
     window.updateExerciseEntry = updateExerciseEntry;
     window.deleteExerciseEntry = deleteExerciseEntry;
+    window.fetchFollowsExerciseEntries = fetchFollowsExerciseEntries;
+    window.fetchDiscoversExerciseEntries = fetchDiscoversExerciseEntries;
+    window.fetchGoalExerciseEntries = fetchGoalExerciseEntries;
 
     window.fetchUserExercise = fetchUserExercise;
     window.fetchUserExercises = fetchUserExercises;
@@ -53,6 +68,8 @@ function LandingPage() {
     window.updateExercise = updateExercise;
     window.deleteExercise = deleteExercise;
     
+    window.receiveFollowsUsers = receiveFollowsUsers;
+    window.updateUser = updateUser;
     // console.log(goal)
 
     // useEffect(() => {

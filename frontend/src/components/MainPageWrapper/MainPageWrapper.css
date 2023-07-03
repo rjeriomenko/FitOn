@@ -8,4 +8,22 @@
 	box-sizing: border-box;
 	/* background-color: var(--dark-blue); */
 	color: var(--dark-blue);
+	opacity: 0;
+	margin-top: 190px;
+}
+
+.main-fade {
+	margin-top: 150px;
+	animation: mainFadeAnimation 0.7s ease 1s 1 normal forwards;
+	/* opacity: 1; */
+	/* transition: opacity 0.7s ease 0.5s; */
+}
+
+@keyframes mainFadeAnimation {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }

@@ -22,7 +22,7 @@
 
 @keyframes pulsing-button {
 	0% {
-		background-color: var(--yellow);
+		background-color: rgb(251, 203, 115);
 	}
 	100% {
 		background-color: var(--white);

@@ -168,7 +168,6 @@ function GoalIndex () {
             <div className="goals-container">
                 <h2>my current goal...</h2>
                 {renderCurrentGoal()}
-
                 <h2>previous goals...</h2>
                 <div className="goals-grid-container">
                 {renderPrevGoals()}

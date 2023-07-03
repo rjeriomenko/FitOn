@@ -8,6 +8,7 @@ const FloatingMenu = (props) => {
 	const loggedIn = useSelector(state => !!state.session.user);
 	const [showExerciseEntry, setShowExerciseEntry] = useState(false);
 	const [hover, setHover] = useState(false);
+	const currentGoal = useSelector(state => state.session?.user?.currentGoal)
 
 	const headerQuote = () => {
 		const quotes = ['"It does not matter how slowly you go as long as you do not stop." - Confucius',
@@ -31,13 +32,19 @@ const FloatingMenu = (props) => {
 
 	return (
 		<>
-			{loggedIn && <div className="floating-menu-container" onClick={e => setShowExerciseEntry(true)}>
+			{loggedIn && currentGoal && <div className="floating-menu-container" onClick={e => setShowExerciseEntry(true)}>
 					<ul 
 						onMouseEnter={e => setHover(true)} 
 						onMouseLeave={e => setHover(false)}
 						className='floating-menu-links-list'>
+
 						{!hover && <li><i class="fa-solid fa-plus fa-2xl"></i></li>}
 						{hover && <li><i class="fa-solid fa-plus fa-fade fa-2xl"></i></li>}
+
+						{/* {!hover && <li><i class="far fa-edit"></i></li>}
+						{hover && <li><i class="far fa-edit"></i></li>} */}
+						
+
 					</ul>
 				</div>
 			}

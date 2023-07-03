@@ -111,11 +111,6 @@ const seedData = async () => {
     }
 };
 
-// Generate a random number within a range
-const getRandomNumber = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
 // Get the next date in the week
 const getNextDate = (day) => {
     const today = new Date();

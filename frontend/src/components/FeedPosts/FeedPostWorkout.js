@@ -57,6 +57,17 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 	// 		dispatch(fetchUserExerciseEntries(setterId))
 	// }, [dispatch, triggerRender])
 
+	const handleToggleForm = e => {
+		setEditable(oldSetEditable => {
+			if(oldSetEditable){
+				setFormNote(note);
+				setFormRating(rating);
+				setFormDate(date);
+			}
+			return !oldSetEditable
+		})
+	}
+
 	const handleToggleFollow = e => {
 		if (setterId === sessionUser._id) {} //do nothing, don't follow self
 		else if (isFollowing) { //unfollow
@@ -117,7 +128,7 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 			<div className="feed-post-crud-controls">
 				{(sessionUser._id === setterId) &&
 					<>
-						<div className="feed-post-crud-button" onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
+						<div className="feed-post-crud-button" onClick={handleToggleForm}>
 							<i class="far fa-edit"></i>
 						</div>
 						{/* <div className="feed-post-crud-button" onClick={handleDeleteWorkout}> */}

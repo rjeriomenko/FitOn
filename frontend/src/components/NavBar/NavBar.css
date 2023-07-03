@@ -37,13 +37,12 @@ body {
 	justify-content: center;
 	align-items: center;
 	border-bottom: 1px solid var(--medium-blue);
-	
 }
 
-.nav-bar-container > a {
-	width: 100%;
-	height: 100%;
-}
+/* .nav-bar-container > a { */
+	/* width: 100%; */
+	/* height: 100%; */
+/* } */
 
 .test-button {
 	font-family: var(--sans-serif);
@@ -64,7 +63,7 @@ body {
 .text-logo {
 	font-size: 7rem;
 	font-family: var(--montserrat);
-	padding: 20px;
+	/* padding: 20px; */
 	padding-bottom: 10px;
 	box-sizing: border-box;
 	font-weight: 200;
@@ -90,6 +89,17 @@ body {
 }
 
 #nav-link-id:hover {
-	transition: 0.3s ease;
-    transform: scale(1.01);
+	transition: 0.2s ease;
+    /* transform: scale(1.05); */
+		color: var(--orange);
+}
+
+.logged-in-navbar {
+	height: 160px;
+	transition: height 0.7s ease 0.2s;
+}
+
+.logged-in-logo {
+	transform: scale(0.75);
+	transition: transform 0.7s ease 0.2s;
 }

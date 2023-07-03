@@ -1,5 +1,7 @@
 .feed-header {
 	margin: 20px 0px;
+	font-family: var(--montserrat);
+	font-weight: 500;
 }
 
 .feed-posts-container {

@@ -109,7 +109,7 @@ function Feed ({discoverMode, options = {}}) {
       headerText = `${sortedCombinedPosts?.length ? sortedCombinedPosts[0].user.username?.concat('s goals and workouts') : "nothing here..."}`
     }
   } else if(discoverMode){
-    headerText = "other amazing goal-getters";
+    headerText = "other amazing goalgetters";
   } else {
     headerText = "together is better"
   }

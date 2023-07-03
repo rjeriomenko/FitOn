@@ -15,12 +15,12 @@
 }
 
 .footer-offset {
-	height: 80px;
+	height: 40px;
 }
 
 .footer-divider {
 	width: 95%;
-	border-top: 0.5px solid var(--medium-blue-darker);
+	border-top: 0.5px solid var(--soft-white);
 	margin: 20px 0px;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .team-links * {
-	color: var(--dark-blue);
+	color: var(--soft-white);
 }
 
 .team-links *:hover {

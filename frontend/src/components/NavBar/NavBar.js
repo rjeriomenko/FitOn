@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/session';
 import { Redirect } from 'react-router-dom';
 import { createGoal } from "../../store/goals";
+import { useState } from 'react';
 
 import './NavBar.css';
 
@@ -10,6 +11,7 @@ function NavBar () {
   const loggedIn = useSelector(state => !!state.session.user);
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
+  const [mouseOver, setMouseOver] = useState(false);
   
   const logoutUser = e => {
       e.preventDefault();
@@ -41,7 +43,7 @@ function NavBar () {
   const handleDemoGoal = e => {
     dispatch(createGoal({
       title: Math.random(),
-      description: Math.random(),
+      description: Math.random().toString(),
       deadline: `${Math.floor(9000 * Math.random())}-${Math.floor(12 * Math.random())}-${Math.floor(28 * Math.random())}`
     }))
   }
@@ -55,17 +57,21 @@ function NavBar () {
   }
 
   return (
-    <div className='nav-bar-container'>
-      {/* <h1>FitOn</h1> */}
-      {/* Include logo image */}
-      {/* <Link to={"/"}><img className="nav-bar-logo" src={require(`../../images/logo-v1-03.png`)}/></Link> */}
-      <div className='text-logo'>g<i class="fa-solid fa-arrows-to-circle"></i>algetters</div>
-      <div className='nav-bar-divider'></div>
-			<div className='links-menu'>
-      	{ getLinks() }
-			</div>
-        { renderTestLinks() }
-    </div>
+    <>
+      <div className={`nav-bar-offset ${loggedIn ? "logged-in-navbar" : ""} `}/>
+      <div className={`nav-bar-container ${loggedIn ? "logged-in-navbar" : ""}`}>
+        {/* <h1>FitOn</h1> */}
+        {/* Include logo image */}
+        {/* <Link to={"/"}><img className="nav-bar-logo" src={require(`../../images/logo-v1-03.png`)}/></Link> */}
+        <Link to={"/"}><div className={`text-logo ${loggedIn ? "logged-in-logo" : ""}`}>g<i class="fa-solid fa-arrows-to-circle"></i>algetters</div></Link>
+        {/* <div className='text-logo'>g<i class="fa-solid fa-bullseye fa-fade"></i>algetters</div> */}
+        <div className='nav-bar-divider'></div>
+        <div className='links-menu'>
+          { getLinks() }
+        </div>
+          { renderTestLinks() }
+      </div>
+    </>
   );
 }
 

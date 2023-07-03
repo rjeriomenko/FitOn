@@ -65,11 +65,11 @@ function GoalIndex () {
                             <div className="goal-crud">
                                 <div className="edit-current-goal">
                                     <Link to={'/feedPosts/editGoal'}><i class="far fa-edit"></i></Link>
-                                    </div>
+                                </div>
                                 {/* ADD ROUTE TO DELETE GOAL */}
                                 <div className="delete-current-goal">
                                     {/* <Link to={'/feedPosts/editGoal'}><i class="fa-solid fa-trash-can"></i></Link> */}
-                                    <div onClick={e => dispatch(deleteGoal(sessionUserId, currentGoal._id))}><i class="fa-solid fa-trash-can"></i></div>
+                                    <div onClick={e => dispatch(deleteGoal(currentGoal._id))}><i class="fa-solid fa-trash-can"></i></div>
                                 </div>  
                             </div>
         

@@ -24,6 +24,11 @@ import {
 } from '../../store/exerciseEntries';
 
 import {
+    receiveFollowsUsers,
+    updateUser
+} from '../../store/users';
+
+import {
     fetchUserExercise,
     fetchUserExercises,
     fetchAllUserExercises,
@@ -63,6 +68,8 @@ function LandingPage() {
     window.updateExercise = updateExercise;
     window.deleteExercise = deleteExercise;
     
+    window.receiveFollowsUsers = receiveFollowsUsers;
+    window.updateUser = updateUser;
     // console.log(goal)
 
     // useEffect(() => {

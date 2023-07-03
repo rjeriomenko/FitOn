@@ -111,7 +111,7 @@ function Feed ({discoverMode, options = {}}) {
     if(userId === sessionUser._id) headerText = "your goals and workouts"
     // else headerText = `${sortedGoalPosts ? sortedGoalPosts[0].setter.concat(`...`) : "nothing here..."}`
     else {
-      headerText = `${sortedCombinedPosts?.length ? sortedCombinedPosts[0].user.username?.concat('s goals and workouts') : "nothing here..."}`
+      headerText = `${sortedCombinedPosts?.length ? sortedCombinedPosts[0].user.username?.concat("'s goals and workouts") : "nothing here..."}`
     }
   } else if(discoverMode){
     headerText = "other amazing goalgetters";
@@ -129,6 +129,13 @@ function Feed ({discoverMode, options = {}}) {
     )
   }
 
+  const renderHeaderText = () => {
+    const headerLetters = headerText.split("").map((char, idx) => {
+      return <span style={{animationDelay: `${(idx + 1) * 0.015}s`}} className='feed-header-letter'>{char}</span>
+    })
+    return headerLetters;
+  }
+
   const renderPosts = () => {
     // debugger
     return sortedCombinedPosts.map((goalPost, index) => goalPost.deadline ?
@@ -139,7 +146,8 @@ function Feed ({discoverMode, options = {}}) {
 
   return (
     <>
-      <h2 className='feed-header'>{headerText}</h2>
+      {/* <h2 className='feed-header'>{headerText}</h2> */}
+      <h2 className='feed-header'>{renderHeaderText()}</h2>
       <div className='feed-posts-container'>
         <FollowNavBar />
         <div className='inner-feed-posts-container'>

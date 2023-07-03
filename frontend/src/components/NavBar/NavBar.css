@@ -1,14 +1,12 @@
 
 body {
 	--nav-bar-background-color: var(--light-blue);
-	/* background-color: blue; */
 }
 
 .links-menu li * {
 	margin: 0px 8px;
 	cursor: pointer;
 	font-family: var(--sans-serif);
-	/* font-family: var(--montserrat); */
 }
 
 .nav-links {
@@ -21,15 +19,12 @@ body {
 }
 
 .nav-bar-container {
-	/* position: sticky; */
 	/* height: 190px; */
 	min-height: 0px;
-	/* min-height: 130px; */
 	position: fixed;
 	top:0px;
 	z-index: 10;
 	width: 100%;
-	/* background-color: var(--medium-blue); */
 	background-color: var(--white);
 	padding: 20px;
 	box-sizing: border-box;
@@ -39,11 +34,6 @@ body {
 	align-items: center;
 	border-bottom: 1px solid var(--medium-blue);
 }
-
-/* .nav-bar-container > a { */
-	/* width: 100%; */
-	/* height: 100%; */
-/* } */
 
 .test-button {
 	font-family: var(--sans-serif);
@@ -67,7 +57,6 @@ body {
 .text-logo {
 	font-size: 7rem;
 	font-family: var(--montserrat);
-	/* padding: 20px; */
 	padding-bottom: 10px;
 	box-sizing: border-box;
 	font-weight: 200;
@@ -75,7 +64,6 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* position: relative; */
 }
 
 .nav-bar-offset {
@@ -93,28 +81,27 @@ body {
 	color: rgba(255,255,255,0.3);
 }
 
-.nav-bar-container h1 {
+.nav-link-id {
+	transition: 0.3s ease-in;
+	
 }
 
 .nav-link-id:hover {
-	transition: 0.2s ease;
-    /* transform: scale(1.05); */
-		color: var(--orange);
+	color: var(--orange);
+	/* animation: navLinkColor 0.8s ease 0s 1 normal forwards;  */
 }
 
-.logged-in-navbar {
-	/* height: 150px; */
-	/* transition: height 0.7s ease 0.2s; */
+@keyframes navLinkColor {
+	0% {
+		color: var(--black)
+	}
+	100% {
+		color: var(--orange)
+	}
+	
 }
 
 .logged-in-logo {
-/* .logged-in-navbar > a:first-child { */
-	/* transform: scale(0.5); */
-	/* transform: scale(0.5) translateY(15%); */
-	/* transform-origin: center; */
-	/* transform: scale(0.5); */
-	/* transition: transform 0.7s ease 0.2s; */
 	font-size: 3rem;
 	transition: font-size 0.7s ease 0.2s;
-	
 }

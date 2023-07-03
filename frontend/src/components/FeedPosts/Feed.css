@@ -61,3 +61,36 @@
 	transition: opacity 1s, transform 1s;
 	transform: scale(1);
 } */
+
+.feed-header-letter {
+	font-size: 3rem;
+	font-weight: 700;
+	margin: 20px 0px;
+	font-family: var(--montserrat);
+	font-weight: 500;
+	opacity: 0;
+	animation: fadeInLetter 0.18s ease-in-out 0s 1 normal forwards;
+}
+
+@keyframes fadeInLetter {
+	0% {
+		opacity: 0;
+		/* transform: rotateY(0); */
+		color: white;
+	}
+	40%{
+		color: white;
+	}
+	50% {
+		opacity: 1;
+		color: orange;
+		/* transform: rotateY(90deg); */
+
+	}
+	100% {
+		opacity: 1;
+		color: black;
+		transform: scale(-1,1);
+		/* transform: rotateY(180deg); */
+	}
+}

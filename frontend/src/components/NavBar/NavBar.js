@@ -60,11 +60,8 @@ function NavBar () {
     <>
       {/* <div className={`nav-bar-offset ${loggedIn ? "logged-in-navbar" : ""} `}/> */}
       <div className={`nav-bar-container ${loggedIn ? "logged-in-navbar" : ""}`}>
-        {/* <h1>FitOn</h1> */}
-        {/* Include logo image */}
         {/* <Link to={"/"}><img className="nav-bar-logo" src={require(`../../images/logo-v1-03.png`)}/></Link> */}
         <Link to={"/"}><div className={`text-logo ${loggedIn ? "logged-in-logo" : ""}`}>g<i class="fa-solid fa-arrows-to-circle"></i>algetters</div></Link>
-        {/* <div className='text-logo'>g<i class="fa-solid fa-bullseye fa-fade"></i>algetters</div> */}
         <div className='nav-bar-divider'></div>
         <div className='links-menu'>
           <ul className="links-auth nav-links">

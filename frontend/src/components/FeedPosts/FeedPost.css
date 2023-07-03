@@ -125,6 +125,7 @@ p, h3 {
 	box-sizing: border-box;
 	word-wrap: break-word;
 	width: 100%;
+	margin: 8px 0;
 	/* min-height: 0px; */
 	/* overflow: scroll; */
 }

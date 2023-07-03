@@ -56,6 +56,7 @@ const FloatingMenu = (props) => {
 
 						{/* {!hover && <li><i class="far fa-edit"></i></li>}
 						{hover && <li><i class="far fa-edit"></i></li>} */}
+
 					</ul>
 				</div>
 			}

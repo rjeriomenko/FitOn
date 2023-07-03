@@ -10,13 +10,17 @@
 }
 
 .create-feed-post-container {
-	height: 80vh;
-	/* height: 100vh; */
-	display: flex;
+  display: flex;
   flex-direction: column;
-	justify-content: center;
-	align-items: center;
-  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--light-blue);
+  padding: 0px 50px;
+  border: 0.75px solid var(--soft-white);
+  outline: 1px solid var(--light-blue);
+  outline-offset: 5px;
+  border-radius: 8px;
+  /* height: 80vh; */
 }
 
 .create-feed-post {

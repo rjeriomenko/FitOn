@@ -23,68 +23,92 @@ const seedData = async () => {
     try {
         // Create a user
         const seedUser = new User({
-            username: 'bigSeedMan',
-            email: 'seed@demo.io',
-            hashedPassword: bcrypt.hashSync('password', 10),
+            username: "seedTest",
+            email: "seed@tester.io",
+            hashedPassword: bcrypt.hashSync("password", 10),
         });
+
+        // Save the user to the database
+        const savedUser = await seedUser.save();
 
         // Create a goal
         const seedGoal = new Goal({
-            title: 'GROW THAT DUMPTRUCK',
-            description: 'I want a BIG FAT DERRIER',
-            deadline: '2023/07/28',
-            updatedAt: Date.now(),
+            title: "Training for triathlon",
+            description: "Signed up for a triathlon for next year woohooo",
+            deadline: "2024/07/28",
+            user: savedUser._id,
         });
 
-        // Generate exercise entries for 7 days
-        for (let day = 0; day < 7; day++) {
+        // Save the goal to the database
+        const savedGoal = await seedGoal.save();
+
+        // Generate workouts
+        const workoutPromises = [];
+        const workoutInfo = [
+            { date: getNextDate(0), note: "change this name please! 1", rating: 4 },
+            { date: getNextDate(1), note: "change this name please! 2", rating: 3 },
+            { date: getNextDate(2), note: "change this name please! 3", rating: 5 },
+        ];
+
+        for (const workout of workoutInfo) {
             const exerciseEntry = new ExerciseEntry({
-                date: getNextDate(day),
-                note: 'Completed workout',
-                rating: Math.floor(Math.random() * 5) + 1,
+                date: workout.date,
+                note: workout.note,
+                rating: workout.rating,
+                user: savedUser._id,
+                goal: savedGoal._id,
             });
 
-            // Generate exercises and assign entryId and user references
-            const exercises = [];
-            const exerciseNames = ['Squats', 'Glute Bridges', 'Hip Thrusts'];
-            for (let i = 0; i < 3; i++) {
-                const exercise = new Exercise({
-                    name: exerciseNames[i],
-                    sets: getRandomNumber(3, 5),
-                    reps: getRandomNumber(8, 12),
-                    setter: seedUser._id,
-                    entryId: exerciseEntry._id,
-                });
-                exercises.push(exercise);
-                seedUser.exercises.push(exercise);
-                exerciseEntry.exercises.push(exercise);
-            }
+            // Save the workout to the database
+            const savedWorkout = await exerciseEntry.save();
 
-            // Assign exercise entry and exercises to the goal
-            seedGoal.exerciseEntries.push(exerciseEntry);
+            // Generate exercises and assign them to the workout
+            const exercises = [
+                {
+                    name: "Running",
+                    sets: null,
+                    reps: null,
+                    time: "30",
+                    weight: null,
+                    user: savedUser._id,
+                    goal: savedGoal._id,
+                    workout: savedWorkout._id,
+                },
+                {
+                    name: "Cycling",
+                    sets: null,
+                    reps: null,
+                    time: "45",
+                    weight: null,
+                    user: savedUser._id,
+                    goal: savedGoal._id,
+                    workout: savedWorkout._id,
+                },
+                {
+                    name: "Swimming",
+                    sets: null,
+                    reps: null,
+                    time: "20",
+                    weight: null,
+                    user: savedUser._id,
+                    goal: savedGoal._id,
+                    workout: savedWorkout._id,
+                },
+            ];
 
-            // Save the exercises to the database
-            await Promise.all(exercises.map(exercise => exercise.save()));
+            workoutPromises.push(Exercise.insertMany(exercises));
         }
 
-        // Assign goal to the user
-        seedUser.goals.push(seedGoal);
+        // Wait for all exercises to be saved
+        await Promise.all(workoutPromises);
 
-        // Save the user to the database
-        await seedUser.save();
-
-        console.log('Seed data created successfully!');
+        console.log("Seed data created successfully!");
     } catch (error) {
-        console.error('Error creating seed data:', error);
+        console.error("Error creating seed data:", error);
     } finally {
         // Close the MongoDB connection
         mongoose.connection.close();
     }
-};
-
-// Generate a random number within a range
-const getRandomNumber = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 // Get the next date in the week
@@ -92,10 +116,30 @@ const getNextDate = (day) => {
     const today = new Date();
     today.setDate(today.getDate() + day);
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const date = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const date = String(today.getDate()).padStart(2, "0");
     return `${year}/${month}/${date}`;
 };
 
 // Call the function to create the seed data
 seedData();
+
+// TIME EXERCISE:
+// jogging
+// swimming
+// cycling
+// dancing
+// plank
+
+// REP EXERCISE:
+// pushups
+// pull-ups
+// squats
+// burpees
+// bicep curls 
+
+
+//notes
+
+// seed1 - triathlon trainer (jogging/swimming/cycling)
+//seed2 - fullbody trainer (pushups, pullups, burpees, squats)

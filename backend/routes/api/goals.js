@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Goal = mongoose.model('Goal');
 const Follow = mongoose.model('Follow');
 const User = mongoose.model('User');
+const Workout = mongoose.model('ExerciseEntry');
 const validateGoalInput = require("../../validations/goals");
 const { requireUser } = require('../../config/passport');
 
@@ -141,6 +142,9 @@ router.delete('/:goalId', requireUser, async (req, res, next) => {
         }
 
         await goal.deleteOne();
+
+        //delete all workouts associated with this goal (make sure you then deleted all exercises associated with those workouts too)
+        await Workout.deleteMany({ goal: req.params.goalId});
 
         if (req.user.currentGoal && req.user.currentGoal._id.toString() === goal._id.toString()) {
             req.user.currentGoal = null;

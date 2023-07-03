@@ -8,7 +8,7 @@ import { clearExerciseEntryErrors, receiveExerciseEntryErrors } from '../../stor
 import { getUserGoals} from '../../store/goals';
 
 
-function ExerciseEventForm ({setShowExerciseEntry}) {
+function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const dispatch = useDispatch();
     const today = new Date().toISOString().split('T')[0];
     const [date, setDate] = useState(today);
@@ -59,7 +59,7 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
         e.preventDefault();
         // const exercise = { date, note, rating, exercises: exerciseInputs };
         // const exercise = { date, note, rating };
-        // debugger
+        
         dispatch(createExerciseEntry( currentGoalId, { date, note, rating: Number(rating) }))
             .then(() => {
                 setShowExerciseEntry(false)
@@ -76,7 +76,6 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
 
     };
 
-
     if (submit === true) {
         return <Redirect to={`/users/${sessionUserId}/goals`} />
     }
@@ -85,7 +84,8 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
         <div className="exercise-form-container">
             {/* <h2>Add Your Workout</h2> */}
             {/* <h2>· add your workout ·</h2> */}
-            <h4>Another step towards:</h4>
+            {/* <h4>Another step towards:</h4> */}
+            <h4>{headerQuote}</h4>
             <h2>· {currentGoal.title} ·</h2>
             <br></br>
             {/* <h2>gigachad lookin monka swole</h2> */}

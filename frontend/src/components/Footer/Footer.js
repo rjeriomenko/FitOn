@@ -1,13 +1,18 @@
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import './Footer.css';
 
 const Footer = () => {
+	// const loggedIn = useSelector(state => !!state.session.user);
+	const landing = document.querySelector(".landing-page-container");
+	
 	return (
 		<div className='site-footer-outer-container'>
 			<div className='footer-divider'></div>
-			<div className="site-footer-container">
-				<div className='team-links rokas-links'>
+			{/* <div className={`${landing ? `team-links-light` : `team-links-dark`} site-footer-container`}> */}
+			<div className={` site-footer-container`}>
+				<div className={`team-links rokas-links`}>
 					<a href={`https://github.com/rjeriomenko`}><span className='team-links-text'>Rokas</span></a>
 					<a href={`https://github.com/rjeriomenko`}><span><i class="fa-brands fa-github"></i></span></a>
 					<a href={`https://www.linkedin.com/in/rokas-jeriomenko-82b312121/`}><span><i class="fa-brands fa-linkedin"></i></span></a>

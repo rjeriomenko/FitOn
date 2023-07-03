@@ -23,17 +23,16 @@ const seedData = async () => {
     try {
         // Create a user
         const seedUser = new User({
-            username: 'bigSeedMan',
-            email: 'seed@demo.io',
+            username: 'demo',
+            email: 'demo@user.io',
             hashedPassword: bcrypt.hashSync('password', 10),
         });
 
         // Create a goal
         const seedGoal = new Goal({
-            title: 'GROW THAT DUMPTRUCK',
-            description: 'I want a BIG FAT DERRIER',
-            deadline: '2023/07/28',
-            updatedAt: Date.now(),
+            title: 'Training for triathlon',
+            description: 'Signed up for a triathlon for next year woohooo',
+            deadline: '2024/07/28'
         });
 
         // Generate exercise entries for 7 days
@@ -99,3 +98,17 @@ const getNextDate = (day) => {
 
 // Call the function to create the seed data
 seedData();
+
+// TIME EXERCISE:
+// jogging
+// swimming
+// cycling 
+// dancing 
+// plank
+
+// REP EXERCISE: 
+// pushups 
+// pull-ups
+// squats 
+// burpees 
+// bicep curls 

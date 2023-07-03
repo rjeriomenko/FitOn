@@ -82,11 +82,8 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
 
     return (
         <div className="exercise-form-container">
-            {/* <h2>Add Your Workout</h2> */}
-            {/* <h2>· add your workout ·</h2> */}
-            {/* <h4>Another step towards:</h4> */}
             <h4>{headerQuote}</h4>
-            <h2>· {currentGoal.title} ·</h2>
+            <h2>· {currentGoal?.title} ·</h2>
             <br></br>
             {/* <h2>gigachad lookin monka swole</h2> */}
             <form className="exercise-form" onSubmit={handleSubmit}>
@@ -172,7 +169,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                             value="Delete"
                             className="exercise-input-delete-btn"
                             onClick={() => removeInputField(index)}>
-                            <i class="fa-solid fa-trash-can"></i>
+                            <i className="fa-solid fa-trash-can"></i>
                        </button>
                         )}
                     </div>

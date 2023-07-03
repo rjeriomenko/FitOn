@@ -41,7 +41,8 @@ export const filterPostsBy = (postsArray, options = {}) => {
 function Feed ({discoverMode, options = {}}) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
-  const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : []);
+  // const goalPosts = Object.values(useSelector(getUserGoals)); - preferred way
+  const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : []); // -- less preferred way
   const workoutPosts = Object.values(useSelector(getUserExerciseEntries))
   const follows = useSelector(getFollows);
   const followsGoalsBase = Object.values(useSelector(getFollowsGoals))

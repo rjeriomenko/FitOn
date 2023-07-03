@@ -128,12 +128,12 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 			<div className="feed-post-crud-controls">
 				{(sessionUser._id === setterId) &&
 					<>
-						<div className="feed-post-crud-button" onClick={handleToggleForm}>
-							<i class="far fa-edit"></i>
+						<div className="feed-post-crud-button" onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
+							<i className="far fa-edit"></i>
 						</div>
 						{/* <div className="feed-post-crud-button" onClick={handleDeleteWorkout}> */}
 						<div className="feed-post-crud-button">
-							<i class="fa-solid fa-trash-can"></i>
+							<i className="fa-solid fa-trash-can"></i>
 						</div>
 					</>
 				}

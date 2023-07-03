@@ -24,7 +24,6 @@ function NavBar () {
         <>
           <li className="nav-link-id"><Link to={'/feed'}>Home</Link></li>
           <li className="nav-link-id"><Link to={'/profile'}>Tools</Link></li>
-          <li className="nav-link-id"><Link to={'/feedPosts/newGoal'}>Create Goal</Link></li>
           {/* <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li> */}
           <li className="nav-link-id"><Link to={`/users/${sessionUser._id}/goals`}>My Goal</Link></li>
           <li className="nav-link-id"><a onClick={logoutUser}>Logout</a></li>

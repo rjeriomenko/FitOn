@@ -36,8 +36,8 @@ const FloatingMenu = (props) => {
 						onMouseEnter={e => setHover(true)} 
 						onMouseLeave={e => setHover(false)}
 						className='floating-menu-links-list'>
-						{!hover && <li><i class="fa-solid fa-plus fa-2xl"></i></li>}
-						{hover && <li><i class="fa-solid fa-plus fa-fade fa-2xl"></i></li>}
+						{!hover && <li><i className="fa-solid fa-plus fa-2xl"></i></li>}
+						{hover && <li><i className="fa-solid fa-plus fa-fade fa-2xl"></i></li>}
 					</ul>
 				</div>
 			}

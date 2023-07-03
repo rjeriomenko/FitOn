@@ -54,7 +54,9 @@ router.get('/followed', requireUser, async (req, res, next) => {
 
         const followedWorkouts = {};
         await Promise.all(followedUsers.map(async (user) => {
-            const workouts = await ExerciseEntry.find({ user: user._id });
+            const workouts = await ExerciseEntry.find({ user: user._id })
+                .populate('user', '_id username imgUrl createdAt')
+                .populate('goal', '_id title');
             followedWorkouts[user._id] = workouts;
         }));
 

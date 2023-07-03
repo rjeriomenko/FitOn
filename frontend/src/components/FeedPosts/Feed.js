@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { fetchAllUserGoals, fetchUserGoals, fetchFollowsGoals, fetchDiscoversGoals, getFollowsGoals, getDiscoversGoals } from '../../store/goals';
-import { fetchUserExerciseEntries, getUserExerciseEntries } from '../../store/exerciseEntries';
+import { fetchFollowsExerciseEntries, fetchUserExerciseEntries, getFollowsExerciseEntries, getUserExerciseEntries } from '../../store/exerciseEntries';
 import { fetchFollows, getFollows } from '../../store/follows';
 import FollowNavBar from './FollowNavBar';
 import FeedPostWorkout from './FeedPostWorkout';
@@ -10,6 +10,7 @@ import FeedPostGoal from './FeedPostGoal';
 import './Feed.css';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import TestProps from './TestProps';
 
 // Sort posts by most recent.
 export const sortFeedPostsBy = (postsArray, sortRule) => {
@@ -45,14 +46,19 @@ function Feed ({discoverMode, options = {}}) {
   const workoutPosts = Object.values(useSelector(getUserExerciseEntries))
   const follows = useSelector(getFollows);
   const followsGoalsBase = Object.values(useSelector(getFollowsGoals))
-  // const followWorkoutsBase = //pending backend route / thunk
-  
   const followsGoals = followsGoalsBase.flat()
+  const followsWorkoutsBase = Object.values(useSelector(getFollowsExerciseEntries));
+  const followsWorkouts = followsWorkoutsBase.flat()
+  
   const userId = useParams().userId
+  
+  const params = useParams();
+  // debugger
   
   const filterOptions = {...options};
 	const [triggerRender, setTriggerRender] = useState(1);
-  
+  const [testPropNum, setTestPropNum] = useState(1);
+
   useEffect(() => {
     // If only want feed items for a specific user
     if(userId) {
@@ -71,7 +77,7 @@ function Feed ({discoverMode, options = {}}) {
 
       // Follows items
       dispatch(fetchFollowsGoals())
-      // dispatch fetchFollowsWorkouts // doesn't do anything yet - pending backend route
+      dispatch(fetchFollowsExerciseEntries())
 
       // Discover items
       // dispatch(fetchDiscoversGoals()) // doesn't do anything yet - pending backend route
@@ -82,7 +88,7 @@ function Feed ({discoverMode, options = {}}) {
 
     // Cleanup:
     // return () => dispatch(clearFeedPostErrors());
-  }, [dispatch])
+  }, [dispatch, testPropNum])
 
   if(userId) {
     filterOptions.ownerIds ||= [userId];
@@ -93,7 +99,8 @@ function Feed ({discoverMode, options = {}}) {
   const filteredWorkoutPosts = filterPostsBy(workoutPosts, filterOptions);
   // console.log(followsGoals)
   const filteredFollowGoalPosts = filterPostsBy(followsGoals, filterOptions);
-  const combinedPosts = userId ? [...filteredGoalPosts, ...filteredWorkoutPosts] : [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts];
+  const filteredFollowWorkoutPosts = filterPostsBy(followsWorkouts, filterOptions);
+  const combinedPosts = userId ? [...filteredGoalPosts, ...filteredWorkoutPosts] : [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts, ...filteredFollowWorkoutPosts];
   const sortedCombinedPosts = sortFeedPostsBy(combinedPosts, "updatedAt");
 
   // Conditional header text
@@ -135,12 +142,17 @@ function Feed ({discoverMode, options = {}}) {
     )
   }
 
+
+
   return (
     <>
       <h2 className='feed-header'>{renderHeaderText()}</h2>
       <div className='feed-posts-container'>
         <FollowNavBar />
         <div className='inner-feed-posts-container'>
+          <div onClick={e => setTestPropNum(old => old + 1)}>CLICK</div>
+          {testPropNum}
+          <TestProps testPropNum={testPropNum}/>
           {renderPosts()}
         </div>
       </div>

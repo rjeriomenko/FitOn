@@ -69,12 +69,12 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 		setEditable(false);
 		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, deadline, completionDate, exerciseEntries, updatedAt }
 		dispatch(updateGoal(updatedGoal))
-			.then(() => setTriggerRender(triggerRender * Math.random()));
+			// .then(() => setTriggerRender(triggerRender * Math.random()));
 	}
 
 	const handleDeleteGoal = e => {
 		dispatch(deleteGoal(goalId))
-			.then(() => setTriggerRender(triggerRender * Math.random()));
+			// .then(() => setTriggerRender(triggerRender * Math.random()));
 	}
 
 	const handleToggleFollow = e => {
@@ -86,7 +86,7 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 					// setIsFollowing(false)
 					// isFollowing = false;
 					// setFollowText(followButtonText())
-					setTriggerRender(triggerRender * Math.random());
+					// setTriggerRender(triggerRender * Math.random());
 
 				})
 		} else { //follow
@@ -95,7 +95,7 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 					// setIsFollowing(true)
 					// isFollowing = true;
 					// setFollowText(followButtonText())
-					setTriggerRender(triggerRender * Math.random());
+					// setTriggerRender(triggerRender * Math.random());
 				})
 		} 
 	}

@@ -53,7 +53,18 @@ function SignupForm () {
 
   const demoLogin = (e) => {
     e.preventDefault();
-    const demoEmail = "sugar@email.com"
+    const demoEmail = "demo@user.io"
+    const demoPassword = "password"
+    setUsername(demoEmail)
+    setEmail(demoEmail)
+    setPassword(demoPassword)
+    setPassword2(demoPassword)
+    dispatch(login({ email:demoEmail, password:demoPassword })); 
+  }
+
+  const demoLogin2 = (e) => {
+    e.preventDefault();
+    const demoEmail = "demo2@user.io"
     const demoPassword = "password"
     setUsername(demoEmail)
     setEmail(demoEmail)
@@ -119,18 +130,26 @@ function SignupForm () {
           </div>
         </div>
 
-        <input
-          className='session-form-submit'
-          type="submit"
-          value="Sign Up"
-          disabled={!email || !username || !password || password !== password2}
-        />
 
-        <button
-          className='session-form-submit'
-          onClick={demoLogin}
-        >Demo
-        </button>
+        <div className='login-buttons'>
+          <input
+            className='session-form-submit'
+            type="submit"
+            value="Sign Up"
+            disabled={!email || !username || !password || password !== password2}
+          />
+          <button
+            className='session-form-submit'
+            onClick={demoLogin}
+          >Demo
+          </button>
+
+          <button
+            className='session-form-submit'
+            onClick={demoLogin2}
+          >Demo #2
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -22,7 +22,8 @@ body {
 
 .nav-bar-container {
 	/* position: sticky; */
-	height: 190px;
+	/* height: 190px; */
+	min-height: 0px;
 	/* min-height: 130px; */
 	position: fixed;
 	top:0px;
@@ -56,8 +57,11 @@ body {
 }
 
 .text-logo > i {
-	font-size: 4rem;
+	font-size: 0.5em;
 	color: var(--orange);
+	align-self: flex-end;
+	position: relative;
+	bottom: 0.25em;
 }
 
 .text-logo {
@@ -68,6 +72,10 @@ body {
 	box-sizing: border-box;
 	font-weight: 200;
 	white-space: nowrap;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* position: relative; */
 }
 
 .nav-bar-offset {
@@ -95,11 +103,18 @@ body {
 }
 
 .logged-in-navbar {
-	height: 160px;
-	transition: height 0.7s ease 0.2s;
+	/* height: 150px; */
+	/* transition: height 0.7s ease 0.2s; */
 }
 
 .logged-in-logo {
-	transform: scale(0.75);
-	transition: transform 0.7s ease 0.2s;
+/* .logged-in-navbar > a:first-child { */
+	/* transform: scale(0.5); */
+	/* transform: scale(0.5) translateY(15%); */
+	/* transform-origin: center; */
+	/* transform: scale(0.5); */
+	/* transition: transform 0.7s ease 0.2s; */
+	font-size: 3rem;
+	transition: font-size 0.7s ease 0.2s;
+	
 }

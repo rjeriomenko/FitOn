@@ -131,7 +131,7 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
-					{isFollowing ? "AM FOLLOWING" : "NOT FOLLOWING"}
+					{/* {isFollowing ? "AM FOLLOWING" : "NOT FOLLOWING"} */}
 					<Link to={`/feed/${setterId}`}><div className="post-username">{username}</div></Link>
 					<div onClick={handleToggleFollow} className="post-follow">{(setterId === sessionUser._id) ? "" : isFollowing ? "unfollow" : "follow"}</div>
 					<div className="post-timestamp">{timestamp}</div>

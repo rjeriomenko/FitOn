@@ -58,7 +58,7 @@ function NavBar () {
 
   return (
     <>
-      <div className={`nav-bar-offset ${loggedIn ? "logged-in-navbar" : ""} `}/>
+      {/* <div className={`nav-bar-offset ${loggedIn ? "logged-in-navbar" : ""} `}/> */}
       <div className={`nav-bar-container ${loggedIn ? "logged-in-navbar" : ""}`}>
         {/* <h1>FitOn</h1> */}
         {/* Include logo image */}

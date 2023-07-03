@@ -52,7 +52,6 @@ function Feed ({discoverMode, options = {}}) {
   // debugger
   // const followsGoals = followsGoalsBase.length > 0 ? followsGoalsBase[0] : []
   const followsGoals = followsGoalsBase.flat()
-  debugger
   const userId = useParams().userId
   // debugger
   const filterOptions = {...options};

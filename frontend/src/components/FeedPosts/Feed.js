@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
-import { fetchAllUserGoals, fetchUserGoals, fetchFollowsGoals } from '../../store/goals';
+import { fetchUserGoals, fetchFollowsGoals, getUserGoals } from '../../store/goals';
 import { fetchUserExerciseEntries, getUserExerciseEntries } from '../../store/exerciseEntries';
 import { fetchFollows, getFollows } from '../../store/follows';
 import FollowNavBar from './FollowNavBar';
@@ -43,7 +43,8 @@ export const filterPostsBy = (postsArray, options = {}) => {
 function Feed ({discoverMode, options = {}}) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
-  const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : {});
+  // const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : {}); -- less preferred way
+  const goalPosts = Object.values(useSelector(getUserGoals));
   const workoutPosts = Object.values(useSelector(getUserExerciseEntries))
   const follows = useSelector(getFollows);
   const userId = useParams().userId

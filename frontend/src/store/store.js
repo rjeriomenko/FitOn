@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import session from './session';
 import errors from './errors';
-import feedPosts from './feedPosts';
+// import feedPosts from './feedPosts';
 import goals from './goals';
 import exerciseEntries from './exerciseEntries';
 import exercises from './exercises';
@@ -12,7 +12,7 @@ import follows from './follows';
 const rootReducer = combineReducers({
   session,
 	errors,
-  feedPosts,
+  // feedPosts,
   goals,
   exerciseEntries,
   exercises,

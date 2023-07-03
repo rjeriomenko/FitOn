@@ -67,12 +67,10 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 		setEditable(false);
 		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, deadline, completionDate, exerciseEntries, updatedAt }
 		dispatch(updateGoal(updatedGoal))
-			.then(() => setTriggerRender(triggerRender * Math.random()));
 	}
 
 	const handleDeleteGoal = e => {
 		dispatch(deleteGoal(goalId))
-			.then(() => setTriggerRender(triggerRender * Math.random()));
 	}
 
 	// useEffect(() => {

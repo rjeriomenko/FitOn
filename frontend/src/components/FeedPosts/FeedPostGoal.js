@@ -1,7 +1,6 @@
 import "./FeedPost.css"
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { POST_TYPE_GOAL, POST_TYPE_EXERCISE_ENTRY } from "./Feed";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
@@ -15,7 +14,6 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 	const goalId = feedPost._id
 	const setter = feedPost.user.username;
 	const setterId = feedPost.user._id;
-	// let { exerciseEntries } = feedPost;
 
 	const exerciseEntries = Object.values(useSelector(getUserExerciseEntries)).filter(entry => entry.goal?._id === goalId)
 	const formatDate = (dateText) => {
@@ -42,31 +40,12 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 		const text = `Latest workout: ${lastEntry.note} - ${lastDate}`
 		return text;
 	}
-	// const followButtonText = () => {
-	// 	// Should depend on whether we are following a user. Clicking will toggle.
-	// 	// Follows slice of state should be populated in the Feed,
-	// 	// and listen to updates triggered by buttons on child subcomponent
-	// 	// let followButtonText;
-	// 	// if (setterId === sessionUser._id) followButtonText = "";
-	// 	// else if (followedIds.includes(setterId)) followButtonText = "unfollow"
-	// 	// else followButtonText = "follow";
-	// 	// debugger
-	// 	// return followButtonText;
-	// 	console.log(followedIds);
-	// 	debugger
-	// 	return (setterId === sessionUser._id) ? "" : isFollowing ? "unfollow" : "follow"
-	// }
 
 	// controlled inputs
 	const [username, setUsername] = useState(setter)
 	const [timestamp, setTimeStamp] = useState(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true}))
 	const [formTitle, setFormTitle] = useState(title);
 	const [formDescription, setFormDescription] = useState(description);
-	// const [followText, setFollowText] = useState(followButtonText());
-	// const [isFollowing, setIsFollowing] = useState(followedIds.includes(setterId))
-	
-
-	// debugger
 
 	// EVENT HANDLERS
 	// Text-area height expands/contracts with input size
@@ -74,6 +53,16 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 		setFormDescription(e.target.value);
 		e.target.style.height = "auto";
 		e.target.style.height = e.target.scrollHeight + "px";
+	}
+
+	const handleToggleForm = e => {
+		setEditable(oldSetEditable => {
+			if(oldSetEditable){
+				setFormTitle(title);
+				setFormDescription(description);
+			}
+			return !oldSetEditable
+		})
 	}
 
 	const handleUpdateGoal = e => {
@@ -91,8 +80,6 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 	const handleToggleFollow = e => {
 		if (setterId === sessionUser._id) {} //do nothing, don't follow self
 		else if (isFollowing) { //unfollow
-			// follower is sessionUser
-			// followedUser is post.user._id
 			const followId = Object.values(follows).find(follow => follow.follower._id === sessionUser._id && follow.followedUser._id === setterId)._id
 			dispatch(deleteFollow(followId))
 				.then(() => {
@@ -102,8 +89,7 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 					setTriggerRender(triggerRender * Math.random());
 
 				})
-		} 
-		else { //follow
+		} else { //follow
 			dispatch(createFollow(setterId))
 				.then(() => {
 					// setIsFollowing(true)
@@ -114,24 +100,12 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 		} 
 	}
 
-	// useEffect(() => {
-	// 	setTriggerChildRender(triggerChildRender + 1);
-	// }, [triggerRender])
-
-	// useEffect(() => {
-	// 		setTriggerChildRender(triggerChildRender + 1);
-	// 		dispatch(fetchUserExerciseEntries(setterId))
-	// }, [dispatch, triggerRender])
-
-
-
   return (
 		<div className="feed-post-editable-container">
 			{/* CONTENT - START */}
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
-					{/* {isFollowing ? "AM FOLLOWING" : "NOT FOLLOWING"} */}
 					<Link to={`/feed/${setterId}`}><div className="post-username">{username}</div></Link>
 					<div onClick={handleToggleFollow} className="post-follow">{(setterId === sessionUser._id) ? "" : isFollowing ? "unfollow" : "follow"}</div>
 					<div className="post-timestamp">{timestamp}</div>
@@ -173,8 +147,7 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 			<div className="feed-post-crud-controls">
 				{(sessionUser._id === setterId) &&
 					<>
-						<div className="feed-post-crud-button" onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
-							{/* {editable ? "Cancel" : "Update"} */}
+						<div className="feed-post-crud-button" onClick={handleToggleForm}>
 							<i class="far fa-edit"></i>
 						</div>
 						<div className="feed-post-crud-button" onClick={handleDeleteGoal}>

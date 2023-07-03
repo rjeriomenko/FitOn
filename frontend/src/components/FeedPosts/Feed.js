@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { clearFeedPostErrors, fetchFeedPosts, fetchUserFeedPosts } from '../../store/feedPosts';
 import { fetchAllUserGoals, fetchUserGoals, fetchFollowsGoals, fetchDiscoversGoals, getFollowsGoals, getDiscoversGoals } from '../../store/goals';
 import { fetchUserExerciseEntries, getUserExerciseEntries } from '../../store/exerciseEntries';
 import { fetchFollows, getFollows } from '../../store/follows';
@@ -11,9 +10,6 @@ import FeedPostGoal from './FeedPostGoal';
 import './Feed.css';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
-export const POST_TYPE_GOAL = "feedPost/GOAL"
-export const POST_TYPE_EXERCISE_ENTRY = "feedPost/EXERCISE_ENTRY"
 
 // Sort posts by most recent.
 export const sortFeedPostsBy = (postsArray, sortRule) => {
@@ -34,11 +30,11 @@ export const sortFeedPostsBy = (postsArray, sortRule) => {
 // Filter posts by post options object of types:["type1", ...] and/or ownerIds:[id1, ...]
 export const filterPostsBy = (postsArray, options = {}) => {
   const { types, ownerIds } = options;
-  // debugger
+  
   const filteredArray = postsArray.filter(post => {
     return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.user._id) : true);
   })
-  // debugger
+  
   return filteredArray;
 }
 
@@ -49,14 +45,14 @@ function Feed ({discoverMode, options = {}}) {
   const workoutPosts = Object.values(useSelector(getUserExerciseEntries))
   const follows = useSelector(getFollows);
   const followsGoalsBase = Object.values(useSelector(getFollowsGoals))
-  // debugger
-  // const followsGoals = followsGoalsBase.length > 0 ? followsGoalsBase[0] : []
+  // const followWorkoutsBase = //pending backend route / thunk
+  
   const followsGoals = followsGoalsBase.flat()
   const userId = useParams().userId
-  // debugger
+  
   const filterOptions = {...options};
 	const [triggerRender, setTriggerRender] = useState(1);
-  // debugger
+  
   useEffect(() => {
     // If only want feed items for a specific user
     if(userId) {
@@ -75,10 +71,11 @@ function Feed ({discoverMode, options = {}}) {
 
       // Follows items
       dispatch(fetchFollowsGoals())
-      // debugger
+      // dispatch fetchFollowsWorkouts // doesn't do anything yet - pending backend route
 
       // Discover items
       // dispatch(fetchDiscoversGoals()) // doesn't do anything yet - pending backend route
+      // dispatch(fetchDiscoversWorkouts()) // doesn't do anything yet - pending backend route
     }
 
     // dispatch(fetchAllUserGoals()) - do not use this thunk it will not work. Use updated thunks
@@ -89,23 +86,17 @@ function Feed ({discoverMode, options = {}}) {
 
   if(userId) {
     filterOptions.ownerIds ||= [userId];
-    // filterOptions.ownerIds.push(userId);
   }
 
   // Filter each GOAL and WORKOUT posts by desired userIds then combine them and sort by options (usually last updated)
   const filteredGoalPosts = filterPostsBy(goalPosts, filterOptions);
   const filteredWorkoutPosts = filterPostsBy(workoutPosts, filterOptions);
-  console.log(followsGoals)
+  // console.log(followsGoals)
   const filteredFollowGoalPosts = filterPostsBy(followsGoals, filterOptions);
-  // const combinedPosts = [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts];
   const combinedPosts = userId ? [...filteredGoalPosts, ...filteredWorkoutPosts] : [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts];
-  // debugger
-  // const combinedPosts = [...filteredGoalPosts, ...filteredWorkoutPosts];
   const sortedCombinedPosts = sortFeedPostsBy(combinedPosts, "updatedAt");
 
   // Conditional header text
-  // const headerText = (userId ? sessionUser.username + "..." : "everyone")
-  // const headerText = (userId ? "just you..." : "everyone...")
   let headerText;
   if(userId){
     if(userId === sessionUser._id) headerText = "your goals and workouts"
@@ -137,7 +128,7 @@ function Feed ({discoverMode, options = {}}) {
   }
 
   const renderPosts = () => {
-    // debugger
+    
     return sortedCombinedPosts.map((goalPost, index) => goalPost.deadline ?
       <FeedPostGoal key={goalPost._id} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />
       : <FeedPostWorkout key={goalPost._id} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />
@@ -146,7 +137,6 @@ function Feed ({discoverMode, options = {}}) {
 
   return (
     <>
-      {/* <h2 className='feed-header'>{headerText}</h2> */}
       <h2 className='feed-header'>{renderHeaderText()}</h2>
       <div className='feed-posts-container'>
         <FollowNavBar />

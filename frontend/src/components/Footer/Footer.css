@@ -43,8 +43,12 @@
 	gap: 15px;
 }
 
-.team-links * {
+.team-links-light * {
 	color: var(--soft-white);
+}
+
+.team-links-dark * {
+	color: var(--dark-blue);
 }
 
 .team-links *:hover {

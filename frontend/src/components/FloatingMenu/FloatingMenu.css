@@ -18,7 +18,6 @@
 	transition: background-color 0.5s;
 	/* animation: pulsing-button ; */
 	animation: pulsing-button 1.8s ease-in-out 0s infinite alternate both;
-
 }
 
 @keyframes pulsing-button {

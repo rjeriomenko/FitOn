@@ -1,11 +1,17 @@
 import GoalIndexItem from './GoalIndexItem';
+import GoalCreate from './GoalCreate';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { deleteGoal, updateGoal, fetchUserGoals, getUserGoals } from '../../store/goals'
 import { getUser, fetchUser } from '../../store/users'
 import { Link } from 'react-router-dom';
+import { Modal } from '../../context/Modal';
 import './GoalIndex.css'
+
+import ExerciseEventForm from '../Exercise/ExerciseEventForm';
+
+
 
 
 function GoalIndex () {
@@ -20,6 +26,7 @@ function GoalIndex () {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
+    const [showCreateGoalForm, setShowCreateGoalForm] = useState(false);
 
     useEffect(() => {
         dispatch(fetchUser(userId));
@@ -41,6 +48,11 @@ function GoalIndex () {
         setTitle(currentGoal.title);
         setDescription(currentGoal.description);
         setEditable(oldSetEditable => !oldSetEditable);
+    }
+
+    const handleCloseCreateGoalModal = () => {
+        dispatch(fetchUser(userId))
+            .then(() => setShowCreateGoalForm(false));
     }
 
     const handleUpdateGoal = e => {
@@ -69,8 +81,8 @@ function GoalIndex () {
                         <p className="goal-title">No current goal</p>
                     </div>
 
-                    <div className="edit-current-goal" >
-                        <Link to={'/feedPosts/newGoal'}>Create a new goal</Link>
+                    <div className="edit-current-goal" onClick={() => setShowCreateGoalForm(true)}>
+                        <div >Create a new goal</div>
                     </div>
                 </div>
             )
@@ -89,10 +101,10 @@ function GoalIndex () {
 
                     <div className="goal-crud">
                         <div className="edit-current-goal" onClick={handleOpenEditGoal}>
-                            <i class="far fa-edit"></i>
+                            <i className="far fa-edit"></i>
                         </div>
                         <div className="delete-current-goal" onClick={() => handleDeleteGoal(currentGoalId)}>
-                            <i class="fa-solid fa-trash-can"></i>
+                            <i className="fa-solid fa-trash-can"></i>
                         </div>
                     </div>
                 </div>
@@ -134,6 +146,16 @@ function GoalIndex () {
         }
     }
 
+    const renderCreateGoalForm = () => {
+        if(showCreateGoalForm) {
+            return (
+                <Modal onClose={handleCloseCreateGoalModal}>
+                    <GoalCreate setShowCreateGoalForm={setShowCreateGoalForm} userId={userId}/>
+                </Modal>
+            )
+        } 
+    }
+
     if (!userGoalsObj) {
         return (
             <div> Loading... </div>
@@ -142,6 +164,7 @@ function GoalIndex () {
 
     return (
         <>
+            {renderCreateGoalForm()}
             <div className="goals-container">
                 <h2>my current goal...</h2>
                 {renderCurrentGoal()}

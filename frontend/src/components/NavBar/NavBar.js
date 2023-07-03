@@ -22,9 +22,9 @@ function NavBar () {
         <ul className="links-nav nav-links">
           <li id="nav-link-id"><Link to={'/feed'}>Home</Link></li>
           <li id="nav-link-id"><Link to={'/profile'}>Tools</Link></li>
-          <li id="nav-link-id"><Link to={'/feedPosts/newGoal'}>Create Goal</Link></li>
+          {/* <li id="nav-link-id"><Link to={'/feedPosts/newGoal'}>Create Goal</Link></li> */}
           {/* <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li> */}
-          <li id="nav-link-id"><Link to={`/users/${sessionUser._id}/goals`}>My Goal</Link></li>
+          <li id="nav-link-id"><Link to={`/users/${sessionUser._id}/goals`}>My Goals</Link></li>
           <li id="nav-link-id"><div onClick={logoutUser}>Logout</div></li>
         </ul>
       );

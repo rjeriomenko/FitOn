@@ -23,8 +23,8 @@ const seedData = async () => {
     try {
         // Create a user
         const seedUser = new User({
-            username: "demo",
-            email: "demo@user.io",
+            username: "seedTest",
+            email: "seed@tester.io",
             hashedPassword: bcrypt.hashSync("password", 10),
         });
 
@@ -45,9 +45,9 @@ const seedData = async () => {
         // Generate workouts
         const workoutPromises = [];
         const workoutInfo = [
-            { date: getNextDate(0), note: "Workout 1", rating: 4 },
-            { date: getNextDate(1), note: "Workout 2", rating: 3 },
-            { date: getNextDate(2), note: "Workout 3", rating: 5 },
+            { date: getNextDate(0), note: "change this name please! 1", rating: 4 },
+            { date: getNextDate(1), note: "change this name please! 2", rating: 3 },
+            { date: getNextDate(2), note: "change this name please! 3", rating: 5 },
         ];
 
         for (const workout of workoutInfo) {
@@ -137,3 +137,9 @@ seedData();
 // squats
 // burpees
 // bicep curls 
+
+
+//notes
+
+// seed1 - triathlon trainer (jogging/swimming/cycling)
+//seed2 - fullbody trainer (pushups, pullups, burpees, squats)

@@ -76,6 +76,26 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
 
     };
 
+    const headerQuote = () => {
+        const quotes = ['"It does not matter how slowly you go as long as you do not stop." - Confucius',
+            '"Success is a journey, not a destination. The doing is often more important than the outcome." - Arthur Ashe',
+            '"Small daily improvements are the key to staggering long-term results." - Unknown',
+            '"The greatest accomplishments are often achieved by taking a series of small steps in the right direction." - Unknown',
+            '"Inch by inch, anything"s a cinch." - Unknown',
+            '"Small steps forward are still steps forward." - Unknown',
+            '"Success is the sum of small efforts repeated day in and day out." - Robert Collier',
+            '"The secret to getting ahead is getting started." - Mark Twain',
+            '"Little by little, a little becomes a lot." - Tanzanian Proverb',
+            '"Don"t watch the clock; do what it does. Keep going." - Sam Levenson',
+            '"The journey of a thousand miles begins with a single step." - Lao Tzu',
+            '"Progress is progress, no matter how small." - Unknown',
+            '"The small steps are the ones that eventually lead to great distances." - Unknown',
+            '"The only way to achieve great things is by taking small, consistent steps." - Unknown',
+            '"Focus on the progress, not the perfection." - Unknown'
+        ]
+        return quotes[Math.floor(Math.random()*quotes.length)]
+    }
+
 
     if (submit === true) {
         return <Redirect to={`/users/${sessionUserId}/goals`} />
@@ -85,7 +105,8 @@ function ExerciseEventForm ({setShowExerciseEntry}) {
         <div className="exercise-form-container">
             {/* <h2>Add Your Workout</h2> */}
             {/* <h2>· add your workout ·</h2> */}
-            <h4>Another step towards:</h4>
+            {/* <h4>Another step towards:</h4> */}
+            <h4>{headerQuote()}</h4>
             <h2>· {currentGoal.title} ·</h2>
             <br></br>
             {/* <h2>gigachad lookin monka swole</h2> */}

@@ -74,10 +74,6 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
         
             })
 
-        // setDate(today);
-        // setNote('');
-        // setRating('');
-
         // setSubmit(true)
 
     };

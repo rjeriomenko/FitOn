@@ -6,7 +6,8 @@
 
 #ellipsis {
     color: var(--dark-blue);
-    padding: 5px
+    padding: 5px;
+    font-size: 20px;
 }
 
 #ellipsis:hover {
@@ -18,10 +19,11 @@
     z-index: 1;
     background-color: var(--light-blue);
     border: 1px solid var(--light-blue);
-    top: 20%;
-    right: 4%;
+    top: 35px;
+    right: 14px;
     opacity: 95%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-width: 35px;
 }
 
 #goal-dropdown-line {

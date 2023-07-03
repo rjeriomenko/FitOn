@@ -80,16 +80,19 @@ function GoalIndexItem ({goal}) {
             </div>
         )}
 
-
                 <div className="ellipsis" onClick={openMenu}>
                     <i id="ellipsis" className="fas fa-light fa-ellipsis-vertical"></i>
                 </div>
 
                 {showMenu && (
                     <ul className="goal-dropdown">
-                        <li onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>Edit Goal</li>
+                        <li onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
+                            <i class="far fa-edit"></i>
+                        </li>
                         <div id="goal-dropdown-line"></div>
-                        <li onClick={handleDel}>Delete Goal</li>
+                        <li onClick={handleDel}>
+                            <i class="fa-solid fa-trash-can"></i>
+                        </li>
                     </ul>
                 )}
 

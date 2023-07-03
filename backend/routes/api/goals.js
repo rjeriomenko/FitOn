@@ -110,8 +110,7 @@ router.patch('/:goalId', requireUser, validateGoalInput, async (req, res, next) 
         goal.completionDate = req.body.completionDate || goal.completionDate;
 
         await goal.save();
-
-        if (goal._id === req.user.currentGoal._id) {
+        if (goal.id === req.user.currentGoal.id) {
             req.user.currentGoal = goal;
             await req.user.save();
         }

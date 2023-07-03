@@ -6,6 +6,8 @@ import './ExerciseEventForm.css'
 import { createExerciseEntry } from '../../store/exerciseEntries';
 import { clearExerciseEntryErrors, receiveExerciseEntryErrors } from '../../store/exerciseEntries';
 import { getUserGoals} from '../../store/goals';
+import { getNewExerciseEntry } from '../../store/exerciseEntries';
+import { createExercise } from '../../store/exercises';
 
 
 function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
@@ -57,22 +59,22 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // const exercise = { date, note, rating, exercises: exerciseInputs };
-        // const exercise = { date, note, rating };
-        
+
         dispatch(createExerciseEntry( currentGoalId, { date, note, rating: Number(rating) }))
-            .then(() => {
+            .then((res) => {
                 setShowExerciseEntry(false)
+
+                const exerciseEntryId = Object.keys(res)[0];
+
+                const createExercisePromises = exerciseInputs.map((exercise) =>
+                    dispatch(createExercise(exerciseEntryId, exercise))
+                );
+
+                Promise.all(createExercisePromises)
+        
             })
 
-        // setDate(today);
-        // setNote('');
-        // setRating('');
-
-        // console.log(exercise);
-        // console.log(exerciseInputs);
-
-        setSubmit(true)
+        // setSubmit(true)
 
     };
 
@@ -83,9 +85,8 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     return (
         <div className="exercise-form-container">
             <h4>{headerQuote}</h4>
-            <h2>· {currentGoal?.title} ·</h2>
+            {currentGoal ? <h2>· {currentGoal.title} ·</h2> : <h2>· Create your goal ·</h2>}
             <br></br>
-            {/* <h2>gigachad lookin monka swole</h2> */}
             <form className="exercise-form" onSubmit={handleSubmit}>
                 <div className="exercise-entry-form">
                     <span>Workout Date</span>

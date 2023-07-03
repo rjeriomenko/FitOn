@@ -2,12 +2,15 @@ import './FloatingMenu.css';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Modal } from '../../context/Modal';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import ExerciseEventForm from '../Exercise/ExerciseEventForm';
 
 const FloatingMenu = (props) => {
 	const loggedIn = useSelector(state => !!state.session.user);
 	const [showExerciseEntry, setShowExerciseEntry] = useState(false);
 	const [hover, setHover] = useState(false);
+	const [submit, setSubmit] = useState(false);
+	const currentGoal = useSelector(state => state.session?.user?.currentGoal)
 
 	const headerQuote = () => {
 		const quotes = ['"It does not matter how slowly you go as long as you do not stop." - Confucius',
@@ -27,23 +30,54 @@ const FloatingMenu = (props) => {
 				'"Focus on the progress, not the perfection." - Unknown'
 		]
 		return quotes[Math.floor(Math.random()*quotes.length)]
-}
+	}
+
+	const handleClick = e => {
+		e.preventDefault();
+		setSubmit(true);
+	}
+
+	if (submit === true) {
+		return <Redirect to={`/feedPosts/newGoal`} />
+	}
 
 	return (
 		<>
-			{loggedIn && <div className="floating-menu-container" onClick={e => setShowExerciseEntry(true)}>
+			{/* {loggedIn && currentGoal && */}
+			{loggedIn &&
+				<div className="floating-menu-container" onClick={e => setShowExerciseEntry(true)}>
 					<ul 
 						onMouseEnter={e => setHover(true)} 
 						onMouseLeave={e => setHover(false)}
 						className='floating-menu-links-list'>
-						{!hover && <li><i className="fa-solid fa-plus fa-2xl"></i></li>}
-						{hover && <li><i className="fa-solid fa-plus fa-fade fa-2xl"></i></li>}
+
+						{!hover && <li><i class="fa-solid fa-plus fa-2xl"></i></li>}
+						{hover && <li><i class="fa-solid fa-plus fa-fade fa-2xl"></i></li>}
+
+						{/* {!hover && <li><i class="far fa-edit"></i></li>}
+						{hover && <li><i class="far fa-edit"></i></li>} */}
+
 					</ul>
 				</div>
 			}
+
+			{/* <div className="floating-menu-container" onClick={handleClick}>
+				<ul 
+					onMouseEnter={e => setHover(true)} 
+					onMouseLeave={e => setHover(false)}
+					className='floating-menu-links-list'>
+
+					{!hover && <li><i class="far fa-edit"></i></li>}
+					{hover && <li><i class="far fa-edit"></i></li>}
+
+				</ul>
+			</div> */}
+
+
 			{showExerciseEntry && <Modal onClose={e => setShowExerciseEntry(false)}>
 				<ExerciseEventForm headerQuote={headerQuote()} setShowExerciseEntry={setShowExerciseEntry}/>
 			</Modal>}
+
 		</>
 	)
 }

@@ -119,6 +119,7 @@ export const createExerciseEntry = (goalId, exerciseEntry) => async dispatch => 
         });
         const responseExerciseEntry = await res.json();
         dispatch(receiveNewExerciseEntry(responseExerciseEntry));
+        return responseExerciseEntry;
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {

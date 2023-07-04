@@ -6,9 +6,18 @@ import { useSelector } from 'react-redux';
 
 function DataVis() {
   const chartRef = useRef(null);
-  const session = useSelector(state => state.session);
-  const sessionUserId = session?.user?._id;
-  const currentGoalId = session?.user?.currentGoal?._id;
+  const sessionUser = useSelector(state => state.session.user);
+  const currentGoalId = sessionUser?.currentGoal?._id;
+
+  if (!currentGoalId) {
+    let dates = [];
+    let today = new Date();
+
+    for (var i = 0; i <= 6; i++) {
+      dates.push(today.toDateString());
+      today.setDate(today.getDate() - 1);
+    }
+  }
 
   const fetchTimedExerciseEntry = async () => {
     const res = await axios.get(`./api/exercises/byGoal/${currentGoalId}`);
@@ -38,67 +47,79 @@ function DataVis() {
   useEffect(() => {
     const createStackedBarChart = async () => {
       const data = await fetchTimedExerciseEntry();
+      const dates = Object.keys(data);
 
-      const chartData = {
-        labels: Object.keys(data),
-        datasets: Object.keys(data).map((date) => ({
-          label: date,
-          data: Object.entries(data[date]).map(([exercise, value]) => value),
+      // finds unique exercises by flattening and removes dupes
+      const exercises = Array.from(
+        new Set(dates.flatMap(date => Object.keys(data[date])))
+      );
+
+      const datasets = exercises.map(exercise => {
+        const dataset = {
+          label: exercise,
+          data: dates.map(date => data[date][exercise] || 0),
           backgroundColor: generateRandomColor(),
-      })),
-    };
+        };
 
-    console.log(chartData)
+        return dataset;
+      });
+      
+      const chartData = {
+        labels: dates,
+        datasets: datasets,
+      };
 
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        stacked: true,
-        ticks: {
-          font: {
-            size: 14
-          }
-        }
-      },
-      y: {
-        stacked: true,
-        ticks: {
-          font: {
-            size: 14
+
+    const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          stacked: true,
+          ticks: {
+            font: {
+              size: 14
+            }
           }
         },
-        title: {
-          display: true, 
-          text: 'Minutes Spent'
-        }
+        y: {
+          stacked: true,
+          ticks: {
+            font: {
+              size: 14
+            }
+          },
+          title: {
+            display: true, 
+            text: 'Minutes Spent'
+          }
+        },
       },
-    },
-    plugins: {
-      legend: {
-        display: true,
-        labels: {
-          font: {
-            size: 16
+      plugins: {
+        legend: {
+          display: true,
+          labels: {
+            font: {
+              size: 16
+            },
           },
         },
       },
-    },
-  }
+    }
         
 
-  // creating chart
-  const chartElement = chartRef.current;
-  const stackedBarChart = new Chart(chartElement, {
-    type: 'bar',
-    data: chartData,
-    options: chartOptions
-  });
+    // creating chart
+    const chartElement = chartRef.current;
+    const stackedBarChart = new Chart(chartElement, {
+      type: 'bar',
+      data: chartData,
+      options: chartOptions
+    });
 
     return () => {
       stackedBarChart.destroy();
-    };     
+    }; 
+
   }
   
     createStackedBarChart();

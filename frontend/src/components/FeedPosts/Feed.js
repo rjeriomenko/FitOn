@@ -14,8 +14,14 @@ import TestProps from './TestProps';
 
 // Sort posts by most recent.
 export const sortFeedPostsBy = (postsArray, sortRule) => {
+  
   let sortedArray;
   switch(sortRule) {
+    case "date":
+      sortedArray = postsArray.toSorted((a, b) => {
+        return new Date(b.date ? b.date : b.updatedAt) - new Date(a.date ? a.date : a.updatedAt)
+      })    
+      break;
     case "updatedAt":
       sortedArray = postsArray.toSorted((a, b) => {
         return new Date(b.updatedAt) - new Date(a.updatedAt)
@@ -52,12 +58,9 @@ function Feed ({discoverMode, options = {}}) {
   
   const userId = useParams().userId
   
-  const params = useParams();
-  // debugger
-  
   const filterOptions = {...options};
-	const [triggerRender, setTriggerRender] = useState(1);
-  const [testPropNum, setTestPropNum] = useState(1);
+	// const [triggerRender, setTriggerRender] = useState(1);
+  // const [testPropNum, setTestPropNum] = useState(1);
 
   useEffect(() => {
     // If only want feed items for a specific user
@@ -65,7 +68,6 @@ function Feed ({discoverMode, options = {}}) {
       dispatch(fetchUserGoals(userId))
       dispatch(fetchUserExerciseEntries(userId))
       dispatch(fetchFollows(userId))
-      
     }
 
     // Otherwise want "megafeed" consisting of:
@@ -74,7 +76,7 @@ function Feed ({discoverMode, options = {}}) {
       dispatch(fetchUserGoals(sessionUser._id))
       dispatch(fetchUserExerciseEntries(sessionUser._id))
       dispatch(fetchFollows(sessionUser._id))
-
+      
       // Follows items
       dispatch(fetchFollowsGoals())
       dispatch(fetchFollowsExerciseEntries())
@@ -88,7 +90,8 @@ function Feed ({discoverMode, options = {}}) {
 
     // Cleanup:
     // return () => dispatch(clearFeedPostErrors());
-  }, [dispatch, testPropNum])
+  }, [dispatch])
+  // }, [dispatch, testPropNum])
 
   if(userId) {
     filterOptions.ownerIds ||= [userId];
@@ -97,12 +100,25 @@ function Feed ({discoverMode, options = {}}) {
   // Filter each GOAL and WORKOUT posts by desired userIds then combine them and sort by options (usually last updated)
   const filteredGoalPosts = filterPostsBy(goalPosts, filterOptions);
   const filteredWorkoutPosts = filterPostsBy(workoutPosts, filterOptions);
-  // console.log(followsGoals)
   const filteredFollowGoalPosts = filterPostsBy(followsGoals, filterOptions);
   const filteredFollowWorkoutPosts = filterPostsBy(followsWorkouts, filterOptions);
   const combinedPosts = userId ? [...filteredGoalPosts, ...filteredWorkoutPosts] : [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts, ...filteredFollowWorkoutPosts];
-  const sortedCombinedPosts = sortFeedPostsBy(combinedPosts, "updatedAt");
+  
 
+  // Temporary fix to remove any possible duplicates:
+  const uniquePosts = [];
+  const map = new Map();
+  for (const post of combinedPosts) {
+    if(!map.has(post._id)){
+      map.set(post._id, true);
+      uniquePosts.push(post);
+    }
+  }
+
+  // const sortedCombinedPosts = sortFeedPostsBy(combinedPosts, "date");
+  const sortedCombinedPosts = sortFeedPostsBy(uniquePosts, "date");
+
+  
   // Conditional header text
   let headerText;
   if(userId){
@@ -137,12 +153,10 @@ function Feed ({discoverMode, options = {}}) {
   const renderPosts = () => {
     
     return sortedCombinedPosts.map((goalPost, index) => goalPost.deadline ?
-      <FeedPostGoal key={goalPost._id} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />
-      : <FeedPostWorkout key={goalPost._id} feedPost={goalPost} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />
+      <FeedPostGoal key={goalPost._id} feedPost={goalPost} />
+      : <FeedPostWorkout key={goalPost._id} feedPost={goalPost} />
     )
   }
-
-
 
   return (
     <>
@@ -150,9 +164,9 @@ function Feed ({discoverMode, options = {}}) {
       <div className='feed-posts-container'>
         <FollowNavBar />
         <div className='inner-feed-posts-container'>
-          <div onClick={e => setTestPropNum(old => old + 1)}>CLICK</div>
-          {testPropNum}
-          <TestProps testPropNum={testPropNum}/>
+          {/* <div onClick={e => setTestPropNum(old => old + 1)}>CLICK</div> */}
+          {/* {testPropNum} */}
+          {/* <TestProps testPropNum={testPropNum}/> */}
           {renderPosts()}
         </div>
       </div>

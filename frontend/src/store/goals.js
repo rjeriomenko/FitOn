@@ -207,7 +207,12 @@ const goalsReducer = (state = { user: {}, follows: {}, discovers: {}, updated: u
         case RECEIVE_UPDATED_GOAL:
             return { ...newState, user: { ...newState.user, ...action.goal }, updated: action.goal, new: undefined };
         case RECEIVE_USER_GOALS:
-            return { ...newState, user: action.goals, updated: undefined, new: undefined };
+            // return { ...newState, user: action.goals, updated: undefined, new: undefined };
+            
+            const updated = { ...newState, user: action.goals, updated: undefined, new: undefined };
+            
+            return updated
+            // newState : user: {1, 2}, follows: {1, 2, 77, 78}, discovers, updated, new, user: {3, 4}
         case RECEIVE_FOLLOWS_GOALS:
             return { ...newState, follows: action.goals, updated: undefined, new: undefined };
         case RECEIVE_DISCOVERS_GOALS:

@@ -10,7 +10,7 @@ import { createFollow, deleteFollow, getFollows } from "../../store/follows";
 
 function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
   // props
-	const { date, goal, note, rating, user } = feedPost;
+	const { date, goal, note, rating, updatedAt, user } = feedPost;
 	const goalId = goal?._id
 	const setter = feedPost.user.username;
 	const setterId = feedPost.user._id;
@@ -30,11 +30,21 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 	// component logic states
 	const [editable, setEditable] = useState(false);
 
+	// helpers to initialize controlled inputs
+	// timestamp for workouts default to last updated date if user specified "date" is not valid
+	const formatWorkoutDate = () => {
+		const userSpecifiedDate = new Date(date).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true});
+		const lastUpdatedDate = new Date(updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true});
+		return userSpecifiedDate === "Invalid Date" ? lastUpdatedDate : userSpecifiedDate
+	}
+
 	// controlled inputs
 	const [formNote, setFormNote] = useState(note);
 	const [formRating, setFormRating] = useState(rating);
 	const [formDate, setFormDate] = useState(date);
-	const [timestamp, setTimeStamp] = useState(new Date(date).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true}))
+	// const [timestamp, setTimeStamp] = useState(new Date(date).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true}))
+	const [timestamp, setTimeStamp] = useState(formatWorkoutDate())
+
 
 	// internal state to trigger rerender - does not display or get used elsewhere
 

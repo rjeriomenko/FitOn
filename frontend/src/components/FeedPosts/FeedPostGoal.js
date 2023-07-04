@@ -84,7 +84,7 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 					// setIsFollowing(false)
 					// isFollowing = false;
 					// setFollowText(followButtonText())
-					setTriggerRender(triggerRender * Math.random());
+					// setTriggerRender(triggerRender * Math.random());
 
 				})
 		} else { //follow
@@ -93,7 +93,7 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 					// setIsFollowing(true)
 					// isFollowing = true;
 					// setFollowText(followButtonText())
-					setTriggerRender(triggerRender * Math.random());
+					// setTriggerRender(triggerRender * Math.random());
 				})
 		} 
 	}

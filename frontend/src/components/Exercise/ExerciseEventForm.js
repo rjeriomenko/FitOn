@@ -78,9 +78,12 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
 
     };
 
+
+
     if (submit === true) {
         return <Redirect to={`/users/${sessionUserId}/goals`} />
     }
+
 
     return (
         <div className="exercise-form-container">

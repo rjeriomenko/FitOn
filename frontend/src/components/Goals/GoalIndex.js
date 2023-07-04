@@ -25,6 +25,7 @@ function GoalIndex () {
     const [editable, setEditable] = useState(false);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [deadline, setDeadline] = useState('');
 
     const [showCreateGoalForm, setShowCreateGoalForm] = useState(false);
 
@@ -54,6 +55,7 @@ function GoalIndex () {
     const handleOpenEditGoal = e => {
         setTitle(currentGoal.title);
         setDescription(currentGoal.description);
+        setDeadline(currentGoal.deadline);
         setEditable(oldSetEditable => !oldSetEditable);
     }
 
@@ -64,7 +66,7 @@ function GoalIndex () {
 
     const handleUpdateGoal = e => {
         setEditable(false);
-        const updatedGoal = { ...currentGoal, title, description }
+        const updatedGoal = { ...currentGoal, title, description, deadline }
         dispatch(updateGoal(updatedGoal))
             .then(() => dispatch(fetchUser(userId)));
     }
@@ -142,6 +144,18 @@ function GoalIndex () {
                 </div>
             )
         } else {
+            const deadlineInput = (
+                <label>Deadline
+                    <input
+                        className="feed-post-text-edit"
+                        id="date"
+                        type="date"
+                        value={deadline}
+                        onChange={e => setDeadline(e.currentTarget.value)}
+                        required
+                    />
+                </label>
+            )
             return (
                 <div className="grid-item" id="current-goal">
                     <div className="feed-post-content">
@@ -162,6 +176,8 @@ function GoalIndex () {
                                 onChange={handleDescriptionChange}
                             />
                         </label>
+                        
+                        {!currentGoal.completionDate ? deadlineInput : null}
 
                         <div className="current-goal-edit-crud-buttons">
                             <div className="current-goal-edit-crud-button" onClick={handleUpdateGoal}>

@@ -38,6 +38,13 @@ function GoalIndex () {
             .then(() => dispatch(fetchUser(userId)));
     }
 
+    const handleCompleteGoal = (goalId) => {
+        const currentDate = new Date().toLocaleDateString('en-us', { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', hour12: true });
+        const updatedGoal = { ...currentGoal, completionDate: currentDate };
+        dispatch(updateGoal(updatedGoal))
+            .then(() => dispatch(fetchUser(userId)));
+    }
+
     const handleDescriptionChange = e => {
         setDescription(e.target.value);
         e.target.style.height = "auto";
@@ -81,8 +88,40 @@ function GoalIndex () {
                         <p className="goal-title">No current goal</p>
                     </div>
 
-                    <div className="edit-current-goal" onClick={() => setShowCreateGoalForm(true)}>
-                        <div >Create a new goal</div>
+                    <div className="create-current-goal" onClick={() => setShowCreateGoalForm(true)}>
+                        <div>Create a new goal</div>
+                    </div>
+                </div>
+            )
+        }
+    }
+    
+    const renderGoalCrud = () => {
+        if (!currentGoal.completionDate) {
+            return (
+                <div className="goal-crud">
+                    <div className="edit-current-goal" onClick={handleOpenEditGoal}>
+                        <i className="far fa-edit"></i>
+                    </div>
+                    <div className="delete-current-goal" onClick={() => handleDeleteGoal(currentGoalId)}>
+                        <i className="fa-solid fa-trash-can"></i>
+                    </div>
+                    <div className="delete-current-goal" onClick={() => handleCompleteGoal(currentGoalId)}>
+                        <i className="fa-solid fa-check"></i>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div className="goal-crud">
+                    <div className="edit-current-goal" onClick={handleOpenEditGoal}>
+                        <i className="far fa-edit"></i>
+                    </div>
+                    <div className="delete-current-goal" onClick={() => handleDeleteGoal(currentGoalId)}>
+                        <i className="fa-solid fa-trash-can"></i>
+                    </div>
+                    <div className="create-current-goal" onClick={() => setShowCreateGoalForm(true)}>
+                        <div>Create a new goal</div>
                     </div>
                 </div>
             )
@@ -97,16 +136,9 @@ function GoalIndex () {
                         <p className="goal-title">{currentGoal.title}</p>
                         <p>{currentGoal.description}</p>
                         <p> Deadline: {currentGoal.deadline}</p>
+                        <p>{currentGoal.completionDate ? `Completed: ${currentGoal.completionDate}` : "Not Completed" }</p>
                     </div>
-
-                    <div className="goal-crud">
-                        <div className="edit-current-goal" onClick={handleOpenEditGoal}>
-                            <i className="far fa-edit"></i>
-                        </div>
-                        <div className="delete-current-goal" onClick={() => handleDeleteGoal(currentGoalId)}>
-                            <i className="fa-solid fa-trash-can"></i>
-                        </div>
-                    </div>
+                    {renderGoalCrud()}
                 </div>
             )
         } else {

@@ -21,42 +21,41 @@ mongoose.connect(db, {
 // Seed function
 const seedData = async () => {
     try {
-        // Create a user
-        const seedUser = new User({
-            username: "seedTest",
-            email: "seed@tester.io",
+        // Create a user for the full-body workout
+        const fullBodyUser = new User({
+            username: "fullBodyUser",
+            email: "fullbody@tester.io",
             hashedPassword: bcrypt.hashSync("password", 10),
         });
 
-        // Save the user to the database
-        const savedUser = await seedUser.save();
-
-        // Create a goal
-        const seedGoal = new Goal({
-            title: "Training for triathlon",
-            description: "Signed up for a triathlon for next year woohooo",
-            deadline: "2024/07/28",
-            user: savedUser._id,
+        // Create a goal for the full-body workout
+        const fullBodyGoal = new Goal({
+            title: "Full-Body Strength Training",
+            description: "Build strength and improve overall fitness",
+            deadline: "2024-07-31",
+            user: savedFullBodyUser._id,
         });
 
-        // Save the goal to the database
-        const savedGoal = await seedGoal.save();
+        // Save the full-body goal to the database
+        const savedFullBodyGoal = await fullBodyGoal.save();
+        fullBodyUser.currentGoal = fullBodyGoal;
+        const savedFullBodyUser = await fullBodyUser.save();
 
-        // Generate workouts
-        const workoutPromises = [];
-        const workoutInfo = [
-            { date: getNextDate(0), note: "change this name please! 1", rating: 4 },
-            { date: getNextDate(1), note: "change this name please! 2", rating: 3 },
-            { date: getNextDate(2), note: "change this name please! 3", rating: 5 },
+        // Generate workouts for the full-body workout
+        const fullBodyWorkoutPromises = [];
+        const fullBodyWorkoutInfo = [
+            { date: getNextDate(0), note: "Pretty good workout - I really felt it in my back today", rating: 4 },
+            { date: getNextDate(1), note: "Not the best workout - should've gone to sleep earlier last night", rating: 3 },
+            { date: getNextDate(2), note: "AMAZING workout - I love Celsius energy drink", rating: 5 },
         ];
 
-        for (const workout of workoutInfo) {
+        for (const workout of fullBodyWorkoutInfo) {
             const exerciseEntry = new ExerciseEntry({
                 date: workout.date,
                 note: workout.note,
                 rating: workout.rating,
-                user: savedUser._id,
-                goal: savedGoal._id,
+                user: savedFullBodyUser._id,
+                goal: savedFullBodyGoal._id,
             });
 
             // Save the workout to the database
@@ -65,23 +64,113 @@ const seedData = async () => {
             // Generate exercises and assign them to the workout
             const exercises = [
                 {
-                    name: "Running",
+                    name: "Pushups",
+                    sets: 3,
+                    reps: 10,
+                    time: '10',
+                    weight: null,
+                    user: savedFullBodyUser._id,
+                    goal: savedFullBodyGoal._id,
+                    workout: savedWorkout._id,
+                },
+                {
+                    name: "Pullups",
+                    sets: 3,
+                    reps: 8,
+                    time: '10',
+                    weight: null,
+                    user: savedFullBodyUser._id,
+                    goal: savedFullBodyGoal._id,
+                    workout: savedWorkout._id,
+                },
+                {
+                    name: "Squats",
+                    sets: 4,
+                    reps: 9,
+                    time: '10',
+                    weight: null,
+                    user: savedFullBodyUser._id,
+                    goal: savedFullBodyGoal._id,
+                    workout: savedWorkout._id,
+                },
+                {
+                    name: "Burpees",
+                    sets: 2,
+                    reps: 12,
+                    time: '10',
+                    weight: null,
+                    user: savedFullBodyUser._id,
+                    goal: savedFullBodyGoal._id,
+                    workout: savedWorkout._id,
+                },
+                {
+                    name: "Bicep Curls",
+                    sets: 3,
+                    reps: 10,
+                    time: '60',
+                    weight: null,
+                    user: savedFullBodyUser._id,
+                    goal: savedFullBodyGoal._id,
+                    workout: savedWorkout._id,
+                },
+            ];
+
+            fullBodyWorkoutPromises.push(Exercise.insertMany(exercises));
+        }
+
+        // Wait for all full-body exercises to be saved
+        await Promise.all(fullBodyWorkoutPromises);
+
+        // Create a user for the triathlon workout
+        const triathlonUser = new User({
+            username: "triathlonUser",
+            email: "triathlon@tester.io",
+            hashedPassword: bcrypt.hashSync("password", 10),
+        });
+
+        // Create a goal for the triathlon workout
+        const triathlonGoal = new Goal({
+            title: "Training for Triathlon",
+            description: "Signed up for a triathlon for next year woohooo",
+            deadline: "2024-07-28",
+            user: savedTriathlonUser._id,
+        });
+
+        // Save the triathlon goal to the database
+        const savedTriathlonGoal = await triathlonGoal.save();
+        triathlonUser.currentGoal = triathlonGoal;
+        const savedTriathlonUser = await triathlonUser.save();
+
+        // Generate workouts for the triathlon workout
+        const triathlonWorkoutPromises = [];
+        const triathlonWorkoutInfo = [
+            { date: getNextDate(0), note: "Great workout! I think I can do better though.", rating: 4 },
+            { date: getNextDate(1), note: "Oof, definitely not my best workout. I need to focus more on my mental game.", rating: 3 },
+            { date: getNextDate(2), note: "AMAZING workout! Thank you Celsius!", rating: 5 },
+        ];
+
+        for (const workout of triathlonWorkoutInfo) {
+            const exerciseEntry = new ExerciseEntry({
+                date: workout.date,
+                note: workout.note,
+                rating: workout.rating,
+                user: savedTriathlonUser._id,
+                goal: savedTriathlonGoal._id,
+            });
+
+            // Save the workout to the database
+            const savedWorkout = await exerciseEntry.save();
+
+            // Generate exercises and assign them to the workout
+            const exercises = [
+                {
+                    name: "Jogging",
                     sets: null,
                     reps: null,
                     time: "30",
                     weight: null,
-                    user: savedUser._id,
-                    goal: savedGoal._id,
-                    workout: savedWorkout._id,
-                },
-                {
-                    name: "Cycling",
-                    sets: null,
-                    reps: null,
-                    time: "45",
-                    weight: null,
-                    user: savedUser._id,
-                    goal: savedGoal._id,
+                    user: savedTriathlonUser._id,
+                    goal: savedTriathlonGoal._id,
                     workout: savedWorkout._id,
                 },
                 {
@@ -90,17 +179,27 @@ const seedData = async () => {
                     reps: null,
                     time: "20",
                     weight: null,
-                    user: savedUser._id,
-                    goal: savedGoal._id,
+                    user: savedTriathlonUser._id,
+                    goal: savedTriathlonGoal._id,
+                    workout: savedWorkout._id,
+                },
+                {
+                    name: "Cycling",
+                    sets: null,
+                    reps: null,
+                    time: "45",
+                    weight: null,
+                    user: savedTriathlonUser._id,
+                    goal: savedTriathlonGoal._id,
                     workout: savedWorkout._id,
                 },
             ];
 
-            workoutPromises.push(Exercise.insertMany(exercises));
+            triathlonWorkoutPromises.push(Exercise.insertMany(exercises));
         }
 
-        // Wait for all exercises to be saved
-        await Promise.all(workoutPromises);
+        // Wait for all triathlon exercises to be saved
+        await Promise.all(triathlonWorkoutPromises);
 
         console.log("Seed data created successfully!");
     } catch (error) {
@@ -118,11 +217,12 @@ const getNextDate = (day) => {
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0");
     const date = String(today.getDate()).padStart(2, "0");
-    return `${year}/${month}/${date}`;
+    return `${year}-${month}-${date}`;
 };
 
 // Call the function to create the seed data
 seedData();
+
 
 // TIME EXERCISE:
 // jogging
@@ -142,4 +242,10 @@ seedData();
 //notes
 
 // seed1 - triathlon trainer (jogging/swimming/cycling)
-//seed2 - fullbody trainer (pushups, pullups, burpees, squats)
+// seed2 - fullbody trainer (pushups, pullups, burpees, squats)
+// seed3 - we'll see
+// demo - ***make sure demo is subscribed to the seed users
+
+// make sure you're in backend folder
+// npm install -g dotenv-cli
+// node -r dotenv/config seeders/seeds.js

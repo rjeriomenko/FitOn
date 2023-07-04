@@ -8,17 +8,7 @@ function DataVis() {
   const chartRef = useRef(null);
   const sessionUser = useSelector(state => state.session.user);
   const currentGoalId = sessionUser?.currentGoal?._id;
-
-  if (!currentGoalId) {
-    let dates = [];
-    let today = new Date();
-
-    for (var i = 0; i <= 6; i++) {
-      dates.push(today.toDateString());
-      today.setDate(today.getDate() - 1);
-    }
-  }
-
+  
   const fetchTimedExerciseEntry = async () => {
     const res = await axios.get(`./api/exercises/byGoal/${currentGoalId}`);
     const data = res.data;  
@@ -44,70 +34,67 @@ function DataVis() {
     return `rgb(${r}, ${g}, ${b})`;
   };
 
-  useEffect(() => {
-    const createStackedBarChart = async () => {
-      const data = await fetchTimedExerciseEntry();
-      const dates = Object.keys(data);
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        stacked: true,
+        ticks: {
+          font: {
+            size: 14
+          }
+        }
+      },
+      y: {
+        stacked: true,
+        ticks: {
+          font: {
+            size: 14
+          }
+        },
+        title: {
+          display: true, 
+          text: 'Minutes Spent'
+        }
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+        labels: {
+          font: {
+            size: 16
+          },
+        },
+      },
+    },
+  }
 
-      // finds unique exercises by flattening and removes dupes
-      const exercises = Array.from(
-        new Set(dates.flatMap(date => Object.keys(data[date])))
-      );
+  const createBarGraph = async () => {
+    const data = await fetchTimedExerciseEntry();
+    const dates = Object.keys(data);
 
-      const datasets = exercises.map(exercise => {
-        const dataset = {
-          label: exercise,
-          data: dates.map(date => data[date][exercise] || 0),
-          backgroundColor: generateRandomColor(),
-        };
+    // finds unique exercises by flattening and removes dupes
+    const exercises = Array.from(
+      new Set(dates.flatMap(date => Object.keys(data[date])))
+    );
 
-        return dataset;
-      });
-      
-      const chartData = {
-        labels: dates,
-        datasets: datasets,
+    const datasets = exercises.map(exercise => {
+      const dataset = {
+        label: exercise,
+        data: dates.map(date => data[date][exercise] || 0),
+        backgroundColor: generateRandomColor()
       };
 
-
-    const chartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        x: {
-          stacked: true,
-          ticks: {
-            font: {
-              size: 14
-            }
-          }
-        },
-        y: {
-          stacked: true,
-          ticks: {
-            font: {
-              size: 14
-            }
-          },
-          title: {
-            display: true, 
-            text: 'Minutes Spent'
-          }
-        },
-      },
-      plugins: {
-        legend: {
-          display: true,
-          labels: {
-            font: {
-              size: 16
-            },
-          },
-        },
-      },
-    }
-        
-
+      return dataset;
+    });
+    
+    const chartData = {
+      labels: dates,
+      datasets: datasets
+    };
+      
     // creating chart
     const chartElement = chartRef.current;
     const stackedBarChart = new Chart(chartElement, {
@@ -119,19 +106,57 @@ function DataVis() {
     return () => {
       stackedBarChart.destroy();
     }; 
-
   }
   
-    createStackedBarChart();
+  const createDates = () => {
+    let dates = [];
+    let today = new Date();
 
+    for (let i = 0; i <= 6; i++) {
+      dates.push(today.toDateString());
+      today.setDate(today.getDate() - 1);
+    }
+    return dates;
+  }
+
+  const createEmpty = () => {   
+    const datasets = [
+      {
+        label: 'Exercise 1',
+        data: 0, 
+        backgroundColor: generateRandomColor()
+      }
+    ];
+
+    // dates are not showing up why monka >.<
+    const chartData = {
+      labels: createDates(),
+      datasets: datasets
+    }
+
+    const chartElement = chartRef.current;
+    const stackedBarChart = new Chart(chartElement, {
+      type: 'bar',
+      data: chartData,
+      options: chartOptions,
+    });
+
+    return () => {
+      stackedBarChart.destroy();
+    };
+  }
+
+  useEffect(() => {
+    currentGoalId ? createBarGraph() : createEmpty();  
   }, [])
-
-
+  
+  
   return (
     <>
       <canvas ref={chartRef} />
     </>
   )
 }
+  
 
 export default DataVis;

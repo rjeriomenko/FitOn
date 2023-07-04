@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { fetchAllUserGoals, fetchUserGoals, fetchFollowsGoals, fetchDiscoversGoals, getFollowsGoals, getDiscoversGoals } from '../../store/goals';
-import { fetchFollowsExerciseEntries, fetchUserExerciseEntries, getFollowsExerciseEntries, getUserExerciseEntries } from '../../store/exerciseEntries';
+import { fetchFollowsExerciseEntries, fetchUserExerciseEntries, getFollowsExerciseEntries, getUserExerciseEntries, fetchDiscoversExerciseEntries, getDiscoversExerciseEntries } from '../../store/exerciseEntries';
 import { fetchFollows, getFollows } from '../../store/follows';
 import FollowNavBar from './FollowNavBar';
 import FeedPostWorkout from './FeedPostWorkout';
@@ -39,7 +39,7 @@ export const filterPostsBy = (postsArray, options = {}) => {
   const { types, ownerIds } = options;
   
   const filteredArray = postsArray.filter(post => {
-    return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.user._id) : true);
+    return (types ? types.includes(post.type) : true) && (ownerIds ? ownerIds.includes(post.user?._id) : true);
   })
   
   return filteredArray;
@@ -56,6 +56,8 @@ function Feed ({discoverMode, options = {}}) {
   const followsGoals = followsGoalsBase.flat()
   const followsWorkoutsBase = Object.values(useSelector(getFollowsExerciseEntries));
   const followsWorkouts = followsWorkoutsBase.flat()
+  const discoverGoals = Object.values(useSelector(getDiscoversGoals));
+  const discoverWorkouts = Object.values(useSelector(getDiscoversExerciseEntries));
   
   const userId = useParams().userId
   
@@ -83,8 +85,11 @@ function Feed ({discoverMode, options = {}}) {
       dispatch(fetchFollowsExerciseEntries())
 
       // Discover items
-      // dispatch(fetchDiscoversGoals()) // doesn't do anything yet - pending backend route
-      // dispatch(fetchDiscoversWorkouts()) // doesn't do anything yet - pending backend route
+      if(discoverMode) {
+        dispatch(fetchDiscoversGoals()) // doesn't do anything yet - pending backend route
+        dispatch(fetchDiscoversExerciseEntries()) // doesn't do anything yet - pending backend route
+
+      }
     }
 
     // dispatch(fetchAllUserGoals()) - do not use this thunk it will not work. Use updated thunks
@@ -103,8 +108,14 @@ function Feed ({discoverMode, options = {}}) {
   const filteredWorkoutPosts = filterPostsBy(workoutPosts, filterOptions);
   const filteredFollowGoalPosts = filterPostsBy(followsGoals, filterOptions);
   const filteredFollowWorkoutPosts = filterPostsBy(followsWorkouts, filterOptions);
-  const combinedPosts = userId ? [...filteredGoalPosts, ...filteredWorkoutPosts] : [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts, ...filteredFollowWorkoutPosts];
-  
+  const filteredDiscoversGoalPosts = filterPostsBy(discoverGoals, filterOptions);
+  const filteredDiscoversWorkoutPosts = filterPostsBy(discoverWorkouts, filterOptions);
+
+  const combinedPosts = 
+    userId ? [...filteredGoalPosts, ...filteredWorkoutPosts] : 
+    discoverMode ? [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts, ...filteredFollowWorkoutPosts, ...filteredDiscoversGoalPosts, ...filteredDiscoversWorkoutPosts]
+      : [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts, ...filteredFollowWorkoutPosts];
+  // const combinedPosts = [...filteredDiscoversGoalPosts, ...filteredDiscoversWorkoutPosts];
 
   // Temporary fix to remove any possible duplicates:
   const uniquePosts = [];

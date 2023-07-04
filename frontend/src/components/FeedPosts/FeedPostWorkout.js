@@ -12,8 +12,8 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
   // props
 	const { date, goal, note, rating, updatedAt, user } = feedPost;
 	const goalId = goal?._id
-	const setter = feedPost.user.username;
-	const setterId = feedPost.user._id;
+	const setter = feedPost.user?.username;
+	const setterId = feedPost.user?._id;
 	const formatDate = (dateText) => {
 		return new Date(dateText).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})
 	}

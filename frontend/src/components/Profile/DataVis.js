@@ -9,158 +9,108 @@ function DataVis() {
   const session = useSelector(state => state.session);
   const sessionUserId = session?.user?._id;
   const currentGoalId = session?.user?.currentGoal?._id;
-  
+
   const fetchTimedExerciseEntry = async () => {
-    try {
-      const res = await axios.get(`./api/exercises/byGoal/${currentGoalId}`);
-      const data = res.data;  
-      console.log(currentGoalId)
-      console.log(data)
-
-    } catch (err) {
-
-    }
-
-  }
-
-  const fetchExerciseEntry = async () => {
-    try {
-      const res = await axios.get(`./api/users/${sessionUserId}/entries`);
-      const data = res.data;
-      const exerciseEntry = {};
-  
-      Object.keys(data).forEach(key => {
-        const { exerciseEntry: { exercises, date } } = data[key];
-        exerciseEntry[date] = exercises;
-      });
-  
-      const result = {};
-  
-      for (const date in exerciseEntry) {
-        const exerciseIds = exerciseEntry[date];
-  
-        const requests = exerciseIds.map(exerciseId => axios.get(`./api/exercises/${exerciseId}`));
-        const responses = await Promise.all(requests);
-        const exerciseData = responses.map(response => response.data);
-  
-        const exercises = exerciseData.reduce((acc, exercise) => {
-          const { name, sets, reps } = exercise;
-          acc[name] = sets * reps;
-          return acc;
-        }, {});
-  
-        result[date] = Object.entries(exercises).map(([name, total]) => ({ [name]: total }));
+    const res = await axios.get(`./api/exercises/byGoal/${currentGoalId}`);
+    const data = res.data;  
+    const exerciseEntry = {};
+    
+    Object.values(data).forEach(exercise => {
+      const { name, time, workout: { date } } = exercise;
+          
+      if (!exerciseEntry[date]) {
+        exerciseEntry[date] = {};
       }
 
-      return result;
-  
-    } catch (err) {
-      console.log('Error fetching data:', err);
-    }
+      exerciseEntry[date][name] = parseInt(time);
+    });
+
+    return exerciseEntry;
+  };
+
+  const generateRandomColor = () => {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchExerciseEntry();
-        const labels = Object.keys(data);
+    const createStackedBarChart = async () => {
+      const data = await fetchTimedExerciseEntry();
 
-        const totals = {
-          'Squats': [],
-          'Glute Bridges': [],
-          'Hip Thrusts': [],
-        };
-
-        labels.forEach(date => {
-          const exercises = data[date];
-          exercises.forEach(exercise => {
-            const exerciseName = Object.keys(exercise)[0];
-            const exerciseValue = exercise[exerciseName];
-            totals[exerciseName].push(exerciseValue);
-          });
-        });
-
-        const datasets = Object.entries(totals).map(([exercise, values]) => {
-          return {
-            label: exercise,
-            backgroundColor: generateRandomColor(),
-            data: values,
-          };
-        });
-
-        const chartData = {
-          labels: labels,
-          datasets: datasets,
-        };
-
-        const chartOptions = {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: {
-              stacked: true,
-              ticks: {
-                font: {
-                  size: 14
-                }
-              }
-            },
-            y: {
-              stacked: true,
-              ticks: {
-                font: {
-                  size: 14
-                }
-              },
-              title: {
-                display: true, 
-                text: 'Reps X Sets'
-              }
-            },
-          },
-          plugins: {
-            legend: {
-              display: true,
-              labels: {
-                font: {
-                  size: 16
-                },
-              },
-            },
-          },
-        }
-        
-
-        // creating chart
-        const chartElement = chartRef.current;
-        const stackedBarChart = new Chart(chartElement, {
-          type: 'bar',
-          data: chartData,
-          options: chartOptions
-        });
-
-        return () => {
-          stackedBarChart.destroy();
-        };
-
-      } catch (err) {
-        console.log('Error fetching data:', err);
-      }
+      const chartData = {
+        labels: Object.keys(data),
+        datasets: Object.keys(data).map((date) => ({
+          label: date,
+          data: Object.entries(data[date]).map(([exercise, value]) => value),
+          backgroundColor: generateRandomColor(),
+      })),
     };
 
-    fetchData();
-  }, []);
+    console.log(chartData)
 
-  const generateRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        stacked: true,
+        ticks: {
+          font: {
+            size: 14
+          }
+        }
+      },
+      y: {
+        stacked: true,
+        ticks: {
+          font: {
+            size: 14
+          }
+        },
+        title: {
+          display: true, 
+          text: 'Minutes Spent'
+        }
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+        labels: {
+          font: {
+            size: 16
+          },
+        },
+      },
+    },
+  }
+        
 
-  return <canvas ref={chartRef} />;
+  // creating chart
+  const chartElement = chartRef.current;
+  const stackedBarChart = new Chart(chartElement, {
+    type: 'bar',
+    data: chartData,
+    options: chartOptions
+  });
+
+    return () => {
+      stackedBarChart.destroy();
+    };     
+  }
+  
+    createStackedBarChart();
+
+  }, [])
+
+
+  return (
+    <>
+      <canvas ref={chartRef} />
+    </>
+  )
 }
 
 export default DataVis;

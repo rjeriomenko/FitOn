@@ -12,8 +12,8 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
   // props
 	const { title, description, deadline, completionDate, updatedAt } = feedPost;
 	const goalId = feedPost._id
-	const setter = feedPost.user.username;
-	const setterId = feedPost.user._id;
+	const setter = feedPost.user?.username;
+	const setterId = feedPost.user?._id;
 
 	const exerciseEntries = Object.values(useSelector(getUserExerciseEntries)).filter(entry => entry.goal?._id === goalId)
 	const formatDate = (dateText) => {

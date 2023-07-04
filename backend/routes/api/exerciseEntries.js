@@ -70,7 +70,9 @@ router.get('/followed', requireUser, async (req, res, next) => {
 // sample 10 random workouts
 router.get('/sample', requireUser, async (req, res, next) => {
     try {
-        let workouts = await ExerciseEntry.find({});
+        let workouts = await ExerciseEntry.find({})
+            .populate('user', '_id username imgUrl createdAt')
+            .populate('goal', '_id title');
         let randomizedWorkouts = workouts.sort(() => Math.random() - 0.5);
         let workoutsArray = randomizedWorkouts.slice(0, 9);
         let workoutsObj = {};

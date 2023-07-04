@@ -11,6 +11,7 @@ import './Feed.css';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import TestProps from './TestProps';
+import { useLocation } from 'react-router-dom';
 
 // Sort posts by most recent.
 export const sortFeedPostsBy = (postsArray, sortRule) => {
@@ -65,6 +66,10 @@ function Feed ({discoverMode, options = {}}) {
 	// const [triggerRender, setTriggerRender] = useState(1);
   // const [testPropNum, setTestPropNum] = useState(1);
 
+  // If discoverMode, pull random number to always rerender component if navigate to it from within component.
+  // This is added to dependency array to trigger rerender if we click on "Discover"
+  const {discoverTriggerRerender} = useLocation();
+
   useEffect(() => {
     // If only want feed items for a specific user
     if(userId) {
@@ -96,7 +101,7 @@ function Feed ({discoverMode, options = {}}) {
 
     // Cleanup:
     // return () => dispatch(clearFeedPostErrors());
-  }, [dispatch])
+  }, [dispatch, discoverTriggerRerender])
   // }, [dispatch, testPropNum])
 
   if(userId) {

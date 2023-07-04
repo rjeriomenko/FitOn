@@ -51,7 +51,7 @@ body {
 	color: var(--orange);
 	align-self: flex-end;
 	position: relative;
-	bottom: 0.25em;
+	bottom: 0.29em;
 }
 
 .text-logo {
@@ -104,4 +104,9 @@ body {
 .logged-in-logo {
 	font-size: 3rem;
 	transition: font-size 0.7s ease 0.2s;
+}
+
+.logged-in-divider {
+	width: 40%;
+	transition: width 0.3s ease 0.7s;	
 }

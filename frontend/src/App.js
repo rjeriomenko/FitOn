@@ -34,7 +34,6 @@ function App() {
     if (process.env.NODE_ENV !== 'production') { return (<Test />) };
   }
 
-
   return loaded && (
     <div className='app-container'>
       {setupTestEnv()}
@@ -49,7 +48,7 @@ function App() {
       <MainPageWrapper>
 
           <ProtectedRoute exact path="/feed" component={Feed} />
-          <ProtectedRoute exact path="/discover" component={Feed} discoverMode={true} />
+          <ProtectedRoute exact path="/discover" component={Feed} discoverMode={true}/>
           <ProtectedRoute exact path="/feed/:userId" component={Feed} />
           <ProtectedRoute exact path="/profile" component={Profile} />
           <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />

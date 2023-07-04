@@ -61,7 +61,7 @@ function NavBar () {
       <div className={`nav-bar-container ${loggedIn ? "logged-in-navbar" : ""}`}>
         {/* <Link to={"/"}><img className="nav-bar-logo" src={require(`../../images/logo-v1-03.png`)}/></Link> */}
         <Link to={"/"}><div className={`text-logo ${loggedIn ? "logged-in-logo" : ""}`}>g<i class="fa-solid fa-arrows-to-circle"></i>algetters</div></Link>
-        <div className='nav-bar-divider'></div>
+        <div className={`nav-bar-divider ${loggedIn ? "logged-in-divider" : ""}`}></div>
         <div className='links-menu'>
           <ul className="links-auth nav-links">
             { getLinks() }

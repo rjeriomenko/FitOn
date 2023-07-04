@@ -125,10 +125,19 @@ function DataVis() {
         label: 'Exercise 1',
         data: 0, 
         backgroundColor: generateRandomColor()
+      },
+      {
+        label: 'Exercise 2',
+        data: 0, 
+        backgroundColor: generateRandomColor()
+      },
+      {
+        label: 'Exercise 3',
+        data: 0, 
+        backgroundColor: generateRandomColor()
       }
     ];
 
-    // dates are not showing up why monka >.<
     const chartData = {
       labels: createDates(),
       datasets: datasets

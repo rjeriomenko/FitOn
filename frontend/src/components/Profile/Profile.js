@@ -19,6 +19,7 @@ import DataVis from './DataVis';
 function Profile () {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
+  const currentGoal = sessionUser.currentGoal;
   
   const userExerciseEntries = useSelector(getUserExerciseEntries);
 
@@ -131,6 +132,7 @@ function Profile () {
       {/* DATA VIZ - START */}
       <div className="progress-title">
         <h2>my progress...</h2>
+        {currentGoal ? null :  <h3 id="goalless-data-viz">create your goal and log your exercises today to see your progress...</h3>}
       </div>
 
       <div className="data-vis">

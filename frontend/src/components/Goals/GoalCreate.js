@@ -1,3 +1,4 @@
+import { fetchUser } from '../../store/users'
 import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -5,7 +6,7 @@ import { clearGoalErrors, createGoal  } from '../../store/goals';
 // import FeedPostGoal from './FeedPostGoal';
 import './GoalCreate.css';
 
-function GoalCreate () {
+function GoalCreate({ setShowCreateGoalForm, userId }) {
   const dispatch = useDispatch();
   const today = new Date().toISOString().split('T')[0];
   const [title, setTitle] = useState('');
@@ -23,11 +24,16 @@ function GoalCreate () {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(createGoal({ title, description, deadline })); 
-    setTitle('');
-    setDescription('');
-    setDeadline(today);
-    setSubmit(true);
+    dispatch(createGoal({ title, description, deadline }))
+      .then(() => dispatch(fetchUser(userId)))
+        .then(() => {
+          setShowCreateGoalForm(false)
+          setTitle('');
+          setDescription('');
+          setDeadline(today);
+          setSubmit(true)
+        })
+    
   };
 
   if (submit === true) {

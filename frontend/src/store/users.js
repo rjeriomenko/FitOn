@@ -42,8 +42,8 @@ export const clearUserErrors = errors => ({
 export const fetchUsers = () => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users`);
-        const users = await res.json();
-        dispatch(receiveUsers(users));
+        const responseUsers = await res.json();
+        dispatch(receiveUsers(responseUsers));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -68,8 +68,8 @@ export const fetchFollowsUsers = () => async dispatch => {  //pre-emptive thunk
 export const fetchUser = userId => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users/${userId}`);
-        const user = await res.json();
-        dispatch(receiveUser(user));
+        const responseUser = await res.json();
+        dispatch(receiveUser(responseUser));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -101,6 +101,8 @@ export const getUser = (userId) => state => {
         return state.users.individual[userId];
     } else if (state?.users.all[userId]) {
         return (state?.users.all[userId])
+    } else if (state?.users.follows[userId]) {
+        return (state?.users.follows[userId])
     } else {
         return null;
     }

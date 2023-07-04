@@ -1,98 +1,176 @@
 import GoalIndexItem from './GoalIndexItem';
+import GoalCreate from './GoalCreate';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { deleteGoal, fetchUserGoals, getUserKeyGoals } from '../../store/goals'
 import { useParams } from 'react-router-dom';
-import { deleteGoal, fetchUserGoals, getUserGoals } from '../../store/goals'
+import { deleteGoal, updateGoal, fetchUserGoals, getUserGoals } from '../../store/goals'
+import { getUser, fetchUser } from '../../store/users'
 import { Link } from 'react-router-dom';
+import { Modal } from '../../context/Modal';
 import './GoalIndex.css'
-import { getCurrentUser } from '../../store/session';
+
+import ExerciseEventForm from '../Exercise/ExerciseEventForm';
+
+
 
 
 function GoalIndex () {
     const dispatch = useDispatch();
-    const sessionUser = useSelector(state => state.session.user);
-    const sessionUserId = sessionUser._id;
-    // const userGoalsObj = useSelector(getUserKeyGoals); //RESTRUCTURE: will change to getIndividualGoals for a given user
     const { userId } = useParams();
-    const userGoalsObj = useSelector(getUserGoals); //RESTRUCTURE: will change to getIndividualGoals for a given user
-    
-    const [triggerRender, setTriggerRender] = useState(1);
+    const userGoalsObj = useSelector(getUserGoals);
+    const user = useSelector(getUser(userId));
+    const currentGoal = user ? user.currentGoal : null;
+    const currentGoalId = currentGoal ? currentGoal._id : null;
+
+    const [editable, setEditable] = useState(false);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+
+    const [showCreateGoalForm, setShowCreateGoalForm] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchUserGoals(userId))
-        dispatch(getCurrentUser())
-    }, [userId]) // will need to refresh page to see updated goal details
+        dispatch(fetchUser(userId));
+        dispatch(fetchUserGoals(userId));
+    }, [userId])
     
-    
+    const handleDeleteGoal = (goalId) => {
+        dispatch(deleteGoal(goalId))
+            .then(() => dispatch(fetchUser(userId)));
+    }
+
+    const handleDescriptionChange = e => {
+        setDescription(e.target.value);
+        e.target.style.height = "auto";
+        e.target.style.height = e.target.scrollHeight + "px";
+    }
+
+    const handleOpenEditGoal = e => {
+        setTitle(currentGoal.title);
+        setDescription(currentGoal.description);
+        setEditable(oldSetEditable => !oldSetEditable);
+    }
+
+    const handleCloseCreateGoalModal = () => {
+        dispatch(fetchUser(userId))
+            .then(() => setShowCreateGoalForm(false));
+    }
+
+    const handleUpdateGoal = e => {
+        setEditable(false);
+        const updatedGoal = { ...currentGoal, title, description }
+        dispatch(updateGoal(updatedGoal))
+            .then(() => dispatch(fetchUser(userId)));
+    }
+
+    const renderPrevGoals = () => {
+        const prevGoalItems = [];
+        for(let [goalId, goal] of Object.entries(userGoalsObj)) {
+            if(goalId != currentGoalId) {
+                prevGoalItems.push(<GoalIndexItem key={goalId} goal={goal} />)
+            }
+        }
+        return prevGoalItems.reverse();
+    }
+
+    const renderCurrentGoal = () => {
+        if (currentGoal) { return renderEditCurrentGoal() }
+        else {
+            return (
+                <div className="grid-item" id="current-goal">
+                    <div>
+                        <p className="goal-title">No current goal</p>
+                    </div>
+
+                    <div className="edit-current-goal" onClick={() => setShowCreateGoalForm(true)}>
+                        <div >Create a new goal</div>
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    const renderEditCurrentGoal = () => {
+        if (!editable) {
+            return (
+                <div className="grid-item" id="current-goal">
+                    <div>
+                        <p className="goal-title">{currentGoal.title}</p>
+                        <p>{currentGoal.description}</p>
+                        <p> Deadline: {currentGoal.deadline}</p>
+                    </div>
+
+                    <div className="goal-crud">
+                        <div className="edit-current-goal" onClick={handleOpenEditGoal}>
+                            <i className="far fa-edit"></i>
+                        </div>
+                        <div className="delete-current-goal" onClick={() => handleDeleteGoal(currentGoalId)}>
+                            <i className="fa-solid fa-trash-can"></i>
+                        </div>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div className="grid-item" id="current-goal">
+                    <div className="feed-post-content">
+                        <label>Title
+                            <input
+                                className="feed-post-text-edit"
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </label>
+
+                        <label>Description
+                            <textarea
+                                className="feed-post-text-edit"
+                                contentEditable={true}
+                                value={description}
+                                onChange={handleDescriptionChange}
+                            />
+                        </label>
+
+                        <div className="current-goal-edit-crud-buttons">
+                            <div className="current-goal-edit-crud-button" onClick={handleUpdateGoal}>
+                                Update
+                            </div>
+                            
+                            <div className="current-goal-edit-crud-button" id="close-edit-current-goal" onClick={handleOpenEditGoal}>
+                                <i id="x" class="fa-solid fa-xmark"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    const renderCreateGoalForm = () => {
+        if(showCreateGoalForm) {
+            return (
+                <Modal onClose={handleCloseCreateGoalModal}>
+                    <GoalCreate setShowCreateGoalForm={setShowCreateGoalForm} userId={userId}/>
+                </Modal>
+            )
+        } 
+    }
+
     if (!userGoalsObj) {
         return (
             <div> Loading... </div>
         )
     }
-    
-    // Change currentGoal to be the first goal in userGoals from the back without a completedDate,
-    // if not found, no currentGoal.
-    const currentGoal = sessionUser.currentGoal;
-
-    // const renderPrevGoals = () => {
-    //     const goalItems = [];
-    //     for(let [goalId, goal] of Object.entries(userGoalsObj)) {
-    //         goalItems.push(<GoalIndexItem key={goalId} goal={goal} />)
-    //     }
-    //     return goalItems;
-    // }
-
-    const goalItems = [];
-    for(let [goalId, goal] of Object.entries(userGoalsObj)) {
-        goalItems.push(<GoalIndexItem key={goalId} goal={goal} triggerRender={triggerRender} setTriggerRender={setTriggerRender} />)
-    }
 
     return (
         <>
+            {renderCreateGoalForm()}
             <div className="goals-container">
-                {/* <h2>My Current Goal</h2> */}
                 <h2>my current goal...</h2>
-                
-                {currentGoal ? (
-                        <div className="grid-item" id="current-goal">
-                            <div>
-                                <p className="goal-title">{currentGoal.title}</p>
-                                <p>{currentGoal.description}</p>
-                                <p> Deadline: {currentGoal.deadline}</p>     
-                            </div> 
-
-                            <div className="goal-crud">
-                                <div className="edit-current-goal">
-                                    <Link to={'/feedPosts/editGoal'}><i class="far fa-edit"></i></Link>
-                                </div>
-                                {/* ADD ROUTE TO DELETE GOAL */}
-                                <div className="delete-current-goal">
-                                    {/* <Link to={'/feedPosts/editGoal'}><i class="fa-solid fa-trash-can"></i></Link> */}
-                                    <div onClick={e => dispatch(deleteGoal(currentGoal._id))}><i class="fa-solid fa-trash-can"></i></div>
-                                </div>  
-                            </div>
-        
-                        </div>
-                    ) : (
-                        <div className="grid-item" id="current-goal">
-                        <div>
-                            <p className="goal-title">No current goals</p>   
-                        </div> 
-
-                        <div className="edit-current-goal" > 
-                            <Link to={'/feedPosts/newGoal'}>Create a new goal</Link>
-                        </div>          
-                        </div>
-                )}
-                
-                <br></br>
-                <br></br>
-
+                {renderCurrentGoal()}
                 <h2>previous goals...</h2>
                 <div className="goals-grid-container">
-                    {goalItems}
-                    {/* {renderPrevGoals()} */}
+                {renderPrevGoals()}
                 </div>
 
             </div>

@@ -71,3 +71,34 @@ div > p {
     color: var(--medium-blue-darker);
     font-family: var(--sans-serif);
 }
+
+#x {
+    font-size: 16px;
+    font-family: "Font Awesome 6 Free"
+}
+
+.current-goal-edit-crud-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.current-goal-edit-crud-button {
+    cursor: pointer;
+    background-color: var(--form-button-color);
+    color: var(--form-text-input-color);
+    padding: 8px;
+    margin: 5px;
+    font-family: var(--sans-serif);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 8px;
+}
+
+.current-goal-edit-crud-button#close-edit-current-goal {
+    background-color: var(--dark-blue);
+    border-color: var(--dark-blue);
+}

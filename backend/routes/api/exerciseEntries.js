@@ -5,6 +5,7 @@ const ExerciseEntry = mongoose.model('ExerciseEntry');
 const Goal = mongoose.model('Goal');
 const Follow = mongoose.model('Follow');
 const User = mongoose.model('User');
+const Exercise = mongoose.model('Exercise');
 const validateExerciseEntryInput = require("../../validations/exerciseEntries");
 const { requireUser } = require('../../config/passport');
 
@@ -158,6 +159,8 @@ router.delete('/:entryId', requireUser, async (req, res, next) => {
         }
 
         await entry.deleteOne();
+
+        await Exercise.deleteMany({ workout: req.params.entryId});
 
         return res.json({ message: 'Workout successfully deleted' });
 

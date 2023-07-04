@@ -100,19 +100,19 @@ router.get('/current', restoreUser, (req, res) => {
   });
 });
 
-// router.get('/:userId', async (req, res, next) => {
-//   try {
-//     const user = await User.findById(req.params.userId);
-//     if (!user) {
-//       const error = new Error('User not found');
-//       error.statusCode = 404;
-//       throw error;
-//     }
-//     return res.json({ [user._id]: user });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    }
+    return res.json({ [user._id]: user });
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.get('/', async (req, res, next) => {
   try {

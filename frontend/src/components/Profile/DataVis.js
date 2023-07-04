@@ -8,7 +8,21 @@ function DataVis() {
   const chartRef = useRef(null);
   const session = useSelector(state => state.session);
   const sessionUserId = session?.user?._id;
+  const currentGoalId = session?.user?.currentGoal?._id;
   
+  const fetchTimedExerciseEntry = async () => {
+    try {
+      const res = await axios.get(`./api/exercises/byGoal/${currentGoalId}`);
+      const data = res.data;  
+      console.log(currentGoalId)
+      console.log(data)
+
+    } catch (err) {
+
+    }
+
+  }
+
   const fetchExerciseEntry = async () => {
     try {
       const res = await axios.get(`./api/users/${sessionUserId}/entries`);

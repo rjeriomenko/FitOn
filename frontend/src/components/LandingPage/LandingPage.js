@@ -2,14 +2,29 @@ import './LandingPage.css';
 import { useEffect } from 'react';
 import { login, clearSessionErrors } from '../../store/session';
 import { useDispatch } from 'react-redux';
+import LandingGifContainer from './LandingGifContainer';
 
 
 function LandingPage() {
   const dispatch = useDispatch();
 
-	useEffect(() => {
-		// window.scrollTo(0,100);
-	}, [])
+  // let imgName = "narutoirl";
+  // const imgNames = ["narutoirl", "swim", "warmup", "narutoirl", "dekupushup", "narutoirl", "bicyclecrunch", "jogging", "narutoirl", "tyingshoes", "yoga"]
+
+  // let counter = 1
+  // let bgInterval = setInterval(() => {
+  //   counter += 1;
+  //   console.log(counter)
+  //   imgName = imgNames[counter % imgNames.length];
+  // }, 3000)
+
+	// useEffect(() => {
+	// 	// window.scrollTo(0,100);
+    
+
+  //   // cleanup function
+  //   return clearInterval(bgInterval);
+	// }, [])
 
   const demoLogin = (e, num) => {
     e.preventDefault();
@@ -44,7 +59,8 @@ function LandingPage() {
     <>
       <div className="landing-page-container">
         <div className="background-gif-container">
-          <img className="landing-gif" src={require(`../../images/narutoirl.gif`)}/>
+          <LandingGifContainer />
+          {/* <img className="landing-gif" src={require(`../../images/${imgName}.gif`)}/> */}
           {/* <div className='blur-overlay'></div> */}
         </div>
         <div className="text-overlay">

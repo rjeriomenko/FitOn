@@ -186,7 +186,7 @@ p, h3 {
 	box-sizing: border-box;
 	/* width: 35px; */
 	/* height: 35px; */
-	background-color: var(--form-button-color);
+	background-color: var(--dark-blue);
 	color: var(--form-text-input-color);
 	padding: 10px;
 	margin: 5px;

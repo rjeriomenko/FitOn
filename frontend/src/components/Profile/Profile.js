@@ -1,7 +1,9 @@
 import GoalIndexItem from '../Goals/GoalIndexItem';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { deleteGoal, fetchUserGoals } from '../../store/goals'
+import { updateUser, getUser, fetchUser } from '../../store/users';
 import { Link } from 'react-router-dom';
 
 import { fetchAllUserExerciseEntries, fetchUserExerciseEntries } from '../../store/exerciseEntries';
@@ -19,7 +21,9 @@ import DataVis from './DataVis';
 function Profile () {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
-  const currentGoal = sessionUser.currentGoal;
+  const userId = useParams().userId;
+  const user = useSelector(getUser(userId));
+  const currentGoal = user?.currentGoal;
   
   const userExerciseEntries = useSelector(getUserExerciseEntries);
 
@@ -28,9 +32,24 @@ function Profile () {
   const [mouseOverTextDataRows, setMouseOverTextDataRows] = useState([]);
   const [mouseOverDataTotals, setMouseOverDataTotals] = useState({});
 
+  const [image, setImage] = useState(null);
+
   const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
 
   // let mouseOverTextDataRows;
+
+  const updateFile = e => setImage(e.target.files[0]);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const user = {
+      image,
+      _id: sessionUser._id
+    };
+
+    dispatch(updateUser(user))
+    // .then(dispatch(fetchUser(user)))
+  }
 
   const handleMouseEnter = (e) => {
     const tileId = e.currentTarget.getAttribute('dataExerciseEntryId');
@@ -103,8 +122,9 @@ function Profile () {
   };
 
   useEffect(() => {
-    dispatch(fetchUserGoals(sessionUser._id))
-    dispatch(fetchUserExerciseEntries(sessionUser._id))
+    dispatch(fetchUser(userId))
+    dispatch(fetchUserGoals(userId))
+    dispatch(fetchUserExerciseEntries(userId))
 
     // random scramble effect
     let repeats = 0;
@@ -128,7 +148,9 @@ function Profile () {
   return (
     <div className='profile-container'>
       <h3>Update Profile Picture</h3>
-      
+      <input type="file" accept=".jpg, .jpeg, .png" onChange={updateFile} />
+      <input className="profile-submit" type="submit" onClick={handleSubmit} />
+
       {/* DATA VIZ - START */}
       {/* DATA VIZ - START */}
       <div className="progress-title">
@@ -145,7 +167,7 @@ function Profile () {
       </div>
 
       <div className="data-vis">
-        <DataVis />
+        { user && <DataVis user={user} />}
       </div>
 
       {/* DATA VIZ - END */}

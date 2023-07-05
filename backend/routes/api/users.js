@@ -154,7 +154,7 @@ router.get('/followed', requireUser, async (req, res, next) => {
 });
 
 //edit user
-router.patch('/:userId', requireUser, async (req, res, next) => {
+router.patch('/:userId', requireUser, singleMulterUpload("image"), async (req, res, next) => {
   try {
     if (req.params.userId.toString() !== req.user._id.toString()) {
       const error = new Error('You have no power here, Gandalf the Grey');
@@ -164,8 +164,12 @@ router.patch('/:userId', requireUser, async (req, res, next) => {
 
     let user = await User.findById(req.params.userId).select('-hashedPassword -currentGoal');
 
+    const imgUrl = req.file ?
+      await singleFileUpload({ file: req.file, public: true }) :
+      false;
+
     user.username = req.body.username || user.username
-    user.imgUrl = req.body.imgUrl || user.imgUrl;
+    user.imgUrl = imgUrl || user.imgUrl;
 
     await user.save();
 

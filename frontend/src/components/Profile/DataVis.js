@@ -4,13 +4,12 @@ import axios from 'axios';
 import './DataVis.css'
 import { useSelector } from 'react-redux';
 
-function DataVis() {
+function DataVis({ user }) {
   const chartRef = useRef(null);
-  const sessionUser = useSelector(state => state.session.user);
-  const currentGoalId = sessionUser?.currentGoal?._id;
+  const currentGoalId = user.currentGoal?._id;
   
   const fetchTimedExerciseEntry = async () => {
-    const res = await axios.get(`./api/exercises/byGoal/${currentGoalId}`);
+    const res = await axios.get(`/api/exercises/byGoal/${currentGoalId}`);
     const data = res.data;  
     const exerciseEntry = {};
     

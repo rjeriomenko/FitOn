@@ -144,3 +144,7 @@ tfoot * {
 .profile-footer {
 	height: 1000px;
 }
+
+.profile-submit {
+	width: fit-content;
+}

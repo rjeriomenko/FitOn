@@ -48,7 +48,7 @@ function App() {
           <ProtectedRoute exact path="/feed" component={Feed} />
           <ProtectedRoute exact path="/discover" component={Feed} discoverMode={true}/>
           <ProtectedRoute exact path="/feed/:userId" component={Feed} />
-          <ProtectedRoute exact path="/profile" component={Profile} />
+          <ProtectedRoute exact path="/profile/:userId" component={Profile} />
           <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />
           <ProtectedRoute exact path="/feedPosts/editGoal" component={GoalEdit} />
           <ProtectedRoute exact path="/users/:userId/goals" component={GoalIndex} />

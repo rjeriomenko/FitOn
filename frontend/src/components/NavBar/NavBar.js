@@ -23,7 +23,7 @@ function NavBar () {
       return (
         <>
           <li className="nav-link-id"><Link to={'/feed'}>Home</Link></li>
-          <li className="nav-link-id"><Link to={'/profile'}>Tools</Link></li>
+          <li className="nav-link-id"><Link to={`/profile/${sessionUser._id}`}>Tools</Link></li>
           {/* <li><Link to={'/feedPosts/editGoal'}>Edit goal</Link></li> */}
           <li className="nav-link-id"><Link to={`/users/${sessionUser._id}/goals`}>My Goal</Link></li>
           <li className="nav-link-id"><a onClick={logoutUser}>Logout</a></li>
@@ -59,7 +59,7 @@ function NavBar () {
     if (loggedIn) {
       return (
         <div className="nav-bar-aside">
-          <Link to={"/profile"}>
+          <Link to={`/profile/${sessionUser._id}`}>
             <div className="nav-bar-profile-name">{sessionUser.username}</div><img className="nav-bar-profile-picture" src={sessionUser.imgUrl || "https://aws-fiton.s3.amazonaws.com/vinit-vispute-PO36L2wA8KI-unsplash.jpg"} />
           </Link>
         </div>

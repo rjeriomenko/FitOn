@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
 import { Link } from "react-router-dom";
 import { deleteExerciseEntry, fetchUserExerciseEntries,getUserExerciseEntries, updateExerciseEntry } from "../../store/exerciseEntries";
 import { createFollow, deleteFollow, getFollows } from "../../store/follows";
@@ -43,7 +42,6 @@ function FeedPostWorkout ({feedPost}) {
 	const [formNote, setFormNote] = useState(note);
 	const [formRating, setFormRating] = useState(rating);
 	const [formDate, setFormDate] = useState(date);
-	// const [timestamp, setTimeStamp] = useState(new Date(date).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true}))
 	const [timestamp, setTimeStamp] = useState(formatWorkoutDate())
 
 	// useEffect!
@@ -62,22 +60,12 @@ function FeedPostWorkout ({feedPost}) {
 	const handleUpdateWorkout = e => {
 		setEditable(false);
 		const updatedWorkout = { note:formNote, rating:formRating, date:formDate, goal, user }
-		dispatch(updateExerciseEntry(_id, updatedWorkout)) //NEED NEW THUNK!!!!!!!!
-			.then(res => {
-				// setTriggerRender(triggerRender + 1)
-			})
+		dispatch(updateExerciseEntry(_id, updatedWorkout))
 	}
 
 	const handleDeleteWorkout = e => {
-		// debugger
-		dispatch(deleteExerciseEntry(_id)) //NEED NEW THUNK!!!!!!!!
-			// .then(() => setTriggerRender(triggerRender + 1));
+		dispatch(deleteExerciseEntry(_id))
 	}
-
-	// useEffect(() => {
-	// 		setTriggerChildRender(triggerChildRender + 1);
-	// 		dispatch(fetchUserExerciseEntries(userId))
-	// }, [dispatch, triggerRender])
 
 	const handleToggleForm = e => {
 		setEditable(oldSetEditable => {
@@ -100,21 +88,8 @@ function FeedPostWorkout ({feedPost}) {
 		else if (isFollowing) { //unfollow
 			const followId = Object.values(follows).find(follow => follow.follower._id === sessionUser._id && follow.followedUser._id === userId)._id
 			dispatch(deleteFollow(followId))
-				.then(() => {
-					// setIsFollowing(false)
-					// isFollowing = false;
-					// setFollowText(followButtonText())
-					// setTriggerRender(triggerRender * Math.random());
-
-				})
 		} else { //follow
 			dispatch(createFollow(userId))
-				.then(() => {
-					// setIsFollowing(true)
-					// isFollowing = true;
-					// setFollowText(followButtonText())
-					// setTriggerRender(triggerRender * Math.random());
-				})
 		} 
 	}
 

@@ -132,6 +132,7 @@ function FeedPostWorkout ({feedPost}) {
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
+					<img className="feed-profile-picture" src={user?.imgUrl || "https://aws-fiton.s3.amazonaws.com/vinit-vispute-PO36L2wA8KI-unsplash.jpg"} />
 					<Link to={`/feed/${userId}`}><div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div></Link>
 					<div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{(userId === sessionUser._id) ? "" : isFollowing ? "unfollow" : "follow"}</div>
 					<div className="post-timestamp">{timestamp}</div>

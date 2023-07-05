@@ -59,11 +59,11 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        debugger
+        // debugger
 
         dispatch(createExerciseEntry( currentGoalId, { date, note, rating: Number(rating) }))
             .then((res) => {
-                debugger
+                // debugger
                 setShowExerciseEntry(false)
 
                 const exerciseEntryId = Object.keys(res)[0];

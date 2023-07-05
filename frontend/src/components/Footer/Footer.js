@@ -9,7 +9,7 @@ const Footer = () => {
 	
 	return (
 		<div className='site-footer-outer-container'>
-			<div className='footer-divider'></div>
+			{/* <div className='footer-divider'></div> */}
 			{/* <div className={`${landing ? `team-links-light` : `team-links-dark`} site-footer-container`}> */}
 			<div className={` site-footer-container`}>
 				<div className={`team-links rokas-links`}>

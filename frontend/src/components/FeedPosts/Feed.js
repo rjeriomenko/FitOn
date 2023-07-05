@@ -61,10 +61,7 @@ function Feed ({discoverMode, options = {}}) {
   const discoverWorkouts = Object.values(useSelector(getDiscoversExerciseEntries));
   
   const userId = useParams().userId
-  
   const filterOptions = {...options};
-	// const [triggerRender, setTriggerRender] = useState(1);
-  // const [testPropNum, setTestPropNum] = useState(1);
 
   // If discoverMode, pull random number to always rerender component if navigate to it from within component.
   // This is added to dependency array to trigger rerender if we click on "Discover"
@@ -97,12 +94,9 @@ function Feed ({discoverMode, options = {}}) {
       }
     }
 
-    // dispatch(fetchAllUserGoals()) - do not use this thunk it will not work. Use updated thunks
-
     // Cleanup:
     // return () => dispatch(clearFeedPostErrors());
-  }, [dispatch, discoverTriggerRerender, userId])
-  // }, [dispatch, testPropNum])
+  }, [dispatch, discoverTriggerRerender, userId, discoverMode])
 
   if(userId) {
     filterOptions.ownerIds ||= [userId];

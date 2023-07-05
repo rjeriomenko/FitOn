@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Follow = mongoose.model('Follow');
 const passport = require('passport');
+const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
 const { loginUser, restoreUser, requireUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
@@ -96,7 +97,8 @@ router.get('/current', restoreUser, (req, res) => {
     _id: req.user._id,
     username: req.user.username,
     email: req.user.email,
-    currentGoal: req.user.currentGoal
+    currentGoal: req.user.currentGoal,
+    imgUrl: req.user.imgUrl
   });
 });
 

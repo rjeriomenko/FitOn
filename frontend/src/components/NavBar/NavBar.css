@@ -19,21 +19,28 @@ body {
 }
 
 .nav-bar-container {
-	/* height: 190px; */
 	min-height: 0px;
 	position: fixed;
-	top:0px;
+	top: 0px;
 	z-index: 10;
 	width: 100%;
 	background-color: var(--white);
-	padding: 20px;
+	padding: 20px 0;
 	box-sizing: border-box;
+	border-bottom: 1px solid lightgray;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.nav-bar-main {
+	/* position: fixed; */
+	top: 0px;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	border-bottom: 1px solid lightgray;
-	/* border-bottom: 1px solid var(--medium-blue); */
 }
 
 .test-button {
@@ -74,8 +81,7 @@ body {
 .nav-bar-divider {
 	width: 60%;
 	border-bottom: 1px solid var(--dark-red);
-	margin: 5px 0px;
-
+	margin: 0 0 8px 0;
 }
 
 .under-construction {
@@ -115,4 +121,24 @@ body {
 .logged-in-divider {
 	width: 40%;
 	transition: width 0.3s ease 0.7s;	
+}
+
+.nav-bar-aside {
+	position: absolute;
+	right: 20px;
+}
+
+.nav-bar-aside a {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+
+.nav-bar-profile-name {
+	margin: 0 10px;
+}
+
+.nav-bar-profile-picture {
+	height: 50px;
+	width: 50px;
 }

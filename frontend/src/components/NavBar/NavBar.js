@@ -55,20 +55,37 @@ function NavBar () {
     }
   }
 
+  const renderMiniProfile = () => {
+    if (loggedIn) {
+      return (
+        <div className="nav-bar-aside">
+          <Link to={"/profile"}>
+            <div className="nav-bar-profile-name">{sessionUser.username}</div><img className="nav-bar-profile-picture" src={sessionUser.imgUrl || "https://aws-fiton.s3.amazonaws.com/vinit-vispute-PO36L2wA8KI-unsplash.jpg"} />
+          </Link>
+        </div>
+      )
+    }
+  }
+
   return (
     <>
       {/* <div className={`nav-bar-offset ${loggedIn ? "logged-in-navbar" : ""} `}/> */}
       <div className={`nav-bar-container ${loggedIn ? "logged-in-navbar" : ""}`}>
-        {/* <Link to={"/"}><img className="nav-bar-logo" src={require(`../../images/logo-v1-03.png`)}/></Link> */}
-        <Link to={"/"}><div className={`text-logo ${loggedIn ? "logged-in-logo" : ""}`}>g<i class="fa-solid fa-arrows-to-circle"></i>algetters</div></Link>
-        <div className={`nav-bar-divider ${loggedIn ? "logged-in-divider" : ""}`}></div>
-        <div className='links-menu'>
-          <ul className="links-auth nav-links">
-            { getLinks() }
-            { loggedIn && renderTestLinks() }
-          </ul>
+        <div className={`nav-bar-main ${loggedIn ? "logged-in-navbar" : ""}`}>
+          {/* <Link to={"/"}><img className="nav-bar-logo" src={require(`../../images/logo-v1-03.png`)}/></Link> */}
+          <Link to={"/"}><div className={`text-logo ${loggedIn ? "logged-in-logo" : ""}`}>g<i class="fa-solid fa-arrows-to-circle"></i>algetters</div></Link>
+          <div className={`nav-bar-divider ${loggedIn ? "logged-in-divider" : ""}`}></div>
+          <div className='links-menu'>
+            <ul className="links-auth nav-links">
+              { getLinks() }
+              { loggedIn && renderTestLinks() }
+            </ul>
+          </div>
         </div>
+
+        {renderMiniProfile()}
       </div>
+
     </>
   );
 }

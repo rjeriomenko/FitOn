@@ -127,7 +127,8 @@ function Profile () {
   
   return (
     <div className='profile-container'>
-
+      <h3>Update Profile Picture</h3>
+      
       {/* DATA VIZ - START */}
       {/* DATA VIZ - START */}
       <div className="progress-title">

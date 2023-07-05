@@ -8,23 +8,41 @@ function DataVis({timeGraph}) {
   const chartRef = useRef(null);
   const sessionUser = useSelector(state => state.session.user);
   const currentGoalId = sessionUser?.currentGoal?._id;
-
+  
   const fetchTimedExerciseEntry = async () => {
     const res = await axios.get(`./api/exercises/byGoal/${currentGoalId}`);
     const data = res.data;  
     const exerciseEntry = {};
-    Object.values(data).forEach(exercise => {
+
+    if (timeGraph) {
+      Object.values(data).forEach(exercise => {
       const { name, time, workout: { date } } = exercise;
           
-      if (!exerciseEntry[date]) {
-        exerciseEntry[date] = {};
-      }
+        if (!exerciseEntry[date]) {
+          exerciseEntry[date] = {};
+        }
 
-      exerciseEntry[date][name] = parseInt(time);
-    });
+        exerciseEntry[date][name] = parseInt(time);
+      });
+
+    } else {
+      Object.values(data).forEach(exercise => {
+        const { name, sets, reps, workout: { date } } = exercise;
+            
+        if (!exerciseEntry[date]) {
+          exerciseEntry[date] = {};
+        }
+        
+        exerciseEntry[date][name] = parseInt(sets * reps);
+      });
+      
+    }
 
     return exerciseEntry;
+
   };
+
+
 
   const generateRandomColor = () => {
     const r = Math.floor(Math.random() * 256);
@@ -33,6 +51,8 @@ function DataVis({timeGraph}) {
     return `rgb(${r}, ${g}, ${b})`;
   };
 
+  const yAxisLabel = () => timeGraph ? 'Minutes Spent' : 'Reps X Sets Count'
+  
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -54,7 +74,7 @@ function DataVis({timeGraph}) {
         },
         title: {
           display: true, 
-          text: 'Minutes Spent'
+          text: yAxisLabel()
         }
       },
     },
@@ -94,7 +114,7 @@ function DataVis({timeGraph}) {
       labels: dates,
       datasets: datasets
     };
-      
+
     // creating chart
     const chartElement = chartRef.current;
     const stackedBarChart = new Chart(chartElement, {
@@ -157,7 +177,7 @@ function DataVis({timeGraph}) {
 
   useEffect(() => {
     currentGoalId ? createBarGraph() : createEmpty();  
-  }, [])
+  }, [timeGraph])
   
   
   return (

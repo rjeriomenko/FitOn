@@ -31,6 +31,7 @@ function Profile () {
 
   const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
 
+  // michele touch
   const [timeGraph, setTimeGraph] = useState(true);
 
   // let mouseOverTextDataRows;
@@ -146,13 +147,16 @@ function Profile () {
 
       </div>
 
-      <button onClick={() => setTimeGraph(timeGraph ? false : true)}>
+      <button onClick={() => {
+        setTimeGraph(timeGraph ? false : true);
+        const canvas = document.querySelector("canvas")
+      }}>
         Toggle Graph
       </button>
 
       <div className="data-vis">
-        {timeGraph ? <DataVis /> : <DataVisReps />}
-        {/* <DataVis timeGraph={timeGraph}/> */}
+        {/* {timeGraph ? <DataVis /> : <DataVisReps />} */}
+        <DataVis timeGraph={timeGraph}/>
       </div>
 
       {/* DATA VIZ - END */}

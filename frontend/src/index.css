@@ -125,7 +125,7 @@ a, a:visited, a:hover, a:active {
 }
 
 a.active {
-	color: var(--orange);
+	/* color: var(--orange); */
 }
 
 .app-container {

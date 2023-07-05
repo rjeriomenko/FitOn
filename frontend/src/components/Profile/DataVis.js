@@ -2,13 +2,24 @@ import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
 import './DataVis.css'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchGoalExercises } from '../../store/exercises';
+
 
 function DataVis() {
   const chartRef = useRef(null);
   const sessionUser = useSelector(state => state.session.user);
+  const currentGoal = useSelector(state => state.session.user);
   const currentGoalId = sessionUser?.currentGoal?._id;
+  const dispatch = useDispatch();
+  const goalExercises = fetchGoalExercises(currentGoalId)
   
+  const colors = ['#F2490C', 'magenta', '#400112', 'pink', 'yellow', 'grey'];
+
+  const genColor = () => {
+    return colors[Math.floor(Math.random() * 6)];
+  }
+
   const fetchTimedExerciseEntry = async () => {
     const res = await axios.get(`./api/exercises/byGoal/${currentGoalId}`);
     const data = res.data;  
@@ -158,7 +169,8 @@ function DataVis() {
 
   useEffect(() => {
     currentGoalId ? createBarGraph() : createEmpty();  
-  }, [])
+    // dispatch(fetchGoalExercises(currentGoalId));
+  }, [currentGoal])
   
   
   return (

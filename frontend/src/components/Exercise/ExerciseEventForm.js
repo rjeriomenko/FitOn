@@ -112,6 +112,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                         value={note}
                         onChange={e => setNote(e.currentTarget.value)}
                         placeholder="How was your workout?"
+                        required
                     />
                     <div className="errors">{errors?.note}</div>
 
@@ -127,6 +128,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                             placeholder="Push-ups, jogging..."
                             value={input.name}
                             onChange={(e) => handleInputChange(e, index)}
+                            required
                         />
                         <div className="errors">{errors?.name}</div>
 
@@ -171,6 +173,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                             name="time"
                             value={input.time}
                             onChange={(e) => handleInputChange(e, index)}
+                            required
                         />
                         <div className="errors">{errors?.time}</div>
 

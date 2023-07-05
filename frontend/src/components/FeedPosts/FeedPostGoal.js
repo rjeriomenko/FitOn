@@ -8,12 +8,12 @@ import { Link } from "react-router-dom";
 import { fetchUserExerciseEntries,getUserExerciseEntries } from "../../store/exerciseEntries";
 import { createFollow, deleteFollow, getFollows } from "../../store/follows";
 
-function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
+function FeedPostGoal ({feedPost}) {
   // props
 	const { title, description, deadline, completionDate, updatedAt } = feedPost;
 	const goalId = feedPost._id
-	const setter = feedPost.user?.username;
-	const setterId = feedPost.user?._id;
+	const username = feedPost.user?.username;
+	const userId = feedPost.user?._id;
 
 	const exerciseEntries = Object.values(useSelector(getUserExerciseEntries)).filter(entry => entry.goal?._id === goalId)
 	const formatDate = (dateText) => {
@@ -27,10 +27,11 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 	const sessionUser = useSelector(state => state.session.user);
 	const follows = useSelector(getFollows);
 	const followedIds = Object.values(follows).map(followObj => followObj?.followedUser?._id);
-	let isFollowing = followedIds.includes(setterId)
+	let isFollowing = followedIds.includes(userId)
 	
 	// component logic states
 	const [editable, setEditable] = useState(false);
+	const [showMenu, setShowMenu] = useState(false);
 
 	// Custom display text
 	const latestExerciseText = () => {
@@ -42,10 +43,20 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 	}
 
 	// controlled inputs
-	const [username, setUsername] = useState(setter)
 	const [timestamp, setTimeStamp] = useState(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true}))
 	const [formTitle, setFormTitle] = useState(title);
 	const [formDescription, setFormDescription] = useState(description);
+
+	// useEffect!
+	useEffect(() => {
+		if (!showMenu) return;
+		const closeMenu = () => {
+			setShowMenu(false);
+		};
+
+		document.addEventListener('click', closeMenu);
+		return () => document.removeEventListener("click", closeMenu);
+	}, [showMenu])
 
 	// EVENT HANDLERS
 	// Text-area height expands/contracts with input size
@@ -65,6 +76,11 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 		})
 	}
 
+	const openMenu = () => {
+		if (showMenu) return;
+		setShowMenu(true);
+	};
+
 	const handleUpdateGoal = e => {
 		setEditable(false);
 		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, deadline, completionDate, exerciseEntries, updatedAt }
@@ -76,37 +92,54 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 	}
 
 	const handleToggleFollow = e => {
-		if (setterId === sessionUser._id) {} //do nothing, don't follow self
+		if (userId === sessionUser._id) {} //do nothing, don't follow self
 		else if (isFollowing) { //unfollow
-			const followId = Object.values(follows).find(follow => follow.follower._id === sessionUser._id && follow.followedUser._id === setterId)._id
+			const followId = Object.values(follows).find(follow => follow.follower._id === sessionUser._id && follow.followedUser._id === userId)._id
 			dispatch(deleteFollow(followId))
-				.then(() => {
-					// setIsFollowing(false)
-					// isFollowing = false;
-					// setFollowText(followButtonText())
-					// setTriggerRender(triggerRender * Math.random());
-
-				})
 		} else { //follow
-			dispatch(createFollow(setterId))
-				.then(() => {
-					// setIsFollowing(true)
-					// isFollowing = true;
-					// setFollowText(followButtonText())
-					// setTriggerRender(triggerRender * Math.random());
-				})
+			dispatch(createFollow(userId))
 		} 
 	}
 
+	const animateOnce = (e) => {
+		const post = e.currentTarget.querySelector(".post-divider");
+		post.classList.add("postHoverAnimation");
+		setTimeout(() => {
+			post.classList.remove("postHoverAnimation");
+		}, 500)
+	}
+
   return (
-		<div className="feed-post-editable-container">
+		<div className="feed-post-editable-container" onMouseEnter={animateOnce}>
 			{/* CONTENT - START */}
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
-					<Link to={`/feed/${setterId}`}><div className="post-username">{username}</div></Link>
-					<div onClick={handleToggleFollow} className="post-follow">{(setterId === sessionUser._id) ? "" : isFollowing ? "unfollow" : "follow"}</div>
+					<Link to={`/feed/${userId}`}><div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div></Link>
+					<div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{(userId === sessionUser._id) ? "" : isFollowing ? "unfollow" : "follow"}</div>
 					<div className="post-timestamp">{timestamp}</div>
+					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
+						<i class="fa-solid fa-ellipsis"></i>
+						{showMenu && 
+							<>
+								{/* RECYCLED FROM GOALINDEX - START */}
+								{/* RECYCLED FROM GOALINDEX - START */}
+								{/* RECYCLED FROM GOALINDEX - START */}
+								<ul className="post-dropdown">
+									<li onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
+										<i class="far fa-edit"></i>
+									</li>
+									<div id="goal-dropdown-line"></div>
+									<li onClick={handleDeleteGoal}>
+										<i class="fa-solid fa-trash-can"></i>
+									</li>
+								</ul>
+								{/* RECYCLED FROM GOALINDEX - END */}
+								{/* RECYCLED FROM GOALINDEX - END */}
+								{/* RECYCLED FROM GOALINDEX - END */}
+							</>
+						}
+					</div>}
 				</div>
 				<br/>
 				<Link to={`/profile`}>{!editable && <div className="feed-post-row">
@@ -130,7 +163,8 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 							onChange={handleDescriptionChange}
 						/>
 					</label>
-					<div className="feed-post-crud-button" onClick={handleUpdateGoal}>Update</div>
+					<div className="feed-post-update-button" onClick={handleUpdateGoal}>Update</div>
+					<div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>
 				</>}
 				<div className="post-divider"></div>
 				<div className="latest-exercise-text">
@@ -142,10 +176,10 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 
 			{/* CRUD BUTTONS - START */}
 			{/* CRUD BUTTONS - START */}
-			<div className="feed-post-crud-controls">
-				{(sessionUser._id === setterId) &&
+			{/* <div className="feed-post-crud-controls">
+				{(sessionUser._id === userId) &&
 					<>
-						<div className="feed-post-crud-button" onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
+						<div className="feed-post-crud-button" onClick={handleToggleForm}>
 							<i className="far fa-edit"></i>
 						</div>
 						<div className="feed-post-crud-button" onClick={handleDeleteGoal}>
@@ -153,7 +187,7 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 						</div>
 					</>
 				}
-			</div>
+			</div> */}
 			{/* CRUD BUTTONS - END */}
 			{/* CRUD BUTTONS - END */}
 		</div>

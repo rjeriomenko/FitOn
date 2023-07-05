@@ -5,15 +5,15 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
 import { Link } from "react-router-dom";
-import { fetchUserExerciseEntries,getUserExerciseEntries } from "../../store/exerciseEntries";
+import { deleteExerciseEntry, fetchUserExerciseEntries,getUserExerciseEntries, updateExerciseEntry } from "../../store/exerciseEntries";
 import { createFollow, deleteFollow, getFollows } from "../../store/follows";
 
-function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
+function FeedPostWorkout ({feedPost}) {
   // props
-	const { date, goal, note, rating, updatedAt, user } = feedPost;
+	const { date, goal, note, rating, updatedAt, user, _id } = feedPost;
 	const goalId = goal?._id
-	const setter = feedPost.user?.username;
-	const setterId = feedPost.user?._id;
+	const username = feedPost.user?.username;
+	const userId = feedPost.user?._id;
 	const formatDate = (dateText) => {
 		return new Date(dateText).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})
 	}
@@ -25,10 +25,11 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 	const sessionUser = useSelector(state => state.session.user);
 	const follows = useSelector(getFollows);
 	const followedIds = Object.values(follows).map(followObj => followObj?.followedUser?._id);
-	let isFollowing = followedIds.includes(setterId)
+	let isFollowing = followedIds.includes(userId)
 
 	// component logic states
 	const [editable, setEditable] = useState(false);
+	const [showMenu, setShowMenu] = useState(false);
 
 	// helpers to initialize controlled inputs
 	// timestamp for workouts default to last updated date if user specified "date" is not valid
@@ -45,26 +46,37 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 	// const [timestamp, setTimeStamp] = useState(new Date(date).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true}))
 	const [timestamp, setTimeStamp] = useState(formatWorkoutDate())
 
+	// useEffect!
+	useEffect(() => {
+		if (!showMenu) return;
+		const closeMenu = () => {
+			setShowMenu(false);
+		};
+
+		document.addEventListener('click', closeMenu);
+		return () => document.removeEventListener("click", closeMenu);
+	}, [showMenu])
 
 	// internal state to trigger rerender - does not display or get used elsewhere
 
-	// const handleUpdateWorkout = e => {
-	// 	setEditable(false);
-	// 	const updatedWorkout = { note:formNote, rating:formRating, date:formDate, goal, user }
-	// 	dispatch(updateGoal(updatedGoal)) //NEED NEW THUNK!!!!!!!!
-	// 		.then(res => {
-	// 			setTriggerRender(triggerRender + 1)
-	// 		})
-	// }
+	const handleUpdateWorkout = e => {
+		setEditable(false);
+		const updatedWorkout = { note:formNote, rating:formRating, date:formDate, goal, user }
+		dispatch(updateExerciseEntry(_id, updatedWorkout)) //NEED NEW THUNK!!!!!!!!
+			.then(res => {
+				// setTriggerRender(triggerRender + 1)
+			})
+	}
 
-	// const handleDeleteWorkout = e => {
-	// 	dispatch(deleteGoal(goalId)) //NEED NEW THUNK!!!!!!!!
-	// 		.then(() => setTriggerRender(triggerRender + 1));
-	// }
+	const handleDeleteWorkout = e => {
+		// debugger
+		dispatch(deleteExerciseEntry(_id)) //NEED NEW THUNK!!!!!!!!
+			// .then(() => setTriggerRender(triggerRender + 1));
+	}
 
 	// useEffect(() => {
 	// 		setTriggerChildRender(triggerChildRender + 1);
-	// 		dispatch(fetchUserExerciseEntries(setterId))
+	// 		dispatch(fetchUserExerciseEntries(userId))
 	// }, [dispatch, triggerRender])
 
 	const handleToggleForm = e => {
@@ -78,38 +90,73 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 		})
 	}
 
+	const openMenu = () => {
+		if (showMenu) return;
+		setShowMenu(true);
+	};
+
 	const handleToggleFollow = e => {
-		if (setterId === sessionUser._id) {} //do nothing, don't follow self
+		if (userId === sessionUser._id) {} //do nothing, don't follow self
 		else if (isFollowing) { //unfollow
-			const followId = Object.values(follows).find(follow => follow.follower._id === sessionUser._id && follow.followedUser._id === setterId)._id
+			const followId = Object.values(follows).find(follow => follow.follower._id === sessionUser._id && follow.followedUser._id === userId)._id
 			dispatch(deleteFollow(followId))
 				.then(() => {
 					// setIsFollowing(false)
 					// isFollowing = false;
 					// setFollowText(followButtonText())
-					setTriggerRender(triggerRender * Math.random());
+					// setTriggerRender(triggerRender * Math.random());
 
 				})
 		} else { //follow
-			dispatch(createFollow(setterId))
+			dispatch(createFollow(userId))
 				.then(() => {
 					// setIsFollowing(true)
 					// isFollowing = true;
 					// setFollowText(followButtonText())
-					setTriggerRender(triggerRender * Math.random());
+					// setTriggerRender(triggerRender * Math.random());
 				})
 		} 
 	}
 
+	const animateOnce = (e) => {
+		const post = e.currentTarget.querySelector(".post-divider");
+		post.classList.add("postHoverAnimation");
+		setTimeout(() => {
+			post.classList.remove("postHoverAnimation");
+		}, 500)
+	}
+
   return (
-		<div className="feed-post-editable-container">
+		<div className="feed-post-editable-container" onMouseEnter={animateOnce}>
 			{/* CONTENT - START */}
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
-					<Link to={`/feed/${setterId}`}><div className="post-username">{setter}</div></Link>
-					<div onClick={handleToggleFollow} className="post-follow">{(setterId === sessionUser._id) ? "" : isFollowing ? "unfollow" : "follow"}</div>
+					<Link to={`/feed/${userId}`}><div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div></Link>
+					<div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{(userId === sessionUser._id) ? "" : isFollowing ? "unfollow" : "follow"}</div>
 					<div className="post-timestamp">{timestamp}</div>
+					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
+						<i class="fa-solid fa-ellipsis"></i>
+						{showMenu && 
+							<>
+								{/* RECYCLED FROM GOALINDEX - START */}
+								{/* RECYCLED FROM GOALINDEX - START */}
+								{/* RECYCLED FROM GOALINDEX - START */}
+								<ul className="post-dropdown">
+									<li onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
+										<i class="far fa-edit"></i>
+									</li>
+									<div id="goal-dropdown-line"></div>
+									<li onClick={handleDeleteWorkout}>
+										<i class="fa-solid fa-trash-can"></i>
+									</li>
+								</ul>
+								{/* RECYCLED FROM GOALINDEX - END */}
+								{/* RECYCLED FROM GOALINDEX - END */}
+								{/* RECYCLED FROM GOALINDEX - END */}
+							</>
+						}
+					</div>}
 				</div>
 				<br/>
 				<Link to={`/profile`}>{!editable && <div className="feed-post-row">
@@ -126,7 +173,7 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 						/>
 					</label>
 					{/* <div className="feed-post-crud-button" onClick={handleUpdateWorkout}>Update</div> */}
-					<div className="feed-post-crud-button">Update</div>
+					<div className="feed-post-update-button" onClick={handleUpdateWorkout}>Update</div>
 				</>}
 				<div className="post-divider"></div>
 			</div>
@@ -135,19 +182,18 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 
 			{/* CRUD BUTTONS - START */}
 			{/* CRUD BUTTONS - START */}
-			<div className="feed-post-crud-controls">
-				{(sessionUser._id === setterId) &&
+			{/* <div className="feed-post-crud-controls">
+				{(sessionUser._id === userId) &&
 					<>
-						<div className="feed-post-crud-button" onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
+						<div className="feed-post-crud-button" onClick={handleToggleForm}>
 							<i className="far fa-edit"></i>
 						</div>
-						{/* <div className="feed-post-crud-button" onClick={handleDeleteWorkout}> */}
-						<div className="feed-post-crud-button">
+						<div className="feed-post-crud-button" onClick={handleDeleteWorkout}>
 							<i className="fa-solid fa-trash-can"></i>
 						</div>
 					</>
 				}
-			</div>
+			</div> */}
 			{/* CRUD BUTTONS - END */}
 			{/* CRUD BUTTONS - END */}
 		</div>

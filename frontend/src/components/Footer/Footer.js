@@ -9,7 +9,7 @@ const Footer = () => {
 	
 	return (
 		<div className='site-footer-outer-container'>
-			<div className='footer-divider'></div>
+			{/* <div className='footer-divider'></div> */}
 			{/* <div className={`${landing ? `team-links-light` : `team-links-dark`} site-footer-container`}> */}
 			<div className={` site-footer-container`}>
 				<div className={`team-links rokas-links`}>
@@ -33,8 +33,7 @@ const Footer = () => {
 					<a href={`https://www.linkedin.com/in/carvey-hor/`}><span><i className="fa-brands fa-linkedin"></i></span></a>
 				</div>
 			</div>
-			{/* <br/> */}
-			{/* <div>Copyright &copy; 2023 FitOn</div> */}
+			<div className='copyright'>Copyright &copy; 2023 FitOn</div>
 		</div>
 	)
 }

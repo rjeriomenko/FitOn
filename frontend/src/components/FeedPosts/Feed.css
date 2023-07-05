@@ -1,7 +1,9 @@
 .feed-header {
+	padding-top: 30px;
 	margin: 20px 0px;
 	font-family: var(--montserrat);
 	font-weight: 500;
+	white-space:nowrap;
 }
 
 .feed-posts-container {
@@ -27,6 +29,8 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: flex-start;
+	/* opacity: 0; */
+	/* animation: mainFadeAnimation 01s ease 0.2s 1 normal forwards; */
 }
 
 .inner-feed-posts-container > h2 {
@@ -44,23 +48,6 @@
 #toggle2 {
 	display: none;
 }
-
-/* .feed-posts-container {
-	opacity: 1;
-	scale: 1;
-}
-
-#toggle2:checked ~ .feed-posts-container {
-	opacity: 0;
-	transition: opacity 1s, transform 1s;
-	transform: scale(0.95);
-}
-
-#toggle1:checked ~ .feed-posts-container {
-	opacity: 1;
-	transition: opacity 1s, transform 1s;
-	transform: scale(1);
-} */
 
 .feed-header-letter {
 	font-size: 3rem;

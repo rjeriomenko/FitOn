@@ -13,10 +13,14 @@
 
 .follow-nav-bar-container li {
 	margin-bottom: 5px;
+	transition: 0.5s;
+	padding: 1px;
+	border-radius: 0.5px;
 }
 
 .follow-nav-bar-container li:hover {
 	cursor: pointer;
-	color: var(--orange);
+	/* color: var(--orange); */
+	background-color: var(--light-blue);
 	/* font-weight: 900; */
 }

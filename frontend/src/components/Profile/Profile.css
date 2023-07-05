@@ -6,10 +6,12 @@
 	display: flex;
 	flex-direction: column;
 	/* background-color: orange; */
+	/* background-color: lightgray; */
 }
 
 .profile-container * {
 	box-sizing: border-box;
+	
 }
 
 .profile-container-styles {

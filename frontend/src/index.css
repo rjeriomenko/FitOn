@@ -63,27 +63,33 @@ body {
 	--black: black;
 
 	/* COLORSPACE: RATING GRADIENT */
-
+/* 
 	--rating-5: rgba(255, 255, 0, 1);
 	--rating-4: rgba(255, 237, 88, 1);
 	--rating-3: rgba(255, 223, 132, 1);
 	--rating-2: rgba(239, 212, 169, 1);
-	--rating-1: rgba(206, 205, 204, 1);
+	--rating-1: rgba(206, 205, 204, 1); */
+
+	/* --rating-base-5: rgb(5, 194, 1);
+	--rating-base-4: rgb(91, 219, 89);
+	--rating-base-3: rgb(84, 137, 67);
+	--rating-base-2: rgb(60, 81, 53);
+	--rating-base-1: rgb(68, 68, 68); */
 
 
-	--rating-transparency: 0.95;
-	--rating-5: rgba(255, 255, 0, var(--rating-transparency));
-	--rating-4: rgba(255, 237, 88, var(--rating-transparency));
-	--rating-3: rgba(255, 223, 132, var(--rating-transparency));
-	--rating-2: rgba(239, 212, 169, var(--rating-transparency));
-	--rating-1: rgba(206, 205, 204, var(--rating-transparency));
+	/* --rating-transparency: 0.75;
+	--rating-5: rgba(5, 194, 1, var(--rating-transparency));
+	--rating-4: rgba(91, 219, 89, var(--rating-transparency));
+	--rating-3: rgba(84, 137, 67, var(--rating-transparency));
+	--rating-2: rgba(60, 81, 53, var(--rating-transparency));
+	--rating-1: rgba(68, 68, 68, var(--rating-transparency)); */
 
-
-	/* --rating-5: rgba(251, 5, 11, var(--rating-transparency));
-	--rating-4: rgba(207, 52, 32, var(--rating-transparency));
-	--rating-3: rgba(163, 65, 46, var(--rating-transparency));
-	--rating-2: rgba(119, 70, 58, var(--rating-transparency));
-	--rating-1: rgba(69, 69, 69, var(--rating-transparency)); */
+	--rating-transparency: 0.75;
+	--rating-1: rgba(250, 244, 244, 0.9);
+	--rating-2: rgba(191, 202, 204, 0.9);
+	--rating-3: rgba(109, 177, 193, 0.9);
+	--rating-4: rgba(0,57,76, 0.9);
+	--rating-5: rgba(1,18,46, 0.9);
 
 	/* FONTSPACE */
 	--serif: Georgia, serif;
@@ -97,9 +103,8 @@ body {
 	--soft-white-divider: 1px solid var(--soft-white);
 
 	line-height: 1;
-	background-color: var(--light-blue);
-	/* background-color: var(--form-background-color); */
-	/* height: 100%; */
+	background-color: rgb(243, 242, 239);
+	background-color: rgb(239, 242, 243);
 
 }
 
@@ -124,15 +129,10 @@ a.active {
 }
 
 .app-container {
-	/* min-height: 100vh; */
-	/* display: flex; */
-	/* flex-direction: column; */
 	position: relative;
-	min-height: 100vh;
 }
 
 body * {
-	/* margin: 10px; */
 	font-family: var(--form-font-family);
 	text-decoration: none;
 	font-size: 16px;

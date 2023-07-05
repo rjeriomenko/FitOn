@@ -3,13 +3,16 @@ import Chart from 'chart.js/auto';
 import axios from 'axios';
 import './DataVis.css'
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 function DataVis({timeGraph}) {
   const chartRef = useRef(null);
   const sessionUser = useSelector(state => state.session.user);
   const currentGoalId = sessionUser?.currentGoal?._id;
-  
-  const fetchTimedExerciseEntry = async () => {
+  const [chart, setChart] = useState(null);
+  const chartInstanceRef = useRef(null);
+
+  const fetchExerciseEntry = async () => {
     const res = await axios.get(`./api/exercises/byGoal/${currentGoalId}`);
     const data = res.data;  
     const exerciseEntry = {};
@@ -41,8 +44,6 @@ function DataVis({timeGraph}) {
     return exerciseEntry;
 
   };
-
-
 
   const generateRandomColor = () => {
     const r = Math.floor(Math.random() * 256);
@@ -89,9 +90,9 @@ function DataVis({timeGraph}) {
       },
     },
   }
-
+  
   const createBarGraph = async () => {
-    const data = await fetchTimedExerciseEntry();
+    const data = await fetchExerciseEntry();
     const dates = Object.keys(data);
     dates.sort((a,b) => new Date(a) - new Date(b))
 
@@ -110,21 +111,27 @@ function DataVis({timeGraph}) {
       return dataset;
     });
     
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
+
     const chartData = {
       labels: dates,
       datasets: datasets
     };
-
+    
     // creating chart
     const chartElement = chartRef.current;
-    const stackedBarChart = new Chart(chartElement, {
+    const newChart = new Chart(chartElement, {
       type: 'bar',
       data: chartData,
       options: chartOptions
     });
 
+    chartInstanceRef.current = newChart;
+    
     return () => {
-      stackedBarChart.destroy();
+      newChart.destroy();
     }; 
   }
   
@@ -143,20 +150,24 @@ function DataVis({timeGraph}) {
     const datasets = [
       {
         label: 'Exercise 1',
-        data: 0, 
+        data: [0], 
         backgroundColor: generateRandomColor()
       },
       {
         label: 'Exercise 2',
-        data: 0, 
+        data: [0], 
         backgroundColor: generateRandomColor()
       },
       {
         label: 'Exercise 3',
-        data: 0, 
+        data: [0], 
         backgroundColor: generateRandomColor()
       }
     ];
+
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
 
     const chartData = {
       labels: createDates(),
@@ -164,20 +175,23 @@ function DataVis({timeGraph}) {
     }
 
     const chartElement = chartRef.current;
-    const stackedBarChart = new Chart(chartElement, {
+    const newChart = new Chart(chartElement, {
       type: 'bar',
       data: chartData,
       options: chartOptions,
     });
 
+    chartInstanceRef.current = newChart;
+
     return () => {
-      stackedBarChart.destroy();
-    };
+      newChart.destroy();
+    };  
+
   }
 
   useEffect(() => {
-    currentGoalId ? createBarGraph() : createEmpty();  
-  }, [timeGraph])
+    currentGoalId ? createBarGraph() : createEmpty(); 
+  }, [currentGoalId, timeGraph])
   
   
   return (

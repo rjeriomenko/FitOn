@@ -16,6 +16,7 @@ import './Profile.css';
 
 import DataVis from './DataVis';
 import DataVisReps from './DataVisReps';
+import Chart from 'chart.js/auto';
 
 function Profile () {
   const dispatch = useDispatch();
@@ -149,7 +150,6 @@ function Profile () {
 
       <button onClick={() => {
         setTimeGraph(timeGraph ? false : true);
-        const canvas = document.querySelector("canvas")
       }}>
         Toggle Graph
       </button>

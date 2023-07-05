@@ -33,8 +33,7 @@ const Footer = () => {
 					<a href={`https://www.linkedin.com/in/carvey-hor/`}><span><i className="fa-brands fa-linkedin"></i></span></a>
 				</div>
 			</div>
-			{/* <br/> */}
-			{/* <div>Copyright &copy; 2023 FitOn</div> */}
+			<div>Copyright &copy; 2023 FitOn</div>
 		</div>
 	)
 }

@@ -102,9 +102,14 @@ body {
 	
 }
 
-.logged-in-logo {
+.logged-in-navbar .logged-in-logo {
 	font-size: 3rem;
-	transition: font-size 0.7s ease 0.2s;
+	transition: font-size 0.7s ease 0.2s;	
+}
+
+.logged-in-logo {
+	/* font-size: 3rem; */
+	/* transition: font-size 0.7s ease 0.2s; */
 }
 
 .logged-in-divider {

@@ -7,11 +7,14 @@
 	box-sizing: border-box;
 	/* margin-top: auto; */
 	
-	position: absolute;
+	/* position: absolute; */
 	bottom: 0;
 
 	/* padding: 20px; */
 	height: 80px;
+	background-color: var(--white);
+	color: var(--black);
+	/* padding: 10px 0px; */
 }
 
 .footer-offset {
@@ -20,7 +23,7 @@
 
 .footer-divider {
 	width: 95%;
-	border-top: 0.5px solid var(--soft-white);
+	border-top: 0.5px solid var(--black);
 	margin: 20px 0px;
 }
 
@@ -40,7 +43,7 @@
 
 .team-links {
 	display: inline-flex;
-	gap: 15px;
+	gap: 10px;
 }
 
 .team-links-light * {

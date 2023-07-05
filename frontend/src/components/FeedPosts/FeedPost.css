@@ -21,19 +21,20 @@ p, h3 {
 	border-right: none;
 	border-bottom: none;
 	border: none;
-	box-shadow: 0px 0px 3px var(--medium-blue-darker);
 	transition: background-color 0.5s;
+	background-color: var(--white);
+}
+
+/* .feed-post-editable-container:not(:first-child) { */
+.feed-post-editable-container {
+	/* box-shadow: 5px 10px 10px 5px rgb(217, 216, 212); */
+	box-shadow: 5px 10px 10px 1px #c8d6dd;
 }
 
 .feed-post-editable-container:nth-child(1) {
 	margin-top: 0px;
 }
 
-.feed-post-editable-container:hover {
-	background-color: var(--light-blue-darker);
-	background-color: var(--soft-white);
-	/* color: black; */
-}
 
 .feed-post-editable-container > * {
 	margin: 10px;
@@ -94,7 +95,7 @@ p, h3 {
 }
 
 .following {
-	color: var(--orange);
+	color: var(--dark-blue);
 }
 
 .not-following {
@@ -103,7 +104,7 @@ p, h3 {
 
 .following:hover {
 	cursor: pointer;
-	background: var(--orange);
+	background: var(--dark-blue);
 	border-radius: 2px;
 	/* padding:5px; */
 	color: white;
@@ -157,6 +158,9 @@ p, h3 {
 }
 
 .feed-post-crud-button {
+	box-sizing: border-box;
+	width: 35px;
+	height: 35px;
 	background-color: var(--form-button-color);
 	color: var(--form-text-input-color);
 	padding: 10px;
@@ -197,4 +201,27 @@ p, h3 {
 .post-workout-rating {
 	background-color: pink;
 	font-size: 40px;
+}
+
+@keyframes postDividerAnimation {
+	0% {
+		width: 0%;
+		border-bottom: 0.5px solid var(--black);
+	}
+	100%{
+		width: 100%;
+		border-bottom: 0.5px solid var(--orange);
+	}
+}
+
+.feed-post-editable-container:hover .post-divider {
+	/* background-color: var(--light-blue); */
+	/* border-bottom: 0.5px solid var(--orange); */
+	/* width: 10%; */
+	/* transition: all 0.7s; */
+
+	/* background-color: var(--soft-white); */
+	/* color: black; */
+
+	animation: postDividerAnimation 0.5s ease 0s 1 normal forwards;
 }

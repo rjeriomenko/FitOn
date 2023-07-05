@@ -8,13 +8,15 @@
 	/* margin-top: auto; */
 	
 	/* position: absolute; */
-	bottom: 0;
+	/* bottom: 0; */
 
 	/* padding: 20px; */
-	height: 80px;
+	/* height: 80px; */
+	/* height: 100%; */
 	background-color: var(--white);
 	color: var(--black);
 	/* padding: 10px 0px; */
+	/* z-index: 2; */
 }
 
 .footer-offset {
@@ -56,5 +58,12 @@
 
 .team-links *:hover {
 	cursor: pointer;
+}
+
+.copyright {
+	padding-top: 10px;
+	padding-bottom: 30px;
+	font-family: var(--sans-serif);
+	font-size: 0.8em;
 }
 

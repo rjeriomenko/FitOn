@@ -125,7 +125,9 @@ body {
 
 	line-height: 1;
 	background-color: var(--light-blue);
-	background-color: rgb(197, 197, 197);
+	/* background-color: rgb(220, 226, 238); */
+	/* background-color: rgba(109, 177, 193, 0.9); */
+	background-color: rgb(243, 242, 239);
 
 }
 

@@ -1,6 +1,6 @@
 body {
 	--form-background-color: var(--medium-blue);
-	--form-button-color: var(--dark-red);
+	--form-button-color: var(--dark-blue);
 	--form-errors-color: var(--yellow);
 	--form-text-input-color: var(--white);
 	--form-header-color: var(--dark-blue);
@@ -8,7 +8,7 @@ body {
 }
 
 .session-form-container {
-	height: 80vh;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;

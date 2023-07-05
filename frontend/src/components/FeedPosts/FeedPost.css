@@ -4,9 +4,6 @@ p, h3 {
 
 
 .feed-post-editable-container {
-	/* border: 1px solid var(--medium-blue-darker); */
-	/* border-top-left-radius: 10px; */
-	/* border-bottom-left-radius: 10px; */
 	border-radius: 10px;
 	margin-bottom: 5px;
 	min-height: 57px;
@@ -27,9 +24,7 @@ p, h3 {
 	background-color: var(--white);
 }
 
-/* .feed-post-editable-container:not(:first-child) { */
 .feed-post-editable-container {
-	/* box-shadow: 5px 10px 10px 5px rgb(217, 216, 212); */
 	box-shadow: 5px 10px 10px 1px #c8d6dd;
 }
 
@@ -50,27 +45,24 @@ p, h3 {
 .feed-post-content {
 	display: flex;
 	flex-direction: column;
-	width: 400px;
-	/* max-width: 400px; */
+	width: 500px;
 	word-wrap: break-word;
 	box-sizing: border-box;
 }
 
-.feed-post-content * {
+.feed-post-content *:not(.fa-ellipsis, .fa-edit, .fa-trash-can) {
 	font-family: var(--sans-serif);
 }
 
 .feed-post-row {
 	display: inline;
 	line-height: 1.2;
-	/* flex-direction: row; */
-	/* flex-wrap: wrap; */
-	/* column-gap: 1em; */
 }
 
 .feed-post-header {
 	display: flex;
 	column-gap: 5px;
+	position: relative;
 }
 
 .feed-post-header * {
@@ -79,17 +71,17 @@ p, h3 {
 }
 
 .feed-post-row span {
-	margin-right: 5px;;
-}
-
-.feed-post-row > * {
-	/* margin: 0px 1em; */
+	margin-right: 5px;
 }
 
 .post-username {
 	/* align-self: center; */
 	color: var(--medium-blue-darker);
 	font-weight: 800;
+}
+
+.display-session-username {
+	color: magenta;
 }
 
 .post-follow {
@@ -101,7 +93,8 @@ p, h3 {
 }
 
 .not-following {
-	color: green;
+	/* color:deeppink; */
+	color:var(--orange);
 }
 
 .following:hover {
@@ -115,7 +108,8 @@ p, h3 {
 
 .not-following:hover {
 	cursor: pointer;
-	background: green;
+	/* background:deeppink; */
+	background:var(--orange);
 	border-radius: 2px;
 	/* padding:5px; */
 	color: white;
@@ -153,9 +147,7 @@ p, h3 {
 	width: 50px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
 	justify-content: flex-start;
-	align-items: center;
 	align-items: flex-end;
 	margin-right: 0px;
 }
@@ -207,6 +199,7 @@ p, h3 {
 	border-bottom-left-radius: 8px;
 	border-radius: 8px;
 	margin-right: 0px;
+	cursor: pointer;
 }
 
 .post-divider {
@@ -252,4 +245,52 @@ p, h3 {
 
 .postHoverAnimation {
 	animation: postDividerAnimation 0.5s ease-in-out 0s 1 normal forwards;
+}
+
+.post-ellipsis {
+	position: absolute;
+	right: 0px;
+	padding: 2px;
+}
+
+.post-ellipsis:hover {
+	cursor: pointer;
+	border-radius: 50%;
+	background-color: rgb(243, 242, 239);
+}
+
+.post-dropdown {
+	position: absolute;
+	z-index: 1;
+	background-color: var(--white);
+	border: 1px solid var(--light-blue);
+	top: 0px;
+	right: 0px;
+	opacity: 95%;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.2);
+	min-width: 35px;
+	border-radius: 5px;
+}
+
+#goal-dropdown-line {
+	border-bottom: 1px solid var(--black);
+	width: 50%;
+	margin: 0 auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+} 
+
+.post-dropdown li {
+	display: flex;
+	justify-content: center;
+	padding: 4px;
+	font-family: var(--sans-serif);
+	font-size: 15px;
+	margin: 3px 0;
+	/* color: var(--orange); */
+}
+
+.post-dropdown li:hover {
+	cursor: pointer;
+	color: var(--orange);
 }

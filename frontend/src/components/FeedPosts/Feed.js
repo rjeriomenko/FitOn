@@ -101,7 +101,7 @@ function Feed ({discoverMode, options = {}}) {
 
     // Cleanup:
     // return () => dispatch(clearFeedPostErrors());
-  }, [dispatch, discoverTriggerRerender])
+  }, [dispatch, discoverTriggerRerender, userId])
   // }, [dispatch, testPropNum])
 
   if(userId) {

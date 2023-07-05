@@ -108,7 +108,7 @@ function FeedPostWorkout ({feedPost}) {
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
 					<Link to={`/feed/${userId}`}><div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div></Link>
-					<div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{(userId === sessionUser._id) ? "" : isFollowing ? "unfollow" : "follow"}</div>
+					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "unfollow" : "follow"}</div>}
 					<div className="post-timestamp">{timestamp}</div>
 					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
 						<i class="fa-solid fa-ellipsis"></i>

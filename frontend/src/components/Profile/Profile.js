@@ -21,6 +21,9 @@ function Profile () {
   const sessionUser = useSelector(state => state.session.user);
   
   const userExerciseEntries = useSelector(getUserExerciseEntries);
+  const userExerciseEntriesArray = Object.values(userExerciseEntries);
+  console.log(userExerciseEntries)
+  debugger
 
   const [mouseOverTextData, setMouseOverTextData] = useState(undefined);
   const [sampleTileSet, setSampleTileSet] = useState([]);

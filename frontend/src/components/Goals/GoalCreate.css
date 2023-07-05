@@ -3,6 +3,7 @@
   min-width: 393px;
   margin-top: 5px;
   border-radius: 8px;
+  text-indent: 5px;
 }
 
 .feed-post-preview {
@@ -38,6 +39,7 @@
 
 .feed-post-form-text, .feed-post-form-date {
   margin-bottom: 20px;
+  text-indent: 3px;
 }
 
 .feed-post-form-date {

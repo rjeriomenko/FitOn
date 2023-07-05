@@ -1,7 +1,10 @@
 import GoalIndexItem from '../Goals/GoalIndexItem';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { deleteGoal, fetchUserGoals } from '../../store/goals'
+import { updateUser, getUser, fetchUser } from '../../store/users';
+import { getCurrentUser } from '../../store/session';
 import { Link } from 'react-router-dom';
 
 import { fetchAllUserExerciseEntries, fetchUserExerciseEntries } from '../../store/exerciseEntries';
@@ -19,7 +22,9 @@ import DataVis from './DataVis';
 function Profile () {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
-  const currentGoal = sessionUser.currentGoal;
+  const userId = useParams().userId;
+  const user = useSelector(getUser(userId));
+  const currentGoal = user?.currentGoal;
   
   const userExerciseEntries = useSelector(getUserExerciseEntries);
 
@@ -28,12 +33,37 @@ function Profile () {
   const [mouseOverTextDataRows, setMouseOverTextDataRows] = useState([]);
   const [mouseOverDataTotals, setMouseOverDataTotals] = useState({});
 
+  const [image, setImage] = useState(null);
+  const [submitStatus, setSubmitStatus] = useState('Submit');
+
   const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
 
   // michele touch
   const [timeGraph, setTimeGraph] = useState(true);
 
   // let mouseOverTextDataRows;
+
+  const updateFile = e => setImage(e.target.files[0]);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const inputField = document.getElementById("imageInput")
+    if (submitStatus !== 'Submitting...' && inputField.value) {
+      const user = {
+        image,
+        _id: sessionUser._id
+      };
+  
+      setSubmitStatus('Submitting...')
+  
+      dispatch(updateUser(user))
+        .then(() => dispatch(getCurrentUser()))
+        .then(() => {
+          setSubmitStatus('Submit')
+          inputField.value = "";
+        });
+    }
+  }
 
   const handleMouseEnter = (e) => {
     const tileId = e.currentTarget.getAttribute('dataExerciseEntryId');
@@ -106,8 +136,9 @@ function Profile () {
   };
 
   useEffect(() => {
-    dispatch(fetchUserGoals(sessionUser._id))
-    dispatch(fetchUserExerciseEntries(sessionUser._id))
+    dispatch(fetchUser(userId))
+    dispatch(fetchUserGoals(userId))
+    dispatch(fetchUserExerciseEntries(userId))
 
     // random scramble effect
     let repeats = 0;
@@ -130,6 +161,9 @@ function Profile () {
   
   return (
     <div className='profile-container'>
+      <h3>Update Profile Picture</h3>
+      <input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
+      <input className="profile-submit" type="submit" value={submitStatus} onClick={handleSubmit} />
 
       {/* DATA VIZ - START */}
       {/* DATA VIZ - START */}
@@ -156,7 +190,7 @@ function Profile () {
         </div>
       
         <div className="data-vis">
-          <DataVis timeGraph={timeGraph}/>
+          { user && <DataVis user={user} timeGraph={timeGraph}/> }
         </div>
       </div>
 

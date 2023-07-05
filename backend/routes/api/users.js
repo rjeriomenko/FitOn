@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Follow = mongoose.model('Follow');
 const passport = require('passport');
+const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
 const { loginUser, restoreUser, requireUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
@@ -96,7 +97,8 @@ router.get('/current', restoreUser, (req, res) => {
     _id: req.user._id,
     username: req.user.username,
     email: req.user.email,
-    currentGoal: req.user.currentGoal
+    currentGoal: req.user.currentGoal,
+    imgUrl: req.user.imgUrl
   });
 });
 
@@ -152,7 +154,7 @@ router.get('/followed', requireUser, async (req, res, next) => {
 });
 
 //edit user
-router.patch('/:userId', requireUser, async (req, res, next) => {
+router.patch('/:userId', requireUser, singleMulterUpload("image"), async (req, res, next) => {
   try {
     if (req.params.userId.toString() !== req.user._id.toString()) {
       const error = new Error('You have no power here, Gandalf the Grey');
@@ -162,8 +164,12 @@ router.patch('/:userId', requireUser, async (req, res, next) => {
 
     let user = await User.findById(req.params.userId).select('-hashedPassword -currentGoal');
 
+    const imgUrl = req.file ?
+      await singleFileUpload({ file: req.file, public: true }) :
+      false;
+
     user.username = req.body.username || user.username
-    user.imgUrl = req.body.imgUrl || user.imgUrl;
+    user.imgUrl = imgUrl || user.imgUrl;
 
     await user.save();
 

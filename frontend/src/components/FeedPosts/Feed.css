@@ -59,6 +59,12 @@
 	animation: fadeInLetter 0.18s ease-in-out 0s 1 normal forwards;
 }
 
+.feed-profile-picture {
+	height: 50px;
+	width: 50px;
+	border-radius: 20px;
+}
+
 @keyframes fadeInLetter {
 	0% {
 		opacity: 0;

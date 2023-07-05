@@ -4,14 +4,12 @@ import Chart from 'chart.js/auto';
 import axios from 'axios';
 import './DataVis.css'
 
-function DataVis({timeGraph}) {
+function DataVis({ user, timeGraph }) {
   const chartRef = useRef(null);
-  const sessionUser = useSelector(state => state.session.user);
-  const currentGoal = useSelector(state => state.session.user);
-  const currentGoalId = sessionUser?.currentGoal?._id;
+  const currentGoalId = user.currentGoal?._id;
   const chartInstanceRef = useRef(null);
   const fetchExerciseEntry = async () => {
-    const res = await axios.get(`./api/exercises/byGoal/${currentGoalId}`);
+    const res = await axios.get(`/api/exercises/byGoal/${currentGoalId}`);
     const data = res.data;  
     const exerciseEntry = {};
 

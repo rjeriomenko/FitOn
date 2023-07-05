@@ -38,6 +38,9 @@ function Profile () {
 
   const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
 
+  // michele touch
+  const [timeGraph, setTimeGraph] = useState(true);
+
   // let mouseOverTextDataRows;
 
   const updateFile = e => setImage(e.target.files[0]);
@@ -177,8 +180,18 @@ function Profile () {
 
       </div>
 
-      <div className="data-vis">
-        { user && <DataVis user={user} />}
+      <div className="data-vis-container">
+        <div className="toggle-container">
+          <label className="toggle-graph">
+            <input type="checkbox" onClick={() => {setTimeGraph(timeGraph ? false : true)}}/>
+            <span className="slider-graph"></span>
+            <span className="slider-labels" data-on="SETS/REPS" data-off="TIME"></span>
+          </label>
+        </div>
+      
+        <div className="data-vis">
+          { user && <DataVis user={user} timeGraph={timeGraph}/> }
+        </div>
       </div>
 
       {/* DATA VIZ - END */}

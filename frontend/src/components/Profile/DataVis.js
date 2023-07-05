@@ -1,29 +1,44 @@
 import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
 import './DataVis.css'
-import { useSelector } from 'react-redux';
 
-function DataVis({ user }) {
+function DataVis({ user, timeGraph }) {
   const chartRef = useRef(null);
   const currentGoalId = user.currentGoal?._id;
-  
-  const fetchTimedExerciseEntry = async () => {
+  const chartInstanceRef = useRef(null);
+  const fetchExerciseEntry = async () => {
     const res = await axios.get(`/api/exercises/byGoal/${currentGoalId}`);
     const data = res.data;  
     const exerciseEntry = {};
-    
-    Object.values(data).forEach(exercise => {
+
+    if (timeGraph) {
+      Object.values(data).forEach(exercise => {
       const { name, time, workout: { date } } = exercise;
           
-      if (!exerciseEntry[date]) {
-        exerciseEntry[date] = {};
-      }
+        if (!exerciseEntry[date]) {
+          exerciseEntry[date] = {};
+        }
 
-      exerciseEntry[date][name] = parseInt(time);
-    });
+        exerciseEntry[date][name] = parseInt(time);
+      });
+
+    } else {
+      Object.values(data).forEach(exercise => {
+        const { name, sets, reps, workout: { date } } = exercise;
+            
+        if (!exerciseEntry[date]) {
+          exerciseEntry[date] = {};
+        }
+        
+        exerciseEntry[date][name] = parseInt(sets * reps);
+      });
+      
+    }
 
     return exerciseEntry;
+
   };
 
   const generateRandomColor = () => {
@@ -33,6 +48,8 @@ function DataVis({ user }) {
     return `rgb(${r}, ${g}, ${b})`;
   };
 
+  const yAxisLabel = () => timeGraph ? 'Minutes Spent' : 'Reps X Sets Count'
+  
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -54,7 +71,7 @@ function DataVis({ user }) {
         },
         title: {
           display: true, 
-          text: 'Minutes Spent'
+          text: yAxisLabel()
         }
       },
     },
@@ -69,9 +86,9 @@ function DataVis({ user }) {
       },
     },
   }
-
+  
   const createBarGraph = async () => {
-    const data = await fetchTimedExerciseEntry();
+    const data = await fetchExerciseEntry();
     const dates = Object.keys(data);
     dates.sort((a,b) => new Date(a) - new Date(b))
 
@@ -90,21 +107,27 @@ function DataVis({ user }) {
       return dataset;
     });
     
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
+
     const chartData = {
       labels: dates,
       datasets: datasets
     };
-      
+    
     // creating chart
     const chartElement = chartRef.current;
-    const stackedBarChart = new Chart(chartElement, {
+    const newChart = new Chart(chartElement, {
       type: 'bar',
       data: chartData,
       options: chartOptions
     });
 
+    chartInstanceRef.current = newChart;
+    
     return () => {
-      stackedBarChart.destroy();
+      newChart.destroy();
     }; 
   }
   
@@ -123,20 +146,24 @@ function DataVis({ user }) {
     const datasets = [
       {
         label: 'Exercise 1',
-        data: 0, 
+        data: [0], 
         backgroundColor: generateRandomColor()
       },
       {
         label: 'Exercise 2',
-        data: 0, 
+        data: [0], 
         backgroundColor: generateRandomColor()
       },
       {
         label: 'Exercise 3',
-        data: 0, 
+        data: [0], 
         backgroundColor: generateRandomColor()
       }
     ];
+
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
 
     const chartData = {
       labels: createDates(),
@@ -144,21 +171,23 @@ function DataVis({ user }) {
     }
 
     const chartElement = chartRef.current;
-    const stackedBarChart = new Chart(chartElement, {
+    const newChart = new Chart(chartElement, {
       type: 'bar',
       data: chartData,
       options: chartOptions,
     });
 
+    chartInstanceRef.current = newChart;
+
     return () => {
-      stackedBarChart.destroy();
-    };
+      newChart.destroy();
+    };  
+
   }
 
   useEffect(() => {
-    currentGoalId ? createBarGraph() : createEmpty();  
-  }, [])
-  
+    currentGoalId ? createBarGraph() : createEmpty(); 
+  }, [currentGoalId, timeGraph])
   
   return (
     <>

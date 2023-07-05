@@ -14,9 +14,7 @@ const MainPageWrapper = ({children}) => {
 		const mainPageWrapper = document.querySelector(".main-page-wrapper")
 		if(loggedIn) {
 			mainPageWrapper.style.height = `100%`
-			const loggedInNavHeight = document.querySelector(".logged-in-navbar")?.offsetHeight;
-			console.log(loggedInNavHeight)
-			// mainPageWrapper.style.marginTop = `${loggedInNavHeight + 30}px`
+			mainPageWrapper.style.minHeight = `calc(100vh - ${topBotHeight}px)`
 
 			// Hardcoded - find a way to do get the height of an element AFTER css transition
 			mainPageWrapper.style.marginTop = `${125}px`

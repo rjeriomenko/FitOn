@@ -41,23 +41,19 @@ function App() {
       <NavBar />
       <FloatingMenu />
         <Switch>
+          <MainPageWrapper>
           <AuthRoute exact path="/login" component={LoginForm} />
           <AuthRoute exact path="/signup" component={SignupForm} />
-          
           <AuthRoute exact path="/" component={LandingPage} />
-      <MainPageWrapper>
-
-          <ProtectedRoute exact path="/feed" component={Feed} />
-          <ProtectedRoute exact path="/discover" component={Feed} discoverMode={true}/>
-          <ProtectedRoute exact path="/feed/:userId" component={Feed} />
-          <ProtectedRoute exact path="/profile" component={Profile} />
-          <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />
-          <ProtectedRoute exact path="/feedPosts/editGoal" component={GoalEdit} />
-          <ProtectedRoute exact path="/users/:userId/goals" component={GoalIndex} />
-          <ProtectedRoute exact path="/gains" component={ExerciseEventForm} />
-
-      </MainPageWrapper>
-      
+            <ProtectedRoute exact path="/feed" component={Feed} />
+            <ProtectedRoute exact path="/discover" component={Feed} discoverMode={true}/>
+            <ProtectedRoute exact path="/feed/:userId" component={Feed} />
+            <ProtectedRoute exact path="/profile" component={Profile} />
+            <ProtectedRoute exact path="/feedPosts/newGoal" component={GoalCreate} />
+            <ProtectedRoute exact path="/feedPosts/editGoal" component={GoalEdit} />
+            <ProtectedRoute exact path="/users/:userId/goals" component={GoalIndex} />
+            <ProtectedRoute exact path="/gains" component={ExerciseEventForm} />
+          </MainPageWrapper>
         </Switch>
       <div className='footer-offset'/>
       <Footer />

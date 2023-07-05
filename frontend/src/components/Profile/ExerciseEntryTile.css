@@ -1,6 +1,7 @@
 .exercise-outer-container {
 	position: relative;
 	--tile-side-length: 80px;
+	transition: 0.3s;
 }
 
 .exercise-entry-tile-container {
@@ -15,6 +16,7 @@
 	/* background-color: var(--dark-blue); */
 	/* border: 1px rgba(85, 0, 255, 0.648) dashed; */
 	/* margin: 1px; */
+	/* transition: 0.5s; */
 }
 
 .tile-photo {
@@ -25,8 +27,19 @@
 }
 
 .exercise-entry-tile-container:hover .tile-photo {
-	transform: scale(1.5);
+	/* transform: scale(1.5); */
 	/* -webkit-transform: scale(1.25); */
+}
+
+.exercise-outer-container:hover {
+	transform: scale(0.90);
+	/* transition: 0.5s; */
+}
+
+.exercise-outer-container:hover .tile-photo {
+	transform: scale(1.5);
+	/* transition: 0.5s; */
+	/* z-index: 100; */
 }
 
 .tile-rating-overlay {

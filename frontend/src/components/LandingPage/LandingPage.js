@@ -19,10 +19,6 @@ function LandingPage() {
           <p>fitOn</p>
         </div>
       </div>
-      {/* <p>FitOn</p> */}
-      {/* <footer> */}
-        {/* Copyright &copy; 2023 FitOn */}
-      {/* </footer> */}
     </>
   );
 }

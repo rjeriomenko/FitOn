@@ -140,6 +140,17 @@ function FeedPostWorkout ({feedPost}) {
 				</div>}</Link>
 				
 				{editable && <>
+					<form className="post-form" onSubmit={handleUpdateWorkout}>
+					<label>Rating: 
+						<input className="feed-post-text-edit"
+							type="number"
+							min="1"
+							max="5"
+							value={formRating}
+							onChange={e => setFormRating(e.target.value)}
+							required
+						/>
+					</label>
 					<label>Note: 
 						<input className="feed-post-text-edit"
 							type="text"
@@ -147,8 +158,10 @@ function FeedPostWorkout ({feedPost}) {
 							onChange={e => setFormNote(e.target.value)}
 						/>
 					</label>
-					<div className="feed-post-update-button" onClick={handleUpdateWorkout}>Update</div>
+					{/* <div className="feed-post-update-button" onClick={handleUpdateWorkout}>Update</div> */}
+					<button className="feed-post-update-button" type="submit">Update</button>
 					<div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>
+					</form>
 				</>}
 				<div className="post-divider"></div>
 			</div>

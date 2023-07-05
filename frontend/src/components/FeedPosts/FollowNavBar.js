@@ -9,7 +9,6 @@ const FollowNavBar = () => {
 
 	const resetMarker = (e) => {
 		const marker = document.querySelector(".hoverMarker")
-		console.log('is this thing on?')
 		marker.style.transition = "none";
 		marker.style.top = e.target.offsetTop;
 		marker.style.transition = "all 0.5s";

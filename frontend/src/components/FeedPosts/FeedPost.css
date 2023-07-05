@@ -132,6 +132,13 @@ p, h3 {
 
 }
 
+.post-form {
+	/* display: flex; */
+	/* flex-direction: column; */
+	/* justify-content: flex-start; */
+	/* align-items: stretch; */
+}
+
 .feed-post-text-edit {
 	box-sizing: border-box;
 	word-wrap: break-word;
@@ -183,18 +190,20 @@ p, h3 {
 }
 
 .feed-post-update-button {
+	justify-self: center;
 	box-sizing: border-box;
-	/* width: 35px; */
-	/* height: 35px; */
+	width: 100%;
+	height: 100%;
 	background-color: var(--dark-blue);
 	color: var(--form-text-input-color);
 	padding: 10px;
-	margin: 5px;
+	margin: 5px 0px;
 	font-family: var(--sans-serif);
 	text-align: center;
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
+	border: none;
 	border-top-left-radius: 8px;
 	border-bottom-left-radius: 8px;
 	border-radius: 8px;

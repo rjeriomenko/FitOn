@@ -11,7 +11,7 @@ const FollowNavBar = () => {
 		const marker = document.querySelector(".hoverMarker")
 		marker.style.transition = "none";
 		marker.style.top = e.target.offsetTop;
-		marker.style.transition = "all 0.5s";
+		marker.style.transition = "all 0.3s";
 	}
 
 	const shiftMarker = (e) => {

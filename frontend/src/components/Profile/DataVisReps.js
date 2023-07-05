@@ -4,25 +4,26 @@ import axios from 'axios';
 import './DataVis.css'
 import { useSelector } from 'react-redux';
 
-function DataVis({timeGraph}) {
+function DataVisReps() {
   const chartRef = useRef(null);
   const sessionUser = useSelector(state => state.session.user);
   const currentGoalId = sessionUser?.currentGoal?._id;
-
-  const fetchTimedExerciseEntry = async () => {
+  
+  const fetchRepsExerciseEntry = async () => {
     const res = await axios.get(`./api/exercises/byGoal/${currentGoalId}`);
-    const data = res.data;  
+    const data = res.data; 
+    console.log(data) 
     const exerciseEntry = {};
+    
     Object.values(data).forEach(exercise => {
-      const { name, time, workout: { date } } = exercise;
+      const { name, sets, reps, workout: { date } } = exercise;
           
       if (!exerciseEntry[date]) {
         exerciseEntry[date] = {};
       }
 
-      exerciseEntry[date][name] = parseInt(time);
+      exerciseEntry[date][name] = parseInt(sets * reps);
     });
-
     return exerciseEntry;
   };
 
@@ -54,7 +55,7 @@ function DataVis({timeGraph}) {
         },
         title: {
           display: true, 
-          text: 'Minutes Spent'
+          text: 'Reps X Sets Count'
         }
       },
     },
@@ -71,11 +72,10 @@ function DataVis({timeGraph}) {
   }
 
   const createBarGraph = async () => {
-    const data = await fetchTimedExerciseEntry();
+    const data = await fetchRepsExerciseEntry();
     const dates = Object.keys(data);
     dates.sort((a,b) => new Date(a) - new Date(b))
 
-    // finds unique exercises by flattening and removes dupes
     const exercises = Array.from(
       new Set(dates.flatMap(date => Object.keys(data[date])))
     );
@@ -95,7 +95,6 @@ function DataVis({timeGraph}) {
       datasets: datasets
     };
       
-    // creating chart
     const chartElement = chartRef.current;
     const stackedBarChart = new Chart(chartElement, {
       type: 'bar',
@@ -168,4 +167,4 @@ function DataVis({timeGraph}) {
 }
   
 
-export default DataVis;
+export default DataVisReps;

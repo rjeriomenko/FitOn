@@ -15,6 +15,7 @@ import { formatTwoDigitNumberString } from '../../utils/utils';
 import './Profile.css';
 
 import DataVis from './DataVis';
+import DataVisReps from './DataVisReps';
 
 function Profile () {
   const dispatch = useDispatch();
@@ -29,6 +30,8 @@ function Profile () {
   const [mouseOverDataTotals, setMouseOverDataTotals] = useState({});
 
   const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
+
+  const [timeGraph, setTimeGraph] = useState(true);
 
   // let mouseOverTextDataRows;
 
@@ -143,8 +146,13 @@ function Profile () {
 
       </div>
 
+      <button onClick={() => setTimeGraph(timeGraph ? false : true)}>
+        Toggle Graph
+      </button>
+
       <div className="data-vis">
-        <DataVis />
+        {timeGraph ? <DataVis /> : <DataVisReps />}
+        {/* <DataVis timeGraph={timeGraph}/> */}
       </div>
 
       {/* DATA VIZ - END */}

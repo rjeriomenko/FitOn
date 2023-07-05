@@ -146,12 +146,16 @@ function Profile () {
 
       </div>
 
-      <button onClick={() => {setTimeGraph(timeGraph ? false : true)}}>
-        Toggle Graph
-      </button>
-
-      <div className="data-vis">
-        <DataVis timeGraph={timeGraph}/>
+      <div className="data-vis-container">
+        <label className="toggle-graph">
+          <input type="checkbox" onClick={() => {setTimeGraph(timeGraph ? false : true)}}/>
+          <span className="slider-graph"></span>
+          <span className="slider-labels" data-on="SETS/REPS" data-off="TIME"></span>
+        </label>
+      
+        <div className="data-vis">
+          <DataVis timeGraph={timeGraph}/>
+        </div>
       </div>
 
       {/* DATA VIZ - END */}

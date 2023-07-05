@@ -144,3 +144,104 @@ tfoot * {
 .profile-footer {
 	height: 1000px;
 }
+
+/* slider CSS */
+/* slider CSS */
+/* slider CSS */
+
+.toggle-graph {
+    --width: 110px;
+    --height: calc(var(--width) / 3);
+    position: relative;
+    display: inline-block;
+    width: var(--width);
+    height: var(--height);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    border-radius: var(--height);
+    cursor: pointer;
+}
+
+.toggle-graph input {
+	display: none;
+}
+
+.toggle-graph .slider-graph {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--height);
+    background-color: var(--orange);
+    transition: all 0.4s ease-in-out;
+}
+
+.toggle-graph .slider-graph::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(var(--height));
+    height: calc(var(--height));
+    border-radius: calc(var(--height) / 2);
+    background-color: #fff;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s ease-in-out;
+}
+
+.toggle-graph input:checked + .slider-graph {
+    background-color: var(--medium-blue-darker);;
+}
+
+.toggle-graph input:checked + .slider-graph::before {
+    transform: translateX(calc(var(--width) - var(--height)));
+}
+
+.toggle-graph .slider-labels {
+	position: absolute;
+	top: 8px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	font-size: 12px;
+	font-family: sans-serif;
+	transition: all 0.4s ease-in-out;
+	margin-top: 6px;
+}
+
+.toggle-graph .slider-labels::after {
+	content: attr(data-off);
+	position: absolute;
+	right: 5px;
+	color: #ffffff;
+	opacity: 1;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+	transition: all 0.4s ease-in-out;
+	margin: 0px 10px;
+}
+
+.toggle-graph .slider-labels::before {
+	content: attr(data-on);
+	position: absolute;
+	left: 5px;
+	color: #ffffff;
+	opacity: 0;
+	text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
+	transition: all 0.4s ease-in-out;
+}
+
+.toggle-graph input:checked~.slider-labels::after {
+	opacity: 0;
+}
+
+.toggle-graph input:checked~.slider-labels::before {
+	opacity: 1;
+}
+
+/* datavis + toggle CSS */
+/* datavis + toggle CSS */
+/* datavis + toggle CSS */
+
+/* .data-vis-container {
+	display: flex;
+} */

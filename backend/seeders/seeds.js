@@ -24,9 +24,11 @@ const seedData = async () => {
         // Create a user for the full-body workout
         const fullBodyUser = new User({
             username: "fullBodyUser",
-            email: "fullbody@tester.io",
+            email: "fullbody@test.io",
             hashedPassword: bcrypt.hashSync("password", 10),
         });
+
+        const savedFullBodyUser = await fullBodyUser.save();
 
         // Create a goal for the full-body workout
         const fullBodyGoal = new Goal({
@@ -39,7 +41,8 @@ const seedData = async () => {
         // Save the full-body goal to the database
         const savedFullBodyGoal = await fullBodyGoal.save();
         fullBodyUser.currentGoal = fullBodyGoal;
-        const savedFullBodyUser = await fullBodyUser.save();
+        await savedFullBodyUser.save();
+        
 
         // Generate workouts for the full-body workout
         const fullBodyWorkoutPromises = [];
@@ -124,9 +127,11 @@ const seedData = async () => {
         // Create a user for the triathlon workout
         const triathlonUser = new User({
             username: "triathlonUser",
-            email: "triathlon@tester.io",
+            email: "triathlon@test.io",
             hashedPassword: bcrypt.hashSync("password", 10),
         });
+
+        const savedTriathlonUser = await triathlonUser.save();
 
         // Create a goal for the triathlon workout
         const triathlonGoal = new Goal({
@@ -139,7 +144,7 @@ const seedData = async () => {
         // Save the triathlon goal to the database
         const savedTriathlonGoal = await triathlonGoal.save();
         triathlonUser.currentGoal = triathlonGoal;
-        const savedTriathlonUser = await triathlonUser.save();
+        await savedTriathlonUser.save();
 
         // Generate workouts for the triathlon workout
         const triathlonWorkoutPromises = [];
@@ -201,6 +206,79 @@ const seedData = async () => {
         // Wait for all triathlon exercises to be saved
         await Promise.all(triathlonWorkoutPromises);
 
+
+        // Create a user for the sprained ankle recovery workout
+        const sprainedAnkleUser = new User({
+            username: "sprainedAnkleUser",
+            email: "sprainedankle@test.io",
+            hashedPassword: bcrypt.hashSync("password", 10),
+        });
+
+        const savedSprainedAnkleUser = await sprainedAnkleUser.save();
+
+        // Create a goal for the sprained ankle recovery workout
+        const sprainedAnkleGoal = new Goal({
+            title: "Stay in shape while recovering from sprained ankle",
+            description: "I don't want this injury to set me back too much",
+            deadline: "2024-07-31",
+            user: savedSprainedAnkleUser._id,
+        });
+
+        // Save the sprained ankle goal to the database
+        const savedSprainedAnkleGoal = await sprainedAnkleGoal.save();
+        sprainedAnkleUser.currentGoal = sprainedAnkleGoal;
+        await savedSprainedAnkleUser.save();
+
+        // Generate workouts for the sprained ankle recovery workout
+        const sprainedAnkleWorkoutPromises = [];
+        const sprainedAnkleWorkoutInfo = [
+            { date: getNextDate(0), note: "Feeling some pain in the ankle, but managed to complete the workout", rating: 3 },
+            { date: getNextDate(1), note: "Ankle pain reduced today, had a good workout overall", rating: 4 },
+            { date: getNextDate(2), note: "Minimal ankle discomfort during the workout, feeling positive", rating: 5 },
+        ];
+
+        for (const workout of sprainedAnkleWorkoutInfo) {
+            const exerciseEntry = new ExerciseEntry({
+                date: workout.date,
+                note: workout.note,
+                rating: workout.rating,
+                user: savedSprainedAnkleUser._id,
+                goal: savedSprainedAnkleGoal._id,
+            });
+
+            // Save the workout to the database
+            const savedWorkout = await exerciseEntry.save();
+
+            // Generate exercises and assign them to the workout
+            const exercises = [
+                {
+                    name: "Swimming",
+                    sets: null,
+                    reps: null,
+                    time: "30",
+                    weight: null,
+                    user: savedSprainedAnkleUser._id,
+                    goal: savedSprainedAnkleGoal._id,
+                    workout: savedWorkout._id,
+                },
+                {
+                    name: "Cycling",
+                    sets: null,
+                    reps: null,
+                    time: "45",
+                    weight: null,
+                    user: savedSprainedAnkleUser._id,
+                    goal: savedSprainedAnkleGoal._id,
+                    workout: savedWorkout._id,
+                },
+            ];
+
+            sprainedAnkleWorkoutPromises.push(Exercise.insertMany(exercises));
+        }
+
+        // Wait for all sprained ankle exercises to be saved
+        await Promise.all(sprainedAnkleWorkoutPromises);
+
         console.log("Seed data created successfully!");
     } catch (error) {
         console.error("Error creating seed data:", error);
@@ -236,7 +314,7 @@ seedData();
 // pull-ups
 // squats
 // burpees
-// bicep curls 
+// bicep curls
 
 
 //notes

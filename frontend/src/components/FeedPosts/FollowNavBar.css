@@ -1,6 +1,7 @@
 .follow-nav-bar-container {
 	position: sticky;
 	top: 200px;
+	padding: 6px;
 }
 
 .follow-nav-bar-container * {
@@ -21,6 +22,25 @@
 .follow-nav-bar-container li:hover {
 	cursor: pointer;
 	/* color: var(--orange); */
-	background-color: var(--light-blue);
+	/* background-color: var(--light-blue); */
 	/* font-weight: 900; */
+}
+
+.follow-nav-bar-container a.active {
+	color: var(--orange);
+}
+
+.follow-nav-active {
+	color: var(--black);
+}
+
+.hoverMarker {
+	z-index: -1;
+	position: absolute;
+	height: 20px;
+	/* width: 50px; */
+	background-color:var(--orange);
+	opacity: 0;
+	/* transition: all 0.5s; */
+	/* transition: all 0.5s; */
 }

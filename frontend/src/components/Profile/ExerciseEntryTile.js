@@ -3,6 +3,7 @@ import './ExerciseEntryTile.css';
 import { formatTwoDigitNumberString } from '../../utils/utils';
 
 const ExerciseEntryTile = ({photoNum, rating, dateText, note, entry}) => {
+	debugger
 	const dateParts = dateText.split('-').map(part => {
 		return <span>{part}</span>
 	})

@@ -15,8 +15,6 @@ import { formatTwoDigitNumberString } from '../../utils/utils';
 import './Profile.css';
 
 import DataVis from './DataVis';
-import DataVisReps from './DataVisReps';
-import Chart from 'chart.js/auto';
 
 function Profile () {
   const dispatch = useDispatch();
@@ -148,14 +146,11 @@ function Profile () {
 
       </div>
 
-      <button onClick={() => {
-        setTimeGraph(timeGraph ? false : true);
-      }}>
+      <button onClick={() => {setTimeGraph(timeGraph ? false : true)}}>
         Toggle Graph
       </button>
 
       <div className="data-vis">
-        {/* {timeGraph ? <DataVis /> : <DataVisReps />} */}
         <DataVis timeGraph={timeGraph}/>
       </div>
 

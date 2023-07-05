@@ -1,15 +1,13 @@
 import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
 import './DataVis.css'
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
 
 function DataVis({timeGraph}) {
   const chartRef = useRef(null);
   const sessionUser = useSelector(state => state.session.user);
   const currentGoalId = sessionUser?.currentGoal?._id;
-  const [chart, setChart] = useState(null);
   const chartInstanceRef = useRef(null);
 
   const fetchExerciseEntry = async () => {

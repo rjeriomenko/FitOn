@@ -136,6 +136,20 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                             value={input.name}
                             onChange={(e) => handleInputChange(e, index)}
                         />
+                        {/* <select 
+                            // name="name"
+                            // value={input.name}
+                            // onChange={(e) => handleInputChange(e, index)}
+                        >
+                            <option value="---Select an option---" selected disabled>---Select an option---</option>
+                            <option value="Jogging">Jogging</option>
+                            <option value="Swimming">Swimming</option>
+                            <option value="Cycling">Cycling</option>
+                            <option value="Dancing">Dancing</option>
+                            <option value="Planking">Planking</option>
+
+
+                        </select> */}
                         <div className="errors">{errors?.name}</div>
 
                         <span id="exercise-input-span">Sets:</span>

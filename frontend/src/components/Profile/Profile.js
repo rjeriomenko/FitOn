@@ -131,8 +131,16 @@ function Profile () {
       {/* DATA VIZ - START */}
       {/* DATA VIZ - START */}
       <div className="progress-title">
-        <h2>my progress...</h2>
-        {currentGoal ? null :  <h3 id="goalless-data-viz">create your goal and log your exercises today to see your progress...</h3>}
+        <h2>my progress on...</h2>
+        {currentGoal ? 
+          <>
+            <h3 id="progress-goal-title">{currentGoal.title}</h3>
+            {/* <h4 id="progress-goal-desc">{currentGoal.description}</h4>  */}
+          </>
+          :  
+          <h3 id="goalless-data-viz">create your goal and log your exercises today to see your progress...</h3>
+        }
+
       </div>
 
       <div className="data-vis">

@@ -74,6 +74,7 @@ function DataVis() {
   const createBarGraph = async () => {
     const data = await fetchTimedExerciseEntry();
     const dates = Object.keys(data);
+    dates.sort((a,b) => new Date(a) - new Date(b))
 
     // finds unique exercises by flattening and removes dupes
     const exercises = Array.from(

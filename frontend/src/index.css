@@ -106,11 +106,11 @@ body {
 	--rating-1: rgba(1,18,46, 0.9); */
 
 	--rating-transparency: 0.75;
-	--rating-5: rgba(255,255,255, 0.9);
-	--rating-4: rgba(191, 202, 204, 0.9);
-	--rating-3: rgba(130, 169, 178, 0.9);
-	--rating-2: rgba(0,57,76, 0.9);
-	--rating-1: rgba(1,18,46, 0.9);
+	--rating-1: rgba(250, 244, 244, 0.9);
+	--rating-2: rgba(191, 202, 204, 0.9);
+	--rating-3: rgba(109, 177, 193, 0.9);
+	--rating-4: rgba(0,57,76, 0.9);
+	--rating-5: rgba(1,18,46, 0.9);
 
 	/* FONTSPACE */
 	--serif: Georgia, serif;

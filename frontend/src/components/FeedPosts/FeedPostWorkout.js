@@ -108,7 +108,7 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
 					<Link to={`/feed/${setterId}`}><div className="post-username">{setter}</div></Link>
-					<div onClick={handleToggleFollow} className="post-follow">{(setterId === sessionUser._id) ? "" : isFollowing ? "unfollow" : "follow"}</div>
+					<div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{(setterId === sessionUser._id) ? "" : isFollowing ? "unfollow" : "follow"}</div>
 					<div className="post-timestamp">{timestamp}</div>
 				</div>
 				<br/>

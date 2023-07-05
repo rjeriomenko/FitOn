@@ -71,6 +71,7 @@ p, h3 {
 }
 
 .feed-post-header * {
+	padding: 1px;
 	align-self: center;
 }
 
@@ -90,15 +91,28 @@ p, h3 {
 
 .post-follow {
 	font-weight: 600;
-	color: var(--orange);
-	/* padding: 2px; */
-	/* border: 1px solid black; */
-	/* border-radius: 8px; */
 }
 
-.post-follow:hover {
+.following {
+	color: var(--orange);
+}
+
+.not-following {
+	color: green;
+}
+
+.following:hover {
 	cursor: pointer;
 	background: var(--orange);
+	border-radius: 2px;
+	/* padding:5px; */
+	color: white;
+	transition: color 0.5s ease 0s, background-color 0.5s ease 0s;
+}
+
+.not-following:hover {
+	cursor: pointer;
+	background: green;
 	border-radius: 2px;
 	/* padding:5px; */
 	color: white;

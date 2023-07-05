@@ -141,4 +141,5 @@ body {
 .nav-bar-profile-picture {
 	height: 50px;
 	width: 50px;
+	border-radius: 20px;
 }

@@ -80,10 +80,14 @@ export const fetchUser = userId => async dispatch => {
 
 
 export const updateUser = (user) => async dispatch => {
+    const { image } = user;
+    const formData = new FormData();
+    if (image) formData.append("image", image);
+
     try {
         const res = await jwtFetch(`/api/users/${user._id}`, {
             method: 'PATCH',
-            body: JSON.stringify(user)
+            body: formData
         });
         const responseUser = await res.json();
         dispatch(receiveUpdatedUser(responseUser));

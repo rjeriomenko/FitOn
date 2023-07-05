@@ -103,9 +103,9 @@ function FeedPostGoal ({feedPost}) {
 
 	const animateOnce = (e) => {
 		const post = e.currentTarget.querySelector(".post-divider");
-		post.classList.add("postHoverAnimation");
+		post.classList.add("post-hover-animation");
 		setTimeout(() => {
-			post.classList.remove("postHoverAnimation");
+			post.classList.remove("post-hover-animation");
 		}, 500)
 	}
 

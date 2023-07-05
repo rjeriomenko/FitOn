@@ -1,7 +1,8 @@
 .exercise-outer-container {
 	position: relative;
 	--tile-side-length: 80px;
-	transition: 0.3s;
+	/* transform: scale(1); */
+	/* transition: 0.3s; */
 }
 
 .exercise-entry-tile-container {
@@ -9,22 +10,23 @@
 	box-sizing: border-box;
 	width: var(--tile-side-length);
 	height:var(--tile-side-length);
-	/* overflow: hidden; */
+	overflow: hidden;
 }
 
 .tile-photo {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	transform: scale(1);
 	transition: all 0.5s ease;
 }
 
 .exercise-outer-container:hover {
-	transform: scale(0.90);
+	/* transform: scale(0.90); */
 }
 
 .exercise-outer-container:hover .tile-photo {
-	transform: scale(1.5);
+	/* transform: scale(1.5); */
 }
 
 .tile-rating-overlay {
@@ -91,3 +93,71 @@
 .tile-rating-5 {
 		background-color: var(--rating-5);
 }
+
+.tile-container-hover {
+	animation: tileContainerHover 0.3s linear 0s 1 normal forwards;
+}
+
+.tile-img-hover {
+	animation: tileImgHover 0.5s linear 0s 1 normal forwards;
+}
+
+.rev-tile-container-hover {
+	/* animation: reverseTileContainerHover 0.3s linear 0s 1 normal forwards; */
+	/* animation: tileContainerHover 1.3s linear 0s 1 reverse forwards; */
+}
+
+.rev-tile-img-hover {
+	/* animation: tileImgHover 1.5s linear 0s 1 reverse forwards; */
+	transform: scale(1);
+	transition: all 0.5s ease;
+}
+
+@keyframes tileContainerHover {
+	0% {
+		/* width: 0%; */
+		/* border-bottom: 0.5px solid var(--black); */
+	}
+	100%{
+		/* width: 100%; */
+		/* border-bottom: 0.5px solid var(--orange); */
+		transform: scale(0.90);
+	}
+}
+
+@keyframes tileImgHover {
+	0% {
+		/* width: 0%; */
+		/* border-bottom: 0.5px solid var(--black); */
+	}
+	100%{
+		/* width: 100%; */
+		/* border-bottom: 0.5px solid var(--orange); */
+		transform: scale(1.5);
+	}
+}
+@keyframes reverseTileContainerHover {
+	0% {
+		/* width: 0%; */
+		/* border-bottom: 0.5px solid var(--black); */
+	}
+	100%{
+		/* width: 100%; */
+		/* border-bottom: 0.5px solid var(--orange); */
+		transform: scale(1);
+	}
+}
+
+@keyframes reverseTileImgHover {
+	0% {
+		/* width: 0%; */
+		/* border-bottom: 0.5px solid var(--black); */
+	}
+	100%{
+		/* width: 100%; */
+		/* border-bottom: 0.5px solid var(--orange); */
+		transform: scale(1);
+	}
+}
+
+

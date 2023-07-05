@@ -1,10 +1,19 @@
-body {
+/* body {
 	--form-background-color: var(--medium-blue);
 	--form-button-color: var(--dark-blue);
 	--form-errors-color: var(--yellow);
 	--form-text-input-color: var(--white);
 	--form-header-color: var(--dark-blue);
 	--form-font-family: var(--serif);
+} */
+
+body {
+	--form-background-color: rgb(28, 27, 27);
+	--form-button-color: var(--orange);
+	--form-errors-color: var(--yellow);
+	--form-text-input-color: var(--white);
+	--form-header-color: var(--orange);
+	--form-font-family: var(--sans-serif);
 }
 
 .session-form-container {
@@ -14,6 +23,10 @@ body {
 	align-items: center;
 	background-color: var(--form-background-color);
 	margin-top: 190px;
+}
+
+.session-form-container h2 {
+	font-family: var(--montserrat);
 }
 
 .session-form-container + * {

@@ -65,7 +65,7 @@ function NavBar () {
         <div className='links-menu'>
           <ul className="links-auth nav-links">
             { getLinks() }
-            { renderTestLinks() }
+            { loggedIn && renderTestLinks() }
           </ul>
         </div>
       </div>

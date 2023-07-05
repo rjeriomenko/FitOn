@@ -172,30 +172,13 @@ function FeedPostWorkout ({feedPost}) {
 							onChange={e => setFormNote(e.target.value)}
 						/>
 					</label>
-					{/* <div className="feed-post-crud-button" onClick={handleUpdateWorkout}>Update</div> */}
 					<div className="feed-post-update-button" onClick={handleUpdateWorkout}>Update</div>
+					<div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>
 				</>}
 				<div className="post-divider"></div>
 			</div>
 			{/* CONTENT - END */}
 			{/* CONTENT - END */}
-
-			{/* CRUD BUTTONS - START */}
-			{/* CRUD BUTTONS - START */}
-			{/* <div className="feed-post-crud-controls">
-				{(sessionUser._id === userId) &&
-					<>
-						<div className="feed-post-crud-button" onClick={handleToggleForm}>
-							<i className="far fa-edit"></i>
-						</div>
-						<div className="feed-post-crud-button" onClick={handleDeleteWorkout}>
-							<i className="fa-solid fa-trash-can"></i>
-						</div>
-					</>
-				}
-			</div> */}
-			{/* CRUD BUTTONS - END */}
-			{/* CRUD BUTTONS - END */}
 		</div>
   );
 }

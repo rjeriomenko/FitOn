@@ -173,23 +173,6 @@ function FeedPostGoal ({feedPost}) {
 			</div>
 			{/* CONTENT - END */}
 			{/* CONTENT - END */}
-
-			{/* CRUD BUTTONS - START */}
-			{/* CRUD BUTTONS - START */}
-			{/* <div className="feed-post-crud-controls">
-				{(sessionUser._id === userId) &&
-					<>
-						<div className="feed-post-crud-button" onClick={handleToggleForm}>
-							<i className="far fa-edit"></i>
-						</div>
-						<div className="feed-post-crud-button" onClick={handleDeleteGoal}>
-							<i className="fa-solid fa-trash-can"></i>
-						</div>
-					</>
-				}
-			</div> */}
-			{/* CRUD BUTTONS - END */}
-			{/* CRUD BUTTONS - END */}
 		</div>
   );
 }

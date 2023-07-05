@@ -41,7 +41,7 @@ router.post('/:workoutId', requireUser, validateExerciseInput, async (req, res, 
 });
 
 // get exercises PER GOAL
-router.get('/byGoal/:goalId', requireUser, async (req, res, next) => {
+router.get('/byGoal/:goalId', async (req, res, next) => {
     try {
         const exercises = await Exercise.find({ goal: req.params.goalId })
             .populate('user', '_id username imgUrl')

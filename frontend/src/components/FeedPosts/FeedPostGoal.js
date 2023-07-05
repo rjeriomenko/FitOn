@@ -98,8 +98,16 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 		} 
 	}
 
+	const animateOnce = (e) => {
+		const post = e.currentTarget.querySelector(".post-divider");
+		post.classList.add("postHoverAnimation");
+		setTimeout(() => {
+			post.classList.remove("postHoverAnimation");
+		}, 500)
+	}
+
   return (
-		<div className="feed-post-editable-container">
+		<div className="feed-post-editable-container" onMouseEnter={animateOnce}>
 			{/* CONTENT - START */}
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
@@ -130,7 +138,8 @@ function FeedPostGoal ({feedPost, triggerRender, setTriggerRender}) {
 							onChange={handleDescriptionChange}
 						/>
 					</label>
-					<div className="feed-post-crud-button" onClick={handleUpdateGoal}>Update</div>
+					{/* <div className="feed-post-crud-button" onClick={handleUpdateGoal}>Update</div> */}
+					<div className="feed-post-update-button" onClick={handleUpdateGoal}>Update</div>
 				</>}
 				<div className="post-divider"></div>
 				<div className="latest-exercise-text">

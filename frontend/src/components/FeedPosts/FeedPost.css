@@ -5,6 +5,8 @@ p, h3 {
 
 .feed-post-editable-container {
 	/* border: 1px solid var(--medium-blue-darker); */
+	/* border-top-left-radius: 10px; */
+	/* border-bottom-left-radius: 10px; */
 	border-radius: 10px;
 	margin-bottom: 5px;
 	min-height: 57px;
@@ -155,11 +157,12 @@ p, h3 {
 	justify-content: flex-start;
 	align-items: center;
 	align-items: flex-end;
+	margin-right: 0px;
 }
 
 .feed-post-crud-button {
 	box-sizing: border-box;
-	width: 35px;
+	width: 25px;
 	height: 35px;
 	background-color: var(--form-button-color);
 	color: var(--form-text-input-color);
@@ -169,8 +172,15 @@ p, h3 {
 	text-align: center;
 	display: flex;
 	justify-content: center;
-	align-items: flex-start;
+	align-items: center;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
 	border-radius: 8px;
+	/* margin-right: 0px; */
+}
+
+.feed-post-crud-button i {
+	font-size: 1em;
 }
 
 .feed-post-crud-button:hover{
@@ -178,6 +188,25 @@ p, h3 {
 	transition: 0.3s ease;
 	transform: scale(1.01);
 	box-shadow: 1px 1px 5px #05384d;
+}
+
+.feed-post-update-button {
+	box-sizing: border-box;
+	/* width: 35px; */
+	/* height: 35px; */
+	background-color: var(--form-button-color);
+	color: var(--form-text-input-color);
+	padding: 10px;
+	margin: 5px;
+	font-family: var(--sans-serif);
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	border-radius: 8px;
+	margin-right: 0px;
 }
 
 .post-divider {
@@ -211,17 +240,16 @@ p, h3 {
 	100%{
 		width: 100%;
 		border-bottom: 0.5px solid var(--orange);
+
 	}
 }
 
-.feed-post-editable-container:hover .post-divider {
-	/* background-color: var(--light-blue); */
-	/* border-bottom: 0.5px solid var(--orange); */
-	/* width: 10%; */
-	/* transition: all 0.7s; */
+.feed-post-editable-container:hover {
 
-	/* background-color: var(--soft-white); */
-	/* color: black; */
+	box-shadow: 5px 10px 10px 1px #93cce8;
+	transition: 0.5s;
+}
 
-	animation: postDividerAnimation 0.5s ease 0s 1 normal forwards;
+.postHoverAnimation {
+	animation: postDividerAnimation 0.5s ease-in-out 0s 1 normal forwards;
 }

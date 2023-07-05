@@ -40,9 +40,9 @@ export const receiveNewExerciseEntry = (exerciseEntry) => ({
     exerciseEntry
 });
 
-export const removeExerciseEntry = (userId, exerciseEntryId) => ({
+// export const removeExerciseEntry = (userId, exerciseEntryId) => ({
+export const removeExerciseEntry = (exerciseEntryId) => ({
     type: REMOVE_EXERCISE_ENTRY,
-    userId,
     exerciseEntryId
 });
 
@@ -146,10 +146,13 @@ export const updateExerciseEntry = (exerciseEntryId, exerciseEntry) => async dis
 
 export const deleteExerciseEntry = (exerciseEntryId) => async dispatch => {
     try {
+        // debugger
         const res = await jwtFetch(`/api/exerciseEntries/${exerciseEntryId}`, {
             method: 'DELETE'
         });
+        dispatch(removeExerciseEntry(exerciseEntryId))
     } catch (err) {
+        // debugger
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
             return dispatch(receiveExerciseEntryErrors(resBody.errors));
@@ -246,6 +249,9 @@ const exerciseEntriesReducer = (state = { user: {}, goal: {}, follows: {}, disco
             return { ...newState, discovers: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_NEW_EXERCISE_ENTRY:
             return { ...newState, updated: undefined, new: action.exerciseEntry }; //might be tricky to see dynamic changes
+        case REMOVE_EXERCISE_ENTRY:
+            delete newState.user[action.exerciseEntryId];
+            return newState
         default:
             return newState;
     }

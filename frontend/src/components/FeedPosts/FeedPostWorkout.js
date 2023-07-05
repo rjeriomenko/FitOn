@@ -5,12 +5,12 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
 import { Link } from "react-router-dom";
-import { fetchUserExerciseEntries,getUserExerciseEntries } from "../../store/exerciseEntries";
+import { deleteExerciseEntry, fetchUserExerciseEntries,getUserExerciseEntries, updateExerciseEntry } from "../../store/exerciseEntries";
 import { createFollow, deleteFollow, getFollows } from "../../store/follows";
 
-function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
+function FeedPostWorkout ({feedPost}) {
   // props
-	const { date, goal, note, rating, updatedAt, user } = feedPost;
+	const { date, goal, note, rating, updatedAt, user, _id } = feedPost;
 	const goalId = goal?._id
 	const setter = feedPost.user?.username;
 	const setterId = feedPost.user?._id;
@@ -48,19 +48,20 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 
 	// internal state to trigger rerender - does not display or get used elsewhere
 
-	// const handleUpdateWorkout = e => {
-	// 	setEditable(false);
-	// 	const updatedWorkout = { note:formNote, rating:formRating, date:formDate, goal, user }
-	// 	dispatch(updateGoal(updatedGoal)) //NEED NEW THUNK!!!!!!!!
-	// 		.then(res => {
-	// 			setTriggerRender(triggerRender + 1)
-	// 		})
-	// }
+	const handleUpdateWorkout = e => {
+		setEditable(false);
+		const updatedWorkout = { note:formNote, rating:formRating, date:formDate, goal, user }
+		dispatch(updateExerciseEntry(_id, updatedWorkout)) //NEED NEW THUNK!!!!!!!!
+			.then(res => {
+				// setTriggerRender(triggerRender + 1)
+			})
+	}
 
-	// const handleDeleteWorkout = e => {
-	// 	dispatch(deleteGoal(goalId)) //NEED NEW THUNK!!!!!!!!
-	// 		.then(() => setTriggerRender(triggerRender + 1));
-	// }
+	const handleDeleteWorkout = e => {
+		// debugger
+		dispatch(deleteExerciseEntry(_id)) //NEED NEW THUNK!!!!!!!!
+			// .then(() => setTriggerRender(triggerRender + 1));
+	}
 
 	// useEffect(() => {
 	// 		setTriggerChildRender(triggerChildRender + 1);
@@ -87,7 +88,7 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 					// setIsFollowing(false)
 					// isFollowing = false;
 					// setFollowText(followButtonText())
-					setTriggerRender(triggerRender * Math.random());
+					// setTriggerRender(triggerRender * Math.random());
 
 				})
 		} else { //follow
@@ -96,13 +97,21 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 					// setIsFollowing(true)
 					// isFollowing = true;
 					// setFollowText(followButtonText())
-					setTriggerRender(triggerRender * Math.random());
+					// setTriggerRender(triggerRender * Math.random());
 				})
 		} 
 	}
 
+	const animateOnce = (e) => {
+		const post = e.currentTarget.querySelector(".post-divider");
+		post.classList.add("postHoverAnimation");
+		setTimeout(() => {
+			post.classList.remove("postHoverAnimation");
+		}, 500)
+	}
+
   return (
-		<div className="feed-post-editable-container">
+		<div className="feed-post-editable-container" onMouseEnter={animateOnce}>
 			{/* CONTENT - START */}
 			{/* CONTENT - START */}
 			<div className="feed-post-content">
@@ -126,7 +135,7 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 						/>
 					</label>
 					{/* <div className="feed-post-crud-button" onClick={handleUpdateWorkout}>Update</div> */}
-					<div className="feed-post-crud-button">Update</div>
+					<div className="feed-post-update-button" onClick={handleUpdateWorkout}>Update</div>
 				</>}
 				<div className="post-divider"></div>
 			</div>
@@ -138,11 +147,10 @@ function FeedPostWorkout ({feedPost, triggerRender, setTriggerRender}) {
 			<div className="feed-post-crud-controls">
 				{(sessionUser._id === setterId) &&
 					<>
-						<div className="feed-post-crud-button" onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
+						<div className="feed-post-crud-button" onClick={handleToggleForm}>
 							<i className="far fa-edit"></i>
 						</div>
-						{/* <div className="feed-post-crud-button" onClick={handleDeleteWorkout}> */}
-						<div className="feed-post-crud-button">
+						<div className="feed-post-crud-button" onClick={handleDeleteWorkout}>
 							<i className="fa-solid fa-trash-can"></i>
 						</div>
 					</>

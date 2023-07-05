@@ -131,7 +131,13 @@ tfoot * {
 	margin-top: 20px;
 }
 
+#progress-goal-desc {
+	margin-left: 5px;
+}
 
+.progress-title *{
+	margin-bottom: 5px;
+}
 
 .profile-footer {
 	height: 1000px;

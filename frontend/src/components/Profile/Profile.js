@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { deleteGoal, fetchUserGoals } from '../../store/goals'
 import { updateUser, getUser, fetchUser } from '../../store/users';
+import { getCurrentUser } from '../../store/session';
 import { Link } from 'react-router-dom';
 
 import { fetchAllUserExerciseEntries, fetchUserExerciseEntries } from '../../store/exerciseEntries';
@@ -33,6 +34,7 @@ function Profile () {
   const [mouseOverDataTotals, setMouseOverDataTotals] = useState({});
 
   const [image, setImage] = useState(null);
+  const [submitStatus, setSubmitStatus] = useState('Submit');
 
   const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
 
@@ -42,13 +44,22 @@ function Profile () {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const user = {
-      image,
-      _id: sessionUser._id
-    };
-
-    dispatch(updateUser(user))
-    // .then(dispatch(fetchUser(user)))
+    const inputField = document.getElementById("imageInput")
+    if (submitStatus !== 'Submitting...' && inputField.value) {
+      const user = {
+        image,
+        _id: sessionUser._id
+      };
+  
+      setSubmitStatus('Submitting...')
+  
+      dispatch(updateUser(user))
+        .then(() => dispatch(getCurrentUser()))
+        .then(() => {
+          setSubmitStatus('Submit')
+          inputField.value = "";
+        });
+    }
   }
 
   const handleMouseEnter = (e) => {
@@ -148,8 +159,8 @@ function Profile () {
   return (
     <div className='profile-container'>
       <h3>Update Profile Picture</h3>
-      <input type="file" accept=".jpg, .jpeg, .png" onChange={updateFile} />
-      <input className="profile-submit" type="submit" onClick={handleSubmit} />
+      <input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
+      <input className="profile-submit" type="submit" value={submitStatus} onClick={handleSubmit} />
 
       {/* DATA VIZ - START */}
       {/* DATA VIZ - START */}

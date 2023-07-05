@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 const LandingGifContainer = () => {
 	// let imgName = "narutoirl";
-//   const imgNames = ["narutoirl", "swim", "warmup", "narutoirl", "dekupushup", "bicyclecrunch", "jogging", "narutoirl", "tyingshoes", "yoga"]
+	// const imgNames = ["narutoirl", "swim", "warmup", "narutoirl", "dekupushup", "bicyclecrunch", "jogging", "narutoirl", "tyingshoes", "yoga"]
 	const imgNames = ["narutoirl", "swim", "warmup", "narutoirl", "dekupushup", "bicyclecrunch", "jogging", "narutoirl", "tyingshoes"]
 
 

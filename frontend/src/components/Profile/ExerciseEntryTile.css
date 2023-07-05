@@ -1,8 +1,10 @@
 .exercise-outer-container {
 	position: relative;
 	--tile-side-length: 80px;
-	/* transform: scale(1); */
+	transform: scale(1);
 	/* transition: 0.3s; */
+	animation: reverseTileContainerHover 0.3s linear 0s 1 normal forwards;
+
 }
 
 .exercise-entry-tile-container {
@@ -19,6 +21,7 @@
 	object-fit: cover;
 	transform: scale(1);
 	transition: all 0.5s ease;
+	animation: reverseTileImgHover 0.5s linear 0s 1 reverse forwards;
 }
 
 .exercise-outer-container:hover {
@@ -103,59 +106,45 @@
 }
 
 .rev-tile-container-hover {
-	/* animation: reverseTileContainerHover 0.3s linear 0s 1 normal forwards; */
-	/* animation: tileContainerHover 1.3s linear 0s 1 reverse forwards; */
+	animation: reverseTileContainerHover 0.3s linear 0s 1 normal forwards;
 }
 
 .rev-tile-img-hover {
-	/* animation: tileImgHover 1.5s linear 0s 1 reverse forwards; */
 	transform: scale(1);
 	transition: all 0.5s ease;
 }
 
 @keyframes tileContainerHover {
 	0% {
-		/* width: 0%; */
-		/* border-bottom: 0.5px solid var(--black); */
+		transform: scale(1);
 	}
 	100%{
-		/* width: 100%; */
-		/* border-bottom: 0.5px solid var(--orange); */
-		transform: scale(0.90);
+		transform: scale(0.75);
 	}
 }
 
 @keyframes tileImgHover {
 	0% {
-		/* width: 0%; */
-		/* border-bottom: 0.5px solid var(--black); */
+		transform: scale(1);
 	}
 	100%{
-		/* width: 100%; */
-		/* border-bottom: 0.5px solid var(--orange); */
-		transform: scale(1.5);
+		transform: scale(1.8);
 	}
 }
 @keyframes reverseTileContainerHover {
 	0% {
-		/* width: 0%; */
-		/* border-bottom: 0.5px solid var(--black); */
+		transform: scale(0.75);
 	}
 	100%{
-		/* width: 100%; */
-		/* border-bottom: 0.5px solid var(--orange); */
 		transform: scale(1);
 	}
 }
 
 @keyframes reverseTileImgHover {
 	0% {
-		/* width: 0%; */
-		/* border-bottom: 0.5px solid var(--black); */
+		transform: scale(1.8);
 	}
 	100%{
-		/* width: 100%; */
-		/* border-bottom: 0.5px solid var(--orange); */
 		transform: scale(1);
 	}
 }

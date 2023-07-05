@@ -16,7 +16,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const [date, setDate] = useState(today);
     const [note, setNote] = useState('');
     const [rating, setRating] = useState('');
-    const [exerciseInputs, setExerciseInputs] = useState([{ name: '', sets: '', reps: '', time: '' }]);
+    const [exerciseInputs, setExerciseInputs] = useState([{ name: '', sets: '', reps: '', time: '', weight: '' }]);
     const [submit, setSubmit] = useState(false);
 
     const errors = useSelector(state => state.errors.exerciseEntries) // is this where errors live?
@@ -27,7 +27,6 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const userGoals = userGoalsObj ? userGoalsObj[`${sessionUserId}`] : null;
     // const currentGoal = userGoals ? userGoals.slice(-1)[0] : null;
     const currentGoal = sessionUser?.currentGoal;
-
     const currentGoalId = currentGoal?._id;
 
     useEffect(() => {
@@ -38,7 +37,6 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
         <div> Loading... </div>
     }
 
-
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
         const inputs = [...exerciseInputs];
@@ -48,7 +46,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
 
     const addInputFields = (e) => {
         e.preventDefault();
-        setExerciseInputs([...exerciseInputs, { name: '', sets: '', reps: '', time: '' }]);
+        setExerciseInputs([...exerciseInputs, { name: '', sets: '', reps: '', time: '', weight: '' }]);
     };
 
     const removeInputField = (index) => {
@@ -59,15 +57,12 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // debugger
 
         dispatch(createExerciseEntry( currentGoalId, { date, note, rating: Number(rating) }))
             .then((res) => {
-                // debugger
                 setShowExerciseEntry(false)
 
                 const exerciseEntryId = Object.keys(res)[0];
-
                 const createExercisePromises = exerciseInputs.map((exercise) =>
                     dispatch(createExercise(exerciseEntryId, exercise))
                 );
@@ -80,12 +75,9 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
 
     };
 
-
-
     if (submit === true) {
         return <Redirect to={`/users/${sessionUserId}/goals`} />
     }
-
 
     return (
         <div className="exercise-form-container">
@@ -120,6 +112,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                         value={note}
                         onChange={e => setNote(e.currentTarget.value)}
                         placeholder="How was your workout?"
+                        required
                     />
                     <div className="errors">{errors?.note}</div>
 
@@ -128,31 +121,18 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                 <div className="exercise-input-container">
                     {exerciseInputs.map((input, index) => (
                     <div id="exercise-input-div" key={index} className={`exercise-div-${index}`}>
-                        <span id="exercise-input-span">Exercise:</span>
+                        <span id="exercise-input-span">Exercise</span>
                         <input
                             type="text"
                             name="name"
                             placeholder="Push-ups, jogging..."
                             value={input.name}
                             onChange={(e) => handleInputChange(e, index)}
+                            required
                         />
-                        {/* <select 
-                            // name="name"
-                            // value={input.name}
-                            // onChange={(e) => handleInputChange(e, index)}
-                        >
-                            <option value="---Select an option---" selected disabled>---Select an option---</option>
-                            <option value="Jogging">Jogging</option>
-                            <option value="Swimming">Swimming</option>
-                            <option value="Cycling">Cycling</option>
-                            <option value="Dancing">Dancing</option>
-                            <option value="Planking">Planking</option>
-
-
-                        </select> */}
                         <div className="errors">{errors?.name}</div>
 
-                        <span id="exercise-input-span">Sets:</span>
+                        <span id="exercise-input-span">Sets</span>
                         <input
                             type="number"
                             min="1"
@@ -163,7 +143,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                         />
                         <div className="errors">{errors?.sets}</div>
 
-                        <span id="exercise-input-span">Reps:</span>
+                        <span id="exercise-input-span">Reps</span>
                         <input
                             type="number"
                             min="1"
@@ -174,12 +154,26 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                         />
                         <div className="errors">{errors?.reps}</div>
 
-                        <span id="exercise-input-span">Time (in minutes):</span>
+                        <span id="exercise-input-span">Weight (lbs)</span>
                         <input
-                            type="text"
+                            type="number"
+                            min="1"
+                            max="1000000"
+                            name="weight"
+                            value={input.weight}
+                            onChange={(e) => handleInputChange(e, index)}
+                        />
+                        <div className="errors">{errors?.weight}</div>
+
+                        <span id="exercise-input-span">Time (minutes)</span>
+                        <input
+                            type="number"
+                            min="1"
+                            max="1000000"
                             name="time"
                             value={input.time}
                             onChange={(e) => handleInputChange(e, index)}
+                            required
                         />
                         <div className="errors">{errors?.time}</div>
 

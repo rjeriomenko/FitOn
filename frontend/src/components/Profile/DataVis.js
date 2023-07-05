@@ -7,9 +7,9 @@ import './DataVis.css'
 function DataVis({timeGraph}) {
   const chartRef = useRef(null);
   const sessionUser = useSelector(state => state.session.user);
+  const currentGoal = useSelector(state => state.session.user);
   const currentGoalId = sessionUser?.currentGoal?._id;
   const chartInstanceRef = useRef(null);
-
   const fetchExerciseEntry = async () => {
     const res = await axios.get(`./api/exercises/byGoal/${currentGoalId}`);
     const data = res.data;  
@@ -190,7 +190,6 @@ function DataVis({timeGraph}) {
   useEffect(() => {
     currentGoalId ? createBarGraph() : createEmpty(); 
   }, [currentGoalId, timeGraph])
-  
   
   return (
     <>

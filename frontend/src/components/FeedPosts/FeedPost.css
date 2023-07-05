@@ -243,7 +243,7 @@ p, h3 {
 	transition: 0.5s;
 }
 
-.postHoverAnimation {
+.post-hover-animation {
 	animation: postDividerAnimation 0.5s ease-in-out 0s 1 normal forwards;
 }
 

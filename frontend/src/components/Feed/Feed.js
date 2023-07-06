@@ -129,7 +129,7 @@ function Feed ({discoverMode, options = {}}) {
     discoverMode ? [...filteredFollowWorkoutPosts, ...filteredDiscoversWorkoutPosts]
       : [...filteredWorkoutPosts, ...filteredFollowWorkoutPosts];
 
-  const combinedPosts = goalsOnly ? combinedGoals : [...combinedGoals, ...combinedWorkouts];
+  const combinedPosts = goalsOnly ? combinedGoals : (workoutsOnly ? combinedWorkouts : [...combinedGoals, ...combinedWorkouts]);
 
   // Temporary fix to remove any possible duplicates:
   const uniquePosts = [];

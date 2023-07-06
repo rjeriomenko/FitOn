@@ -36,10 +36,12 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 
 	const toggleGoalsOnly = (e) => {
 		setGoalsOnly(oldval => !oldval)
+		if(workoutsOnly) setWorkoutsOnly(false)
 	}
 
 	const toggleWorkoutsOnly = (e) => {
 		setWorkoutsOnly(oldval => !oldval)
+		if(goalsOnly) setGoalsOnly(false)
 	}
 
 	useEffect(() => {
@@ -63,11 +65,11 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 				<li><NavLink exact to={`/feed/${sessionUser._id}`}>{sessionUser.username}</NavLink></li>
 			</ul>
 			<div className="post-type-filter-container">
-				<div className={`post-filter-option post-type-filter-goals ${goalsOnly ? "active-filter" : ""}`} onClick={e => setGoalsOnly(oldval => !oldval)}>
+				<div className={`post-filter-option post-type-filter-goals ${goalsOnly ? "active-filter" : ""}`} onClick={toggleGoalsOnly}>
 					<i class="fa-solid fa-arrows-to-circle"></i>
 				</div>
 				{/* <div className="post-type-filter-container-divider"></div> */}
-				<div className={`post-filter-option post-type-filter-workouts ${workoutsOnly ? "active-filter" : ""}`} onClick={e => setWorkoutsOnly(oldval => !oldval)}>
+				<div className={`post-filter-option post-type-filter-workouts ${workoutsOnly ? "active-filter" : ""}`} onClick={toggleWorkoutsOnly}>
 					<i class="fa-solid fa-person-running"></i>
 				</div>
 			</div>

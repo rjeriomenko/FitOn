@@ -71,7 +71,6 @@ const seedData = async () => {
                     sets: 3,
                     reps: 10,
                     time: '10',
-                    weight: null,
                     user: savedFullBodyUser._id,
                     goal: savedFullBodyGoal._id,
                     workout: savedWorkout._id,
@@ -81,7 +80,6 @@ const seedData = async () => {
                     sets: 3,
                     reps: 8,
                     time: '10',
-                    weight: null,
                     user: savedFullBodyUser._id,
                     goal: savedFullBodyGoal._id,
                     workout: savedWorkout._id,
@@ -91,7 +89,6 @@ const seedData = async () => {
                     sets: 4,
                     reps: 9,
                     time: '10',
-                    weight: null,
                     user: savedFullBodyUser._id,
                     goal: savedFullBodyGoal._id,
                     workout: savedWorkout._id,
@@ -101,7 +98,6 @@ const seedData = async () => {
                     sets: 2,
                     reps: 12,
                     time: '10',
-                    weight: null,
                     user: savedFullBodyUser._id,
                     goal: savedFullBodyGoal._id,
                     workout: savedWorkout._id,
@@ -110,8 +106,7 @@ const seedData = async () => {
                     name: "Bicep Curls",
                     sets: 3,
                     reps: 10,
-                    time: '60',
-                    weight: null,
+                    time: '10',
                     user: savedFullBodyUser._id,
                     goal: savedFullBodyGoal._id,
                     workout: savedWorkout._id,
@@ -170,30 +165,21 @@ const seedData = async () => {
             const exercises = [
                 {
                     name: "Jogging",
-                    sets: null,
-                    reps: null,
-                    time: "30",
-                    weight: null,
+                    time: getRandomTime(),
                     user: savedTriathlonUser._id,
                     goal: savedTriathlonGoal._id,
                     workout: savedWorkout._id,
                 },
                 {
                     name: "Swimming",
-                    sets: null,
-                    reps: null,
-                    time: "20",
-                    weight: null,
+                    time: getRandomTime(),
                     user: savedTriathlonUser._id,
                     goal: savedTriathlonGoal._id,
                     workout: savedWorkout._id,
                 },
                 {
                     name: "Cycling",
-                    sets: null,
-                    reps: null,
-                    time: "45",
-                    weight: null,
+                    time: getRandomTime(),
                     user: savedTriathlonUser._id,
                     goal: savedTriathlonGoal._id,
                     workout: savedWorkout._id,
@@ -253,20 +239,14 @@ const seedData = async () => {
             const exercises = [
                 {
                     name: "Swimming",
-                    sets: null,
-                    reps: null,
-                    time: "30",
-                    weight: null,
+                    time: getRandomTime(),
                     user: savedSprainedAnkleUser._id,
                     goal: savedSprainedAnkleGoal._id,
                     workout: savedWorkout._id,
                 },
                 {
                     name: "Cycling",
-                    sets: null,
-                    reps: null,
-                    time: "45",
-                    weight: null,
+                    time: getRandomTime(),
                     user: savedSprainedAnkleUser._id,
                     goal: savedSprainedAnkleGoal._id,
                     workout: savedWorkout._id,
@@ -298,6 +278,12 @@ const getNextDate = (day) => {
     return `${year}-${month}-${date}`;
 };
 
+const getRandomTime = () => {
+    const times = [25, 30, 35, 40, 45];
+    const randomIndex = Math.floor(Math.random() * times.length);
+    return String(times[randomIndex]);
+}
+
 // Call the function to create the seed data
 seedData();
 
@@ -325,5 +311,15 @@ seedData();
 // demo - ***make sure demo is subscribed to the seed users
 
 // make sure you're in backend folder
-// npm install -g dotenv-cli
-// node -r dotenv/config seeders/seeds.js
+// if not yet installed, npm install -g dotenv-cli
+// to run the seed file, node -r dotenv/config seeders/seeds.js
+
+// pseudocode for demo
+
+// demo@user.io
+//password
+
+// 30(!!!???!!) days of exercises?
+// could be weekly physical therapy/yoga/etc.
+// also maybe miss a day here and there to give it a more authentic feel
+

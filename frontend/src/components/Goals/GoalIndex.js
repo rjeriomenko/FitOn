@@ -3,7 +3,7 @@ import GoalCreate from './GoalCreate';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { deleteGoal, updateGoal, fetchUserGoals, getUserGoals } from '../../store/goals'
+import { deleteGoal, updateGoal, fetchUserGoals, getUserGoals } from '../../store/goals';
 import { getUser, fetchUser } from '../../store/users'
 import { Link } from 'react-router-dom';
 import { Modal } from '../../context/Modal';

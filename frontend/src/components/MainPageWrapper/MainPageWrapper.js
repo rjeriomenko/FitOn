@@ -1,11 +1,13 @@
 import './MainPageWrapper.css';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-
+import { useLocation } from 'react-router-dom';
 
 // Component to wrap full-page subcomponents to standardize page padding/margin style
 const MainPageWrapper = ({children}) => {
 	const loggedIn = useSelector(state => !!state.session.user);
+	const location = useLocation();
+	console.log(location.pathname);
 
 	useEffect(() => {
 		const navBarHeight = document.querySelector(".nav-bar-container")?.offsetHeight;
@@ -21,9 +23,10 @@ const MainPageWrapper = ({children}) => {
 		} else {
 			mainPageWrapper.style.height = `calc(100vh - ${topBotHeight}px)`
 			mainPageWrapper.style.marginTop = `${navBarHeight}px`
+			mainPageWrapper.style.minHeight = `calc(100vh - ${topBotHeight}px)`
 		}
 			
-	}, [loggedIn])
+	}, [loggedIn, location.pathname])
 
 	return (
 		<div className={`main-page-wrapper ${loggedIn ? "main-fade" : "logged-out"}`}>

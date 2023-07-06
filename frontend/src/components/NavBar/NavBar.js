@@ -13,6 +13,8 @@ function NavBar () {
   const dispatch = useDispatch();
   const [mouseOver, setMouseOver] = useState(false);
   
+  console.log(sessionUser);
+
   const logoutUser = e => {
       e.preventDefault();
       dispatch(logout());

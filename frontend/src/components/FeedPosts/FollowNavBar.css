@@ -37,7 +37,7 @@
 .hoverMarker {
 	z-index: -1;
 	position: absolute;
-	height: 20px;
+	min-height: 20px;
 	/* width: 50px; */
 	background-color:var(--orange);
 	opacity: 0;

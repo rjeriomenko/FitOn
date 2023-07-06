@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearGoalErrors, createGoal  } from '../../store/goals';
+import { getCurrentUser } from '../../store/session';
 // import FeedPostGoal from './FeedPostGoal';
 import './GoalCreate.css';
 
@@ -26,6 +27,7 @@ function GoalCreate({ setShowCreateGoalForm, userId }) {
     e.preventDefault();
     dispatch(createGoal({ title, description, deadline }))
       .then(() => dispatch(fetchUser(userId)))
+      .then(() => dispatch(getCurrentUser()))
         .then(() => {
           setShowCreateGoalForm(false)
           setTitle('');

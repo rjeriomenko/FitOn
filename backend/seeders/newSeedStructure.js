@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
 // Define models
 const User = mongoose.model('User', UserSchema);
 const Goal = mongoose.model('Goal', GoalSchema);
-const Workout = mongoose.model('ExerciseEntry', ExerciseEntrySchema);
+const ExerciseEntry = mongoose.model('ExerciseEntry', ExerciseEntrySchema);
 const Exercise = mongoose.model('Exercise', ExerciseSchema);
 
 // Establish a connection to your MongoDB database
@@ -132,6 +132,32 @@ const seedData = async () => {
         // user: 
         // }
 
+        // ****the test zone****
+
+        
+        // const testEntry = new ExerciseEntry({
+        //     date: 'test',
+        //     note: 'test',
+        //     rating: getRandomRating(),
+        //     user: demoUser._id,
+        //     goal: firstDemoGoal._id
+        // })
+        // const savedTestEntry = await testEntry.save()
+
+        // const testExercise = new Exercise({
+        //     sets: getRandomSets(),
+        //     reps: getRandomReps(),
+        //     time: "10",
+        //     name: "testing",
+        //     user: demoUser._id,
+        //     goal: firstDemoGoal._id,
+        //     workout: savedTestEntry._id
+        // })
+        // await testExercise.save();
+
+
+        // ****exiting test zone****
+
         const goals = [];
         goals.push(firstDemoGoal);
         goals.push(secondDemoGoal);
@@ -145,177 +171,63 @@ const seedData = async () => {
         // create and save WORKOUTS
         // this will be a little more complicated as you'll have to make sure the references are all pointed correctly
 
+
         for (const goal of goals) {
             const deadline = goal.deadline;
             const numWorkouts = 7;
             const workouts = populateWorkouts(deadline, numWorkouts);
 
             const workoutPromises = [];
+            const exercisePromises = [];
 
             for (const workout of workouts) {
-                const exerciseEntry = new Workout({
+                const exerciseEntry = new ExerciseEntry({
                     date: workout.date,
                     note: workout.note,
                     rating: workout.rating,
                     user: goal.user,
-                    goal: goal._id
+                    goal: goal._id,
                 });
 
-                const savedWorkout = await exerciseEntry.save();
+                const savedEntry = await exerciseEntry.save();
+                if (!savedEntry) {
+                    process.stdout.write("entry not working!!!!!\n");
+                    const error = new Error('Entry was not saved');
+                    throw error;
+                }
 
-                const exercises = generateExercises(goal); // Generate exercises for the current goal
+                workoutPromises.push(savedEntry);
+
+                const exercises = generateExercises(goal);
 
                 for (const exercise of exercises) {
-                    const exerciseEntry = new Exercise({
+                    const exerciseObj = new Exercise({
                         name: exercise.name,
                         sets: exercise.sets,
                         reps: exercise.reps,
                         time: exercise.time,
                         user: goal.user,
                         goal: goal._id,
-                        workout: savedWorkout._id
+                        workout: savedEntry._id,
                     });
 
-                    workoutPromises.push(exerciseEntry.save());
+                    const savedExercise = await exerciseObj.save();
+                    if (!savedExercise) {
+                        process.stdout.write("exercise not working!!!!!!\n");
+                        const error = new Error('Exercise was not saved');
+                        throw error;
+                    }
+
+                    exercisePromises.push(savedExercise);
                 }
             }
 
             await Promise.all(workoutPromises);
+            await Promise.all(exercisePromises);
         }
 
         process.stdout.write("Workouts created and saved!\n");
 
-        // Function to generate exercises based on the goal
-        const generateExercises = (goal) => {
-            const exercises = [];
-
-            switch (goal.title) {
-                case "Higher Intensity in all Workouts":
-                    exercises.push({
-                        name: "Burpees",
-                        sets: getRandomSets(),
-                        reps: getRandomReps(),
-                        time: "10"
-                    });
-                    exercises.push({
-                        name: "Stair Runs",
-                        sets: getRandomSets(),
-                        reps: 1,
-                        time: "10"
-                    });
-                    exercises.push({
-                        name: "Squats",
-                        sets: getRandomSets(),
-                        reps: getRandomReps(),
-                        time: "10"
-                    });
-                    break;
-                case "Increase Endurance and Stamina":
-                    exercises.push({
-                        name: "Jump Rope",
-                        time: getRandomTime()
-                    });
-                    exercises.push({
-                        name: "Rowing Machine",
-                        time: getRandomTime()
-                    });
-                    exercises.push({
-                        name: "Boxing",
-                        time: getRandomTime()
-                    });
-                    break;
-                case "Weight Loss and Body Toning":
-                    exercises.push({
-                        name: "Crunches",
-                        sets: getRandomSets(),
-                        reps: getRandomReps(),
-                        time: "10"
-                    });
-                    exercises.push({
-                        name: "Lunges",
-                        sets: getRandomSets(),
-                        reps: getRandomReps(),
-                        time: "10"
-                    });
-                    exercises.push({
-                        name: "Supermans",
-                        sets: getRandomSets(),
-                        reps: getRandomReps(),
-                        time: "10"
-                    });
-                case "Run 30 miles by next weekend":
-                    exercises.push({
-                        name: "Running",
-                        time: getRandomTime()
-                    });
-                    break
-                case "Bike 500 miles by mid-April":
-                    exercises.push({
-                        name: "Cycling",
-                        time: getRandomTime()
-                    });
-                    break
-                case "Swim 50 laps (1 mile) per week":
-                    exercises.push({
-                        name: "Swimming",
-                        time: getRandomTime()
-                    });
-                    break
-                case "Increase Strength and Build Muscle Mass":
-                    exercises.push({
-                        name: "Pushups",
-                        sets: getRandomSets(),
-                        reps: getRandomReps(),
-                        time: "10"
-                    });
-                    exercises.push({
-                        name: "Pullups",
-                        sets: getRandomSets(),
-                        reps: getRandomReps(),
-                        time: "10"
-                    });
-                    exercises.push({
-                        name: "Glute Bridges",
-                        sets: getRandomSets(),
-                        reps: getRandomReps(),
-                        time: "10"
-                    });
-                    exercises.push({
-                        name: "Calf Raises",
-                        sets: getRandomSets(),
-                        reps: getRandomReps(),
-                        time: "10"
-                    });
-                    break;
-                case "Reduce Body Fat and Increase Muscle Tone":
-                    exercises.push({
-                        name: "Lunges",
-                        sets: getRandomSets(),
-                        reps: getRandomReps(),
-                        time: "10"
-                    });
-                    exercises.push({
-                        name: "Squats",
-                        sets: getRandomSets(),
-                        reps: getRandomReps(),
-                        time: "10"
-                    });
-                    exercises.push({
-                        name: "Mountain Climbers",
-                        sets: getRandomSets(),
-                        reps: getRandomReps(),
-                        time: "10"
-                    });
-                    exercises.push({
-                        name: "Russian Twists",
-                        sets: getRandomSets(),
-                        reps: 20,
-                        time: "10"
-                    });
-                    break;
-            };
-            return exercises;
-        };
         process.stdout.write("Exercises created and saved!\n");
 
 
@@ -323,13 +235,12 @@ const seedData = async () => {
     } catch (error) {
         console.error("Error creating seed data:", error);
     } finally {
-        // Close the MongoDB connection
         mongoose.connection.close();
     }
 };
 
 // generate workouts for the goal based on deadline and how many days of workouts you need
-const populateWorkouts = (numWorkouts, deadline) => {
+const populateWorkouts = (deadline, numWorkouts) => {
     const workouts = [];
 
     for (let i = 0; i < numWorkouts; i++) {
@@ -366,6 +277,12 @@ const getRandomTime = () => {
     return String(times[randomIndex]);
 }
 
+const getRandomRepTime = () => {
+    const times = [8, 9, 10, 11, 12, 13, 14, 15];
+    const randomIndex = Math.floor(Math.random() * times.length);
+    return String(times[randomIndex]);
+}
+
 const getRandomRating = () => {
     return Math.floor(Math.random() * 5) + 1;
 }
@@ -397,6 +314,139 @@ const getRandomNote = () => {
     const randomIndex = Math.floor(Math.random() * workoutNotes.length);
     return workoutNotes[randomIndex];
 }
+
+
+// Function to generate exercises based on the goal
+const generateExercises = (goal) => {
+    const exercises = [];
+
+    switch (goal.title) {
+        case "Higher Intensity in all Workouts":
+            exercises.push({
+                name: "Burpees",
+                sets: getRandomSets(),
+                reps: getRandomReps(),
+                time: getRandomRepTime()
+            });
+            exercises.push({
+                name: "Stair Runs",
+                sets: getRandomSets(),
+                reps: 1,
+                time: getRandomRepTime()
+            });
+            exercises.push({
+                name: "Squats",
+                sets: getRandomSets(),
+                reps: getRandomReps(),
+                time: getRandomRepTime()
+            });
+            return exercises;
+        case "Increase Endurance and Stamina":
+            exercises.push({
+                name: "Jump Rope",
+                time: getRandomTime()
+            });
+            exercises.push({
+                name: "Rowing Machine",
+                time: getRandomTime()
+            });
+            exercises.push({
+                name: "Boxing",
+                time: getRandomTime()
+            });
+            return exercises;
+        case "Weight Loss and Body Toning":
+            exercises.push({
+                name: "Crunches",
+                sets: getRandomSets(),
+                reps: getRandomReps(),
+                time: getRandomRepTime()
+            });
+            exercises.push({
+                name: "Lunges",
+                sets: getRandomSets(),
+                reps: getRandomReps(),
+                time: getRandomRepTime()
+            });
+            exercises.push({
+                name: "Supermans",
+                sets: getRandomSets(),
+                reps: getRandomReps(),
+                time: getRandomRepTime()
+            });
+            return exercises;
+        case "Run 30 miles by next weekend":
+            exercises.push({
+                name: "Running",
+                time: getRandomTime()
+            });
+            return exercises;
+        case "Bike 500 miles by mid-April":
+            exercises.push({
+                name: "Cycling",
+                time: getRandomTime()
+            });
+            return exercises;
+        case "Swim 50 laps (1 mile) per week":
+            exercises.push({
+                name: "Swimming",
+                time: getRandomTime()
+            });
+            return exercises;
+        case "Increase Strength and Build Muscle Mass":
+            exercises.push({
+                name: "Pushups",
+                sets: getRandomSets(),
+                reps: getRandomReps(),
+                time: getRandomRepTime()
+            });
+            exercises.push({
+                name: "Pullups",
+                sets: getRandomSets(),
+                reps: getRandomReps(),
+                time: getRandomRepTime()
+            });
+            exercises.push({
+                name: "Glute Bridges",
+                sets: getRandomSets(),
+                reps: getRandomReps(),
+                time: getRandomRepTime()
+            });
+            exercises.push({
+                name: "Calf Raises",
+                sets: getRandomSets(),
+                reps: getRandomReps(),
+                time: getRandomRepTime()
+            });
+            return exercises;
+        case "Reduce Body Fat and Increase Muscle Tone":
+            exercises.push({
+                name: "Lunges",
+                sets: getRandomSets(),
+                reps: getRandomReps(),
+                time: getRandomRepTime()
+            });
+            exercises.push({
+                name: "Squats",
+                sets: getRandomSets(),
+                reps: getRandomReps(),
+                time: getRandomRepTime()
+            });
+            exercises.push({
+                name: "Mountain Climbers",
+                sets: getRandomSets(),
+                reps: getRandomReps(),
+                time: getRandomRepTime()
+            });
+            exercises.push({
+                name: "Russian Twists",
+                sets: getRandomSets(),
+                reps: 20,
+                time: getRandomRepTime()
+            });
+            return exercises;
+    };
+};
 
 // Call the function to create the seed data
 seedData();

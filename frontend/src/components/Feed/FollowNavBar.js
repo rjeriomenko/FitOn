@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
 import { useEffect } from "react";
 
-const FollowNavBar = () => {
+const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) => {
 	const sessionUser = useSelector(state => state.session.user);
 	const randomNum = () => Math.random();
 
@@ -34,6 +34,14 @@ const FollowNavBar = () => {
 		}
 	}
 
+	const toggleGoalsOnly = (e) => {
+		setGoalsOnly(oldval => !oldval)
+	}
+
+	const toggleWorkoutsOnly = (e) => {
+		setWorkoutsOnly(oldval => !oldval)
+	}
+
 	useEffect(() => {
 		const links = document.querySelector(".follow-nav-bar-container").querySelectorAll("li");
 		links.forEach(link => {
@@ -54,6 +62,15 @@ const FollowNavBar = () => {
 				<li><NavLink exact to={`/feed`}>Follows</NavLink></li>
 				<li><NavLink exact to={`/feed/${sessionUser._id}`}>{sessionUser.username}</NavLink></li>
 			</ul>
+			<div className="post-type-filter-container">
+				<div className={`post-filter-option post-type-filter-goals ${goalsOnly ? "active-filter" : ""}`} onClick={e => setGoalsOnly(oldval => !oldval)}>
+					<i class="fa-solid fa-arrows-to-circle"></i>
+				</div>
+				{/* <div className="post-type-filter-container-divider"></div> */}
+				<div className={`post-filter-option post-type-filter-workouts ${workoutsOnly ? "active-filter" : ""}`} onClick={e => setWorkoutsOnly(oldval => !oldval)}>
+					<i class="fa-solid fa-person-running"></i>
+				</div>
+			</div>
 		</div>
 	)
 }

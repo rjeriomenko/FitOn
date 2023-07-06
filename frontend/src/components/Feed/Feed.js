@@ -63,6 +63,10 @@ function Feed ({discoverMode, options = {}}) {
   const userId = useParams().userId
   const filterOptions = {...options};
 
+  // Local state - for filtering!
+  const [goalsOnly, setGoalsOnly] = useState(false);
+  const [workoutsOnly, setWorkoutsOnly] = useState(false);
+
   // If discoverMode, pull random number to always rerender component if navigate to it from within component.
   // This is added to dependency array to trigger rerender if we click on "Discover"
   const {discoverTriggerRerender} = useLocation();
@@ -110,11 +114,22 @@ function Feed ({discoverMode, options = {}}) {
   const filteredDiscoversGoalPosts = filterPostsBy(discoverGoals, filterOptions);
   const filteredDiscoversWorkoutPosts = filterPostsBy(discoverWorkouts, filterOptions);
 
-  const combinedPosts = 
-    userId ? [...filteredGoalPosts, ...filteredWorkoutPosts] : 
-    discoverMode ? [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts, ...filteredFollowWorkoutPosts, ...filteredDiscoversGoalPosts, ...filteredDiscoversWorkoutPosts]
-      : [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts, ...filteredFollowWorkoutPosts];
-  // const combinedPosts = [...filteredDiscoversGoalPosts, ...filteredDiscoversWorkoutPosts];
+  // const combinedPosts = 
+  //   userId ? [...filteredGoalPosts, ...filteredWorkoutPosts] : 
+  //   discoverMode ? [...filteredFollowGoalPosts, ...filteredFollowWorkoutPosts, ...filteredDiscoversGoalPosts, ...filteredDiscoversWorkoutPosts]
+  //     : [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts, ...filteredFollowWorkoutPosts];
+
+  const combinedGoals =
+    userId ? [...filteredGoalPosts] : 
+    discoverMode ? [...filteredFollowGoalPosts, ...filteredDiscoversGoalPosts]
+      : [...filteredGoalPosts, ...filteredFollowGoalPosts];
+      
+  const combinedWorkouts = 
+    userId ? [...filteredWorkoutPosts] : 
+    discoverMode ? [...filteredFollowWorkoutPosts, ...filteredDiscoversWorkoutPosts]
+      : [...filteredWorkoutPosts, ...filteredFollowWorkoutPosts];
+
+  const combinedPosts = goalsOnly ? combinedGoals : [...combinedGoals, ...combinedWorkouts];
 
   // Temporary fix to remove any possible duplicates:
   const uniquePosts = [];
@@ -173,7 +188,7 @@ function Feed ({discoverMode, options = {}}) {
     <>
       <h2 className='feed-header'>{renderHeaderText()}</h2>
       <div className='feed-posts-container'>
-        <FollowNavBar />
+        <FollowNavBar goalsOnly={goalsOnly} setGoalsOnly={setGoalsOnly} workoutsOnly={workoutsOnly} setWorkoutsOnly={setWorkoutsOnly}/>
         <div className='inner-feed-posts-container'>
           {/* <div onClick={e => setTestPropNum(old => old + 1)}>CLICK</div> */}
           {/* {testPropNum} */}

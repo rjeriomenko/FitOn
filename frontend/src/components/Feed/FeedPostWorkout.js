@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteExerciseEntry, fetchUserExerciseEntries,getUserExerciseEntries, updateExerciseEntry } from "../../store/exerciseEntries";
 import { createFollow, deleteFollow, getFollows } from "../../store/follows";
+import { fetchWorkoutExercises, getWorkoutKeyExercises } from "../../store/exercises";
 
 function FeedPostWorkout ({feedPost}) {
   // props
@@ -25,6 +26,11 @@ function FeedPostWorkout ({feedPost}) {
 	const follows = useSelector(getFollows);
 	const followedIds = Object.values(follows).map(followObj => followObj?.followedUser?._id);
 	let isFollowing = followedIds.includes(userId)
+	const exercises = Object.values(useSelector(getWorkoutKeyExercises)).filter(exercise => exercise.workout._id === _id);
+	// console.log(exercises);
+
+	// Local variables based on useSelectors
+	// const totalTime = BOOKMARK
 
 	// component logic states
 	const [editable, setEditable] = useState(false);
@@ -46,6 +52,9 @@ function FeedPostWorkout ({feedPost}) {
 
 	// useEffect!
 	useEffect(() => {
+
+		dispatch(fetchWorkoutExercises(_id));
+
 		if (!showMenu) return;
 		const closeMenu = () => {
 			setShowMenu(false);
@@ -54,8 +63,6 @@ function FeedPostWorkout ({feedPost}) {
 		document.addEventListener('click', closeMenu);
 		return () => document.removeEventListener("click", closeMenu);
 	}, [showMenu])
-
-	// internal state to trigger rerender - does not display or get used elsewhere
 
 	const handleUpdateWorkout = e => {
 		setEditable(false);
@@ -115,9 +122,8 @@ function FeedPostWorkout ({feedPost}) {
 						<i class="fa-solid fa-ellipsis"></i>
 						{showMenu && 
 							<>
-								{/* RECYCLED FROM GOALINDEX - START */}
-								{/* RECYCLED FROM GOALINDEX - START */}
-								{/* RECYCLED FROM GOALINDEX - START */}
+								{/* DROPDOWN - START */}
+								{/* DROPDOWN - START */}
 								<ul className="post-dropdown">
 									<li onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
 										<i class="far fa-edit"></i>
@@ -127,18 +133,41 @@ function FeedPostWorkout ({feedPost}) {
 										<i class="fa-solid fa-trash-can"></i>
 									</li>
 								</ul>
-								{/* RECYCLED FROM GOALINDEX - END */}
-								{/* RECYCLED FROM GOALINDEX - END */}
-								{/* RECYCLED FROM GOALINDEX - END */}
+								{/* DROPDOWN - END */}
+								{/* DROPDOWN - END */}
 							</>
 						}
 					</div>}
 				</div>
 				<br/>
-			  <Link to={`/profile/${userId}`}>{!editable && <div className="feed-post-row">
-					<span className="post-goal-title">{formNote}</span>
-					<span className="post-workout-rating">{formRating}</span>
-				</div>}</Link>
+				<div className="post-toprow">
+					<Link to={`/profile/${userId}`}>{!editable && <div className="feed-post-row">
+						<span className="post-goal-title">{formNote}</span>
+						<div>
+							<span className="post-workout-rating">{formRating}</span>
+							<span className="post-workout-time-total">
+								<i class="fa-solid fa-clock"></i>&nbsp;{"50 minutes"}
+							</span>
+						</div>
+					</div>}</Link>
+				</div>
+
+				<div className="workout-exercise-list-header">
+					<i class="fa-solid fa-layer-group"></i>
+					<i class="fa-solid fa-rotate-right"></i>
+					<i class="fa-solid fa-weight-hanging"></i>
+					<i class="fa-solid fa-clock"></i>
+					<div className="workout-exercise-row"></div>
+				</div>
+
+				<div className="post-exercises-container">
+					{exercises.map(exercise => <span>{`${exercise.name} 
+						| ${exercise.sets ? exercise.sets : "n/a" } 
+						| ${exercise.reps ? exercise.reps : "n/a" } 
+						| ${exercise.weight ? exercise.weight : "n/a" } 
+						| ${exercise.time ? exercise.time+" mins" : "n/a" } 
+						`}</span>)}
+				</div>
 				
 				{editable && <>
 					<form className="post-form" onSubmit={handleUpdateWorkout}>

@@ -16,7 +16,8 @@ p, h3 {
 	/* min-width: 500px; */
 	/* width: 40vw; */
 	margin: 15px;
-	margin-left: 10vw;
+	margin-left: 5vw;
+	/* margin-left: 80px; */
 	border-right: none;
 	border-bottom: none;
 	border: none;
@@ -50,7 +51,7 @@ p, h3 {
 	box-sizing: border-box;
 }
 
-.feed-post-content *:not(.fa-ellipsis, .fa-edit, .fa-trash-can) {
+.feed-post-content *:not(.fa-solid) {
 	font-family: var(--sans-serif);
 }
 
@@ -103,7 +104,7 @@ p, h3 {
 	border-radius: 2px;
 	/* padding:5px; */
 	color: white;
-	transition: color 0.5s ease 0s, background-color 0.5s ease 0s;
+	transition: color 0.3s ease 0s, background-color 0.3s ease 0s;
 }
 
 .not-following:hover {
@@ -113,7 +114,7 @@ p, h3 {
 	border-radius: 2px;
 	/* padding:5px; */
 	color: white;
-	transition: color 0.5s ease 0s, background-color 0.5s ease 0s;
+	transition: color 0.3s ease 0s, background-color 0.3s ease 0s;
 }
 
 .post-timestamp {
@@ -121,6 +122,11 @@ p, h3 {
 	color: var(--dark-red);
 	font-weight: 400;
 	font-size: 14px;
+}
+
+/* TOP ROW (title, rating, etc) AFTER OVERALL HEADER (user, timestamp) */
+.post-toprow {
+	margin-bottom: 10px;;
 }
 
 .post-goal-title {
@@ -229,10 +235,30 @@ p, h3 {
 /* POST - WORKOUT */
 /* POST - WORKOUT */
 
+/* ------------------------------------------------------ */
+
+/* WORKOUT POST - START */
+/* WORKOUT POST - START */
+/* WORKOUT POST - START */
+
 .post-workout-rating {
 	background-color: pink;
-	font-size: 40px;
+	/* font-size: 40px; */
 }
+
+.workout-exercise-list-header {
+
+}
+
+.post-exercises-container {
+	display: flex;
+	flex-direction: column;
+}
+
+/* WORKOUT POST - END */
+/* WORKOUT POST - END */
+/* WORKOUT POST - END */
+
 
 @keyframes postDividerAnimation {
 	0% {

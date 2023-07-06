@@ -1,0 +1,107 @@
+.follow-nav-bar-container {
+	position: sticky;
+	top: 200px;
+	padding: 6px;
+}
+
+.follow-nav-bar-container *:not(.fa-solid) {
+	font-family: var(--sans-serif);
+}
+
+.follow-nav-bar-container ul {
+	background-color: inherit;
+}
+
+.follow-nav-bar-container li {
+	margin-bottom: 5px;
+	transition: 0.5s;
+	padding: 1px;
+	border-radius: 0.5px;
+}
+
+.follow-nav-bar-container li:hover {
+	cursor: pointer;
+	/* color: var(--orange); */
+	/* background-color: var(--light-blue); */
+	/* font-weight: 900; */
+}
+
+.follow-nav-bar-container a.active {
+	color: var(--orange);
+}
+
+.follow-nav-active {
+	color: var(--black);
+}
+
+.hoverMarker {
+	z-index: -1;
+	position: absolute;
+	min-height: 20px;
+	/* width: 50px; */
+	background-color:var(--orange);
+	opacity: 0;
+	/* transition: all 0.5s; */
+	/* transition: all 0.5s; */
+}
+
+.post-type-filter-container {
+	position: relative;
+	left: -11px;
+	margin-top: 20px;
+	display: flex;
+	justify-content: flex-start;
+	/* border-radius: 15px;/ */
+	/* border: 1px solid gray; */
+	/* box-sizing: border-box; */
+}
+
+.post-type-filter-container-divider {
+	height: 80%;
+	width: 1px;
+	background-color: black;
+	border-right: 1px solid black;
+}
+
+.post-type-filter-container * {
+	font-size: 1.1em;
+	cursor: pointer;
+}
+
+.post-type-filter-container > .post-filter-option  {
+	padding-top: 11px;
+	padding-bottom: 11px;
+	transition: all 0.3s;
+	width: 24px;
+	display: flex;
+	justify-content: center;
+}
+
+.post-type-filter-container > .post-filter-option:nth-child(1) {
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	padding-left: 11px;
+	padding-right: 8px;
+}
+.post-type-filter-container > .post-filter-option:nth-child(2) {
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+	padding-left: 8px;
+	padding-right: 11px;
+}
+
+.post-type-filter-container > .post-filter-option:hover {
+	color: var(--white);
+	background-color: var(--white);
+	background-color: rgb(163, 178, 194);
+	box-shadow: 3px 3px rgb(114, 128, 141);
+}
+
+.active-filter * {
+	color: var(--orange);
+}
+
+.active-filter {
+	background-color: rgb(210, 231, 255);
+	box-shadow: 3px 3px rgb(114, 128, 141);
+}

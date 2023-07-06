@@ -143,11 +143,13 @@ function FeedPostGoal ({feedPost}) {
 					</div>}
 				</div>
 				<br/>
-				<Link to={`/profile/${userId}`}>{!editable && <div className="feed-post-row">
-					<span className="post-goal-title">{formTitle}</span>
-					<span>·</span>
-					<span className="post-goal-description">{formDescription}</span>
-				</div>}</Link>
+				<div className="post-toprow">
+					<Link to={`/profile/${userId}`}>{!editable && <div className="feed-post-row">
+						<span className="post-goal-title">{formTitle}</span>
+						<span>·</span>
+						<span className="post-goal-description">{formDescription}</span>
+					</div>}</Link>
+				</div>
 				
 				{editable && <>
 					<label>Title

@@ -208,15 +208,6 @@ function Profile () {
       <div className="progress-title">
         {progressTitle()}
         {displayCurrentGoal()}
-        {/* {currentGoal ? 
-          <>
-            <h3 id="progress-goal-title">{currentGoal.title}</h3>
-            {noExercises()}
-          </>
-          :  
-          <h3 id="goalless-data-viz">create your goal and log your exercises today to see your progress...</h3>
-        } */}
-
       </div>
 
       <div className="data-vis-container">

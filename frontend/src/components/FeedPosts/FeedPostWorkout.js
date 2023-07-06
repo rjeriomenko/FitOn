@@ -109,7 +109,7 @@ function FeedPostWorkout ({feedPost}) {
 				<div className="feed-post-row feed-post-header">
 					<img className="feed-profile-picture" src={user?.imgUrl || "https://aws-fiton.s3.amazonaws.com/vinit-vispute-PO36L2wA8KI-unsplash.jpg"} />
 					<Link to={`/feed/${userId}`}><div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div></Link>
-					<div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{(userId === sessionUser._id) ? "" : isFollowing ? "unfollow" : "follow"}</div>
+					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "unfollow" : "follow"}</div>}
 					<div className="post-timestamp">{timestamp}</div>
 					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
 						<i class="fa-solid fa-ellipsis"></i>
@@ -141,6 +141,17 @@ function FeedPostWorkout ({feedPost}) {
 				</div>}</Link>
 				
 				{editable && <>
+					<form className="post-form" onSubmit={handleUpdateWorkout}>
+					<label>Rating: 
+						<input className="feed-post-text-edit"
+							type="number"
+							min="1"
+							max="5"
+							value={formRating}
+							onChange={e => setFormRating(e.target.value)}
+							required
+						/>
+					</label>
 					<label>Note: 
 						<input className="feed-post-text-edit"
 							type="text"
@@ -148,8 +159,10 @@ function FeedPostWorkout ({feedPost}) {
 							onChange={e => setFormNote(e.target.value)}
 						/>
 					</label>
-					<div className="feed-post-update-button" onClick={handleUpdateWorkout}>Update</div>
+					{/* <div className="feed-post-update-button" onClick={handleUpdateWorkout}>Update</div> */}
+					<button className="feed-post-update-button" type="submit">Update</button>
 					<div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>
+					</form>
 				</>}
 				<div className="post-divider"></div>
 			</div>

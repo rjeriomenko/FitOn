@@ -27,6 +27,9 @@ function Profile () {
   const currentGoal = user?.currentGoal;
   
   const userExerciseEntries = useSelector(getUserExerciseEntries);
+  const userExerciseEntriesArray = Object.values(userExerciseEntries);
+  console.log(userExerciseEntries)
+  debugger
 
   const [mouseOverTextData, setMouseOverTextData] = useState(undefined);
   const [sampleTileSet, setSampleTileSet] = useState([]);
@@ -109,29 +112,33 @@ function Profile () {
     // Generate tiles
     const generatedTiles = [];
 
-    // Create 23 fake sets of same seed data:
+    // DEMO ONLY - START
+    // DEMO ONLY - START
+    // DEMO ONLY - START
+    // Create 23 fake sets of same seed data with randomized associated images, 
+    // and random ratings (that differ from the sample data's ratings, for color variation appeal)
     for(let i = 0; i < 23; i++){
-
       sortedByDate.forEach(entry => {
-        
-          // Seed only: generate random ratings and associated photos:
-          const displayedRating = Math.floor(Math.random() * 5) + 1;
+          // RANDOM RATING
+          // const displayedRating = Math.floor(Math.random() * 5) + 1;
+          // ACTUAL RATING
+          const displayedRating = entry?.exerciseEntry.rating;
           const numSamplePhotos = 7;
           const randomImageNumber = Math.floor(Math.random() * numSamplePhotos) + 1;
           const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
-
-          const tile = <>
+          const tile =
             <div onMouseEnter={handleMouseEnter} dataExerciseEntryId={entry.exerciseEntryId} >
               {/* NON sample dataset might look more like this: */}
               {/* <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={entry.exerciseEntry.rating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/> */}
               <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={displayedRating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/>
             </div>
-          </>
-
           generatedTiles.push(tile)
-        
       })
     }
+    // DEMO ONLY - END
+    // DEMO ONLY - END
+    // DEMO ONLY - END
+
     return generatedTiles;
   };
 
@@ -140,15 +147,13 @@ function Profile () {
     dispatch(fetchUserGoals(userId))
     dispatch(fetchUserExerciseEntries(userId))
 
-    // random scramble effect
-    let repeats = 0;
-    let interval = setInterval(() => {
-      repeats += 1;
-      if(repeats === 5) clearInterval(interval)
-      setSampleTileSet(generateEntryTilesForGoal(21, sampleExerciseEntryData));
-      
-    }, 100)
-
+    // // RANDOM SCRAMBLE DEMO DATA IF RANDOM RATING IS ON
+    // let repeats = 0;
+    // let interval = setInterval(() => {
+    //   repeats += 1;
+    //   if(repeats === 5) clearInterval(interval)
+    //   setSampleTileSet(generateEntryTilesForGoal(21, sampleExerciseEntryData));      
+    // }, 100)
     // Here is where we can actually render actual state
     setSampleTileSet(generateEntryTilesForGoal(21, sampleExerciseEntryData));
   }, [])

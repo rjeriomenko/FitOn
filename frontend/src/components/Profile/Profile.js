@@ -18,6 +18,7 @@ import { formatTwoDigitNumberString } from '../../utils/utils';
 import './Profile.css';
 
 import DataVis from './DataVis';
+import { fetchGoalExercises } from '../../store/exercises';
 
 function Profile () {
   const dispatch = useDispatch();
@@ -28,8 +29,6 @@ function Profile () {
   
   const userExerciseEntries = useSelector(getUserExerciseEntries);
   const userExerciseEntriesArray = Object.values(userExerciseEntries);
-  console.log(userExerciseEntries)
-  debugger
 
   const [mouseOverTextData, setMouseOverTextData] = useState(undefined);
   const [sampleTileSet, setSampleTileSet] = useState([]);
@@ -41,9 +40,9 @@ function Profile () {
 
   const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
 
-  // michele touch
   const [timeGraph, setTimeGraph] = useState(true);
-
+  const goalExercises = useSelector(state => state.exercises.byGoal);
+  const goalExercisesCount = Object.keys(goalExercises).length;
   // let mouseOverTextDataRows;
 
   const updateFile = e => setImage(e.target.files[0]);
@@ -142,10 +141,44 @@ function Profile () {
     return generatedTiles;
   };
 
+  const progressTitle = () => {
+    if (user && user.username) {
+      if (sessionUser._id === userId) {
+        return <h2>my progress on...</h2>;
+      } else {
+        return <h2>{user.username}'s progress on...</h2>;
+      }
+    }
+  };
+  
+  const noExercises = () => {
+    if ( sessionUser._id === userId && goalExercisesCount === 0 ) {
+      return <h4>log your exercises today to see your progress...</h4>
+    } else if (sessionUser._id !== userId && goalExercisesCount === 0) {
+      return <h4>no progress to show yet...</h4>
+    }
+  }
+
+  const displayCurrentGoal = () => {
+    if (currentGoal) {
+      return (
+        <>
+          <h3 id="progress-goal-title">{currentGoal.title}</h3>
+          {noExercises()}
+        </>
+      )
+    } else if (!currentGoal && sessionUser._id === userId){
+      return <h3 id="goalless-data-viz">create your goal and log your exercises today to see your progress...</h3>
+    } else if (!currentGoal && sessionUser._id !== userId) {
+      return <h3 id="goalless-data-viz">no progress to show yet...</h3>
+    }
+  }
+
   useEffect(() => {
     dispatch(fetchUser(userId))
     dispatch(fetchUserGoals(userId))
     dispatch(fetchUserExerciseEntries(userId))
+    dispatch(fetchGoalExercises(currentGoal?._id))
 
     // // RANDOM SCRAMBLE DEMO DATA IF RANDOM RATING IS ON
     // let repeats = 0;
@@ -156,7 +189,7 @@ function Profile () {
     // }, 100)
     // Here is where we can actually render actual state
     setSampleTileSet(generateEntryTilesForGoal(21, sampleExerciseEntryData));
-  }, [])
+  }, [goalExercisesCount])
 
   if (!userExerciseEntries) {
     return (
@@ -173,16 +206,8 @@ function Profile () {
       {/* DATA VIZ - START */}
       {/* DATA VIZ - START */}
       <div className="progress-title">
-        <h2>my progress on...</h2>
-        {currentGoal ? 
-          <>
-            <h3 id="progress-goal-title">{currentGoal.title}</h3>
-            {/* <h4 id="progress-goal-desc">{currentGoal.description}</h4>  */}
-          </>
-          :  
-          <h3 id="goalless-data-viz">create your goal and log your exercises today to see your progress...</h3>
-        }
-
+        {progressTitle()}
+        {displayCurrentGoal()}
       </div>
 
       <div className="data-vis-container">

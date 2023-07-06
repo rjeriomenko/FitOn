@@ -13,13 +13,14 @@ import { createExercise } from '../../store/exercises';
 function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const dispatch = useDispatch();
     const today = new Date().toISOString().split('T')[0];
+    const currentDate = new Date().toLocaleDateString('en-us', { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', hour12: true });
     const [date, setDate] = useState(today);
     const [note, setNote] = useState('');
     const [rating, setRating] = useState('');
     const [exerciseInputs, setExerciseInputs] = useState([{ name: '', sets: '', reps: '', time: '', weight: '' }]);
     const [submit, setSubmit] = useState(false);
 
-    const errors = useSelector(state => state.errors.exerciseEntries) // is this where errors live?
+    const errors = useSelector(state => state.errors.exerciseEntries)
 
     const sessionUser = useSelector(state => state.session.user);
     const sessionUserId = sessionUser._id;
@@ -84,16 +85,17 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
             <h4>{headerQuote}</h4>
             {currentGoal ? <h2>· {currentGoal.title} ·</h2> : <h2>· Create your goal ·</h2>}
             <br></br>
+            <div className="workout-form-line" id="line-one"></div>
             <form className="exercise-form" onSubmit={handleSubmit}>
                 <div className="exercise-entry-form">
-                    <span>Workout Date</span>
-                    <input 
+                    <span>Today's Workout for <span id="exercise-form-date">{currentDate}</span></span>
+                    {/* <input 
                         type="date"
                         value={date}
                         onChange={e => setDate(e.currentTarget.value)}
                         required
                     />
-                    <div className="errors">{errors?.date}</div>
+                    <div className="errors">{errors?.date}</div> */}
 
                     <span>Rating</span>
                     <input
@@ -117,76 +119,79 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                     <div className="errors">{errors?.note}</div>
 
                 </div>
-
+                
                 <div className="exercise-input-container">
                     {exerciseInputs.map((input, index) => (
-                    <div id="exercise-input-div" key={index} className={`exercise-div-${index}`}>
-                        <span id="exercise-input-span">Exercise</span>
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Push-ups, jogging..."
-                            value={input.name}
-                            onChange={(e) => handleInputChange(e, index)}
-                            required
-                        />
-                        <div className="errors">{errors?.name}</div>
+                        <>
+                            <div className="workout-form-line"></div>
+                            <div id="exercise-input-div" key={index} className={`exercise-div-${index}`}>
+                                <span id="exercise-input-span">Exercise</span>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="Push-ups, jogging..."
+                                    value={input.name}
+                                    onChange={(e) => handleInputChange(e, index)}
+                                    required
+                                />
+                                <div className="errors">{errors?.name}</div>
 
-                        <span id="exercise-input-span">Sets</span>
-                        <input
-                            type="number"
-                            min="1"
-                            max="1000000"
-                            name="sets"
-                            value={input.sets}
-                            onChange={(e) => handleInputChange(e, index)}
-                        />
-                        <div className="errors">{errors?.sets}</div>
+                                <span id="exercise-input-span">Sets</span>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    max="1000000"
+                                    name="sets"
+                                    value={input.sets}
+                                    onChange={(e) => handleInputChange(e, index)}
+                                />
+                                <div className="errors">{errors?.sets}</div>
 
-                        <span id="exercise-input-span">Reps</span>
-                        <input
-                            type="number"
-                            min="1"
-                            max="1000000"
-                            name="reps"
-                            value={input.reps}
-                            onChange={(e) => handleInputChange(e, index)}
-                        />
-                        <div className="errors">{errors?.reps}</div>
+                                <span id="exercise-input-span">Reps</span>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    max="1000000"
+                                    name="reps"
+                                    value={input.reps}
+                                    onChange={(e) => handleInputChange(e, index)}
+                                />
+                                <div className="errors">{errors?.reps}</div>
 
-                        <span id="exercise-input-span">Weight (lbs)</span>
-                        <input
-                            type="number"
-                            min="1"
-                            max="1000000"
-                            name="weight"
-                            value={input.weight}
-                            onChange={(e) => handleInputChange(e, index)}
-                        />
-                        <div className="errors">{errors?.weight}</div>
+                                <span id="exercise-input-span">Weight (lbs)</span>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    max="1000000"
+                                    name="weight"
+                                    value={input.weight}
+                                    onChange={(e) => handleInputChange(e, index)}
+                                />
+                                <div className="errors">{errors?.weight}</div>
 
-                        <span id="exercise-input-span">Time (minutes)</span>
-                        <input
-                            type="number"
-                            min="1"
-                            max="1000000"
-                            name="time"
-                            value={input.time}
-                            onChange={(e) => handleInputChange(e, index)}
-                            required
-                        />
-                        <div className="errors">{errors?.time}</div>
+                                <span id="exercise-input-span">Time (minutes)</span>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    max="1000000"
+                                    name="time"
+                                    value={input.time}
+                                    onChange={(e) => handleInputChange(e, index)}
+                                    required
+                                />
+                                <div className="errors">{errors?.time}</div>
 
-                        {index > 0 && (
-                        <button
-                            type="submit"
-                            value="Delete"
-                            className="exercise-input-delete-btn"
-                            onClick={() => removeInputField(index)}>
-                            <i className="fa-solid fa-trash-can"></i>
-                       </button>
-                        )}
-                    </div>
+                                {index > 0 && (
+                                <button
+                                    type="submit"
+                                    value="Delete"
+                                    className="exercise-input-delete-btn"
+                                    onClick={() => removeInputField(index)}>
+                                    <i className="fa-solid fa-trash-can"></i>
+                            </button>
+                                )}
+                            </div>
+                    </>
                     ))}
                 </div>
                 <div className="exercise-event-form-btn-container">

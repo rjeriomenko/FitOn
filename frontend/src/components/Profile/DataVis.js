@@ -8,6 +8,7 @@ function DataVis({ user, timeGraph }) {
   const chartRef = useRef(null);
   const currentGoalId = user.currentGoal?._id;
   const chartInstanceRef = useRef(null);
+  
   const fetchExerciseEntry = async () => {
     const res = await axios.get(`/api/exercises/byGoal/${currentGoalId}`);
     const data = res.data;  

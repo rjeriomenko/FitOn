@@ -18,7 +18,7 @@
 
 .exercise-form {
 	border-radius: 8px;
-	padding: 30px;
+	padding: 0 30px;
 	animation: exercise-form-border 0.8s ease-in 0s 1 normal forwards;
 	display: flex;
 	flex-direction: column;
@@ -115,7 +115,6 @@
     height: 30px;
     border-radius: 8px;
     width: 100px;
-    padding-left: 10px;
     text-indent: 3px;
 }
 
@@ -143,4 +142,19 @@
     transition: 0.3s ease;
     transform: scale(1.01);
     box-shadow: 1px 1px 5px #05384d;
+}
+
+.workout-form-line {
+    border-bottom: 1px solid var(--white);
+    width: 75%;
+    width: 95%;
+    margin: 10px auto;
+}
+
+.workout-form-line#line-one {
+    width: 30%
+}
+
+#exercise-form-date {
+    color: var(--orange);
 }

@@ -189,7 +189,7 @@ function Profile () {
     // }, 100)
     // Here is where we can actually render actual state
     setSampleTileSet(generateEntryTilesForGoal(21, sampleExerciseEntryData));
-  }, [])
+  }, [goalExercisesCount])
 
   if (!userExerciseEntries) {
     return (

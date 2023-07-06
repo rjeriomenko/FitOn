@@ -63,8 +63,8 @@ const FloatingMenu = (props) => {
 							onMouseLeave={e => setHover(false)}
 							className='floating-menu-links-list'>
 
-							{!hover && <li><i class="far fa-edit"></i></li>}
-							{hover && <li><i class="far fa-edit"></i></li>}
+							{!hover && <li><i class="fa-regular fa-calendar-plus fa-xl"></i></li>}
+							{hover && <li><i class="fa-regular fa-calendar-plus fa-fade fa-xl"></i></li>}
 
 						</ul>
 					</div>

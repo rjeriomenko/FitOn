@@ -52,7 +52,7 @@ function LandingPage() {
         <div className="text-overlay">
           <p>focus on one goal at a time</p>
           <p>share your journey</p>
-          <p><i class="fa-solid fa-arrows-to-circle"></i></p>
+          <p><i className="fa-solid fa-arrows-to-circle"></i></p>
           <div className='demo-login-buttons'>
             <button onClick={demoLogin}>Demo Login</button>
             {/* <button onClick={e => demoLogin(e, 1)}>Demo · 1</button>

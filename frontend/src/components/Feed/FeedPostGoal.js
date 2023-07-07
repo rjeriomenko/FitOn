@@ -128,7 +128,7 @@ function FeedPostGoal ({feedPost}) {
 					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>}
 					<div className="post-timestamp">{timestamp}</div>
 					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
-						<i class="fa-solid fa-ellipsis"></i>
+						<i className="fa-solid fa-ellipsis"></i>
 						{showMenu && 
 							<>
 								{/* RECYCLED FROM GOALINDEX - START */}
@@ -136,11 +136,11 @@ function FeedPostGoal ({feedPost}) {
 								{/* RECYCLED FROM GOALINDEX - START */}
 								<ul className="post-dropdown">
 									<li onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
-										<i class="far fa-edit"></i>
+										<i className="far fa-edit"></i>
 									</li>
 									<div id="goal-dropdown-line"></div>
 									<li onClick={handleDeleteGoal}>
-										<i class="fa-solid fa-trash-can"></i>
+										<i className="fa-solid fa-trash-can"></i>
 									</li>
 								</ul>
 								{/* RECYCLED FROM GOALINDEX - END */}

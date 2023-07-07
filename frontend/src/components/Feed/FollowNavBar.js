@@ -124,11 +124,11 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 			</div>
 			<div className="post-type-filter-container">
 				<div className={`post-filter-option post-type-filter-goals ${goalsOnly ? "active-filter" : ""}`} onClick={toggleGoalsOnly}>
-					<i class="fa-solid fa-arrows-to-circle"></i>
+					<i className="fa-solid fa-arrows-to-circle"></i>
 				</div>
 				{/* <div className="post-type-filter-container-divider"></div> */}
 				<div className={`post-filter-option post-type-filter-workouts ${workoutsOnly ? "active-filter" : ""}`} onClick={toggleWorkoutsOnly}>
-					<i class="fa-solid fa-person-running"></i>
+					<i className="fa-solid fa-person-running"></i>
 				</div>
 			</div>
 		</div>

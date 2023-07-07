@@ -185,7 +185,7 @@ function Feed ({discoverMode, options = {}}) {
 
   const renderHeaderText = () => {
     const headerLetters = headerText.split("").map((char, idx) => {
-      return <span style={{animationDelay: `${(idx + 1) * 0.015}s`}} className='feed-header-letter'>{char}</span>
+      return <span style={{animationDelay: `${(idx + 1) * 0.015}s`}} key={'key' + idx} className='feed-header-letter'>{char}</span>
     })
     return headerLetters;
   }

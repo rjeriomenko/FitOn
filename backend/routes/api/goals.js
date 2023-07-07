@@ -15,7 +15,7 @@ router.post('/', requireUser, singleMulterUpload("image"), validateGoalInput, as
     try {
         const imgUrl = req.file ?
             await singleFileUpload({ file: req.file, public: true }) :
-            false;
+            undefined;
 
         const newGoal = new Goal({
             title: req.body.title,
@@ -114,7 +114,7 @@ router.patch('/:goalId', requireUser, singleMulterUpload("image"), validateGoalI
 
         const imgUrl = req.file ?
             await singleFileUpload({ file: req.file, public: true }) :
-            false;
+            undefined;
 
         goal.title = req.body.title || goal.title
         goal.description = req.body.description || goal.description;

@@ -24,10 +24,6 @@
 	width: 90%;
 }
 
-.profile-data-vis-container {
-	height: 200px;
-}
-
 .profile-goal-workout-content-container {
 	/* height: 200px; */
 	position: relative;
@@ -137,6 +133,10 @@ tfoot * {
 	width: fit-content;
 }
 
+.profile-container-styles {
+	padding-top: 60px;
+}
+
 /* datavis area CSS */
 /* datavis area CSS */
 
@@ -163,6 +163,11 @@ tfoot * {
 	font-size: 22px;
 }
 
+.profile-line {
+	border-bottom: 1px dotted var(--orange);
+    width: 50%;
+    margin: 10px auto;
+}
 
 /* slider CSS */
 /* slider CSS */
@@ -240,8 +245,8 @@ tfoot * {
 	color: #ffffff;
 	opacity: 1;
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
-	transition: all 0.4s ease-in-out;
-	margin: 0px 10px;
+	transition: all 0.3s ease-in-out;
+	margin: 0px 20px;
 }
 
 .toggle-graph .slider-labels::before {

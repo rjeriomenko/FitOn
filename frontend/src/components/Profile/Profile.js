@@ -178,7 +178,7 @@ function Profile () {
         </>
       )
     } else if (!currentGoal && sessionUser._id !== userId) {
-      return <h3 id="progress-goal-title">no progress to show</h3>
+      return <h3 id="progress-goal-title">No Goal Set</h3>
     }
   }
 
@@ -231,6 +231,8 @@ function Profile () {
           { user && <DataVis user={user} timeGraph={timeGraph}/> }
         </div>
       </div>
+      
+      <div className="profile-line"></div>
 
       {/* DATA VIZ - END */}
       {/* DATA VIZ - END */}

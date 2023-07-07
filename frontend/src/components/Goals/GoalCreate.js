@@ -14,6 +14,7 @@ function GoalCreate({ setShowCreateGoalForm, userId }) {
   const [description, setDescription] = useState('');
   const [deadline, setDeadline] = useState(today);
   const [submit, setSubmit] = useState(false);
+  const [image, setImage] = useState(null);
   
   const sessionUser = useSelector(state => state.session.user);
   const errors = useSelector(state => state.errors.goals);
@@ -25,7 +26,7 @@ function GoalCreate({ setShowCreateGoalForm, userId }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(createGoal({ title, description, deadline }))
+    dispatch(createGoal({ title, description, deadline, image }))
       .then(() => dispatch(fetchUser(userId)))
         .then(() => dispatch(getCurrentUser()))
           .then(() => {
@@ -36,6 +37,8 @@ function GoalCreate({ setShowCreateGoalForm, userId }) {
             setSubmit(true)
           })
   };
+
+  const updateFile = e => setImage(e.target.files[0]);
 
   if (submit === true) {
     return <Redirect to={`/users/${id}/goals`} />
@@ -73,11 +76,17 @@ function GoalCreate({ setShowCreateGoalForm, userId }) {
               value={deadline}
               onChange={e => setDeadline(e.currentTarget.value)}
             />
+            
+          <label>Picture
+            <input className="feed-post-form-text" type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
+          </label>
+
           <input 
             className="create-feed-post-submit"
             type="submit" 
             value="Submit"
           />
+
 
         </form>
 

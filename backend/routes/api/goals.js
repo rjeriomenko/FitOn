@@ -11,14 +11,19 @@ const { requireUser } = require('../../config/passport');
 
 
 // create a goal (POST)
-router.post('/', requireUser, validateGoalInput, async (req, res, next) => {
+router.post('/', requireUser, singleMulterUpload("image"), validateGoalInput, async (req, res, next) => {
     try {
+        const imgUrl = req.file ?
+            await singleFileUpload({ file: req.file, public: true }) :
+            false;
+
         const newGoal = new Goal({
             title: req.body.title,
             description: req.body.description,
             deadline: req.body.deadline,
             completionDate: req.body.completionDate,
-            user: req.user._id
+            user: req.user._id,
+            imgUrl: imgUrl
         });
 
         let goal = await newGoal.save();

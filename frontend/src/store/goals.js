@@ -91,10 +91,17 @@ export const fetchDiscoversGoals = () => async dispatch => {
 };
 
 export const createGoal = (goal) => async dispatch => {
+    const { image, title, description, deadline } = goal;
+    const formData = new FormData();
+    formData.append("title", title)
+    formData.append("description", description)
+    formData.append("deadline", deadline)
+    if (image) formData.append("image", image);
+
     try {
         const res = await jwtFetch(`/api/goals`, {
             method: 'POST',
-            body: JSON.stringify(goal)
+            body: formData
         });
         const responseGoal = await res.json();
         dispatch(receiveNewGoal(responseGoal));

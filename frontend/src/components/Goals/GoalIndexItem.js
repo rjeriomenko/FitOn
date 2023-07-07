@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { deleteGoal, updateGoal } from '../../store/goals'
-
 import './GoalIndexItem.css'
 
 function GoalIndexItem ({goal}) {
@@ -33,6 +32,16 @@ function GoalIndexItem ({goal}) {
         dispatch(deleteGoal(goal._id))
     }
 
+    const handleToggleForm = e => {
+		setEditable(oldSetEditable => {
+			if(oldSetEditable){
+				setTitle(title);
+				setDescription(description);
+			}
+			return !oldSetEditable
+		})
+	}
+
     useEffect(() => {
         if (!showMenu) return;
     
@@ -56,29 +65,28 @@ function GoalIndexItem ({goal}) {
                 </div>
             ) : (
                 <div className="feed-post-content">
-                <label>Title
-                <input
-                    className="feed-post-text-edit"
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-                </label>
+                    <label>Title
+                    <input
+                        className="feed-post-text-edit"
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    </label>
 
-                <label>Description
-                <textarea
-                    className="feed-post-text-edit"
-                    contentEditable={true}
-                    value={description}
-                    onChange={handleDescriptionChange}
-                />
-                </label>
+                    <label>Description
+                    <textarea
+                        className="feed-post-text-edit"
+                        contentEditable={true}
+                        value={description}
+                        onChange={handleDescriptionChange}
+                    />
+                    </label>
 
-                <div className="feed-post-crud-button" onClick={handleUpdateGoal}>
-                    Update
+                    <div className="feed-post-update-button" onClick={handleUpdateGoal}>Update</div>
+                    <div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>
                 </div>
-            </div>
-        )}
+            )}
 
                 <div className="ellipsis" onClick={openMenu}>
                     <i id="ellipsis" className="fas fa-light fa-ellipsis-vertical"></i>

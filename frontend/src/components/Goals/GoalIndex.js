@@ -7,12 +7,8 @@ import { deleteGoal, updateGoal, fetchUserGoals, getUserGoals } from '../../stor
 import { getUser, fetchUser } from '../../store/users'
 import { getCurrentUser } from '../../store/session';
 import { Modal } from '../../context/Modal';
+import { Redirect } from 'react-router-dom';
 import './GoalIndex.css'
-
-import ExerciseEventForm from '../Exercise/ExerciseEventForm';
-
-
-
 
 function GoalIndex () {
     const dispatch = useDispatch();
@@ -21,6 +17,7 @@ function GoalIndex () {
     const user = useSelector(getUser(userId));
     const currentGoal = user ? user.currentGoal : null;
     const currentGoalId = currentGoal ? currentGoal._id : null;
+    const sessionUserId = useSelector(state => state.session.user._id)
 
     const [editable, setEditable] = useState(false);
     const [title, setTitle] = useState('');
@@ -34,6 +31,10 @@ function GoalIndex () {
         dispatch(fetchUserGoals(userId));
     }, [userId])
     
+    if (sessionUserId !== userId) {
+        return <Redirect to={`/users/${sessionUserId}/goals`} />
+    }
+
     const handleDeleteGoal = (goalId) => {
         dispatch(deleteGoal(goalId))
             .then(() => dispatch(fetchUser(userId)))
@@ -124,7 +125,7 @@ function GoalIndex () {
                         <i className="fa-solid fa-trash-can"></i>
                     </div>
                     <div className="create-current-goal" onClick={() => setShowCreateGoalForm(true)}>
-                        <div>Create a new goal</div>
+                        <i class="fas fa-calendar-plus"></i>
                     </div>
                 </div>
             )
@@ -221,7 +222,6 @@ function GoalIndex () {
                 <div className="goals-grid-container">
                 {renderPrevGoals()}
                 </div>
-
             </div>
         </>
     )}

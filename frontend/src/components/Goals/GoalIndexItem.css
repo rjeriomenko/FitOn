@@ -36,7 +36,6 @@
     display: flex;
     justify-content: center;
     padding: 4px;
-    font-family: var(--sans-serif);
     font-size: 15px;
     margin: 3px 0;
 }

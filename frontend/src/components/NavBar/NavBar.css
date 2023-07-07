@@ -124,8 +124,11 @@ body {
 	transition: width 0.3s ease 0.7s;	
 }
 
+/* user dropdown */
+/* user dropdown */
+
 .nav-bar-aside {
-	position: absolute;
+	/* position: absolute; */
 	right: 20px;
 }
 
@@ -136,11 +139,30 @@ body {
 }
 
 .nav-bar-profile-name {
-	margin: 0 10px;
+	/* margin: 0 10px; */
 }
 
 .nav-bar-profile-picture {
 	height: 100px;
 	width: 100px;
-	border-radius: 20px;
+	border-radius: 50%;
+}
+
+.profile-dropdown {
+	position: absolute;
+    z-index: 1;
+    background-color: var(--light-blue);
+    border: 1px solid var(--light-blue);
+    top: 120px;
+    right: 0px;
+    opacity: 95%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-dropdown li {
+    display: flex;
+    justify-content: center;
+    padding: 4px;
+    font-size: 15px;
+    margin: 3px 0;
 }

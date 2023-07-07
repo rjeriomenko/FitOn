@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
 import { logout } from '../../store/session';
-import { Redirect } from 'react-router-dom';
 import { createGoal } from "../../store/goals";
-import { useState } from 'react';
 
 import './NavBar.css';
 
@@ -12,7 +11,24 @@ function NavBar () {
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
   const [mouseOver, setMouseOver] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   
+  const openMenu = () => {
+    if (showMenu) return;
+    setShowMenu(true);
+  };
+
+  useEffect(() => {
+    if (!showMenu) return;
+
+    const closeMenu = () => {
+      setShowMenu(false);
+    };
+
+    document.addEventListener('click', closeMenu);
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showMenu]);
+
   const logoutUser = e => {
       e.preventDefault();
       dispatch(logout());
@@ -25,7 +41,7 @@ function NavBar () {
           <li className="nav-link-id"><Link to={'/feed'}>Home</Link></li>
           <li className="nav-link-id"><Link to={`/profile/${sessionUser._id}`}>Tools</Link></li>
           <li className="nav-link-id"><Link to={`/users/${sessionUser._id}/goals`}>My Goal</Link></li>
-          <li className="nav-link-id"><a onClick={logoutUser}>Logout</a></li>
+          {/* <li className="nav-link-id"><a onClick={logoutUser}>Logout</a></li> */}
         </>
       );
     } else {
@@ -57,11 +73,35 @@ function NavBar () {
   const renderMiniProfile = () => {
     if (loggedIn) {
       return (
-        <div className="nav-bar-aside">
-          <Link to={`/profile/${sessionUser._id}`}>
-            <div className="nav-bar-profile-name">{sessionUser.username}</div><img className="nav-bar-profile-picture" src={sessionUser.imgUrl || "https://aws-fiton.s3.amazonaws.com/vinit-vispute-PO36L2wA8KI-unsplash.jpg"} />
-          </Link>
-        </div>
+        <>
+          <div className="nav-bar-aside">
+            <img className="nav-bar-profile-picture" onClick={openMenu} src={sessionUser.imgUrl || "https://www.lightsong.net/wp-content/uploads/2020/12/blank-profile-circle.png"} />
+          </div>
+
+          {showMenu && (
+            <ul className="profile-dropdown">
+              <li>
+                <p>Welcome Back, {sessionUser.username}</p>
+              </li>
+
+              <li>
+                <Link to={`/profile/${sessionUser._id}`}>
+                  <i class="fa-solid fa-user"></i>Profile
+                </Link>
+              </li>
+
+              <li><i class="fa-solid fa-gear"></i>Settings</li>
+
+              <li className="nav-link-id">
+                <a onClick={logoutUser}>
+                  <i class="fa-solid fa-right-from-bracket"></i>Logout
+                </a>
+              </li>
+
+            </ul>
+          )}
+
+        </>
       )
     }
   }

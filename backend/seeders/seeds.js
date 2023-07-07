@@ -52,7 +52,7 @@ const seedData = async () => {
         const savedDemoUser = await demoUser.save();
 
         const triathlonUser = new User({
-            username: "triathlonerRunner123",
+            username: "triathlonRunner123",
             email: "triathlon@demo.io",
             hashedPassword: bcrypt.hashSync("password", 10)
         });
@@ -252,6 +252,27 @@ const seedData = async () => {
         process.stdout.write("Workouts created and saved!\n");
         process.stdout.write("Exercises created and saved!\n");
 
+        // //go through goals and entries and randomize updatedAt
+        // const randomizedGoals = await Goal.find();
+        // const randomizedEntries = await ExerciseEntry.find();
+
+        // for (const goal of randomizedGoals) {
+        //     const randomMinutes = Math.floor(Math.random() * 600) + 1;
+        //     const updatedAt = new Date(Date.now() - randomMinutes * 60000);
+
+        //     goal.updatedAt = updatedAt;
+        //     await goal.save()
+        // }
+
+        // for (const entry of randomizedEntries) {
+        //     const randomMinutes = Math.floor(Math.random() * 600) + 1;
+        //     const updatedAt = new Date(Date.now() - randomMinutes * 60000);
+
+        //     entry.updatedAt = updatedAt;
+        //     await entry.save();
+        // }
+
+        // process.stdout.write("Goals/Entries randomized!\n");
 
         process.stdout.write("All seed data generated successfully!\n");
     } catch (error) {

@@ -67,7 +67,7 @@
 .text-overlay p .fa-arrows-to-circle {
 	font-size: 1em;
 	color: var(--orange);
-	cursor: pointer;
+	/* cursor: pointer; */
 }
 
 @keyframes white-text-fade-in {

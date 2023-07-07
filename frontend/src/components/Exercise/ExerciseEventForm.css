@@ -158,3 +158,9 @@
 #exercise-form-date {
     color: var(--orange);
 }
+
+.header-quote {
+    margin: 30px auto;
+    font-style: italic;
+    color: gray;
+}

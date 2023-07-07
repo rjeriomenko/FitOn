@@ -1,14 +1,8 @@
-import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import './ExerciseEventForm.css'
-
-import { createExerciseEntry } from '../../store/exerciseEntries';
-import { clearExerciseEntryErrors, receiveExerciseEntryErrors } from '../../store/exerciseEntries';
-import { getUserGoals} from '../../store/goals';
-import { getNewExerciseEntry } from '../../store/exerciseEntries';
+import { createExerciseEntry, clearExerciseEntryErrors } from '../../store/exerciseEntries';
 import { createExercise } from '../../store/exercises';
-
+import './ExerciseEventForm.css'
 
 function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const dispatch = useDispatch();
@@ -18,25 +12,15 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const [note, setNote] = useState('');
     const [rating, setRating] = useState('');
     const [exerciseInputs, setExerciseInputs] = useState([{ name: '', sets: '', reps: '', time: '', weight: '' }]);
-    const [submit, setSubmit] = useState(false);
-
     const errors = useSelector(state => state.errors.exerciseEntries)
 
     const sessionUser = useSelector(state => state.session.user);
-    const sessionUserId = sessionUser._id;
-    const userGoalsObj = useSelector(getUserGoals);
-    const userGoals = userGoalsObj ? userGoalsObj[`${sessionUserId}`] : null;
-    // const currentGoal = userGoals ? userGoals.slice(-1)[0] : null;
     const currentGoal = sessionUser?.currentGoal;
     const currentGoalId = currentGoal?._id;
 
     useEffect(() => {
         return () => dispatch(clearExerciseEntryErrors());
     }, [dispatch])
-
-    if ( !userGoalsObj ) {
-        <div> Loading... </div>
-    }
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
@@ -69,34 +53,18 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                 );
 
                 Promise.all(createExercisePromises)
-        
             })
-
-        // setSubmit(true)
-
     };
-
-    if (submit === true) {
-        return <Redirect to={`/users/${sessionUserId}/goals`} />
-    }
 
     return (
         <div className="exercise-form-container">
-            <h4>{headerQuote}</h4>
-            {currentGoal ? <h2>· {currentGoal.title} ·</h2> : <h2>· Create your goal ·</h2>}
+            <h4 className="header-quote">{headerQuote}</h4>
+            {currentGoal ? <h2>· {currentGoal.title} ·</h2> : null }
             <br></br>
             <div className="workout-form-line" id="line-one"></div>
             <form className="exercise-form" onSubmit={handleSubmit}>
                 <div className="exercise-entry-form">
                     <span>Today's Workout for <span id="exercise-form-date">{currentDate}</span></span>
-                    {/* <input 
-                        type="date"
-                        value={date}
-                        onChange={e => setDate(e.currentTarget.value)}
-                        required
-                    />
-                    <div className="errors">{errors?.date}</div> */}
-
                     <span>Rating</span>
                     <input
                         type="number"

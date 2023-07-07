@@ -14,7 +14,7 @@ function LandingPage() {
     let demoPassword;
     switch (num) {
       case 1:
-        demoEmail = "sams@demo.io"
+        demoEmail = "demo@user.io"
         demoPassword = "password"
         break;
       case 2:
@@ -26,7 +26,7 @@ function LandingPage() {
         demoPassword = "password"
         break;
       case 4:
-        demoEmail = "fullbody@demo.io"
+        demoEmail = "test@test.io"
         demoPassword = "password"
         break;
       default:

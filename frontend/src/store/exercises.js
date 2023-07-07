@@ -140,7 +140,6 @@ export const fetchWorkoutExercises = (workoutId) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/exercises/byWorkout/${workoutId}`);
         const exercises = await res.json();
-        debugger
         dispatch(receiveWorkoutExercises(exercises));
     } catch (err) {
         const resBody = await err.json();
@@ -214,7 +213,6 @@ export const getGoalKeyExercises = state => {
 }
 export const getWorkoutKeyExercises = state => {
     if (state?.exercises) {
-        debugger
         return state.exercises.byWorkout
     } else {
         return null;
@@ -260,7 +258,6 @@ const exercisesReducer = (state = { user: {}, follows: {}, discovers: {}, byWork
             return { ...newState, byGoal: action.exercises, updated: undefined, new: undefined };
                 /////
         case RECEIVE_WORKOUT_EXERCISES:
-            debugger
             // return { ...newState, byWorkout: action.exercises, updated: undefined, new: undefined };
             return { ...newState, byWorkout: {...newState.byWorkout, ...action.exercises}, updated: undefined, new: undefined };
                 /////

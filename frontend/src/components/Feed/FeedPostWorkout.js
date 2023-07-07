@@ -10,7 +10,7 @@ import { fetchWorkoutExercises, getWorkoutKeyExercises } from "../../store/exerc
 
 function FeedPostWorkout ({feedPost}) {
   // props
-	const { date, goal, note, rating, updatedAt, user, _id } = feedPost;
+	const { date, goal, note, rating, imgUrl, updatedAt, user, _id } = feedPost;
 	const goalId = goal?._id
 	const username = feedPost.user?.username;
 	const userId = feedPost.user?._id;
@@ -153,6 +153,7 @@ function FeedPostWorkout ({feedPost}) {
 							</div>
 							<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
 						</div>
+					  <img className="feed-workout-picture" src={imgUrl || "https://aws-fiton.s3.amazonaws.com/mat-kilkeary-kSCmit8eYo0-unsplash.jpg"} />
 					</div>}</Link>
 				</div>
 

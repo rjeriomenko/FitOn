@@ -5,6 +5,7 @@
 	/* left: -5vw; */
 	padding: 6px;
 	padding-left: 5vw;
+	padding-right: 5vw;
 	/* flex-grow: 2; */
 	width: 20%;
 	box-sizing: border-box;

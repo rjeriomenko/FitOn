@@ -437,10 +437,13 @@ p, h3 {
 
 @keyframes onFire {
 	0% {
-		border-color: white;
+		border-color: rgb(244, 244, 130);
 		/* transform: rotateY(0deg) rotateX(0deg) scale(3) skewX(40deg); */
 		/* transform-origin: center; */
 		/* transform-origin: bottom right; */
+	}
+	20% {
+		border-color: rgb(194, 169, 96);
 	}
 	30% {
 		border-color: var(--orange);
@@ -448,19 +451,25 @@ p, h3 {
 		/* transform-origin: center; */
 		/* transform-origin: bottom right; */
 	}
-	45% {
+	44% {
 		border-color: gray;
 		/* transform: rotateY(0deg) rotateX(0deg) scale(3) skewX(40deg); */
 		/* transform-origin: center; */
 		/* transform-origin: bottom right; */
 	}
-	75% {
+	65% {
 		border-color: var(--orange);
+	}
+	75% {
+		border-color: red;
 	}
 	85% {
 		border-color: red;
 	}
+	89% {
+		border-color: red;
+	}
 	100% {
-		border-color: white;
+		border-color: rgb(244, 244, 130);
 	}
 }

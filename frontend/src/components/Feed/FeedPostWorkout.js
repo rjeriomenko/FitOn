@@ -56,7 +56,7 @@ function FeedPostWorkout ({feedPost}) {
 		// const text = `Latest workout: ${lastEntry.note} - ${lastDate}`
 		// return text;
 		// return "Sponsored by CELSIUS"
-		return `Workout ${sortedGoalWorkoutsIndices.indexOf(_id) + 1} of ${sortedGoalWorkoutsIndices.length} - ${goal.title}`
+		return `Workout ${sortedGoalWorkoutsIndices.indexOf(_id) + 1} of ${sortedGoalWorkoutsIndices.length} - Goal: ${goal.title}`
 		
 	}
 

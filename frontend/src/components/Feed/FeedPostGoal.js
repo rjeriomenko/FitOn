@@ -44,6 +44,7 @@ function FeedPostGoal ({feedPost}) {
 
 	// controlled inputs
 	const [timestamp, setTimeStamp] = useState(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true}))
+	// console.log(completionDate);
 	const [formTitle, setFormTitle] = useState(title);
 	const [formDescription, setFormDescription] = useState(description);
 	const [image, setImage] = useState(null);

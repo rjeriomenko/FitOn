@@ -12,13 +12,17 @@ const { requireUser } = require('../../config/passport');
 
 
 // create an entry (POST)
-router.post('/:goalId', requireUser, validateExerciseEntryInput, async (req, res, next) => {
+router.post('/:goalId', requireUser, singleMulterUpload("image"), validateExerciseEntryInput, async (req, res, next) => {
+    const imgUrl = req.file ?
+        await singleFileUpload({ file: req.file, public: true }) :
+        false;
+
     try {
         const newEntry = new ExerciseEntry({
             date: req.body.date,
             note: req.body.note,
             rating: req.body.rating,
-            imgUrl: req.body.imgUrl,
+            imgUrl: imgUrl,
             user: req.user._id,
             goal: req.params.goalId
         });

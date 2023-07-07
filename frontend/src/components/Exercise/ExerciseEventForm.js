@@ -11,6 +11,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const [date, setDate] = useState(today);
     const [note, setNote] = useState('');
     const [rating, setRating] = useState('');
+    const [image, setImage] = useState(null);
     const [exerciseInputs, setExerciseInputs] = useState([{ name: '', sets: '', reps: '', time: '', weight: '' }]);
     const errors = useSelector(state => state.errors.exerciseEntries)
 
@@ -43,7 +44,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        dispatch(createExerciseEntry( currentGoalId, { date, note, rating: Number(rating) }))
+        dispatch(createExerciseEntry( currentGoalId, { date, note, image, rating: Number(rating) }))
             .then((res) => {
                 setShowExerciseEntry(false)
 
@@ -55,6 +56,8 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                 Promise.all(createExercisePromises)
             })
     };
+
+    const updateFile = e => setImage(e.target.files[0]);
 
     return (
         <div className="exercise-form-container">
@@ -85,6 +88,10 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                         required
                     />
                     <div className="errors">{errors?.note}</div>
+
+                    <label>Picture
+                        <input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
+                    </label>
 
                 </div>
                 

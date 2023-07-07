@@ -37,7 +37,7 @@ const FloatingMenu = (props) => {
 		return (
 			<>
 				{loggedIn && currentGoal &&
-					<div className="floating-menu-container" onClick={e => setShowExerciseEntry(true)} onClose={() => setShowExerciseEntry(false)}>
+					<div className="floating-menu-container-workout" onClick={e => setShowExerciseEntry(true)} onClose={() => setShowExerciseEntry(false)}>
 						<ul 
 							onMouseEnter={e => setHover(true)} 
 							onMouseLeave={e => setHover(false)}
@@ -56,7 +56,7 @@ const FloatingMenu = (props) => {
 		return (
 			<>
 				{loggedIn && !currentGoal &&
-					<div className="floating-menu-container" onClick={e => setShowCreateGoalForm(true)} onClose={() => setShowCreateGoalForm(false)}>
+					<div className="floating-menu-container-goal" onClick={e => setShowCreateGoalForm(true)} onClose={() => setShowCreateGoalForm(false)}>
 						<ul 
 							onMouseEnter={e => setHover(true)} 
 							onMouseLeave={e => setHover(false)}

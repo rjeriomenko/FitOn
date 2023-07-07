@@ -1,4 +1,4 @@
-.floating-menu-container {
+.floating-menu-container-workout {
 	position: fixed;
 	z-index: 11;
 	top: 50%;
@@ -17,12 +17,41 @@
 	align-items: center;
 	transition: background-color 0.5s;
 	/* animation: pulsing-button ; */
-	animation: pulsing-button 1.8s ease-in-out 0s infinite alternate both;
+	animation: pulsing-button-workout 1.8s ease-in-out 0s infinite alternate both;
 }
 
-@keyframes pulsing-button {
+.floating-menu-container-goal {
+	position: fixed;
+	z-index: 11;
+	top: 50%;
+	right: 20px;
+	transform: translate(-50%, -50%);
+	background-color: var(--yellow);
+	min-width: 0px;
+	min-height: 0px;
+	padding: 5px;
+	aspect-ratio: 1/1;
+	border-radius: 50%;
+	box-shadow: 0px 0px 2px var(--yellow);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: background-color 0.5s;
+	animation: pulsing-button-goal 1.8s ease-in-out 0s infinite alternate both;
+}
+
+@keyframes pulsing-button-workout {
 	0% {
 		background-color: rgb(251, 203, 115);
+	}
+	100% {
+		background-color: var(--white);
+	}
+}
+
+@keyframes pulsing-button-goal {
+	0% {
+		background-color: rgb(251, 174, 115);
 	}
 	100% {
 		background-color: var(--white);

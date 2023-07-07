@@ -148,10 +148,10 @@ function FeedPostWorkout ({feedPost}) {
 					<Link to={`/profile/${userId}`}>{!editable && <div className="feed-post-row">
 						<span className="post-goal-title">{formNote}</span>
 						<div className="post-workout-subtitle">
-							<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
 							<div className="post-workout-time-total">
 								<i class="fa-solid fa-clock"></i>&nbsp;{"50 minutes"}
 							</div>
+							<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
 						</div>
 					</div>}</Link>
 				</div>
@@ -174,6 +174,7 @@ function FeedPostWorkout ({feedPost}) {
 							<div className="post-exercise-num">{`${exercise.weight ? exercise.weight+" mins" : "n/a" }`}</div>
 						</div>
 					))}
+					{exercises.length === 0 && <div className="empty-workout">No exercises yet!</div>}
 				</div>
 				
 				{editable && <>

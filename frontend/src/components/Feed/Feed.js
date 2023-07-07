@@ -12,6 +12,8 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import TestProps from './TestProps';
 import { useLocation } from 'react-router-dom';
+import { fetchUser } from '../../store/users';
+import { getUser } from '../../store/users';
 
 // Sort posts by most recent.
 export const sortFeedPostsBy = (postsArray, sortRule) => {
@@ -61,6 +63,9 @@ function Feed ({discoverMode, options = {}}) {
   const discoverWorkouts = Object.values(useSelector(getDiscoversExerciseEntries));
   
   const userId = useParams().userId
+  const notSessionUser = useSelector(getUser(userId));
+  console.log(notSessionUser)
+
   const filterOptions = {...options};
 
   // Local state - for filtering!
@@ -77,6 +82,7 @@ function Feed ({discoverMode, options = {}}) {
       dispatch(fetchUserGoals(userId))
       dispatch(fetchUserExerciseEntries(userId))
       dispatch(fetchFollows(userId))
+      if(sessionUser._id !== userId) dispatch(fetchUser(userId))
     }
 
     // Otherwise want "megafeed" consisting of:
@@ -151,22 +157,13 @@ function Feed ({discoverMode, options = {}}) {
     if(userId === sessionUser._id) headerText = "your goals and workouts"
     // else headerText = `${sortedGoalPosts ? sortedGoalPosts[0].setter.concat(`...`) : "nothing here..."}`
     else {
-      headerText = `${sortedCombinedPosts?.length ? sortedCombinedPosts[0].user.username?.concat("'s goals and workouts") : "nothing here..."}`
+      // headerText = `${sortedCombinedPosts?.length ? sortedCombinedPosts[0].user.username?.concat("'s goals and workouts") : "nothing here..."}`
+      headerText = `${notSessionUser.username.concat("'s goals and workouts")}`
     }
   } else if(discoverMode){
     headerText = "other amazing goalgetters";
   } else {
     headerText = "together is better"
-  }
-
-  if (sortedCombinedPosts.length === 0) {
-    return (
-      <>
-      <div className='feed-posts-container'>
-        <h2>No posts yet. Create a goal or checkout what others have been up to in Discover!</h2>
-      </div>
-      </> 
-    )
   }
 
   const renderHeaderText = () => {
@@ -177,7 +174,19 @@ function Feed ({discoverMode, options = {}}) {
   }
 
   const renderPosts = () => {
-    
+    if (sortedCombinedPosts.length === 0) {
+      let emptyText;
+      if(sessionUser._id === userId) emptyText = "Nothing here yet. Create a goal / add a workout, or click Discover to get inspired!";
+      else emptyText = `Nothing here yet. Check out Discover for more inspiration!`
+      return (
+        <>
+        <div className='empty-feed-container'>
+          <div>{emptyText}</div>
+        </div>
+        </> 
+      )
+    }
+
     return sortedCombinedPosts.map((goalPost, index) => goalPost.deadline ?
       <FeedPostGoal key={goalPost._id} feedPost={goalPost} />
       : <FeedPostWorkout key={goalPost._id} feedPost={goalPost} />

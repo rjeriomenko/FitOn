@@ -150,7 +150,7 @@ function FeedPostWorkout ({feedPost}) {
 					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>}
 					<div className="post-timestamp">{timestamp}</div>
 					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
-						<i class="fa-solid fa-ellipsis"></i>
+						<i id="post-ellipsis-icon"class="fa-solid fa-ellipsis"></i>
 						{showMenu && 
 							<>
 								{/* DROPDOWN - START */}

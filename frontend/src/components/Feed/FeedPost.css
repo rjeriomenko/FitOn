@@ -382,9 +382,13 @@ p, h3 {
 
 .post-ellipsis {
 	position: absolute;
-	right: 0px;
+	right: 2px;
 	top: 2px;
 	padding: 2px;
+}
+
+#post-ellipsis-icon {
+	font-size: 20px;
 }
 
 .post-ellipsis:hover {

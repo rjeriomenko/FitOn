@@ -83,10 +83,8 @@ function FeedPostGoal ({feedPost}) {
 	};
 
 	const handleUpdateGoal = e => {
-		const inputField = document.getElementById("imageInput");
 		setEditable(false);
 		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, image, deadline, completionDate, exerciseEntries, updatedAt }
-		// inputField.value = "";
 		dispatch(updateGoal(updatedGoal))
 	}
 

@@ -49,6 +49,7 @@ function FeedPostWorkout ({feedPost}) {
 	const [formRating, setFormRating] = useState(rating);
 	const [formDate, setFormDate] = useState(date);
 	const [timestamp, setTimeStamp] = useState(formatWorkoutDate())
+	const [image, setImage] = useState(null);
 
 	// useEffect!
 	useEffect(() => {
@@ -66,7 +67,7 @@ function FeedPostWorkout ({feedPost}) {
 
 	const handleUpdateWorkout = e => {
 		setEditable(false);
-		const updatedWorkout = { note:formNote, rating:formRating, date:formDate, goal, user }
+		const updatedWorkout = { note:formNote, rating:formRating, date:formDate, image, goal, user }
 		dispatch(updateExerciseEntry(_id, updatedWorkout))
 	}
 
@@ -107,6 +108,8 @@ function FeedPostWorkout ({feedPost}) {
 			post.classList.remove("post-hover-animation");
 		}, 500)
 	}
+
+	const updateFile = e => setImage(e.target.files[0]);
 
   return (
 		<div className="feed-post-editable-container" onMouseEnter={animateOnce}>
@@ -196,6 +199,9 @@ function FeedPostWorkout ({feedPost}) {
 							value={formNote}
 							onChange={e => setFormNote(e.target.value)}
 						/>
+					</label>
+					<label>Picture
+						<input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
 					</label>
 					{/* <div className="feed-post-update-button" onClick={handleUpdateWorkout}>Update</div> */}
 					<button className="feed-post-update-button" type="submit">Update</button>

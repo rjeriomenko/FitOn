@@ -241,9 +241,18 @@ p, h3 {
 /* WORKOUT POST - START */
 /* WORKOUT POST - START */
 
+.post-workout-subtitle {
+	display: flex;
+	flex-direction: row;
+}
+
+.post-workout-subtitle > div {
+	margin-right: 10px;
+}
+
 .post-workout-rating {
 	background-color: pink;
-	/* font-size: 40px; */
+	/* font-size: 1.6em; */
 }
 
 .workout-exercise-list-header {
@@ -280,6 +289,31 @@ p, h3 {
 }
 .post-exercises-container > div > div:nth-child(5){
 	width: 20%;
+}
+
+.post-rating-1 {
+	background-color: var(--rating-1);
+	color: black;
+}
+
+.post-rating-2 {
+	background-color: var(--rating-2);
+	color: black;
+}
+
+.post-rating-3 {
+	background-color: var(--rating-3);
+	color: white;
+}
+
+.post-rating-4 {
+	background-color: var(--rating-4);
+	color: white;
+}
+
+.post-rating-5 {
+	background-color: var(--rating-5);
+	color: white;
 }
 
 /* WORKOUT POST - END */

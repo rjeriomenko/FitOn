@@ -147,11 +147,11 @@ function FeedPostWorkout ({feedPost}) {
 				<div className="post-toprow">
 					<Link to={`/profile/${userId}`}>{!editable && <div className="feed-post-row">
 						<span className="post-goal-title">{formNote}</span>
-						<div>
-							<span className="post-workout-rating">{formRating}</span>
-							<span className="post-workout-time-total">
+						<div className="post-workout-subtitle">
+							<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
+							<div className="post-workout-time-total">
 								<i class="fa-solid fa-clock"></i>&nbsp;{"50 minutes"}
-							</span>
+							</div>
 						</div>
 					</div>}</Link>
 				</div>

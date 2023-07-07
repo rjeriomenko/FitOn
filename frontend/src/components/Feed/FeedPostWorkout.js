@@ -156,21 +156,24 @@ function FeedPostWorkout ({feedPost}) {
 					</div>}</Link>
 				</div>
 
-				<div className="workout-exercise-list-header">
-					<i class="fa-solid fa-layer-group"></i>
-					<i class="fa-solid fa-rotate-right"></i>
-					<i class="fa-solid fa-weight-hanging"></i>
-					<i class="fa-solid fa-clock"></i>
-					<div className="workout-exercise-row"></div>
-				</div>
-
 				<div className="post-exercises-container">
-					{exercises.map(exercise => <span>{`${exercise.name} 
-						| ${exercise.sets ? exercise.sets : "n/a" } 
-						| ${exercise.reps ? exercise.reps : "n/a" } 
-						| ${exercise.weight ? exercise.weight : "n/a" } 
-						| ${exercise.time ? exercise.time+" mins" : "n/a" } 
-						`}</span>)}
+					<div className="workout-exercise-list-header">
+						<div><i></i></div>
+						<div><i class="fa-solid fa-layer-group"></i></div>
+						<div><i class="fa-solid fa-rotate-right"></i></div>
+						<div><i class="fa-solid fa-weight-hanging"></i></div>
+						<div><i class="fa-solid fa-clock"></i></div>
+						<div className="workout-exercise-row"></div>
+					</div>
+					{exercises.map(exercise => (
+						<div className="post-exercise-row">
+							<div>{`${exercise.name}`}</div>
+							<div className="post-exercise-num">{`${exercise.sets ? exercise.sets : "n/a" }`}</div>
+							<div className="post-exercise-num">{`${exercise.reps ? exercise.reps : "n/a" }`}</div>
+							<div className="post-exercise-num">{`${exercise.weight ? exercise.weight : "n/a" }`}</div>
+							<div className="post-exercise-num">{`${exercise.weight ? exercise.weight+" mins" : "n/a" }`}</div>
+						</div>
+					))}
 				</div>
 				
 				{editable && <>

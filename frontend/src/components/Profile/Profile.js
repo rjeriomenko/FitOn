@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import { deleteGoal, fetchUserGoals } from '../../store/goals'
 import { updateUser, getUser, fetchUser } from '../../store/users';
 import { getCurrentUser } from '../../store/session';
-import { Link } from 'react-router-dom';
 
 import { fetchAllUserExerciseEntries, fetchUserExerciseEntries } from '../../store/exerciseEntries';
 import { getUserExerciseEntries } from '../../store/exerciseEntries';
@@ -144,18 +143,22 @@ function Profile () {
   const progressTitle = () => {
     if (user && user.username) {
       if (sessionUser._id === userId) {
-        return <h2>my progress on...</h2>;
+        return <h4 id="progress-subheader">· my progress ·</h4>;
       } else {
-        return <h2>{user.username}'s progress on...</h2>;
+        return <h4 id="progress-subheader">· {user.username}'s progress ·</h4>;
       }
     }
   };
   
   const noExercises = () => {
-    if ( sessionUser._id === userId && goalExercisesCount === 0 ) {
-      return <h4>log your exercises today to see your progress...</h4>
-    } else if (sessionUser._id !== userId && goalExercisesCount === 0) {
-      return <h4>no progress to show yet...</h4>
+    if ( goalExercisesCount === 0 && sessionUser._id === userId ) {
+      return (
+        <>
+          <h4 id="progress-subheader">log your workouts to see progress towards greatness</h4>
+        </>
+      )
+    } else if ( goalExercisesCount === 0 && sessionUser._id !== userId) {
+      return <h4 id="progress-subheader">no progress towards greatness</h4>
     }
   }
 
@@ -168,9 +171,14 @@ function Profile () {
         </>
       )
     } else if (!currentGoal && sessionUser._id === userId){
-      return <h3 id="goalless-data-viz">create your goal and log your exercises today to see your progress...</h3>
+      return (
+        <>
+          <h3 id="progress-goal-title">No Goal to Show</h3>
+          <h4 id="progress-subheader">set your goal and see your progress today</h4>
+        </>
+      )
     } else if (!currentGoal && sessionUser._id !== userId) {
-      return <h3 id="goalless-data-viz">no progress to show yet...</h3>
+      return <h3 id="progress-goal-title">No Goal Set</h3>
     }
   }
 
@@ -205,7 +213,7 @@ function Profile () {
 
       {/* DATA VIZ - START */}
       {/* DATA VIZ - START */}
-      <div className="progress-title">
+      <div className="progress-header">
         {progressTitle()}
         {displayCurrentGoal()}
       </div>
@@ -223,6 +231,8 @@ function Profile () {
           { user && <DataVis user={user} timeGraph={timeGraph}/> }
         </div>
       </div>
+      
+      <div className="profile-line"></div>
 
       {/* DATA VIZ - END */}
       {/* DATA VIZ - END */}

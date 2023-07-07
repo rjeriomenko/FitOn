@@ -10,7 +10,7 @@ import { fetchWorkoutExercises, getWorkoutKeyExercises } from "../../store/exerc
 
 function FeedPostWorkout ({feedPost}) {
   // props
-	const { date, goal, note, rating, updatedAt, user, _id } = feedPost;
+	const { date, goal, note, rating, imgUrl, updatedAt, user, _id } = feedPost;
 	const goalId = goal?._id
 	const username = feedPost.user?.username;
 	const userId = feedPost.user?._id;
@@ -71,6 +71,7 @@ function FeedPostWorkout ({feedPost}) {
 	const [formRating, setFormRating] = useState(rating);
 	const [formDate, setFormDate] = useState(date);
 	const [timestamp, setTimeStamp] = useState(formatWorkoutDate())
+	const [image, setImage] = useState(null);
 
 	// useEffect!
 	useEffect(() => {
@@ -89,7 +90,7 @@ function FeedPostWorkout ({feedPost}) {
 
 	const handleUpdateWorkout = e => {
 		setEditable(false);
-		const updatedWorkout = { note:formNote, rating:formRating, date:formDate, goal, user }
+		const updatedWorkout = { note:formNote, rating:formRating, date:formDate, image, goal, user }
 		dispatch(updateExerciseEntry(_id, updatedWorkout))
 	}
 
@@ -131,6 +132,8 @@ function FeedPostWorkout ({feedPost}) {
 		}, 500)
 	}
 	// console.log(exercises)
+
+	const updateFile = e => setImage(e.target.files[0]);
 
   return (
 		<div className="feed-post-editable-container" onMouseEnter={animateOnce}>
@@ -177,6 +180,7 @@ function FeedPostWorkout ({feedPost}) {
 							</div>
 							<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
 						</div>
+					  <img className="feed-workout-picture" src={imgUrl || "https://aws-fiton.s3.amazonaws.com/mat-kilkeary-kSCmit8eYo0-unsplash.jpg"} />
 					</div>}</Link>
 				</div>
 
@@ -219,6 +223,9 @@ function FeedPostWorkout ({feedPost}) {
 							value={formNote}
 							onChange={e => setFormNote(e.target.value)}
 						/>
+					</label>
+					<label>Picture
+						<input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
 					</label>
 					{/* <div className="feed-post-update-button" onClick={handleUpdateWorkout}>Update</div> */}
 					<button className="feed-post-update-button" type="submit">Update</button>

@@ -4,6 +4,7 @@ const UserSchema = require('../models/User');
 const GoalSchema = require('../models/Goal');
 const ExerciseEntrySchema = require('../models/ExerciseEntry');
 const ExerciseSchema = require('../models/Exercise');
+const FollowSchema = require('../models/Follow');
 const bcrypt = require('bcryptjs');
 
 // Define models
@@ -11,6 +12,7 @@ const User = mongoose.model('User', UserSchema);
 const Goal = mongoose.model('Goal', GoalSchema);
 const ExerciseEntry = mongoose.model('ExerciseEntry', ExerciseEntrySchema);
 const Exercise = mongoose.model('Exercise', ExerciseSchema);
+const Follow = mongoose.model('Follow', FollowSchema);
 
 // Establish a connection to your MongoDB database
 mongoose.connect(db, {
@@ -22,6 +24,16 @@ mongoose.connect(db, {
 const seedData = async () => {
     try {
         // create and save USERS
+
+        // userTemplate: 
+        // const userVar = newUser({
+        //     username: "",
+        //     email: "",
+        //     hashedPassword: bcrypt.hashSync("password", 10)
+        // });
+        // await userVar.save();
+
+
         const demoUser = new User({
             username: "demo user",
             email: "sams@demo.io",
@@ -45,16 +57,31 @@ const seedData = async () => {
 
         process.stdout.write("Users created and saved!\n");
 
-        // template: 
-        // const userVar = newUser({
-        //     username: "",
-        //     email: "",
-        //     hashedPassword: bcrypt.hashSync("password", 10)
-        // });
-        // await userVar.save();
+        // creating FOLLOWS
+        const follows = [
+            { follower: savedDemoUser._id, followedUser: savedTriUser._id },
+            { follower: savedDemoUser._id, followedUser: savedFullUser._id },
+            { follower: savedTriUser._id, followedUser: savedDemoUser._id },
+            { follower: savedTriUser._id, followedUser: savedFullUser._id },
+            { follower: savedFullUser._id, followedUser: savedDemoUser._id },
+            { follower: savedFullUser._id, followedUser: savedTriUser._id }
+        ];
+
+        await Follow.insertMany(follows);
+
+        process.stdout.write("Follows created and saved!\n");
 
         // create and save GOALS
         // remember demoUser has more robust data
+
+        // goalTemplate: 
+        // const goalVar = new Goal({
+        // title: ,
+        // description: ,
+        // deadline: ,
+        // user: 
+        // });
+        // const savedGoalVarName = await goalVar.save();
 
         const demoGoal1 = new Goal({
             title: "Higher Intensity in all Workouts",
@@ -63,8 +90,8 @@ const seedData = async () => {
             user: demoUser._id,
         });
         const firstDemoGoal = await demoGoal1.save();
-        demoUser.currentGoal = firstDemoGoal;
-        await demoUser.save();
+        savedDemoUser.currentGoal = firstDemoGoal;
+        await savedDemoUser.save();
 
         const demoGoal2 = new Goal({
             title: "Increase Endurance and Stamina",
@@ -77,10 +104,26 @@ const seedData = async () => {
         const demoGoal3 = new Goal({
             title: "Weight Loss and Body Toning",
             description: "Lose weight and tone my body for summer",
-            deadline: "2023-07-01",
+            deadline: "2023-07-03",
             user: demoUser._id
         });
         const thirdDemoGoal = await demoGoal3.save();
+
+        const demoGoal4 = new Goal({
+            title: "Mindful Meditation Practice",
+            description: "Incorporate regular meditation sessions to reduce stress, enhance focus, and promote mental well-being.",
+            deadline: "2023-07-17",
+            user: demoUser._id
+        });
+        const fourthDemoGoal = await demoGoal4.save();
+
+        const demoGoal5 = new Goal({
+            title: "Flexibility and Mobility Improvement",
+            description: "Enhance range of motion, improve flexibility, and increase overall mobility for better performance and injury prevention.",
+            deadline: "2023-07-10",
+            user: demoUser._id
+        });
+        const fifthDemoGoal = await demoGoal5.save();
 
         const triRunGoal = new Goal({
             title: "Run 30 miles by next weekend",
@@ -91,12 +134,14 @@ const seedData = async () => {
         const savedRunGoal = await triRunGoal.save();
 
         const triBikeGoal = new Goal({
-            title: "Bike 500 miles by mid-April",
+            title: "Bike 500 miles by end of July",
             description: "Increase biking endurance and speed for triathlon",
-            deadline: "2023-04-01",
+            deadline: "2023-07-30",
             user: triathlonUser._id
         });
         const savedBikeGoal = await triBikeGoal.save();
+        savedTriUser.currentGoal = savedBikeGoal;
+        await savedTriUser.save();
 
         const triSwimGoal = new Goal({
             title: "Swim 50 laps (1 mile) per week",
@@ -113,6 +158,8 @@ const seedData = async () => {
             user: fullBodyUser._id
         });
         const firstFullGoal = await fullBodyGoal1.save();
+        savedFullUser.currentGoal = firstFullGoal;
+        await savedFullUser.save();
 
         const fullBodyGoal2 = new Goal({
             title: "Reduce Body Fat and Increase Muscle Tone",
@@ -124,53 +171,20 @@ const seedData = async () => {
 
         process.stdout.write("Goals created and saved!\n");
 
-        // template: 
-        // {
-        // title: ,
-        // description: ,
-        // deadline: ,
-        // user: 
-        // }
-
-        // ****the test zone****
-
-        
-        // const testEntry = new ExerciseEntry({
-        //     date: 'test',
-        //     note: 'test',
-        //     rating: getRandomRating(),
-        //     user: demoUser._id,
-        //     goal: firstDemoGoal._id
-        // })
-        // const savedTestEntry = await testEntry.save()
-
-        // const testExercise = new Exercise({
-        //     sets: getRandomSets(),
-        //     reps: getRandomReps(),
-        //     time: "10",
-        //     name: "testing",
-        //     user: demoUser._id,
-        //     goal: firstDemoGoal._id,
-        //     workout: savedTestEntry._id
-        // })
-        // await testExercise.save();
-
-
-        // ****exiting test zone****
+        // create and save WORKOUTS AND EXERCISES
+        // this will be a little more complicated as you'll have to make sure the references are all pointed correctly
 
         const goals = [];
         goals.push(firstDemoGoal);
         goals.push(secondDemoGoal);
         goals.push(thirdDemoGoal);
+        goals.push(fourthDemoGoal);
+        goals.push(fifthDemoGoal);
         goals.push(savedRunGoal);
         goals.push(savedBikeGoal);
         goals.push(savedSwimGoal);
         goals.push(firstFullGoal);
         goals.push(secondFullGoal);
-
-        // create and save WORKOUTS
-        // this will be a little more complicated as you'll have to make sure the references are all pointed correctly
-
 
         for (const goal of goals) {
             const deadline = goal.deadline;
@@ -221,13 +235,11 @@ const seedData = async () => {
                     exercisePromises.push(savedExercise);
                 }
             }
-
             await Promise.all(workoutPromises);
             await Promise.all(exercisePromises);
         }
 
         process.stdout.write("Workouts created and saved!\n");
-
         process.stdout.write("Exercises created and saved!\n");
 
 
@@ -239,7 +251,7 @@ const seedData = async () => {
     }
 };
 
-// generate workouts for the goal based on deadline and how many days of workouts you need
+// generate workouts templates for the goal based on deadline and how many days of workouts you need
 const populateWorkouts = (deadline, numWorkouts) => {
     const workouts = [];
 
@@ -271,7 +283,7 @@ const getPreviousDate = (deadline, days) => {
     return `${year}-${month}-${date}`;
 };
 
-const getRandomTime = () => {
+const getRandomCardioTime = () => {
     const times = [30, 35, 40, 45];
     const randomIndex = Math.floor(Math.random() * times.length);
     return String(times[randomIndex]);
@@ -279,6 +291,12 @@ const getRandomTime = () => {
 
 const getRandomRepTime = () => {
     const times = [8, 9, 10, 11, 12, 13, 14, 15];
+    const randomIndex = Math.floor(Math.random() * times.length);
+    return String(times[randomIndex]);
+}
+
+const getRandomStretchTime = () => {
+    const times = [15, 20, 25, 30];
     const randomIndex = Math.floor(Math.random() * times.length);
     return String(times[randomIndex]);
 }
@@ -344,15 +362,15 @@ const generateExercises = (goal) => {
         case "Increase Endurance and Stamina":
             exercises.push({
                 name: "Jump Rope",
-                time: getRandomTime()
+                time: getRandomCardioTime()
             });
             exercises.push({
                 name: "Rowing Machine",
-                time: getRandomTime()
+                time: getRandomCardioTime()
             });
             exercises.push({
                 name: "Boxing",
-                time: getRandomTime()
+                time: getRandomCardioTime()
             });
             return exercises;
         case "Weight Loss and Body Toning":
@@ -375,22 +393,50 @@ const generateExercises = (goal) => {
                 time: getRandomRepTime()
             });
             return exercises;
+        case "Mindful Meditation Practice":
+            exercises.push({
+                name: "Dynamic Stretching",
+                time: getRandomStretchTime()
+            });
+            exercises.push({
+                name: "Pilates",
+                time: getRandomStretchTime()
+            });
+            exercises.push({
+                name: "Yoga",
+                time: getRandomStretchTime()
+            });
+            return exercises;
+        case "Flexibility and Mobility Improvement":
+            exercises.push({
+                name: "Elliptical",
+                time: getRandomCardioTime()
+            });
+            exercises.push({
+                name: "Water Aerobics",
+                time: getRandomCardioTime()
+            });
+            exercises.push({
+                name: "Zumba",
+                time: getRandomCardioTime()
+            });
+            return exercises;
         case "Run 30 miles by next weekend":
             exercises.push({
                 name: "Running",
-                time: getRandomTime()
+                time: getRandomCardioTime()
             });
             return exercises;
         case "Bike 500 miles by mid-April":
             exercises.push({
                 name: "Cycling",
-                time: getRandomTime()
+                time: getRandomCardioTime()
             });
             return exercises;
         case "Swim 50 laps (1 mile) per week":
             exercises.push({
                 name: "Swimming",
-                time: getRandomTime()
+                time: getRandomCardioTime()
             });
             return exercises;
         case "Increase Strength and Build Muscle Mass":
@@ -445,8 +491,9 @@ const generateExercises = (goal) => {
                 time: getRandomRepTime()
             });
             return exercises;
+        default: 
+            return exercises;
     };
 };
 
-// Call the function to create the seed data
 seedData();

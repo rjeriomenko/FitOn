@@ -19,8 +19,10 @@
 	position: relative;
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-start;
+	justify-content: center;
+	/* justify-content: space-between; */
 	align-items: flex-start;
+	/* flex-grow: 6; */
 	/* height: 100vh; */
 	/* top:  */
 	/* overflow-x: scroll; */
@@ -33,7 +35,14 @@
 	/* padding-right: 5vw; */
 }
 
+.filler-div {
+	/* display: none; */
+	width: 20%
+}
+
 .inner-feed-posts-container {
+	width: 60%;
+	justify-self: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -75,6 +84,12 @@
 	border-radius: 20px;
 }
 
+.post-photo-container {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
 .feed-goal-picture {
 	height: 300px;
 	width: 500px;
@@ -83,8 +98,10 @@
 }
 
 .feed-workout-picture {
-	height: 300px;
-	width: 500px;
+	height: 100%;
+	/* width: 500px; */
+	width: 100%;
+	object-fit: cover;
 	margin: 20px 0;
 	border-radius: 20px;
 }

@@ -16,8 +16,8 @@ p, h3 {
 	/* min-width: 500px; */
 	/* width: 40vw; */
 	margin: 15px;
-	margin-left: 5vw;
-	/* margin-left: 80px; */
+	/* margin-left: 10vw; */
+	margin-left: 55px;
 	border-right: none;
 	border-bottom: none;
 	border: none;
@@ -46,9 +46,10 @@ p, h3 {
 .feed-post-content {
 	display: flex;
 	flex-direction: column;
-	width: 500px;
+	width: 600px;
 	word-wrap: break-word;
 	box-sizing: border-box;
+	margin: 30px;
 }
 
 .feed-post-content *:not(.fa-solid, .fa-edit) {

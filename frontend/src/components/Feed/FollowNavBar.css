@@ -1,8 +1,13 @@
 .follow-nav-bar-container {
 	position: sticky;
 	top: 200px;
-	left: -5px;
+	/* left: -5px; */
+	/* left: -5vw; */
 	padding: 6px;
+	padding-left: 5vw;
+	/* flex-grow: 2; */
+	width: 20%;
+	box-sizing: border-box;
 }
 
 .follow-nav-bar-container *:not(.fa-solid) {

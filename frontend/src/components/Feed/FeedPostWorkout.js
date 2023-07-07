@@ -180,8 +180,12 @@ function FeedPostWorkout ({feedPost}) {
 							</div>
 							<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
 						</div>
-					  <img className="feed-workout-picture" src={imgUrl || "https://aws-fiton.s3.amazonaws.com/mat-kilkeary-kSCmit8eYo0-unsplash.jpg"} />
+					  
 					</div>}</Link>
+				</div>
+
+				<div className="post-photo-container">
+					<img className="feed-workout-picture" src={imgUrl || "https://aws-fiton.s3.amazonaws.com/mat-kilkeary-kSCmit8eYo0-unsplash.jpg"} />
 				</div>
 
 				<div className="post-exercises-container">

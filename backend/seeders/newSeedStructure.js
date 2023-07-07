@@ -36,7 +36,7 @@ const seedData = async () => {
 
         const demoUser = new User({
             username: "demo user",
-            email: "sams@demo.io",
+            email: "demo@user.io",
             hashedPassword: bcrypt.hashSync("password", 10)
         });
         const savedDemoUser = await demoUser.save();
@@ -356,7 +356,8 @@ const generateExercises = (goal) => {
                 name: "Squats",
                 sets: getRandomSets(),
                 reps: getRandomReps(),
-                time: getRandomRepTime()
+                time: getRandomRepTime(),
+                weight: 135
             });
             return exercises;
         case "Increase Endurance and Stamina":
@@ -427,7 +428,7 @@ const generateExercises = (goal) => {
                 time: getRandomCardioTime()
             });
             return exercises;
-        case "Bike 500 miles by mid-April":
+        case "Bike 500 miles by end of July":
             exercises.push({
                 name: "Cycling",
                 time: getRandomCardioTime()
@@ -476,7 +477,8 @@ const generateExercises = (goal) => {
                 name: "Squats",
                 sets: getRandomSets(),
                 reps: getRandomReps(),
-                time: getRandomRepTime()
+                time: getRandomRepTime(),
+                weight: 155
             });
             exercises.push({
                 name: "Mountain Climbers",
@@ -497,3 +499,7 @@ const generateExercises = (goal) => {
 };
 
 seedData();
+
+// make sure you're in backend folder
+// if not yet installed, npm install -g dotenv-cli
+// to run the seed file, node -r dotenv/config seeders/seeds.js

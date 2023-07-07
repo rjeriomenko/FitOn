@@ -64,7 +64,7 @@ function Feed ({discoverMode, options = {}}) {
   
   const userId = useParams().userId
   const notSessionUser = useSelector(getUser(userId));
-  console.log(notSessionUser)
+  // console.log(notSessionUser)
 
   const filterOptions = {...options};
 
@@ -103,6 +103,25 @@ function Feed ({discoverMode, options = {}}) {
 
       }
     }
+
+    const marker = document.querySelector('.hover-marker')
+    marker.style.transition = "all 0.1s";
+    // marker.style.top = (1)+'px';
+    marker.style.opacity = '0';
+    // marker.style.opacity = "1";
+    // marker.style.transition = "all 0s";
+    // let link;
+    // if(userId) {
+    //   link = document.querySelector('.feed-nav-bot-link').querySelector('a')
+    // } else if(discoverMode) {
+    //   link = document.querySelector('.feed-nav-top-link').querySelector('a')
+    // } else {
+    //   link = document.querySelector('.feed-nav-mid-link').querySelector('a')
+    // }
+    // console.log(link.offsetTop)
+    // marker.style.top = (link.offsetTop - 2)+'px';
+    // marker.style.transition = "transform 0.3s, top 0.3s, left 0.3s, height 0.3s, width 0.3s, color 1.3s, background-color 0.3s, box-shadow 0.3s, opacity 0.8s";
+
 
     // Cleanup:
     // return () => dispatch(clearFeedPostErrors());

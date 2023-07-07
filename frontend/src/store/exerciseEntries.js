@@ -146,13 +146,11 @@ export const updateExerciseEntry = (exerciseEntryId, exerciseEntry) => async dis
 
 export const deleteExerciseEntry = (exerciseEntryId) => async dispatch => {
     try {
-        // debugger
         const res = await jwtFetch(`/api/exerciseEntries/${exerciseEntryId}`, {
             method: 'DELETE'
         });
         dispatch(removeExerciseEntry(exerciseEntryId))
     } catch (err) {
-        // debugger
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
             return dispatch(receiveExerciseEntryErrors(resBody.errors));

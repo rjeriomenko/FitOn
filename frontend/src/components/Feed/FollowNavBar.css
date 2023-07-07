@@ -41,15 +41,17 @@
 	color: var(--black);
 }
 
-.hoverMarker {
+.hover-marker {
+	/* top: 34px; */
 	z-index: -1;
 	position: absolute;
+	top: -34px;
+	bottom: 2px;
 	min-height: 20px;
-	/* width: 50px; */
 	background-color:var(--orange);
-	opacity: 0;
+	/* opacity: 0; */
 	transform-origin: left;
-	/* width: 0px; */
+	width: 1px;
 	/* transform: rotateY(180deg) rotateX(90deg); */
 	transform: rotateX(90deg) skewX(10deg);
 	/* transition: all 0.5s; */

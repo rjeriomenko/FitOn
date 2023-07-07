@@ -45,7 +45,7 @@ function FeedPostWorkout ({feedPost}) {
 	}
 
 	// Custom display text
-	const latestExerciseText = () => {
+	const goalDetailsText = () => {
 		// if(!exerciseEntries || exerciseEntries.length === 0) return "No workouts yet";
 		// const lastEntry = exerciseEntries[exerciseEntries.length - 1];
 		// const lastDate = formatDate(lastEntry.date);
@@ -117,6 +117,7 @@ function FeedPostWorkout ({feedPost}) {
 			post.classList.remove("post-hover-animation");
 		}, 500)
 	}
+	// console.log(exercises)
 
   return (
 		<div className="feed-post-editable-container" onMouseEnter={animateOnce}>
@@ -213,7 +214,7 @@ function FeedPostWorkout ({feedPost}) {
 				</>}
 				<div className="post-divider"></div>
 				<div className="latest-exercise-text">
-					{latestExerciseText()}
+					{goalDetailsText()}
 				</div>
 			</div>
 			{/* CONTENT - END */}

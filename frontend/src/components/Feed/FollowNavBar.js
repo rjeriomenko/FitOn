@@ -8,7 +8,8 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 	const randomNum = () => Math.random();
 
 	const resetMarker = (e) => {
-		const marker = document.querySelector(".hoverMarker")
+		// console.log("eventing")
+		const marker = document.querySelector(".hover-marker")
 		// marker.style.width = "0px"
 		const topLink = document.querySelector(".feed-nav-top-link").querySelector("a")
 		const midLink = document.querySelector(".feed-nav-mid-link").querySelector("a")
@@ -37,10 +38,9 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 			marker.style.top = (link.offsetTop - 2)+'px';
 			marker.style.left = (link.offsetLeft - 2)+'px';
 			marker.style.height = (link.offsetHeight + 4)+'px';
-			console.log(link)
+			// console.log(link)
 			// link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
-			link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
-			link.classList.contains("active") ? marker.style.boxShadow = "2px 2px black" : marker.style.boxShadow = "2px 2px plum";
+			// link.classList.contains("active") ? marker.style.boxShadow = "2px 2px black" : marker.style.boxShadow = "2px 2px plum";
 			marker.style.transition = "transform 0.3s, top 0.3s, left 0.3s, height 0.3s, width 0.3s, color 0.3s, box-shadow 0.3s, opacity 0.3s";
 			marker.style.opacity = "1";
 			marker.style.transform = "rotateX(0deg)";
@@ -59,7 +59,7 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 			marker.style.transition = "transform 0.3s, top 0.3s, left 0.3s, height 0.3s, width 0.3s, color 1.3s, background-color 0.3s, box-shadow 0.3s, opacity 0.8s";
 			marker.style.opacity = "0";
 			marker.style.transform = "rotateX(90deg) skewX(10deg)";
-			link.classList.contains("active") ? link.style.color = "#F2490C" : link.style.color = "black";
+			// link.classList.contains("active") ? link.style.color = "#F2490C" : link.style.color = "black";
 			marker.style.boxShadow = ""
 			// setTimeout(() => {
 			// 	marker.style.transition = "all 0s";
@@ -68,13 +68,16 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 	}
 
 	const shiftMarker = (e) => {
+		// console.log("eventing")
 		e.stopPropagation();
-		const marker = document.querySelector(".hoverMarker")
+		const marker = document.querySelector(".hover-marker")
 
 		// const link = e.currentTarget;
 		const link = e.currentTarget.querySelector('a');
+		// console.log(marker)
+		marker.style.opacity = "1";
+		// console.log(marker)
 		if(e.type==="mouseenter") {
-			marker.style.opacity = "1";
 			marker.style.top = (link.offsetTop - 2)+'px';
 			marker.style.left = (link.offsetLeft - 2)+'px';
 			marker.style.height = (link.offsetHeight + 4)+'px';
@@ -84,7 +87,7 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 			
 		}
 		if(e.type==="mouseleave") {
-			marker.style.opacity = "0";
+			marker.style.opacity = "1";
 			link.classList.contains("active") ? link.style.color = "#F2490C" : link.style.color = "black";
 			marker.style.boxShadow = ""
 			
@@ -117,7 +120,7 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 
 	return (
 		<div className="follow-nav-bar-container" >
-			<div className="hoverMarker" ></div>
+			<div className="hover-marker" ></div>
 			<div className="feed-links-box" onMouseEnter={resetMarker} onMouseLeave={resetMarker}>
 				<ul className="feed-links-list">
 					<li className="feed-nav-top-link"><NavLink exact to={{pathname:`/discover`, discoverTriggerRerender: randomNum()}}>Discover</NavLink></li>

@@ -35,7 +35,6 @@ function GoalCreate({ setShowCreateGoalForm, userId }) {
             setDeadline(today);
             setSubmit(true)
           })
-    
   };
 
   if (submit === true) {

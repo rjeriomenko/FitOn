@@ -62,16 +62,16 @@ function SignupForm () {
     dispatch(login({ email:demoEmail, password:demoPassword })); 
   }
 
-  const demoLogin2 = (e) => {
-    e.preventDefault();
-    const demoEmail = "demo2@user.io"
-    const demoPassword = "password"
-    setUsername(demoEmail)
-    setEmail(demoEmail)
-    setPassword(demoPassword)
-    setPassword2(demoPassword)
-    dispatch(login({ email:demoEmail, password:demoPassword })); 
-  }
+  // const demoLogin2 = (e) => {
+  //   e.preventDefault();
+  //   const demoEmail = "demo2@user.io"
+  //   const demoPassword = "password"
+  //   setUsername(demoEmail)
+  //   setEmail(demoEmail)
+  //   setPassword(demoPassword)
+  //   setPassword2(demoPassword)
+  //   dispatch(login({ email:demoEmail, password:demoPassword })); 
+  // }
 
   return (
     <div className='session-form-container'>
@@ -144,11 +144,11 @@ function SignupForm () {
           >Demo
           </button>
 
-          <button
+          {/* <button
             className='session-form-submit'
             onClick={demoLogin2}
           >Demo #2
-          </button>
+          </button> */}
         </div>
       </form>
     </div>

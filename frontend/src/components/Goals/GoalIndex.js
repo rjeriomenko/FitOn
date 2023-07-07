@@ -125,7 +125,7 @@ function GoalIndex () {
                         <i className="fa-solid fa-trash-can"></i>
                     </div>
                     <div className="create-current-goal" onClick={() => setShowCreateGoalForm(true)}>
-                        <div>Create a new goal</div>
+                        <i class="fas fa-calendar-plus"></i>
                     </div>
                 </div>
             )
@@ -222,7 +222,6 @@ function GoalIndex () {
                 <div className="goals-grid-container">
                 {renderPrevGoals()}
                 </div>
-
             </div>
         </>
     )}

@@ -7,6 +7,7 @@ const Follow = mongoose.model('Follow');
 const User = mongoose.model('User');
 const Exercise = mongoose.model('Exercise');
 const validateExerciseEntryInput = require("../../validations/exerciseEntries");
+const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
 const { requireUser } = require('../../config/passport');
 
 
@@ -118,7 +119,7 @@ router.get('/byGoal/:goalId', requireUser, async (req, res, next) => {
 });
 
 // PATCH workout 
-router.patch('/:entryId', requireUser, validateExerciseEntryInput, async (req, res, next) => {
+router.patch('/:entryId', requireUser, singleMulterUpload("image"), validateExerciseEntryInput, async (req, res, next) => {
     try {
         let entry = await ExerciseEntry.findById(req.params.entryId);
         if (!entry) {
@@ -131,10 +132,15 @@ router.patch('/:entryId', requireUser, validateExerciseEntryInput, async (req, r
             throw error;
         }
 
+        const imgUrl = req.file ?
+            await singleFileUpload({ file: req.file, public: true }) :
+            false;
+
         entry.date = req.body.date || entry.date
         entry.note = req.body.note || entry.note
         entry.rating = req.body.rating || entry.rating
-        entry.imgUrl = req.body.imgUrl || entry.imgUrl
+        entry.imgUrl = imgUrl || entry.imgUrl;
+
 
         await entry.save();
 

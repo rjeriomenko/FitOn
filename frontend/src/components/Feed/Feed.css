@@ -40,6 +40,7 @@
 	align-items: flex-start;
 	/* opacity: 0; */
 	/* animation: mainFadeAnimation 01s ease 0.2s 1 normal forwards; */
+	/* perspective: 4500px; */
 }
 
 .inner-feed-posts-container > h2 {
@@ -71,6 +72,20 @@
 .feed-profile-picture {
 	height: 50px;
 	width: 50px;
+	border-radius: 20px;
+}
+
+.feed-goal-picture {
+	height: 300px;
+	width: 500px;
+	border-radius: 20px;
+	margin: 10px 0;
+}
+
+.feed-workout-picture {
+	height: 300px;
+	width: 500px;
+	margin: 20px 0;
 	border-radius: 20px;
 }
 

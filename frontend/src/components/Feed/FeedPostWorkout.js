@@ -4,13 +4,13 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { deleteExerciseEntry, fetchUserExerciseEntries,getUserExerciseEntries, updateExerciseEntry } from "../../store/exerciseEntries";
+import { deleteExerciseEntry, fetchGoalExerciseEntries, fetchUserExerciseEntries,getGoalExerciseEntries,getUserExerciseEntries, updateExerciseEntry } from "../../store/exerciseEntries";
 import { createFollow, deleteFollow, getFollows } from "../../store/follows";
 import { fetchWorkoutExercises, getWorkoutKeyExercises } from "../../store/exercises";
 
 function FeedPostWorkout ({feedPost}) {
   // props
-	const { date, goal, note, rating, updatedAt, user, _id } = feedPost;
+	const { date, goal, note, rating, imgUrl, updatedAt, user, _id } = feedPost;
 	const goalId = goal?._id
 	const username = feedPost.user?.username;
 	const userId = feedPost.user?._id;
@@ -27,7 +27,11 @@ function FeedPostWorkout ({feedPost}) {
 	const followedIds = Object.values(follows).map(followObj => followObj?.followedUser?._id);
 	let isFollowing = followedIds.includes(userId)
 	const exercises = Object.values(useSelector(getWorkoutKeyExercises)).filter(exercise => exercise.workout._id === _id);
-	// console.log(exercises);
+	// const goalWorkouts = Object.values(useSelector(getGoalExerciseEntries));
+	const goalWorkouts = Object.values(useSelector(getGoalExerciseEntries)).filter(workout => workout.goal._id === goal._id)
+		.sort((a,b) => new Date(date) - new Date(date));
+	const sortedGoalWorkoutsIndices = goalWorkouts.map(workout => workout._id)
+	// debugger
 
 	// Local variables based on useSelectors
 	// const totalTime = BOOKMARK
@@ -44,16 +48,36 @@ function FeedPostWorkout ({feedPost}) {
 		return userSpecifiedDate === "Invalid Date" ? lastUpdatedDate : userSpecifiedDate
 	}
 
+	// Custom display text
+	const goalDetailsText = () => {
+		// if(!exerciseEntries || exerciseEntries.length === 0) return "No workouts yet";
+		// const lastEntry = exerciseEntries[exerciseEntries.length - 1];
+		// const lastDate = formatDate(lastEntry.date);
+		// const text = `Latest workout: ${lastEntry.note} - ${lastDate}`
+		// return text;
+		// return "Sponsored by CELSIUS"
+		return `Workout ${sortedGoalWorkoutsIndices.indexOf(_id) + 1} of ${sortedGoalWorkoutsIndices.length} - Goal: ${goal.title}`
+		
+	}
+
+	const totalTime = () => {
+		let total = 0;
+		exercises.forEach(exercise => exercise.time ? total += parseInt(exercise.time) : null)
+		return total;
+	}
+
 	// controlled inputs
 	const [formNote, setFormNote] = useState(note);
 	const [formRating, setFormRating] = useState(rating);
 	const [formDate, setFormDate] = useState(date);
 	const [timestamp, setTimeStamp] = useState(formatWorkoutDate())
+	const [image, setImage] = useState(null);
 
 	// useEffect!
 	useEffect(() => {
 
 		dispatch(fetchWorkoutExercises(_id));
+		dispatch(fetchGoalExerciseEntries(goal._id));
 
 		if (!showMenu) return;
 		const closeMenu = () => {
@@ -66,7 +90,7 @@ function FeedPostWorkout ({feedPost}) {
 
 	const handleUpdateWorkout = e => {
 		setEditable(false);
-		const updatedWorkout = { note:formNote, rating:formRating, date:formDate, goal, user }
+		const updatedWorkout = { note:formNote, rating:formRating, date:formDate, image, goal, user }
 		dispatch(updateExerciseEntry(_id, updatedWorkout))
 	}
 
@@ -107,6 +131,9 @@ function FeedPostWorkout ({feedPost}) {
 			post.classList.remove("post-hover-animation");
 		}, 500)
 	}
+	// console.log(exercises)
+
+	const updateFile = e => setImage(e.target.files[0]);
 
   return (
 		<div className="feed-post-editable-container" onMouseEnter={animateOnce}>
@@ -120,7 +147,7 @@ function FeedPostWorkout ({feedPost}) {
 					<Link to={`/feed/${userId}`}>
 						<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div>
 					</Link>
-					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "unfollow" : "follow"}</div>}
+					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>}
 					<div className="post-timestamp">{timestamp}</div>
 					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
 						<i class="fa-solid fa-ellipsis"></i>
@@ -152,10 +179,11 @@ function FeedPostWorkout ({feedPost}) {
 						<span className="post-goal-title">{formNote}</span>
 						<div className="post-workout-subtitle">
 							<div className="post-workout-time-total">
-								<i class="fa-solid fa-clock"></i>&nbsp;{"50 minutes"}
+								<i class="fa-solid fa-clock"></i>&nbsp;{`${totalTime()} minutes`}
 							</div>
 							<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
 						</div>
+					  <img className="feed-workout-picture" src={imgUrl || "https://aws-fiton.s3.amazonaws.com/mat-kilkeary-kSCmit8eYo0-unsplash.jpg"} />
 					</div>}</Link>
 				</div>
 
@@ -174,7 +202,7 @@ function FeedPostWorkout ({feedPost}) {
 							<div className="post-exercise-num">{`${exercise.sets ? exercise.sets : "n/a" }`}</div>
 							<div className="post-exercise-num">{`${exercise.reps ? exercise.reps : "n/a" }`}</div>
 							<div className="post-exercise-num">{`${exercise.weight ? exercise.weight : "n/a" }`}</div>
-							<div className="post-exercise-num">{`${exercise.weight ? exercise.weight+" mins" : "n/a" }`}</div>
+							<div className="post-exercise-num">{`${exercise.time ? exercise.time+" m" : "n/a" }`}</div>
 						</div>
 					))}
 					{exercises.length === 0 && <div className="empty-workout">No exercises yet!</div>}
@@ -199,12 +227,18 @@ function FeedPostWorkout ({feedPost}) {
 							onChange={e => setFormNote(e.target.value)}
 						/>
 					</label>
+					<label>Picture
+						<input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
+					</label>
 					{/* <div className="feed-post-update-button" onClick={handleUpdateWorkout}>Update</div> */}
 					<button className="feed-post-update-button" type="submit">Update</button>
 					<div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>
 					</form>
 				</>}
 				<div className="post-divider"></div>
+				<div className="latest-exercise-text">
+					{goalDetailsText()}
+				</div>
 			</div>
 			{/* CONTENT - END */}
 			{/* CONTENT - END */}

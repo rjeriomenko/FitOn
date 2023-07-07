@@ -10,7 +10,7 @@ import { createFollow, deleteFollow, getFollows } from "../../store/follows";
 
 function FeedPostGoal ({feedPost}) {
   // props
-	const { title, description, deadline, completionDate, updatedAt, user } = feedPost;
+	const { title, description, deadline, completionDate, imgUrl, updatedAt, user } = feedPost;
 	const goalId = feedPost._id
 	const username = feedPost.user?.username;
 	const userId = feedPost.user?._id;
@@ -46,6 +46,7 @@ function FeedPostGoal ({feedPost}) {
 	const [timestamp, setTimeStamp] = useState(new Date(completionDate ? completionDate : updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true}))
 	const [formTitle, setFormTitle] = useState(title);
 	const [formDescription, setFormDescription] = useState(description);
+	const [image, setImage] = useState(null);
 
 	// useEffect!
 	useEffect(() => {
@@ -83,7 +84,7 @@ function FeedPostGoal ({feedPost}) {
 
 	const handleUpdateGoal = e => {
 		setEditable(false);
-		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, deadline, completionDate, exerciseEntries, updatedAt }
+		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, image, deadline, completionDate, exerciseEntries, updatedAt }
 		dispatch(updateGoal(updatedGoal))
 	}
 
@@ -109,6 +110,8 @@ function FeedPostGoal ({feedPost}) {
 		}, 500)
 	}
 
+	const updateFile = e => setImage(e.target.files[0]);
+
   return (
 		<div className="feed-post-editable-container" onMouseEnter={animateOnce}>
 			{/* CONTENT - START */}
@@ -121,7 +124,7 @@ function FeedPostGoal ({feedPost}) {
 					<Link to={`/feed/${userId}`}>
 						<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div>
 					</Link>
-					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "unfollow" : "follow"}</div>}
+					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>}
 					<div className="post-timestamp">{timestamp}</div>
 					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
 						<i class="fa-solid fa-ellipsis"></i>
@@ -174,9 +177,13 @@ function FeedPostGoal ({feedPost}) {
 							onChange={handleDescriptionChange}
 						/>
 					</label>
+					<label>Picture
+						<input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
+					</label>
 					<div className="feed-post-update-button" onClick={handleUpdateGoal}>Update</div>
 					<div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>
 				</>}
+			  <img className="feed-goal-picture" src={imgUrl || "https://aws-fiton.s3.amazonaws.com/sheng-hu-_Hnue6LxhLY-unsplash.jpg"} />
 				<div className="post-divider"></div>
 				<div className="latest-exercise-text">
 					{latestExerciseText()}

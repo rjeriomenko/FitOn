@@ -129,10 +129,15 @@ export const createExerciseEntry = (goalId, exerciseEntry) => async dispatch => 
 };
 
 export const updateExerciseEntry = (exerciseEntryId, exerciseEntry) => async dispatch => {
+    const { image, rating, note } = exerciseEntry;
+    const formData = new FormData();
+    formData.append("rating", rating)
+    formData.append("note", note)
+    if (image) formData.append("image", image);
     try {
         const res = await jwtFetch(`/api/exerciseEntries/${exerciseEntryId}`, {
             method: 'PATCH',
-            body: JSON.stringify(exerciseEntry)
+            body: formData
         });
         const responseExerciseEntry = await res.json();
         dispatch(receiveUpdatedExerciseEntry(responseExerciseEntry));
@@ -146,13 +151,11 @@ export const updateExerciseEntry = (exerciseEntryId, exerciseEntry) => async dis
 
 export const deleteExerciseEntry = (exerciseEntryId) => async dispatch => {
     try {
-        // debugger
         const res = await jwtFetch(`/api/exerciseEntries/${exerciseEntryId}`, {
             method: 'DELETE'
         });
         dispatch(removeExerciseEntry(exerciseEntryId))
     } catch (err) {
-        // debugger
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
             return dispatch(receiveExerciseEntryErrors(resBody.errors));
@@ -242,7 +245,7 @@ const exerciseEntriesReducer = (state = { user: {}, goal: {}, follows: {}, disco
         case RECEIVE_USER_EXERCISE_ENTRIES:
             return { ...newState, user: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_GOAL_EXERCISE_ENTRIES:
-            return { ...newState, goal: action.exerciseEntries, updated: undefined, new: undefined };
+            return { ...newState, goal: {...newState.goal, ...action.exerciseEntries}, updated: undefined, new: undefined };
         case RECEIVE_FOLLOWS_EXERCISE_ENTRIES:
             return { ...newState, follows: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_DISCOVERS_EXERCISE_ENTRIES:

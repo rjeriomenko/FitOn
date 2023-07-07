@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { deleteGoal, updateGoal } from '../../store/goals'
-
 import './GoalIndexItem.css'
 
 function GoalIndexItem ({goal}) {
@@ -32,6 +31,16 @@ function GoalIndexItem ({goal}) {
         e.preventDefault();
         dispatch(deleteGoal(goal._id))
     }
+
+    const handleToggleForm = e => {
+		setEditable(oldSetEditable => {
+			if(oldSetEditable){
+				setTitle(title);
+				setDescription(description);
+			}
+			return !oldSetEditable
+		})
+	}
 
     useEffect(() => {
         if (!showMenu) return;
@@ -74,9 +83,8 @@ function GoalIndexItem ({goal}) {
                 />
                 </label>
 
-                <div className="feed-post-crud-button" onClick={handleUpdateGoal}>
-                    Update
-                </div>
+                <div className="feed-post-update-button" onClick={handleUpdateGoal}>Update</div>
+                <div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>
             </div>
         )}
 

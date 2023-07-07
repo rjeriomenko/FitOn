@@ -116,7 +116,8 @@ function Profile () {
     // Create 23 fake sets of same seed data with randomized associated images, 
     // and random ratings (that differ from the sample data's ratings, for color variation appeal)
     for(let i = 0; i < 23; i++){
-      sortedByDate.forEach(entry => {
+      const shuffledBase = sortedByDate.sort(() => Math.random() - 0.5)
+      shuffledBase.slice(0, 3).forEach(entry => {
           // RANDOM RATING
           // const displayedRating = Math.floor(Math.random() * 5) + 1;
           // ACTUAL RATING

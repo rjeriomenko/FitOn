@@ -1,15 +1,11 @@
 import './FloatingMenu.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import { fetchUser } from '../../store/users'
-import { fetchUserGoals } from '../../store/goals';
-import { getCurrentUser } from '../../store/session';
 import ExerciseEventForm from '../Exercise/ExerciseEventForm';
 import GoalCreate from '../Goals/GoalCreate';
 
 const FloatingMenu = (props) => {
-	const dispatch = useDispatch();
     const sessionUserId = useSelector(state => state.session.user?._id);
 	const loggedIn = useSelector(state => !!state.session.user);
 	const [showExerciseEntry, setShowExerciseEntry] = useState(false);
@@ -37,21 +33,11 @@ const FloatingMenu = (props) => {
 		return quotes[Math.floor(Math.random()*quotes.length)]
 	}
 
-	const handleCloseCreateGoalModal = () => {
-		dispatch(getCurrentUser())
-        	.then(() => setShowCreateGoalForm(false))
-    }
-
-	const handleCloseExerciseEntryModal = () => {
-		dispatch(getCurrentUser())
-        	.then(() => setShowExerciseEntry(false))
-    }
-
 	const displayExerciseEntryForm = () => {
 		return (
 			<>
 				{loggedIn && currentGoal &&
-					<div className="floating-menu-container" onClick={e => setShowExerciseEntry(true)} onClose={handleCloseExerciseEntryModal}>
+					<div className="floating-menu-container" onClick={e => setShowExerciseEntry(true)} onClose={() => setShowExerciseEntry(false)}>
 						<ul 
 							onMouseEnter={e => setHover(true)} 
 							onMouseLeave={e => setHover(false)}
@@ -70,7 +56,7 @@ const FloatingMenu = (props) => {
 		return (
 			<>
 				{loggedIn && !currentGoal &&
-					<div className="floating-menu-container" onClick={e => setShowCreateGoalForm(true)} onClose={handleCloseCreateGoalModal}>
+					<div className="floating-menu-container" onClick={e => setShowCreateGoalForm(true)} onClose={() => setShowCreateGoalForm(false)}>
 						<ul 
 							onMouseEnter={e => setHover(true)} 
 							onMouseLeave={e => setHover(false)}
@@ -86,12 +72,6 @@ const FloatingMenu = (props) => {
 		)
 	}
 
-	useEffect(() => {
-		dispatch(getCurrentUser())
-		dispatch(fetchUser(sessionUserId));
-		dispatch(fetchUserGoals(sessionUserId));
-	}, [sessionUserId])
-
 	return (
 		<>
 			{displayExerciseEntryForm()}
@@ -103,7 +83,7 @@ const FloatingMenu = (props) => {
 
 
 			{showCreateGoalForm && <Modal onClose={() => setShowCreateGoalForm(false)}>
-				<GoalCreate setShowCreateGoalForm={setShowCreateGoalForm}/>
+				<GoalCreate setShowCreateGoalForm={setShowCreateGoalForm} userId={sessionUserId}/>
 			</Modal>}
 
 		</>

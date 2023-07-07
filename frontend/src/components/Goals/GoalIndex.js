@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { deleteGoal, updateGoal, fetchUserGoals, getUserGoals } from '../../store/goals';
 import { getUser, fetchUser } from '../../store/users'
-import { Link } from 'react-router-dom';
+import { getCurrentUser } from '../../store/session';
 import { Modal } from '../../context/Modal';
 import './GoalIndex.css'
 
@@ -36,7 +36,8 @@ function GoalIndex () {
     
     const handleDeleteGoal = (goalId) => {
         dispatch(deleteGoal(goalId))
-            .then(() => dispatch(fetchUser(userId)));
+            .then(() => dispatch(fetchUser(userId)))
+            .then(() => dispatch(getCurrentUser()));
     }
 
     const handleCompleteGoal = (goalId) => {

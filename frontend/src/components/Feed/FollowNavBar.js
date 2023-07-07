@@ -15,13 +15,13 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 		const botLink = document.querySelector(".feed-nav-bot-link").querySelector("a")
 		
 		let link;
-		const topEdgeY = midLink.offsetTop;
-		const botEdgeY = midLink.offsetTop + midLink.offsetHeight;
+		const topEdgeY = document.querySelector(".feed-nav-mid-link").offsetTop;
+		const botEdgeY = document.querySelector(".feed-nav-mid-link").offsetTop + document.querySelector(".feed-nav-mid-link").offsetHeight;
 		const relativeMouseY = e.pageY - e.target.getBoundingClientRect().y
 		if(e.type === "mouseenter"){
 			marker.style.transition = "all 0s";
 		
-			if(relativeMouseY < topEdgeY) {
+			if(relativeMouseY <= topEdgeY - 2) {
 				// console.log(relativeMouseY, topEdgeY, topLink.offsetHeight )
 				link = topLink;
 				// marker.style.top = (topEdgeY - topLink.offsetHeight) +"px";
@@ -33,11 +33,11 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 				// marker.style.top = topEdgeY + ("px");
 			}
 			
+			marker.style.width = (link.offsetWidth + 6)+'px';
 			marker.style.top = (link.offsetTop - 2)+'px';
 			marker.style.left = (link.offsetLeft - 2)+'px';
 			marker.style.height = (link.offsetHeight + 4)+'px';
 			console.log(link)
-			marker.style.width = (link.offsetWidth + 6)+'px';
 			// link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
 			link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
 			link.classList.contains("active") ? marker.style.boxShadow = "2px 2px black" : marker.style.boxShadow = "2px 2px plum";
@@ -56,7 +56,7 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 				link = midLink;
 			}
 
-			marker.style.transition = "transform 0.3s, top 0.3s, left 0.3s, height 0.3s, width 0.3s, color 0.3s, background-color 0.3s, box-shadow 0.3s, opacity 0.8s";
+			marker.style.transition = "transform 0.3s, top 0.3s, left 0.3s, height 0.3s, width 0.3s, color 1.3s, background-color 0.3s, box-shadow 0.3s, opacity 0.8s";
 			marker.style.opacity = "0";
 			marker.style.transform = "rotateX(90deg) skewX(10deg)";
 			link.classList.contains("active") ? link.style.color = "#F2490C" : link.style.color = "black";

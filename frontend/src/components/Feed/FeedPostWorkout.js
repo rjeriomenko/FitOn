@@ -150,16 +150,13 @@ function FeedPostWorkout ({feedPost}) {
 					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>}
 					<div className="post-timestamp">{timestamp}</div>
 					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
-						<i class="fa-solid fa-ellipsis"></i>
+						<i id="post-ellipsis-icon"class="fa-solid fa-ellipsis"></i>
 						{showMenu && 
 							<>
 								{/* DROPDOWN - START */}
 								{/* DROPDOWN - START */}
 								<ul className="post-dropdown">
 									<li onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
-										{/* broken icon */}
-										{/* broken icon */}
-										{/* broken icon */}
 										<i class="far fa-edit"></i>
 									</li>
 									<div id="goal-dropdown-line"></div>
@@ -181,7 +178,9 @@ function FeedPostWorkout ({feedPost}) {
 							<div className="post-workout-time-total">
 								<i class="fa-solid fa-clock"></i>&nbsp;{`${totalTime()} minutes`}
 							</div>
-							<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
+							<div className="rating-container">
+								<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
+							</div>
 						</div>
 					  <img className="feed-workout-picture" src={imgUrl || "https://aws-fiton.s3.amazonaws.com/mat-kilkeary-kSCmit8eYo0-unsplash.jpg"} />
 					</div>}</Link>
@@ -196,6 +195,7 @@ function FeedPostWorkout ({feedPost}) {
 						<div><i class="fa-solid fa-clock"></i></div>
 						<div className="workout-exercise-row"></div>
 					</div>
+					<div className="feed-workout-line"></div>
 					{exercises.map(exercise => (
 						<div className="post-exercise-row">
 							<div>{`${exercise.name}`}</div>

@@ -6,7 +6,7 @@ import './ExerciseEventForm.css'
 
 function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const dispatch = useDispatch();
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date();
     const currentDate = new Date().toLocaleDateString('en-us', { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', hour12: true });
     const [date, setDate] = useState(today);
     const [note, setNote] = useState('');

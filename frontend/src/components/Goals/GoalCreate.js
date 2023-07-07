@@ -27,15 +27,14 @@ function GoalCreate({ setShowCreateGoalForm, userId }) {
     e.preventDefault();
     dispatch(createGoal({ title, description, deadline }))
       .then(() => dispatch(fetchUser(userId)))
-      .then(() => dispatch(getCurrentUser()))
-        .then(() => {
-          setShowCreateGoalForm(false)
-          setTitle('');
-          setDescription('');
-          setDeadline(today);
-          setSubmit(true)
-        })
-    
+        .then(() => dispatch(getCurrentUser()))
+          .then(() => {
+            setShowCreateGoalForm(false)
+            setTitle('');
+            setDescription('');
+            setDeadline(today);
+            setSubmit(true)
+          })
   };
 
   if (submit === true) {

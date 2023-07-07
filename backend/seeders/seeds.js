@@ -23,6 +23,16 @@ mongoose.connect(db, {
 // Seed function
 const seedData = async () => {
     try {
+        // wipe DB before seeding
+        await User.deleteMany({});
+        await Goal.deleteMany({});
+        await ExerciseEntry.deleteMany({});
+        await Exercise.deleteMany({});
+        await Follow.deleteMany({});
+
+        process.stdout.write("Database cleared!\n");
+
+
         // create and save USERS
 
         // userTemplate: 

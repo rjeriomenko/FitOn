@@ -270,6 +270,9 @@ p, h3 {
 	height: 15px;
 	text-align: center;
 	opacity: 90%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .workout-exercise-list-header {
@@ -434,24 +437,30 @@ p, h3 {
 
 @keyframes onFire {
 	0% {
-		border-color: yellow;
+		border-color: white;
 		/* transform: rotateY(0deg) rotateX(0deg) scale(3) skewX(40deg); */
 		/* transform-origin: center; */
 		/* transform-origin: bottom right; */
 	}
-	25% {
+	30% {
 		border-color: var(--orange);
 		/* transform: rotateY(0deg) rotateX(180deg) scale(3); */
 		/* transform-origin: center; */
 		/* transform-origin: bottom right; */
 	}
-	50% {
-		border-color: yellow;
+	45% {
+		border-color: gray;
 		/* transform: rotateY(0deg) rotateX(0deg) scale(3) skewX(40deg); */
 		/* transform-origin: center; */
 		/* transform-origin: bottom right; */
 	}
-	100% {
+	75% {
 		border-color: var(--orange);
+	}
+	85% {
+		border-color: red;
+	}
+	100% {
+		border-color: white;
 	}
 }

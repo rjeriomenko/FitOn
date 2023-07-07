@@ -240,7 +240,7 @@ const exerciseEntriesReducer = (state = { user: {}, goal: {}, follows: {}, disco
         case RECEIVE_USER_EXERCISE_ENTRIES:
             return { ...newState, user: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_GOAL_EXERCISE_ENTRIES:
-            return { ...newState, goal: action.exerciseEntries, updated: undefined, new: undefined };
+            return { ...newState, goal: {...newState.goal, ...action.exerciseEntries}, updated: undefined, new: undefined };
         case RECEIVE_FOLLOWS_EXERCISE_ENTRIES:
             return { ...newState, follows: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_DISCOVERS_EXERCISE_ENTRIES:

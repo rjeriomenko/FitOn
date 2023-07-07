@@ -31,7 +31,6 @@ function FeedPostWorkout ({feedPost}) {
 	const goalWorkouts = Object.values(useSelector(getGoalExerciseEntries)).filter(workout => workout.goal._id === goal._id)
 		.sort((a,b) => new Date(date) - new Date(date));
 	const sortedGoalWorkoutsIndices = goalWorkouts.map(workout => workout._id)
-	// debugger
 
 	// Local variables based on useSelectors
 	// const totalTime = BOOKMARK
@@ -131,7 +130,6 @@ function FeedPostWorkout ({feedPost}) {
 			post.classList.remove("post-hover-animation");
 		}, 500)
 	}
-	// console.log(exercises)
 
 	const updateFile = e => setImage(e.target.files[0]);
 

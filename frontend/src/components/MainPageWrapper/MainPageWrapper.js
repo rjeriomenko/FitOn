@@ -7,7 +7,6 @@ import { useLocation } from 'react-router-dom';
 const MainPageWrapper = ({children}) => {
 	const loggedIn = useSelector(state => !!state.session.user);
 	const location = useLocation();
-	// console.log(location.pathname);
 
 	useEffect(() => {
 		const navBarHeight = document.querySelector(".nav-bar-container")?.offsetHeight;

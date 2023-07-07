@@ -75,25 +75,28 @@ function Profile () {
 
     let totalSets = 0;
     let totalReps = 0;
+    let totalWeight = 0;
     let totalTime = 0;
 
     // BELOW BUG!!! mouseOverTextData will not have updated via above line of code,
     // and read as 'undefined'.
     // setMouseOverTextDataRows(mouseOverTextData?.exerciseEntry?.exercises?.map(exercise => {
     setMouseOverTextDataRows(matchingExerciseEntry?.exerciseEntry?.exercises?.map(exercise => {
-      totalSets += exercise.sets
-      totalReps += exercise.reps
-      totalTime += exercise.time
+      totalSets += exercise.sets ? exercise.sets : 0;
+      totalReps += exercise.reps ? exercise.reps : 0;
+      totalWeight += exercise.weight ? exercise.weight : 0;
+      totalTime += exercise.time ? exercise.time : 0;
       return (
         <tr>
           <td>{exercise.name}</td>      
-          <td>{exercise.sets}</td>      
-          <td>{exercise.reps}</td>      
-          <td>{exercise.time}</td>      
+          <td>{exercise.sets ? exercise.sets : 0}</td>      
+          <td>{exercise.reps ? exercise.reps : 0}</td>      
+          <td>{exercise.weight ? exercise.weight : 0}</td>      
+          <td>{exercise.time ? exercise.time : 0}</td>      
         </tr>
       )
     }))
-    setMouseOverDataTotals({sets: totalSets, reps: totalReps, time: totalTime})
+    setMouseOverDataTotals({sets: totalSets, reps: totalReps, weight: totalWeight, time: totalTime})
 
   }
 
@@ -267,6 +270,7 @@ function Profile () {
                 <th>Name</th>
                 <th>Sets</th>
                 <th>Reps</th>
+                <th>Weight</th>
                 <th>Time</th>
               </tr>
             </thead>
@@ -279,6 +283,7 @@ function Profile () {
                 <th>Totals</th>
                 <td>{mouseOverDataTotals.sets}</td>
                 <td>{mouseOverDataTotals.reps}</td>
+                <td>{mouseOverDataTotals.weight}</td>
                 <td>{mouseOverDataTotals.time}</td>
               </tr>
             </tfoot>

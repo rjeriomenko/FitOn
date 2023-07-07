@@ -112,10 +112,17 @@ export const fetchDiscoversExerciseEntries = () => async dispatch => {
 };
 
 export const createExerciseEntry = (goalId, exerciseEntry) => async dispatch => {
+    const { image, rating, note, date } = exerciseEntry;
+    const formData = new FormData();
+    formData.append("rating", rating);
+    formData.append("note", note);
+    formData.append("date", date);
+    if (image) formData.append("image", image);
+
     try {
         const res = await jwtFetch(`/api/exerciseEntries/${goalId}`, {
             method: 'POST',
-            body: JSON.stringify(exerciseEntry)
+            body: formData
         });
         const responseExerciseEntry = await res.json();
         dispatch(receiveNewExerciseEntry(responseExerciseEntry));
@@ -134,6 +141,7 @@ export const updateExerciseEntry = (exerciseEntryId, exerciseEntry) => async dis
     formData.append("rating", rating)
     formData.append("note", note)
     if (image) formData.append("image", image);
+
     try {
         const res = await jwtFetch(`/api/exerciseEntries/${exerciseEntryId}`, {
             method: 'PATCH',

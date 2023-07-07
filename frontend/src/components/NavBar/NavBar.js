@@ -80,21 +80,28 @@ function NavBar () {
 
           {showMenu && (
             <ul className="profile-dropdown">
-              <li>
-                <p>Welcome Back, {sessionUser.username}</p>
+              <li className="welcome">
+                <p id="greetings">Welcome back,</p>
+                <span>{sessionUser.username}</span>
               </li>
+            
+              <div className="profile-dropdown-line"></div>
 
-              <li>
+              <li className="nav-link-id">
                 <Link to={`/profile/${sessionUser._id}`}>
-                  <i class="fa-solid fa-user"></i>Profile
+                  <i id="profile-dropdown-icon" class="fa-solid fa-user"></i>Profile
                 </Link>
               </li>
 
-              <li><i class="fa-solid fa-gear"></i>Settings</li>
+              <li className="nav-link-id">
+                <a>
+                  <i id="profile-dropdown-icon" class="fa-solid fa-gear"></i>Settings
+                </a>
+              </li>
 
               <li className="nav-link-id">
                 <a onClick={logoutUser}>
-                  <i class="fa-solid fa-right-from-bracket"></i>Logout
+                  <i id="profile-dropdown-icon" class="fa-solid fa-right-from-bracket"></i>Logout
                 </a>
               </li>
 

@@ -40,8 +40,9 @@ function Profile () {
   const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
 
   const [timeGraph, setTimeGraph] = useState(true);
-  const goalExercises = useSelector(state => state.exercises.byGoal);
+  const goalExercises = useSelector(state => state.exercises.byGoal ? state.exercises.byGoal : {});
   const goalExercisesCount = Object.keys(goalExercises).length;
+
   // let mouseOverTextDataRows;
 
   const updateFile = e => setImage(e.target.files[0]);
@@ -129,7 +130,8 @@ function Profile () {
           const randomImageNumber = Math.floor(Math.random() * numSamplePhotos) + 1;
           const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
           const tile =
-            <div onMouseEnter={handleMouseEnter} dataExerciseEntryId={entry.exerciseEntryId} >
+            // <div onMouseEnter={handleMouseEnter} dataExerciseEntryId={entry.exerciseEntryId} >
+            <div onMouseEnter={handleMouseEnter} key={entry.exerciseEntryId+`${i}`} >
               {/* NON sample dataset might look more like this: */}
               {/* <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={entry.exerciseEntry.rating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/> */}
               <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={displayedRating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/>

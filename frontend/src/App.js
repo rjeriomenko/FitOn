@@ -8,7 +8,7 @@ import NavBar from './components/NavBar/NavBar';
 import LandingPage from './components/LandingPage/LandingPage';
 import LoginForm from './components/SessionForms/LoginForm';
 import SignupForm from './components/SessionForms/SignupForm';
-import Feed from './components/FeedPosts/Feed';
+import Feed from './components/Feed/Feed';
 import Profile from './components/Profile/Profile';
 import GoalCreate from './components/Goals/GoalCreate';
 import GoalIndex from './components/Goals/GoalIndex';

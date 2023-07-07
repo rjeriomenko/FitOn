@@ -1,3 +1,12 @@
+.empty-feed-container {
+	margin-top: 4vw;
+	margin-left: 5vw;
+}
+
+.empty-feed-container div {
+	font-style: italic;
+}
+
 .feed-header {
 	padding-top: 30px;
 	margin: 20px 0px;

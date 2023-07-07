@@ -16,7 +16,8 @@ p, h3 {
 	/* min-width: 500px; */
 	/* width: 40vw; */
 	margin: 15px;
-	margin-left: 10vw;
+	margin-left: 5vw;
+	/* margin-left: 80px; */
 	border-right: none;
 	border-bottom: none;
 	border: none;
@@ -50,7 +51,7 @@ p, h3 {
 	box-sizing: border-box;
 }
 
-.feed-post-content *:not(.fa-ellipsis, .fa-edit, .fa-trash-can) {
+.feed-post-content *:not(.fa-solid) {
 	font-family: var(--sans-serif);
 }
 
@@ -103,7 +104,7 @@ p, h3 {
 	border-radius: 2px;
 	/* padding:5px; */
 	color: white;
-	transition: color 0.5s ease 0s, background-color 0.5s ease 0s;
+	transition: color 0.3s ease 0s, background-color 0.3s ease 0s;
 }
 
 .not-following:hover {
@@ -113,7 +114,7 @@ p, h3 {
 	border-radius: 2px;
 	/* padding:5px; */
 	color: white;
-	transition: color 0.5s ease 0s, background-color 0.5s ease 0s;
+	transition: color 0.3s ease 0s, background-color 0.3s ease 0s;
 }
 
 .post-timestamp {
@@ -121,6 +122,11 @@ p, h3 {
 	color: var(--dark-red);
 	font-weight: 400;
 	font-size: 14px;
+}
+
+/* TOP ROW (title, rating, etc) AFTER OVERALL HEADER (user, timestamp) */
+.post-toprow {
+	margin-bottom: 10px;;
 }
 
 .post-goal-title {
@@ -229,10 +235,110 @@ p, h3 {
 /* POST - WORKOUT */
 /* POST - WORKOUT */
 
+/* ------------------------------------------------------ */
+
+/* WORKOUT POST - START */
+/* WORKOUT POST - START */
+/* WORKOUT POST - START */
+
+.empty-workout {
+	margin: 10px 0px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.post-workout-subtitle {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.post-workout-subtitle > div {
+	margin-right: 10px;
+}
+
 .post-workout-rating {
 	background-color: pink;
-	font-size: 40px;
+	transform: scale(3);
+	transform-origin: bottom right;
+	padding: 2px;
+	border: 2px solid rgba(0,0,0,0);
+	/* font-size: 1.6em; */
 }
+
+.workout-exercise-list-header {
+	margin-bottom: 5px;
+}
+
+.workout-exercise-list-header > div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.post-exercises-container {
+	padding: 10px;
+	background-color: rgb(239, 238, 238);
+	display: flex;
+	flex-direction: column;
+}
+
+.post-exercise-row, .workout-exercise-list-header {
+	display: flex;
+	flex-direction: row;
+}
+
+.post-exercise-num {
+	justify-self: flex-end;
+}
+
+.post-exercises-container > div > div:nth-child(1){
+	width: 20%;
+}
+.post-exercises-container > div > div:nth-child(2){
+	width: 20%;
+}
+.post-exercises-container > div > div:nth-child(3){
+	width: 20%;
+}
+.post-exercises-container > div > div:nth-child(4){
+	width: 20%;
+}
+.post-exercises-container > div > div:nth-child(5){
+	width: 20%;
+}
+
+.post-rating-1 {
+	background-color: var(--rating-1);
+	color: black;
+}
+
+.post-rating-2 {
+	background-color: var(--rating-2);
+	color: black;
+}
+
+.post-rating-3 {
+	background-color: var(--rating-3);
+	color: white;
+}
+
+.post-rating-4 {
+	background-color: var(--rating-4);
+	color: white;
+}
+
+.post-rating-5 {
+	background-color: var(--rating-5);
+	color: white;
+	animation: onFire 0.5s ease-in-out 0s infinite normal forwards;
+}
+
+/* WORKOUT POST - END */
+/* WORKOUT POST - END */
+/* WORKOUT POST - END */
+
 
 @keyframes postDividerAnimation {
 	0% {
@@ -302,4 +408,13 @@ p, h3 {
 .post-dropdown li:hover {
 	cursor: pointer;
 	color: var(--orange);
+}
+
+@keyframes onFire {
+	0% {
+		border-color: yellow;
+	}
+	100% {
+		border-color: var(--orange);
+	}
 }

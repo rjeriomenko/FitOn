@@ -49,7 +49,7 @@ export const sampleExerciseEntries = {
 			],
 			date: "2023-04-15",
 			note: "I can't touch my toes and it makes me sad",
-			rating: 5
+			rating: 4,
 		}
 	},
 	2: {
@@ -94,7 +94,7 @@ export const sampleExerciseEntries = {
 			],
 			date: "2023-04-20",
 			note: "Stamina was low but managed to complete all exercises, need to improve form on plank",
-			rating: 3
+			rating: 5,
 		}
 	},
 	3: {
@@ -139,7 +139,7 @@ export const sampleExerciseEntries = {
 			],
 			date: "2023-04-10",
 			note: "Why did I think I was ready to do muscle ups",
-			rating: 2,
+			rating: 3,
 		},
 	},
 	44: {
@@ -208,7 +208,7 @@ export const sampleExerciseEntries = {
 			],
 			date: "2023-04-08",
 			note: "I can't feel anything anymore",
-			rating: 4,
+			rating: 1,
 		},
 	},
 	62: {
@@ -261,7 +261,7 @@ export const sampleExerciseEntries = {
 			],
 			date: "2023-04-08",
 			note: "Best exercise evar",
-			rating: 5,
+			rating: 2,
 		},
 	},
 };

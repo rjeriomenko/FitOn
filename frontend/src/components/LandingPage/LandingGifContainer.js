@@ -10,7 +10,6 @@ const LandingGifContainer = () => {
 	// let counter = 1
   // let bgInterval = setInterval(() => {
   //   counter += 1;
-  //   console.log(counter)
   //   imgName = imgNames[counter % imgNames.length];
   // }, 3000)
 
@@ -21,7 +20,6 @@ const LandingGifContainer = () => {
 	useEffect(() => {
 		const bgInterval = setInterval(() => {
 			setCounter(oldCount => oldCount + 1);
-			console.log(counter)
 			setImgName(imgNames[counter % imgNames.length]);
 		}, 4000)
 

@@ -19,7 +19,7 @@
 
 .goals-grid-container {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 33% 33% 33%;
     grid-template-rows: auto;
     row-gap: 10px;
     column-gap: 10px;

@@ -65,28 +65,28 @@ function GoalIndexItem ({goal}) {
                 </div>
             ) : (
                 <div className="feed-post-content">
-                <label>Title
-                <input
-                    className="feed-post-text-edit"
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-                </label>
+                    <label>Title
+                    <input
+                        className="feed-post-text-edit"
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    </label>
 
-                <label>Description
-                <textarea
-                    className="feed-post-text-edit"
-                    contentEditable={true}
-                    value={description}
-                    onChange={handleDescriptionChange}
-                />
-                </label>
+                    <label>Description
+                    <textarea
+                        className="feed-post-text-edit"
+                        contentEditable={true}
+                        value={description}
+                        onChange={handleDescriptionChange}
+                    />
+                    </label>
 
-                <div className="feed-post-update-button" onClick={handleUpdateGoal}>Update</div>
-                <div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>
-            </div>
-        )}
+                    <div className="feed-post-update-button" onClick={handleUpdateGoal}>Update</div>
+                    <div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>
+                </div>
+            )}
 
                 <div className="ellipsis" onClick={openMenu}>
                     <i id="ellipsis" className="fas fa-light fa-ellipsis-vertical"></i>

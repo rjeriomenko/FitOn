@@ -47,6 +47,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: flex-start;
+	margin-bottom: 80px;
 	/* opacity: 0; */
 	/* animation: mainFadeAnimation 01s ease 0.2s 1 normal forwards; */
 	/* perspective: 4500px; */

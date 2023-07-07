@@ -125,7 +125,7 @@ function GoalIndex () {
                         <i className="fa-solid fa-trash-can"></i>
                     </div>
                     <div className="create-current-goal" onClick={() => setShowCreateGoalForm(true)}>
-                        <i class="fas fa-calendar-plus"></i>
+                        <i className="fas fa-calendar-plus"></i>
                     </div>
                 </div>
             )
@@ -187,7 +187,7 @@ function GoalIndex () {
                             </div>
                             
                             <div className="current-goal-edit-crud-button" id="close-edit-current-goal" onClick={handleOpenEditGoal}>
-                                <i id="x" class="fa-solid fa-xmark"></i>
+                                <i id="x" className="fa-solid fa-xmark"></i>
                             </div>
                         </div>
                     </div>

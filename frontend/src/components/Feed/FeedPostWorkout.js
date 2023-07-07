@@ -11,6 +11,7 @@ import { fetchWorkoutExercises, getWorkoutKeyExercises } from "../../store/exerc
 function FeedPostWorkout ({feedPost}) {
   // props
 	const { date, goal, note, rating, imgUrl, updatedAt, user, _id } = feedPost;
+	if(imgUrl) {console.log(imgUrl)}
 	const goalId = goal?._id
 	const username = feedPost.user?.username;
 	const userId = feedPost.user?._id;
@@ -42,7 +43,6 @@ function FeedPostWorkout ({feedPost}) {
 	// helpers to initialize controlled inputs
 	// timestamp for workouts default to last updated date if user specified "date" is not valid
 	const formatWorkoutDate = () => {
-		// console.log(date);
 		const userSpecifiedDate = new Date(date).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true});
 		const lastUpdatedDate = new Date(updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true});
 		// return userSpecifiedDate === "Invalid Date" ? lastUpdatedDate : userSpecifiedDate
@@ -150,18 +150,18 @@ function FeedPostWorkout ({feedPost}) {
 					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>}
 					<div className="post-timestamp">{timestamp}</div>
 					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
-						<i id="post-ellipsis-icon"class="fa-solid fa-ellipsis"></i>
+						<i id="post-ellipsis-icon"className="fa-solid fa-ellipsis"></i>
 						{showMenu && 
 							<>
 								{/* DROPDOWN - START */}
 								{/* DROPDOWN - START */}
 								<ul className="post-dropdown">
 									<li onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
-										<i class="far fa-edit"></i>
+										<i className="far fa-edit"></i>
 									</li>
 									<div id="goal-dropdown-line"></div>
 									<li onClick={handleDeleteWorkout}>
-										<i class="fa-solid fa-trash-can"></i>
+										<i className="fa-solid fa-trash-can"></i>
 									</li>
 								</ul>
 								{/* DROPDOWN - END */}
@@ -176,7 +176,7 @@ function FeedPostWorkout ({feedPost}) {
 						<span className="post-goal-title">{formNote}</span>
 						<div className="post-workout-subtitle">
 							<div className="post-workout-time-total">
-								<i class="fa-solid fa-clock"></i>&nbsp;{`${totalTime()} minutes`}
+								<i className="fa-solid fa-clock"></i>&nbsp;{`${totalTime()} minutes`}
 							</div>
 							<div className="rating-container">
 								<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
@@ -193,15 +193,15 @@ function FeedPostWorkout ({feedPost}) {
 				<div className="post-exercises-container">
 					<div className="workout-exercise-list-header">
 						<div><i></i></div>
-						<div><i class="fa-solid fa-layer-group"></i></div>
-						<div><i class="fa-solid fa-rotate-right"></i></div>
-						<div><i class="fa-solid fa-weight-hanging"></i></div>
-						<div><i class="fa-solid fa-clock"></i></div>
+						<div><i className="fa-solid fa-layer-group"></i></div>
+						<div><i className="fa-solid fa-rotate-right"></i></div>
+						<div><i className="fa-solid fa-weight-hanging"></i></div>
+						<div><i className="fa-solid fa-clock"></i></div>
 						<div className="workout-exercise-row"></div>
 					</div>
 					<div className="feed-workout-line"></div>
 					{exercises.map(exercise => (
-						<div className="post-exercise-row">
+						<div className="post-exercise-row" key={exercise._id}>
 							<div>{`${exercise.name}`}</div>
 							<div className="post-exercise-num">{`${exercise.sets ? exercise.sets : "n/a" }`}</div>
 							<div className="post-exercise-num">{`${exercise.reps ? exercise.reps : "n/a" }`}</div>

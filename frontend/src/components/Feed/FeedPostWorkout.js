@@ -178,7 +178,9 @@ function FeedPostWorkout ({feedPost}) {
 							<div className="post-workout-time-total">
 								<i class="fa-solid fa-clock"></i>&nbsp;{`${totalTime()} minutes`}
 							</div>
-							<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
+							<div className="rating-container">
+								<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
+							</div>
 						</div>
 					  <img className="feed-workout-picture" src={imgUrl || "https://aws-fiton.s3.amazonaws.com/mat-kilkeary-kSCmit8eYo0-unsplash.jpg"} />
 					</div>}</Link>

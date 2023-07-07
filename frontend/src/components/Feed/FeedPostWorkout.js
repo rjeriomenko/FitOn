@@ -44,6 +44,16 @@ function FeedPostWorkout ({feedPost}) {
 		return userSpecifiedDate === "Invalid Date" ? lastUpdatedDate : userSpecifiedDate
 	}
 
+	// Custom display text
+	const latestExerciseText = () => {
+		// if(!exerciseEntries || exerciseEntries.length === 0) return "No workouts yet";
+		// const lastEntry = exerciseEntries[exerciseEntries.length - 1];
+		// const lastDate = formatDate(lastEntry.date);
+		// const text = `Latest workout: ${lastEntry.note} - ${lastDate}`
+		// return text;
+		return "Sponsored by CELSIUS"
+	}
+
 	// controlled inputs
 	const [formNote, setFormNote] = useState(note);
 	const [formRating, setFormRating] = useState(rating);
@@ -120,7 +130,7 @@ function FeedPostWorkout ({feedPost}) {
 					<Link to={`/feed/${userId}`}>
 						<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div>
 					</Link>
-					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "unfollow" : "follow"}</div>}
+					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>}
 					<div className="post-timestamp">{timestamp}</div>
 					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
 						<i class="fa-solid fa-ellipsis"></i>
@@ -202,6 +212,9 @@ function FeedPostWorkout ({feedPost}) {
 					</form>
 				</>}
 				<div className="post-divider"></div>
+				<div className="latest-exercise-text">
+					{latestExerciseText()}
+				</div>
 			</div>
 			{/* CONTENT - END */}
 			{/* CONTENT - END */}

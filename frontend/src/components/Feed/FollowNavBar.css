@@ -1,6 +1,7 @@
 .follow-nav-bar-container {
 	position: sticky;
 	top: 200px;
+	left: -5px;
 	padding: 6px;
 }
 
@@ -13,13 +14,19 @@
 }
 
 .follow-nav-bar-container li {
-	margin-bottom: 5px;
-	transition: 0.5s;
+	/* transition: 0.5s; */
 	padding: 1px;
+	/* padding-bottom: 5px; */
+	padding-bottom: 3px;
+	padding-top: 3px;
 	border-radius: 0.5px;
 }
 
-.follow-nav-bar-container li:hover {
+.follow-nav-bar-container a {
+	font-size: 1.2em;
+}
+
+.follow-nav-bar-container a:hover {
 	cursor: pointer;
 	/* color: var(--orange); */
 	/* background-color: var(--light-blue); */
@@ -41,13 +48,26 @@
 	/* width: 50px; */
 	background-color:var(--orange);
 	opacity: 0;
+	transform-origin: left;
+	/* width: 0px; */
+	/* transform: rotateY(180deg) rotateX(90deg); */
+	transform: rotateX(90deg) skewX(10deg);
 	/* transition: all 0.5s; */
-	/* transition: all 0.5s; */
+	/* transition: transform 1.3s, top 0.3s, left 0.3s, height 0.3s, width 0.3s, color 0.3s, box-shadow 0.3s, opacity 0.3s, transform 1.3s; */
 }
+
+.feed-links-box {
+	padding: 3px 8px;
+}
+
+/* ----------------------------------------------------- */
+/* -------------------^ FEED TYPE ^--------------------- */
+/* -------------------V--FILTERS--V--------------------- */
+/* ----------------------------------------------------- */
 
 .post-type-filter-container {
 	position: relative;
-	left: -11px;
+	left: -12px;
 	margin-top: 20px;
 	display: flex;
 	justify-content: flex-start;
@@ -64,7 +84,7 @@
 }
 
 .post-type-filter-container * {
-	font-size: 1.1em;
+	font-size: 1.3em;
 	cursor: pointer;
 }
 
@@ -80,14 +100,14 @@
 .post-type-filter-container > .post-filter-option:nth-child(1) {
 	border-top-left-radius: 15px;
 	border-bottom-left-radius: 15px;
-	padding-left: 11px;
-	padding-right: 8px;
+	padding-left: 20px;
+	padding-right: 15px;
 }
 .post-type-filter-container > .post-filter-option:nth-child(2) {
 	border-top-right-radius: 15px;
 	border-bottom-right-radius: 15px;
-	padding-left: 8px;
-	padding-right: 11px;
+	padding-left: 15px;
+	padding-right: 20px;
 }
 
 .post-type-filter-container > .post-filter-option:hover {

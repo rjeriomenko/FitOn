@@ -51,7 +51,7 @@ p, h3 {
 	box-sizing: border-box;
 }
 
-.feed-post-content *:not(.fa-solid) {
+.feed-post-content *:not(.fa-solid, .fa-edit) {
 	font-family: var(--sans-serif);
 }
 
@@ -293,6 +293,14 @@ p, h3 {
 	justify-self: flex-end;
 }
 
+.post-exercises-container > div {
+	/* perspective: 400px; */
+}
+
+.post-exercises-container > div > div {
+	/* transform: rotateY(45deg); */
+}
+
 .post-exercises-container > div > div:nth-child(1){
 	width: 20%;
 }
@@ -332,7 +340,7 @@ p, h3 {
 .post-rating-5 {
 	background-color: var(--rating-5);
 	color: white;
-	animation: onFire 0.5s ease-in-out 0s infinite normal forwards;
+	animation: onFire 0.35s ease-in-out 0s infinite normal both;
 }
 
 /* WORKOUT POST - END */
@@ -365,6 +373,7 @@ p, h3 {
 .post-ellipsis {
 	position: absolute;
 	right: 0px;
+	top: 2px;
 	padding: 2px;
 }
 
@@ -413,8 +422,20 @@ p, h3 {
 @keyframes onFire {
 	0% {
 		border-color: yellow;
+		/* transform: rotateY(0deg) rotateX(0deg) scale(3) skewX(40deg); */
+		/* transform-origin: center; */
+		/* transform-origin: bottom right; */
+	}
+	50% {
+		/* border-color: var(--orange); */
+		/* transform: rotateY(0deg) rotateX(180deg) scale(3); */
+		/* transform-origin: center; */
+		/* transform-origin: bottom right; */
 	}
 	100% {
 		border-color: var(--orange);
+		/* transform: rotateY(0deg) rotateX(0deg) scale(3) skewX(40deg); */
+		/* transform-origin: center; */
+		/* transform-origin: bottom right; */
 	}
 }

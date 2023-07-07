@@ -40,6 +40,7 @@
 	align-items: flex-start;
 	/* opacity: 0; */
 	/* animation: mainFadeAnimation 01s ease 0.2s 1 normal forwards; */
+	/* perspective: 4500px; */
 }
 
 .inner-feed-posts-container > h2 {

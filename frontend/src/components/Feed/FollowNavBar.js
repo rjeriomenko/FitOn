@@ -9,14 +9,69 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 
 	const resetMarker = (e) => {
 		const marker = document.querySelector(".hoverMarker")
-		marker.style.transition = "none";
-		marker.style.top = e.target.style.offsetTop;
-		marker.style.transition = "all 0.3s";
+		// marker.style.width = "0px"
+		const topLink = document.querySelector(".feed-nav-top-link").querySelector("a")
+		const midLink = document.querySelector(".feed-nav-mid-link").querySelector("a")
+		const botLink = document.querySelector(".feed-nav-bot-link").querySelector("a")
+		
+		let link;
+		const topEdgeY = midLink.offsetTop;
+		const botEdgeY = midLink.offsetTop + midLink.offsetHeight;
+		const relativeMouseY = e.pageY - e.target.getBoundingClientRect().y
+		if(e.type === "mouseenter"){
+			marker.style.transition = "all 0s";
+		
+			if(relativeMouseY < topEdgeY) {
+				// console.log(relativeMouseY, topEdgeY, topLink.offsetHeight )
+				link = topLink;
+				// marker.style.top = (topEdgeY - topLink.offsetHeight) +"px";
+			} else if(relativeMouseY > botEdgeY) {
+				link = botLink;
+				// marker.style.top = botEdgeY + ("px");
+			} else {
+				link = midLink;
+				// marker.style.top = topEdgeY + ("px");
+			}
+			
+			marker.style.top = (link.offsetTop - 2)+'px';
+			marker.style.left = (link.offsetLeft - 2)+'px';
+			marker.style.height = (link.offsetHeight + 4)+'px';
+			console.log(link)
+			marker.style.width = (link.offsetWidth + 6)+'px';
+			// link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
+			link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
+			link.classList.contains("active") ? marker.style.boxShadow = "2px 2px black" : marker.style.boxShadow = "2px 2px plum";
+			marker.style.transition = "transform 0.3s, top 0.3s, left 0.3s, height 0.3s, width 0.3s, color 0.3s, box-shadow 0.3s, opacity 0.3s";
+			marker.style.opacity = "1";
+			marker.style.transform = "rotateX(0deg)";
+		}
+
+		else if(e.type === "mouseleave"){
+
+			if(relativeMouseY < topEdgeY) {
+				link = topLink;
+			} else if(relativeMouseY > botEdgeY) {
+				link = botLink;
+			} else {
+				link = midLink;
+			}
+
+			marker.style.transition = "transform 0.3s, top 0.3s, left 0.3s, height 0.3s, width 0.3s, color 0.3s, background-color 0.3s, box-shadow 0.3s, opacity 0.8s";
+			marker.style.opacity = "0";
+			marker.style.transform = "rotateX(90deg) skewX(10deg)";
+			link.classList.contains("active") ? link.style.color = "#F2490C" : link.style.color = "black";
+			marker.style.boxShadow = ""
+			// setTimeout(() => {
+			// 	marker.style.transition = "all 0s";
+			// }, 1300)
+		}
 	}
 
 	const shiftMarker = (e) => {
+		e.stopPropagation();
 		const marker = document.querySelector(".hoverMarker")
 
+		// const link = e.currentTarget;
 		const link = e.currentTarget.querySelector('a');
 		if(e.type==="mouseenter") {
 			marker.style.opacity = "1";
@@ -24,13 +79,15 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 			marker.style.left = (link.offsetLeft - 2)+'px';
 			marker.style.height = (link.offsetHeight + 4)+'px';
 			marker.style.width = (link.offsetWidth + 6)+'px';
-			link.classList.contains("active") ? link.style.color = "navy" : e.currentTarget.style.color = "white";
+			link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
 			link.classList.contains("active") ? marker.style.boxShadow = "2px 2px black" : marker.style.boxShadow = "2px 2px plum";
+			
 		}
 		if(e.type==="mouseleave") {
 			marker.style.opacity = "0";
-			link.classList.contains("active") ? link.style.color = "#F2490C" : e.currentTarget.style.color = "black";
+			link.classList.contains("active") ? link.style.color = "#F2490C" : link.style.color = "black";
 			marker.style.boxShadow = ""
+			
 		}
 	}
 
@@ -46,6 +103,8 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 
 	useEffect(() => {
 		const links = document.querySelector(".follow-nav-bar-container").querySelectorAll("li");
+		// const linksBox = document.querySelector(".feed-links-box")
+		// const links = linksBox.querySelectorAll("a");
 		links.forEach(link => {
 			link.addEventListener("mouseenter", shiftMarker)
 			link.addEventListener("mouseleave", shiftMarker)
@@ -57,13 +116,15 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 	}, [])
 
 	return (
-		<div className="follow-nav-bar-container" onMouseEnter={resetMarker}>
+		<div className="follow-nav-bar-container" >
 			<div className="hoverMarker" ></div>
-			<ul>
-				<li><NavLink exact to={{pathname:`/discover`, discoverTriggerRerender: randomNum()}}>Discover</NavLink></li>
-				<li><NavLink exact to={`/feed`}>Follows</NavLink></li>
-				<li><NavLink exact to={`/feed/${sessionUser._id}`}>{sessionUser.username}</NavLink></li>
-			</ul>
+			<div className="feed-links-box" onMouseEnter={resetMarker} onMouseLeave={resetMarker}>
+				<ul className="feed-links-list">
+					<li className="feed-nav-top-link"><NavLink exact to={{pathname:`/discover`, discoverTriggerRerender: randomNum()}}>Discover</NavLink></li>
+					<li className="feed-nav-mid-link"><NavLink exact to={`/feed`}>Follows</NavLink></li>
+					<li className="feed-nav-bot-link"><NavLink exact to={`/feed/${sessionUser._id}`}>{sessionUser.username}</NavLink></li>
+				</ul>
+			</div>
 			<div className="post-type-filter-container">
 				<div className={`post-filter-option post-type-filter-goals ${goalsOnly ? "active-filter" : ""}`} onClick={toggleGoalsOnly}>
 					<i class="fa-solid fa-arrows-to-circle"></i>

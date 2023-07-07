@@ -206,7 +206,7 @@ export const getUserKeyExercises = state => {
 }
 export const getGoalKeyExercises = state => {
     if (state?.exercises) {
-        return state.exercises.goal
+        return state.exercises.byGoal
     } else {
         return null;
     }

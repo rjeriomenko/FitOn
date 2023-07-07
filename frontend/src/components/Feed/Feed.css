@@ -47,6 +47,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: flex-start;
+	margin-bottom: 80px;
 	/* opacity: 0; */
 	/* animation: mainFadeAnimation 01s ease 0.2s 1 normal forwards; */
 	/* perspective: 4500px; */
@@ -91,15 +92,15 @@
 }
 
 .feed-goal-picture {
-	height: 300px;
-	width: 500px;
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
 	border-radius: 20px;
 	margin: 10px 0;
 }
 
 .feed-workout-picture {
 	height: 100%;
-	/* width: 500px; */
 	width: 100%;
 	object-fit: cover;
 	margin: 20px 0;

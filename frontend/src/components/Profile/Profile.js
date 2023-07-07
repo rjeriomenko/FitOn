@@ -40,8 +40,9 @@ function Profile () {
   const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
 
   const [timeGraph, setTimeGraph] = useState(true);
-  const goalExercises = useSelector(state => state.exercises.byGoal);
+  const goalExercises = useSelector(state => state.exercises.byGoal ? state.exercises.byGoal : {});
   const goalExercisesCount = Object.keys(goalExercises).length;
+
   // let mouseOverTextDataRows;
 
   const updateFile = e => setImage(e.target.files[0]);
@@ -75,25 +76,28 @@ function Profile () {
 
     let totalSets = 0;
     let totalReps = 0;
+    let totalWeight = 0;
     let totalTime = 0;
 
     // BELOW BUG!!! mouseOverTextData will not have updated via above line of code,
     // and read as 'undefined'.
     // setMouseOverTextDataRows(mouseOverTextData?.exerciseEntry?.exercises?.map(exercise => {
     setMouseOverTextDataRows(matchingExerciseEntry?.exerciseEntry?.exercises?.map(exercise => {
-      totalSets += exercise.sets
-      totalReps += exercise.reps
-      totalTime += exercise.time
+      totalSets += exercise.sets ? exercise.sets : 0;
+      totalReps += exercise.reps ? exercise.reps : 0;
+      totalWeight += exercise.weight ? exercise.weight : 0;
+      totalTime += exercise.time ? exercise.time : 0;
       return (
         <tr>
           <td>{exercise.name}</td>      
-          <td>{exercise.sets}</td>      
-          <td>{exercise.reps}</td>      
-          <td>{exercise.time}</td>      
+          <td>{exercise.sets ? exercise.sets : 0}</td>      
+          <td>{exercise.reps ? exercise.reps : 0}</td>      
+          <td>{exercise.weight ? exercise.weight : 0}</td>      
+          <td>{exercise.time ? exercise.time : 0}</td>      
         </tr>
       )
     }))
-    setMouseOverDataTotals({sets: totalSets, reps: totalReps, time: totalTime})
+    setMouseOverDataTotals({sets: totalSets, reps: totalReps, weight: totalWeight, time: totalTime})
 
   }
 
@@ -126,7 +130,8 @@ function Profile () {
           const randomImageNumber = Math.floor(Math.random() * numSamplePhotos) + 1;
           const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
           const tile =
-            <div onMouseEnter={handleMouseEnter} dataExerciseEntryId={entry.exerciseEntryId} >
+            // <div onMouseEnter={handleMouseEnter} dataExerciseEntryId={entry.exerciseEntryId} >
+            <div onMouseEnter={handleMouseEnter} key={entry.exerciseEntryId+`${i}`} >
               {/* NON sample dataset might look more like this: */}
               {/* <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={entry.exerciseEntry.rating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/> */}
               <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={displayedRating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/>
@@ -267,6 +272,7 @@ function Profile () {
                 <th>Name</th>
                 <th>Sets</th>
                 <th>Reps</th>
+                <th>Weight</th>
                 <th>Time</th>
               </tr>
             </thead>
@@ -279,6 +285,7 @@ function Profile () {
                 <th>Totals</th>
                 <td>{mouseOverDataTotals.sets}</td>
                 <td>{mouseOverDataTotals.reps}</td>
+                <td>{mouseOverDataTotals.weight}</td>
                 <td>{mouseOverDataTotals.time}</td>
               </tr>
             </tfoot>

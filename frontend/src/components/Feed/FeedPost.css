@@ -273,8 +273,14 @@ p, h3 {
 
 .workout-exercise-list-header > div {
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	/* justify-content: center; */
+}
+
+.feed-workout-line {
+	border-bottom: 1px dotted var(--orange);
+    width: 100%;
+    margin: 5px auto;
 }
 
 .post-exercises-container {
@@ -290,7 +296,7 @@ p, h3 {
 }
 
 .post-exercise-num {
-	justify-self: flex-end;
+	justify-self: center;
 }
 
 .post-exercises-container > div {

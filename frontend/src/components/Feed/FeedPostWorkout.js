@@ -193,6 +193,7 @@ function FeedPostWorkout ({feedPost}) {
 						<div><i class="fa-solid fa-clock"></i></div>
 						<div className="workout-exercise-row"></div>
 					</div>
+					<div className="feed-workout-line"></div>
 					{exercises.map(exercise => (
 						<div className="post-exercise-row">
 							<div>{`${exercise.name}`}</div>

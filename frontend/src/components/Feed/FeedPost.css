@@ -51,7 +51,7 @@ p, h3 {
 	box-sizing: border-box;
 }
 
-.feed-post-content *:not(.fa-solid) {
+.feed-post-content *:not(.fa-solid):not(.fa-edit) {
 	font-family: var(--sans-serif);
 }
 
@@ -399,10 +399,8 @@ p, h3 {
 	display: flex;
 	justify-content: center;
 	padding: 4px;
-	font-family: var(--sans-serif);
 	font-size: 15px;
 	margin: 3px 0;
-	/* color: var(--orange); */
 }
 
 .post-dropdown li:hover {

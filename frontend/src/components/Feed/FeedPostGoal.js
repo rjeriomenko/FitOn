@@ -132,6 +132,10 @@ function FeedPostGoal ({feedPost}) {
 								{/* RECYCLED FROM GOALINDEX - START */}
 								<ul className="post-dropdown">
 									<li onClick={e => setEditable(oldSetEditable => !oldSetEditable)}>
+										{/* broken icon */}
+										{/* broken icon */}
+										{/* broken icon */}
+
 										<i class="far fa-edit"></i>
 									</li>
 									<div id="goal-dropdown-line"></div>

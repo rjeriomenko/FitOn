@@ -151,13 +151,13 @@ function Profile () {
   };
   
   const noExercises = () => {
-    if ( sessionUser._id === userId && goalExercisesCount === 0 ) {
+    if ( goalExercisesCount === 0 && sessionUser._id === userId ) {
       return (
         <>
           <h4 id="progress-subheader">log your workouts to see progress towards greatness</h4>
         </>
       )
-    } else if (sessionUser._id !== userId && goalExercisesCount === 0) {
+    } else if ( goalExercisesCount === 0 && sessionUser._id !== userId) {
       return <h4 id="progress-subheader">no progress towards greatness</h4>
     }
   }

@@ -158,7 +158,7 @@ function Feed ({discoverMode, options = {}}) {
     // else headerText = `${sortedGoalPosts ? sortedGoalPosts[0].setter.concat(`...`) : "nothing here..."}`
     else {
       // headerText = `${sortedCombinedPosts?.length ? sortedCombinedPosts[0].user.username?.concat("'s goals and workouts") : "nothing here..."}`
-      headerText = `${notSessionUser.username.concat("'s goals and workouts")}`
+      headerText = `${notSessionUser?.username.concat("'s goals and workouts")}`
     }
   } else if(discoverMode){
     headerText = "other amazing goalgetters";

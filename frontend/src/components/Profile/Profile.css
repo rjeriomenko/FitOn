@@ -153,6 +153,9 @@ tfoot * {
 	align-items: center;
 	flex-direction: column;
 }
+.progress-header *{
+	cursor: default;
+}
 
 .progress-header *{
 	margin-bottom: 5px;

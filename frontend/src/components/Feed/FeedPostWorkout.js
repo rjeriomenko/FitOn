@@ -42,9 +42,11 @@ function FeedPostWorkout ({feedPost}) {
 	// helpers to initialize controlled inputs
 	// timestamp for workouts default to last updated date if user specified "date" is not valid
 	const formatWorkoutDate = () => {
+		// console.log(date);
 		const userSpecifiedDate = new Date(date).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true});
 		const lastUpdatedDate = new Date(updatedAt).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true});
-		return userSpecifiedDate === "Invalid Date" ? lastUpdatedDate : userSpecifiedDate
+		// return userSpecifiedDate === "Invalid Date" ? lastUpdatedDate : userSpecifiedDate
+		return lastUpdatedDate;
 	}
 
 	// Custom display text

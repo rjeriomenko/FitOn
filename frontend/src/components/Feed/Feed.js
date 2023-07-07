@@ -22,12 +22,12 @@ export const sortFeedPostsBy = (postsArray, sortRule) => {
   switch(sortRule) {
     case "date":
       sortedArray = postsArray.toSorted((a, b) => {
-        return new Date(b.date ? b.date : b.updatedAt) - new Date(a.date ? a.date : a.updatedAt)
+        return new Date(b.date ? b.date : b.deadline) - new Date(a.date ? a.date : a.deadline)
       })    
       break;
-    case "updatedAt":
+    case "deadline":
       sortedArray = postsArray.toSorted((a, b) => {
-        return new Date(b.updatedAt) - new Date(a.updatedAt)
+        return new Date(b.deadline) - new Date(a.deadline)
       })    
       break;
     default:

@@ -124,6 +124,9 @@ body {
 	transition: width 0.3s ease 0.7s;	
 }
 
+/* user dropdown */
+/* user dropdown */
+
 .nav-bar-aside {
 	position: absolute;
 	right: 20px;
@@ -135,12 +138,63 @@ body {
 	align-items: center;
 }
 
-.nav-bar-profile-name {
-	margin: 0 10px;
+.nav-bar-profile-picture {
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	cursor: pointer;
 }
 
-.nav-bar-profile-picture {
-	height: 100px;
-	width: 100px;
-	border-radius: 20px;
+.profile-dropdown {
+	position: absolute;
+    z-index: 1;
+    background-color: var(--light-blue);
+    border: 1px solid var(--light-blue);
+    top: 90px;
+    right: 10px;
+    opacity: 95%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.2);
+	padding: 10px;
+	border-radius: 8px;
+}
+
+.profile-dropdown li {
+    display: flex;
+	flex-direction: column;
+    justify-content: flex-start;
+    padding: 5px;
+    font-size: 15px;
+    margin: 3px 0;
+}
+
+#profile-dropdown-icon {
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+a {
+	cursor: pointer;
+}
+
+span {
+	cursor: default;
+}
+
+.welcome *{
+	text-align: center;
+}
+
+#greetings {
+	padding-bottom: 5px;
+}
+
+.welcome > span {
+	font-weight: bold;
+	color: magenta;
+}
+
+.profile-dropdown-line {
+	border-bottom: 1px solid var(--medium-blue);
+    width: 50%;
+    margin: 10px auto;
 }

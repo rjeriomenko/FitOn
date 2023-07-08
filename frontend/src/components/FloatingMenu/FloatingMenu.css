@@ -18,6 +18,7 @@
 	transition: background-color 0.5s;
 	/* animation: pulsing-button ; */
 	animation: pulsing-button-workout 1.8s ease-in-out 0s infinite alternate both;
+	cursor: pointer;
 }
 
 .floating-menu-container-goal {
@@ -38,6 +39,7 @@
 	align-items: center;
 	transition: background-color 0.5s;
 	animation: pulsing-button-goal 1.8s ease-in-out 0s infinite alternate both;
+	cursor: pointer;
 }
 
 @keyframes pulsing-button-workout {

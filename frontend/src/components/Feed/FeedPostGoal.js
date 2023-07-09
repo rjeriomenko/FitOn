@@ -174,7 +174,7 @@ function FeedPostGoal ({feedPost}) {
 							onChange={handleDescriptionChange}
 						/>
 					</label>
-					<label>Picture
+					<label>Update Photo
 						<input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
 					</label>
 					<div className="feed-post-update-button" onClick={handleUpdateGoal}>Update</div>

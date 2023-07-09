@@ -9,6 +9,7 @@ function GoalIndexItem ({goal}) {
 	const [editable, setEditable] = useState(false);
     const [title, setTitle] = useState(goal.title)
     const [description, setDescription] = useState(goal.description)
+    const [image, setImage] = useState(null);
 
     const handleDescriptionChange = e => {
 		setDescription(e.target.value);
@@ -43,16 +44,12 @@ function GoalIndexItem ({goal}) {
 	}
 
     const renderGoalImg = () => {
-        if (goal.imgUrl) {
-            return (
-			    <img className="goal-page-picture" src={goal.imgUrl} />
-            )
-        } else {
-            return (
-                <img className="goal-page-picture" src="https://aws-fiton.s3.amazonaws.com/sheng-hu-_Hnue6LxhLY-unsplash.jpg" />
-            )
-        }
+        return (
+            <img className="goal-page-picture" src={goal.imgUrl? goal.imgUrl : "https://aws-fiton.s3.amazonaws.com/sheng-hu-_Hnue6LxhLY-unsplash.jpg"} />
+        )
     }
+
+    const updateFile = e => setImage(e.target.files[0]);
 
     useEffect(() => {
         if (!showMenu) return;
@@ -97,6 +94,10 @@ function GoalIndexItem ({goal}) {
                         onChange={handleDescriptionChange}
                     />
                     </label>
+
+                    <label>Update Image
+						<input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
+					</label>
 
                     <div className="feed-post-update-button" onClick={handleUpdateGoal}>Update</div>
                     <div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>

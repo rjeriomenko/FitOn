@@ -24,6 +24,8 @@
   "engines": {
     "node": "16.19"
   },
-  
-  "homepage": "https://github.com/rjeriomenko/FitOn#readme"
+  "homepage": "https://github.com/rjeriomenko/FitOn#readme",
+  "dependencies": {
+    "fuse.js": "^6.6.2"
+  }
 }

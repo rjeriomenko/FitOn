@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createExerciseEntry, clearExerciseEntryErrors } from '../../store/exerciseEntries';
 import { createExercise } from '../../store/exercises';
 import './ExerciseEventForm.css'
+import Fuse from 'fuse.js';
 
-function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
+function ExerciseEventForm({ headerQuote, setShowExerciseEntry }) {
     const dispatch = useDispatch();
     const today = new Date();
     const currentDate = new Date().toLocaleDateString('en-us', { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', hour12: true });
@@ -18,6 +19,33 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const sessionUser = useSelector(state => state.session.user);
     const currentGoal = sessionUser?.currentGoal;
     const currentGoalId = currentGoal?._id;
+
+    // const [fuzzy, setFuzzy] = ('');
+    const exerciseOptions = ['Boxing, Burpees, Calf Raises, Crunches, Cycling, Dynamic Stretching, Elliptical, Glute Bridges, Jump Rope, Lunges, Mountain Climbers, Pilates, Pullups, Pushups, Rowing, Running, Russian Twists, Squats, Stair Runs, Supermans, Swimming, Water Aerobics, Yoga, Zumba'];
+
+    const options = {
+        keys: ['exercise'],
+        threshold: 0.4
+    };
+
+    const fuse = new Fuse(exercises.map(exercise => ({ exercise })), options);
+
+    const handleFuzzyChange = (e, index) => {
+        const { name, value } = e.target;
+        const inputs = [...exerciseInputs];
+        inputs[index] = { ...inputs[index], [name]: value };
+        setExerciseInputs(inputs);
+
+        const results = fuse.search(value);
+        if (results.length > 0) {
+            const matchedExercise = results[0].item.exercise;
+            // logic here to populate the results in dropdown form?
+        } else {
+            //logic here to put 'no matches found' or something in the dropdown
+        }
+
+        // probably need a separate state variable to keep track of this one maybe? setFuzzyInputs()?
+    };
 
     useEffect(() => {
         return () => dispatch(clearExerciseEntryErrors());
@@ -44,7 +72,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        dispatch(createExerciseEntry( currentGoalId, { date, note, image, rating: Number(rating) }))
+        dispatch(createExerciseEntry(currentGoalId, { date, note, image, rating: Number(rating) }))
             .then((res) => {
                 setShowExerciseEntry(false)
 
@@ -62,7 +90,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     return (
         <div className="exercise-form-container">
             <h4 className="header-quote">{headerQuote}</h4>
-            {currentGoal ? <h2>· {currentGoal.title} ·</h2> : null }
+            {currentGoal ? <h2>· {currentGoal.title} ·</h2> : null}
             <br></br>
             <div className="workout-form-line" id="line-one"></div>
             <form className="exercise-form" onSubmit={handleSubmit}>
@@ -78,7 +106,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                         required
                     />
                     <div className="errors">{errors?.rating}</div>
-                    
+
                     <span>Notes</span>
                     <input
                         type="textarea"
@@ -94,7 +122,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                     </label>
 
                 </div>
-                
+
                 <div className="exercise-input-container">
                     {exerciseInputs.map((input, index) => (
                         <>
@@ -157,16 +185,16 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                                 <div className="errors">{errors?.time}</div>
 
                                 {index > 0 && (
-                                <button
-                                    type="submit"
-                                    value="Delete"
-                                    className="exercise-input-delete-btn"
-                                    onClick={() => removeInputField(index)}>
-                                    <i className="fa-solid fa-trash-can"></i>
-                            </button>
+                                    <button
+                                        type="submit"
+                                        value="Delete"
+                                        className="exercise-input-delete-btn"
+                                        onClick={() => removeInputField(index)}>
+                                        <i className="fa-solid fa-trash-can"></i>
+                                    </button>
                                 )}
                             </div>
-                    </>
+                        </>
                     ))}
                 </div>
                 <div className="exercise-event-form-btn-container">

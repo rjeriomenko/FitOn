@@ -9,6 +9,7 @@ function GoalIndexItem ({goal}) {
 	const [editable, setEditable] = useState(false);
     const [title, setTitle] = useState(goal.title)
     const [description, setDescription] = useState(goal.description)
+    const [image, setImage] = useState(null);
 
     const handleDescriptionChange = e => {
 		setDescription(e.target.value);
@@ -42,6 +43,14 @@ function GoalIndexItem ({goal}) {
 		})
 	}
 
+    const renderGoalImg = () => {
+        return (
+            <img className="goal-page-picture" src={goal.imgUrl? goal.imgUrl : "https://aws-fiton.s3.amazonaws.com/sheng-hu-_Hnue6LxhLY-unsplash.jpg"} />
+        )
+    }
+
+    const updateFile = e => setImage(e.target.files[0]);
+
     useEffect(() => {
         if (!showMenu) return;
     
@@ -57,11 +66,14 @@ function GoalIndexItem ({goal}) {
         <>  
             <div className="grid-item-container">
                 
-            {!editable ? (
+            {!editable ? ( 
                 <div className="grid-item-previous" id="previous-goal">
                     <p className="goal-title">{title}</p>
                     <p>{description}</p>
-                    <p>Completed: {goal.deadline}</p>
+                        {renderGoalImg()}
+                    <div className="complete-date">
+                        <p>Completed: {goal.deadline}</p>
+                    </div>
                 </div>
             ) : (
                 <div className="feed-post-content">
@@ -82,6 +94,10 @@ function GoalIndexItem ({goal}) {
                         onChange={handleDescriptionChange}
                     />
                     </label>
+
+                    <label>Update Image
+						<input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
+					</label>
 
                     <div className="feed-post-update-button" onClick={handleUpdateGoal}>Update</div>
                     <div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>

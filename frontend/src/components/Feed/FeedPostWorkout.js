@@ -230,7 +230,7 @@ function FeedPostWorkout ({feedPost}) {
 							onChange={e => setFormNote(e.target.value)}
 						/>
 					</label>
-					<label>Picture
+					<label>Update Photo
 						<input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
 					</label>
 					{/* <div className="feed-post-update-button" onClick={handleUpdateWorkout}>Update</div> */}

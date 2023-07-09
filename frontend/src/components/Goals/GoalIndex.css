@@ -7,14 +7,16 @@
     margin-bottom: 20px;
     color: var(--dark-blue);
     text-shadow: 1px 1px 4px var(--light-blue);
+    font-family: var(--montserrat);
 }
 
 #current-goal {
-    outline: 1px solid var(--light-blue);
+    outline: 2px solid var(--light-blue);
     outline-offset: 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: var(--white);
 }
 
 .goals-grid-container {
@@ -40,7 +42,7 @@
 }
 
 div > p {
-    margin: 20px 0;
+    margin: 15px 0;
     color: var(--dark-blue);
 
 }
@@ -119,4 +121,12 @@ div > p {
 .current-goal-edit-crud-button#close-edit-current-goal {
     background-color: var(--dark-blue);
     border-color: var(--dark-blue);
+}
+
+#previous-goal-title {
+    margin-top: 50px;
+}
+
+.status {
+    font-style: italic;
 }

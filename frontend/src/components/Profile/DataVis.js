@@ -17,23 +17,27 @@ function DataVis({ user, timeGraph }) {
     if (timeGraph) {
       Object.values(data).forEach(exercise => {
       const { name, time, workout: { date } } = exercise;
-          
-        if (!exerciseEntry[date]) {
-          exerciseEntry[date] = {};
+      const dateObj = new Date(date);
+      const formattedDate = dateObj.toDateString();
+
+        if (!exerciseEntry[formattedDate]) {
+          exerciseEntry[formattedDate] = {};
         }
 
-        exerciseEntry[date][name] = parseInt(time);
+        exerciseEntry[formattedDate][name] = parseInt(time);
       });
 
     } else {
       Object.values(data).forEach(exercise => {
         const { name, sets, reps, workout: { date } } = exercise;
-            
-        if (!exerciseEntry[date]) {
-          exerciseEntry[date] = {};
+        const dateObj = new Date(date);
+        const formattedDate = dateObj.toDateString();
+        
+        if (!exerciseEntry[formattedDate]) {
+          exerciseEntry[formattedDate] = {};
         }
         
-        exerciseEntry[date][name] = parseInt(sets * reps);
+        exerciseEntry[formattedDate][name] = parseInt(sets * reps);
       });
       
     }

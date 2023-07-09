@@ -26,6 +26,10 @@ mongoose.connect(db, {
 const workoutImageData = fs.readFileSync(path.resolve(__dirname, './workoutImages.csv'), { encoding: 'utf8' })
 const workoutImageArray = workoutImageData.split(',\n');
 
+//generate ImgUrl array from reading goalImages.csv
+const goalImageData = fs.readFileSync(path.resolve(__dirname, './goalImages.csv'), { encoding: 'utf8' })
+const goalImageArray = goalImageData.split(',\n');
+
 // Seed function
 const seedData = async () => {
     try {
@@ -103,6 +107,7 @@ const seedData = async () => {
             description: "Build muscle bulk and tone, lower resting heart rate",
             deadline: "2023-07-31",
             user: demoUser._id,
+            imgUrl: getRandomGoalImgUrl()
         });
         const firstDemoGoal = await demoGoal1.save();
         savedDemoUser.currentGoal = firstDemoGoal;
@@ -112,7 +117,8 @@ const seedData = async () => {
             title: "Increase Endurance and Stamina",
             description: "Improve cardiovascular fitness and stamina for longer workouts",
             deadline: "2023-07-24",
-            user: demoUser._id
+            user: demoUser._id,
+            imgUrl: getRandomGoalImgUrl()
         });
         const secondDemoGoal = await demoGoal2.save();
 
@@ -120,7 +126,8 @@ const seedData = async () => {
             title: "Weight Loss and Body Toning",
             description: "Lose weight and tone my body for summer",
             deadline: "2023-07-03",
-            user: demoUser._id
+            user: demoUser._id,
+            imgUrl: getRandomGoalImgUrl()
         });
         const thirdDemoGoal = await demoGoal3.save();
 
@@ -128,7 +135,8 @@ const seedData = async () => {
             title: "Mindful Meditation Practice",
             description: "Incorporate regular meditation sessions to reduce stress, enhance focus, and promote mental well-being.",
             deadline: "2023-07-17",
-            user: demoUser._id
+            user: demoUser._id,
+            imgUrl: getRandomGoalImgUrl()
         });
         const fourthDemoGoal = await demoGoal4.save();
 
@@ -136,7 +144,8 @@ const seedData = async () => {
             title: "Flexibility and Mobility Improvement",
             description: "Enhance range of motion, improve flexibility, and increase overall mobility for better performance and injury prevention.",
             deadline: "2023-07-10",
-            user: demoUser._id
+            user: demoUser._id,
+            imgUrl: getRandomGoalImgUrl()
         });
         const fifthDemoGoal = await demoGoal5.save();
 
@@ -144,7 +153,8 @@ const seedData = async () => {
             title: "Run 30 miles by next weekend",
             description: "Preparing for my triathlon",
             deadline: "2023-04-10",
-            user: triathlonUser._id
+            user: triathlonUser._id,
+            imgUrl: getRandomGoalImgUrl()
         });
         const savedRunGoal = await triRunGoal.save();
 
@@ -152,7 +162,8 @@ const seedData = async () => {
             title: "Bike 500 miles by end of July",
             description: "Increase biking endurance and speed for triathlon",
             deadline: "2023-07-30",
-            user: triathlonUser._id
+            user: triathlonUser._id,
+            imgUrl: getRandomGoalImgUrl()
         });
         const savedBikeGoal = await triBikeGoal.save();
         savedTriUser.currentGoal = savedBikeGoal;
@@ -162,7 +173,8 @@ const seedData = async () => {
             title: "Swim 50 laps (1 mile) per week",
             description: "Improve swimming technique",
             deadline: "2023-04-17",
-            user: triathlonUser._id
+            user: triathlonUser._id,
+            imgUrl: getRandomGoalImgUrl()
         });
         const savedSwimGoal = await triSwimGoal.save();
 
@@ -170,7 +182,8 @@ const seedData = async () => {
             title: "Increase Strength and Build Muscle Mass",
             description: "Full body focus to build overall strength",
             deadline: "2023-07-31",
-            user: fullBodyUser._id
+            user: fullBodyUser._id,
+            imgUrl: getRandomGoalImgUrl()
         });
         const firstFullGoal = await fullBodyGoal1.save();
         savedFullUser.currentGoal = firstFullGoal;
@@ -180,7 +193,8 @@ const seedData = async () => {
             title: "Reduce Body Fat and Increase Muscle Tone",
             description: "I want to lose a few pounds of fat to really highlight my muscles",
             deadline: "2023-07-16",
-            user: fullBodyUser._id
+            user: fullBodyUser._id,
+            imgUrl: getRandomGoalImgUrl()
         });
         const secondFullGoal = await fullBodyGoal2.save();
 
@@ -347,6 +361,11 @@ const getRandomRating = () => {
 const getRandomWorkoutImgUrl = () => {
     const length = workoutImageArray.length
     return workoutImageArray[Math.floor(length * Math.random())]
+}
+
+const getRandomGoalImgUrl = () => {
+    const length = goalImageArray.length
+    return goalImageArray[Math.floor(length * Math.random())]
 }
 
 const getRandomSets = () => {

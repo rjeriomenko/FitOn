@@ -120,7 +120,7 @@ function FeedPostGoal ({feedPost}) {
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
 					<Link to={`/feed/${userId}`}>
-						<img className="feed-profile-picture" src={user?.imgUrl || "https://aws-fiton.s3.amazonaws.com/vinit-vispute-PO36L2wA8KI-unsplash.jpg"} />
+					  <img className="feed-profile-picture" src={user?.imgUrl || "https://www.lightsong.net/wp-content/uploads/2020/12/blank-profile-circle.png"} />
 					</Link>
 					<Link to={`/feed/${userId}`}>
 						<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div>
@@ -180,7 +180,7 @@ function FeedPostGoal ({feedPost}) {
 					<div className="feed-post-update-button" onClick={handleUpdateGoal}>Update</div>
 					<div className="feed-post-update-button" onClick={handleToggleForm}>Cancel</div>
 				</>}
-			  <img className="feed-goal-picture" src={imgUrl || "https://aws-fiton.s3.amazonaws.com/sheng-hu-_Hnue6LxhLY-unsplash.jpg"} />
+			  <img className="feed-goal-picture" src={imgUrl || "https://aws-fiton.s3.amazonaws.com/ricardo-arce-cY_TCKr5bek-unsplash.jpg"} />
 				<div className="post-divider"></div>
 				<div className="latest-exercise-text">
 					{latestExerciseText()}

@@ -11,7 +11,7 @@ import { fetchWorkoutExercises, getWorkoutKeyExercises } from "../../store/exerc
 function FeedPostWorkout ({feedPost}) {
   // props
 	const { date, goal, note, rating, imgUrl, updatedAt, user, _id } = feedPost;
-	if(imgUrl) {console.log(imgUrl)}
+	// if(imgUrl) {console.log(imgUrl)}
 	const goalId = goal?._id
 	const username = feedPost.user?.username;
 	const userId = feedPost.user?._id;

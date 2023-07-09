@@ -11,7 +11,6 @@ import { fetchWorkoutExercises, getWorkoutKeyExercises } from "../../store/exerc
 function FeedPostWorkout ({feedPost}) {
   // props
 	const { date, goal, note, rating, imgUrl, updatedAt, user, _id } = feedPost;
-	// if(imgUrl) {console.log(imgUrl)}
 	const goalId = goal?._id
 	const username = feedPost.user?.username;
 	const userId = feedPost.user?._id;
@@ -142,7 +141,7 @@ function FeedPostWorkout ({feedPost}) {
 			<div className="feed-post-content">
 				<div className="feed-post-row feed-post-header">
 					<Link to={`/feed/${userId}`}>
-						<img className="feed-profile-picture" src={user?.imgUrl || "https://aws-fiton.s3.amazonaws.com/vinit-vispute-PO36L2wA8KI-unsplash.jpg"} />
+					  <img className="feed-profile-picture" src={user?.imgUrl || "https://www.lightsong.net/wp-content/uploads/2020/12/blank-profile-circle.png"} />
 					</Link>
 					<Link to={`/feed/${userId}`}>
 						<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div>

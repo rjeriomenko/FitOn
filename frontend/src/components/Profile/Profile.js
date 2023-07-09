@@ -17,7 +17,7 @@ import { formatTwoDigitNumberString } from '../../utils/utils';
 import './Profile.css';
 
 import DataVis from './DataVis';
-import { fetchGoalExercises } from '../../store/exercises';
+import { fetchGoalExercises, fetchUserExercises, getUserKeyExercises } from '../../store/exercises';
 
 function Profile () {
   const dispatch = useDispatch();
@@ -26,8 +26,15 @@ function Profile () {
   const user = useSelector(getUser(userId));
   const currentGoal = user?.currentGoal;
   
+  
   const userExerciseEntries = useSelector(getUserExerciseEntries);
   const userExerciseEntriesArray = Object.values(userExerciseEntries);
+  // const currentGoalWorkouts = userExerciseEntriesArray.filter(workout => workout.goal._id === currentGoal._id)
+
+  const userExercisesAll = Object.values(useSelector(getUserKeyExercises));
+
+
+  const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
 
   const [mouseOverTextData, setMouseOverTextData] = useState(undefined);
   const [sampleTileSet, setSampleTileSet] = useState([]);
@@ -37,7 +44,6 @@ function Profile () {
   const [image, setImage] = useState(null);
   const [submitStatus, setSubmitStatus] = useState('Submit');
 
-  const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
 
   const [timeGraph, setTimeGraph] = useState(true);
   const goalExercises = useSelector(state => state.exercises.byGoal ? state.exercises.byGoal : {});
@@ -119,9 +125,37 @@ function Profile () {
     // DEMO ONLY - START
     // Create 23 fake sets of same seed data with randomized associated images, 
     // and random ratings (that differ from the sample data's ratings, for color variation appeal)
-    for(let i = 0; i < 23; i++){
-      const shuffledBase = sortedByDate.sort(() => Math.random() - 0.5)
-      shuffledBase.slice(0, 3).forEach(entry => {
+    // for(let i = 0; i < 23; i++){
+    //   const shuffledBase = sortedByDate.sort(() => Math.random() - 0.5)
+    //   shuffledBase.slice(0, 3).forEach(entry => {
+    //       // RANDOM RATING
+    //       // const displayedRating = Math.floor(Math.random() * 5) + 1;
+    //       // ACTUAL RATING
+    //       const displayedRating = entry?.exerciseEntry.rating;
+    //       const numSamplePhotos = 7;
+    //       const randomImageNumber = Math.floor(Math.random() * numSamplePhotos) + 1;
+    //       const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
+    //       const tile =
+    //         // <div onMouseEnter={handleMouseEnter} dataExerciseEntryId={entry.exerciseEntryId} >
+    //         <div onMouseEnter={handleMouseEnter} key={entry.exerciseEntryId+`${i}`} dataExerciseEntryId={entry.exerciseEntryId}>
+    //           {/* NON sample dataset might look more like this: */}
+    //           {/* <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={entry.exerciseEntry.rating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/> */}
+    //           <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={displayedRating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/>
+    //         </div>
+    //       generatedTiles.push(tile)
+    //   })
+    // }
+    // DEMO ONLY - END
+    // DEMO ONLY - END
+    // DEMO ONLY - END
+
+    // ACTUAL DATA - START
+    // ACTUAL DATA - START
+    // ACTUAL DATA - START
+
+    // currentGoalWorkouts
+    
+      sortedByDate.forEach((entry, i) => {
           // RANDOM RATING
           // const displayedRating = Math.floor(Math.random() * 5) + 1;
           // ACTUAL RATING
@@ -131,17 +165,17 @@ function Profile () {
           const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
           const tile =
             // <div onMouseEnter={handleMouseEnter} dataExerciseEntryId={entry.exerciseEntryId} >
-            <div onMouseEnter={handleMouseEnter} key={entry.exerciseEntryId+`${i}`} >
+            <div onMouseEnter={handleMouseEnter} key={entry.exerciseEntryId+`${i}`} dataExerciseEntryId={entry.exerciseEntryId}>
               {/* NON sample dataset might look more like this: */}
               {/* <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={entry.exerciseEntry.rating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/> */}
               <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={displayedRating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/>
             </div>
           generatedTiles.push(tile)
       })
-    }
-    // DEMO ONLY - END
-    // DEMO ONLY - END
-    // DEMO ONLY - END
+
+    // ACTUAL DATA - END
+    // ACTUAL DATA - END
+    // ACTUAL DATA - END
 
     return generatedTiles;
   };
@@ -192,7 +226,8 @@ function Profile () {
     dispatch(fetchUser(userId))
     dispatch(fetchUserGoals(userId))
     dispatch(fetchUserExerciseEntries(userId))
-    dispatch(fetchGoalExercises(currentGoal?._id))
+    // dispatch(fetchGoalExercises(currentGoal?._id))
+    dispatch(fetchUserExercises(userId))
 
     // // RANDOM SCRAMBLE DEMO DATA IF RANDOM RATING IS ON
     // let repeats = 0;
@@ -202,8 +237,15 @@ function Profile () {
     //   setSampleTileSet(generateEntryTilesForGoal(21, sampleExerciseEntryData));      
     // }, 100)
     // Here is where we can actually render actual state
-    setSampleTileSet(generateEntryTilesForGoal(21, sampleExerciseEntryData));
-  }, [goalExercisesCount])
+
+    // DEMO
+    // setSampleTileSet(generateEntryTilesForGoal(21, sampleExerciseEntryData));
+    // NON-DEMO
+    setSampleTileSet(generateEntryTilesForGoal(currentGoal?._id, userExercisesAll));
+  }, [])
+  debugger
+
+  // setSampleTileSet(generateEntryTilesForGoal(currentGoal?._id, userExercisesAll));
 
   if (!userExerciseEntries) {
     return (

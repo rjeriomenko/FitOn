@@ -185,10 +185,6 @@ function FeedPostWorkout ({feedPost}) {
 					</div>}</Link>
 				</div>
 
-				<div className="post-photo-container">
-					<img className="feed-workout-picture" src={imgUrl || "https://aws-fiton.s3.amazonaws.com/mat-kilkeary-kSCmit8eYo0-unsplash.jpg"} />
-				</div>
-
 				<div className="post-exercises-container">
 					<div className="workout-exercise-list-header">
 						<div><i></i></div>
@@ -211,6 +207,11 @@ function FeedPostWorkout ({feedPost}) {
 					{exercises.length === 0 && <div className="empty-workout">No exercises yet!</div>}
 				</div>
 				
+
+				<div className="post-photo-container">
+					<img className="feed-workout-picture" src={imgUrl || "https://aws-fiton.s3.amazonaws.com/mat-kilkeary-kSCmit8eYo0-unsplash.jpg"} />
+				</div>
+
 				{editable && <>
 					<form className="post-form" onSubmit={handleUpdateWorkout}>
 					<label>Rating: 

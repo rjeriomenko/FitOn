@@ -79,7 +79,7 @@ export const fetchAllUserExercises = () => async dispatch => {
 //Fetches formatted exercises
 export const fetchUserExercises = userId => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/exercises/${userId}`);
+        const res = await jwtFetch(`/api/exercises/byUser/${userId}`);
         const userExercises = await res.json();
         dispatch(receiveUserExercises(userExercises));
     } catch (err) {

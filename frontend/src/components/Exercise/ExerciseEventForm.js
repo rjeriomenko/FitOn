@@ -89,9 +89,10 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                     />
                     <div className="errors">{errors?.note}</div>
 
-                    <label>Picture
+                    <span>Add Image</span>
+                    {/* <label>Picture */}
                         <input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
-                    </label>
+                    {/* </label> */}
 
                 </div>
                 

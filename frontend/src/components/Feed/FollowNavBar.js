@@ -107,8 +107,10 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 			link.addEventListener("mouseleave", shiftMarker)
 		})
 		return () => {
-			links.forEach(link => link.removeEventListener("mouseenter", shiftMarker))
-			links.forEach(link => link.removeEventListener("mouseleave", shiftMarker))
+			links.forEach(link => {
+				link.removeEventListener("mouseenter", shiftMarker)
+				link.removeEventListener("mouseleave", shiftMarker)
+			})
 		}
 	}, [])
 

@@ -6,6 +6,8 @@ const ExerciseEntrySchema = require('../models/ExerciseEntry');
 const ExerciseSchema = require('../models/Exercise');
 const FollowSchema = require('../models/Follow');
 const bcrypt = require('bcryptjs');
+const path = require('path');
+const fs = require('fs');
 
 // Define models
 const User = mongoose.model('User', UserSchema);
@@ -20,6 +22,10 @@ mongoose.connect(db, {
     useUnifiedTopology: true,
 });
 
+//generate ImgUrl array from reading workoutImages.csv
+const workoutImageData = fs.readFileSync(path.resolve(__dirname, './workoutImages.csv'), { encoding: 'utf8' })
+const workoutImageArray = workoutImageData.split(',\n');
+
 // Seed function
 const seedData = async () => {
     try {
@@ -31,7 +37,6 @@ const seedData = async () => {
         await Follow.deleteMany({});
 
         process.stdout.write("Database cleared!\n");
-
 
         // create and save USERS
 
@@ -209,6 +214,7 @@ const seedData = async () => {
                     date: workout.date,
                     note: workout.note,
                     rating: workout.rating,
+                    imgUrl: workout.imgUrl,
                     user: goal.user,
                     goal: goal._id,
                 });
@@ -290,11 +296,13 @@ const populateWorkouts = (deadline, numWorkouts) => {
         const date = getPreviousDate(deadline, i);
         const note = getRandomNote();
         const rating = getRandomRating();
+        const imgUrl = getRandomWorkoutImgUrl();
 
         const workout = {
             date,
             note,
-            rating
+            rating,
+            imgUrl
         };
 
         workouts.push(workout);
@@ -334,6 +342,11 @@ const getRandomStretchTime = () => {
 
 const getRandomRating = () => {
     return Math.floor(Math.random() * 5) + 1;
+}
+
+const getRandomWorkoutImgUrl = () => {
+    const length = workoutImageArray.length
+    return workoutImageArray[Math.floor(length * Math.random())]
 }
 
 const getRandomSets = () => {

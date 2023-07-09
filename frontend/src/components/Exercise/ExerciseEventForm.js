@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createExerciseEntry, clearExerciseEntryErrors } from '../../store/exerciseEntries';
 import { createExercise } from '../../store/exercises';
+import Fuse from 'fuse.js';
 import './ExerciseEventForm.css'
 
 function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
@@ -19,14 +20,55 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const currentGoal = sessionUser?.currentGoal;
     const currentGoalId = currentGoal?._id;
 
+    // const [fuzzy, setFuzzy] = ('');
+    const exerciseOptions = ['Boxing, Burpees, Calf Raises, Crunches, Cycling, Dynamic Stretching, Elliptical, Glute Bridges, Jump Rope, Lunges, Mountain Climbers, Pilates, Pullups, Pushups, Rowing, Running, Russian Twists, Squats, Stair Runs, Supermans, Swimming, Water Aerobics, Yoga, Zumba'];
+
+    const options = {
+        keys: ['exercise'],
+        threshold: 0.2
+    };
+
+    const fuse = new Fuse(exerciseOptions.map(exercise => ({ exercise })), options);
+
+    const handleFuzzyChange = (value) => {
+        // const { name, value } = e.target;
+        // const inputs = [...exerciseInputs];
+        // inputs[index] = { ...inputs[index], [name]: value };
+        // setExerciseInputs(inputs);
+
+        const results = fuse.search(value);
+        console.log(results)
+        
+        if (results.length > 0) {
+            const matchedExercise = results[0].item.exercise;
+            // logic here to populate the results in dropdown form?
+        } else {
+            //logic here to put 'no matches found' or something in the dropdown
+        }
+
+        // probably need a separate state variable to keep track of this one maybe? setFuzzyInputs()?
+    };
+
     useEffect(() => {
         return () => dispatch(clearExerciseEntryErrors());
     }, [dispatch])
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
-        const inputs = [...exerciseInputs];
-        inputs[index] = { ...inputs[index], [name]: value };
+        const inputs = [...exerciseInputs]; 
+        console.log(name)
+        console.log(value)
+        
+        if (name === 'name') {
+            handleFuzzyChange(value)
+            inputs[index] = { ...inputs[index], [name]: value };
+
+        } else {
+            inputs[index] = { ...inputs[index], [name]: value };
+        }
+
+        // obj = { name: '', sets: '', reps: '', time: '', weight: '' }
+        // [ obj, obj ..]
         setExerciseInputs(inputs);
     };
 
@@ -107,6 +149,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                                     name="name"
                                     placeholder="Push-ups, jogging..."
                                     value={input.name}
+                                    // needs to be fuzzy
                                     onChange={(e) => handleInputChange(e, index)}
                                     required
                                 />

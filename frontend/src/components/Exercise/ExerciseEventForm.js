@@ -158,16 +158,16 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                                 <div className="errors">{errors?.time}</div>
 
                                 {index > 0 && (
-                                <button
-                                    type="submit"
-                                    value="Delete"
-                                    className="exercise-input-delete-btn"
-                                    onClick={() => removeInputField(index)}>
-                                    <i className="fa-solid fa-trash-can"></i>
-                            </button>
+                                    <button
+                                        type="submit"
+                                        value="Delete"
+                                        className="exercise-input-delete-btn"
+                                        onClick={() => removeInputField(index)}>
+                                        <i className="fa-solid fa-trash-can"></i>
+                                    </button>
                                 )}
                             </div>
-                    </>
+                        </>
                     ))}
                 </div>
                 <div className="exercise-event-form-btn-container">

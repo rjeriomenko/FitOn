@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-between;
     position: relative;
+    align-items: flex-start;
 }
 
 #ellipsis {
@@ -12,6 +13,8 @@
 
 #ellipsis:hover {
     cursor: pointer;
+    border-radius: 50%;
+	background-color: rgb(223, 222, 219);
 }
 
 .goal-dropdown {
@@ -43,4 +46,28 @@
 .goal-dropdown li:hover {
     cursor: pointer;
     color: var(--medium-blue-darker);
+}
+
+#previous-goal > p {
+    word-break: break-word;
+}
+
+.goal-page-picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+	width: 100%;
+	object-fit: contain;
+	margin: 10px 0;
+}
+
+.grid-item-previous {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.complete-date {
+    align-self: flex-end;
+    font-style: italic;
 }

@@ -42,6 +42,11 @@ function GoalIndexItem ({goal}) {
 		})
 	}
 
+    const renderGoalImg = () => {
+        return (
+			<img className="goal-page-picture" src={goal.imgUrl || "https://aws-fiton.s3.amazonaws.com/sheng-hu-_Hnue6LxhLY-unsplash.jpg"} />
+        )
+    }
     useEffect(() => {
         if (!showMenu) return;
     
@@ -61,7 +66,10 @@ function GoalIndexItem ({goal}) {
                 <div className="grid-item-previous" id="previous-goal">
                     <p className="goal-title">{title}</p>
                     <p>{description}</p>
-                    <p>Completed: {goal.deadline}</p>
+                        {renderGoalImg()}
+                    <div className="complete-date">
+                        <p>Completed: {goal.deadline}</p>
+                    </div>
                 </div>
             ) : (
                 <div className="feed-post-content">

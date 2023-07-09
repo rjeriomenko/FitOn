@@ -140,7 +140,7 @@ function GoalIndex () {
                         <p className="goal-title">{currentGoal.title}</p>
                         <p>{currentGoal.description}</p>
                         <p> Deadline: {currentGoal.deadline}</p>
-                        <p>{currentGoal.completionDate ? `Completed: ${currentGoal.completionDate}` : "Not Completed" }</p>
+                        <p className="status">{currentGoal.completionDate ? `Completed: ${currentGoal.completionDate}` : "Not Completed" }</p>
                     </div>
                     {renderGoalCrud()}
                 </div>
@@ -218,7 +218,7 @@ function GoalIndex () {
             <div className="goals-container">
                 <h2>my current goal...</h2>
                 {renderCurrentGoal()}
-                <h2>previous goals...</h2>
+                <h2 id="previous-goal-title">my completed goals...</h2>
                 <div className="goals-grid-container">
                 {renderPrevGoals()}
                 </div>

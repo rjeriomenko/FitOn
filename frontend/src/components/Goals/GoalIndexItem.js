@@ -47,6 +47,10 @@ function GoalIndexItem ({goal}) {
             return (
 			    <img className="goal-page-picture" src={goal.imgUrl} />
             )
+        } else {
+            return (
+                <img className="goal-page-picture" src="https://aws-fiton.s3.amazonaws.com/sheng-hu-_Hnue6LxhLY-unsplash.jpg" />
+            )
         }
     }
 

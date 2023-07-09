@@ -43,10 +43,13 @@ function GoalIndexItem ({goal}) {
 	}
 
     const renderGoalImg = () => {
-        return (
-			<img className="goal-page-picture" src={goal.imgUrl || "https://aws-fiton.s3.amazonaws.com/sheng-hu-_Hnue6LxhLY-unsplash.jpg"} />
-        )
+        if (goal.imgUrl) {
+            return (
+			    <img className="goal-page-picture" src={goal.imgUrl} />
+            )
+        }
     }
+
     useEffect(() => {
         if (!showMenu) return;
     
@@ -62,7 +65,7 @@ function GoalIndexItem ({goal}) {
         <>  
             <div className="grid-item-container">
                 
-            {!editable ? (
+            {!editable ? ( 
                 <div className="grid-item-previous" id="previous-goal">
                     <p className="goal-title">{title}</p>
                     <p>{description}</p>

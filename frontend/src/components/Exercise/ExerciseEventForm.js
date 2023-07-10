@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createExerciseEntry, clearExerciseEntryErrors } from '../../store/exerciseEntries';
 import { createExercise } from '../../store/exercises';
+import exerciseList from './ExerciseList';
 import Fuse from 'fuse.js';
 import './ExerciseEventForm.css'
 
@@ -20,11 +21,12 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const sessionUser = useSelector(state => state.session.user);
     const currentGoal = sessionUser?.currentGoal;
     const currentGoalId = currentGoal?._id;
+    
+    const exerciseOptions = exerciseList;
 
-    // const [fuzzy, setFuzzy] = ('');
-    const exerciseOptions = ['Boxing', 'Burpees', 'Calf Raises', 'Crunches', 'Cycling', 'Dynamic Stretching', 
-        'Elliptical', 'Glute Bridges', 'Jump Rope', 'Lunges', 'Mountain Climbers', 'Pilates', 'Pullups', 'Pushups', 
-        'Rowing', 'Running', 'Russian Twists', 'Squats', 'Stair Runs', 'Supermans', 'Swimming', 'Water Aerobics', 'Yoga', 'Zumba'];
+    // const exerciseOptions = ['Boxing', 'Burpees', 'Calf Raises', 'Crunches', 'Cycling', 'Dynamic Stretching', 
+    //     'Elliptical', 'Glute Bridges', 'Jump Rope', 'Lunges', 'Mountain Climbers', 'Pilates', 'Pullups', 'Pushups', 
+    //     'Rowing', 'Running', 'Russian Twists', 'Squats', 'Stair Runs', 'Supermans', 'Swimming', 'Water Aerobics', 'Yoga', 'Zumba'];
 
     const options = {
         keys: ['exercise'],
@@ -35,17 +37,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
 
     const handleFuzzyChange = (value) => {
         const results = fuse.search(value);
-        console.log(results)
         setFuzzyResults(results)
-        
-        if (results.length > 0) {
-            const matchedExercise = results[0].item.exercise;
-            // logic here to populate the results in dropdown form?
-        } else {
-            //logic here to put 'no matches found' or something in the dropdown
-        }
-
-        // probably need a separate state variable to keep track of this one maybe? setFuzzyInputs()?
     };
 
     const handleFuzzySelect = (result) => {
@@ -66,11 +58,9 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
         
         if (name === 'name') {
             handleFuzzyChange(value)
-            inputs[index] = { ...inputs[index], [name]: value };
-
-        } else {
-            inputs[index] = { ...inputs[index], [name]: value };
         }
+
+        inputs[index] = { ...inputs[index], [name]: value };
 
         setExerciseInputs(inputs);
     };

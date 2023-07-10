@@ -249,6 +249,7 @@ tfoot * {
 }
 
 .profile-line {
+	margin-top: 5px;
 	justify-self: flex-start;
 	border-bottom: 1px dotted var(--orange);
     width: 50%;

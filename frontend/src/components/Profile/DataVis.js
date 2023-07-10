@@ -1,20 +1,22 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getGoalKeyExercises, fetchGoalExercises } from '../../store/exercises';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
-import './DataVis.css'
-
+import Loading from './Loading';
+import './DataVis.css';
 
 function DataVis({ user, timeGraph }) {
-  const chartRef = useRef(null);
-  const currentGoalId = user.currentGoal?._id;
-  const chartInstanceRef = useRef(null);
   const dispatch = useDispatch();
-
+  const chartRef = useRef(null);
+  const chartInstanceRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const currentGoalId = user.currentGoal?._id;
+  
   const goalExercises = useSelector(getGoalKeyExercises);
   
   const fetchExerciseEntry = async () => {
+    setIsLoading(true);
     const res = await axios.get(`/api/exercises/byGoal/${currentGoalId}`);
     const data = res.data;  
     const exerciseEntry = {};
@@ -56,6 +58,8 @@ function DataVis({ user, timeGraph }) {
       })
       
     }
+
+    setIsLoading(false);
 
     return exerciseEntry;
 
@@ -213,7 +217,8 @@ function DataVis({ user, timeGraph }) {
   
   return (
     <>
-      <canvas ref={chartRef} />
+      {isLoading ? <Loading />  : <canvas ref={chartRef} />}
+      {/* <canvas ref={chartRef} /> */}
     </>
   )
 }

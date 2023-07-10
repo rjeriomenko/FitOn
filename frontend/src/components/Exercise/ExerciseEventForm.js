@@ -116,10 +116,10 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
             <h4 className="header-quote">{headerQuote}</h4>
             {currentGoal ? <h2>· {currentGoal.title} ·</h2> : null }
             <br></br>
+            <span className="workout-form-date">Today's Workout for <span id="exercise-form-date">{currentDate}</span></span>
             <div className="workout-form-line" id="line-one"></div>
             <form className="exercise-form" onSubmit={handleSubmit}>
                 <div className="exercise-entry-form">
-                    <span>Today's Workout for <span id="exercise-form-date">{currentDate}</span></span>
                     <span>Rating</span>
                     <input
                         type="number"
@@ -142,9 +142,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                     <div className="errors">{errors?.note}</div>
 
                     <span>Upload Image</span>
-                    {/* <label>Picture */}
-                        <input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
-                    {/* </label> */}
+                    <input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
 
                 </div>
                 

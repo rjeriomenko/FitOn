@@ -30,6 +30,7 @@
 .exercise-entry-form {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .exercise-input-container  {
@@ -63,6 +64,12 @@
     color: var(--form-text-input-color);
 }
 
+.workout-form-date {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--form-text-input-color);
+}
+
 #exercise-input-div {
     margin: 15px 0px;
     display: flex;
@@ -83,7 +90,7 @@
 
 .exercise-entry-form > input[type=textarea] {
     min-height: 50px;
-    min-width: 475px;
+    min-width: 400px;
     margin-top: 5px;
     border-radius: 8px;
     text-indent: 3px;
@@ -97,16 +104,21 @@
     text-indent: 3px;
 }
 
-.exercise-entry-form > input[type=date] {
+.exercise-entry-form > input[type=file] {
+    width: 207px;
+}
+
+
+/* .exercise-entry-form > input[type=date] {
     height: 30px;
     border-radius: 8px;
     color: gray;
     text-indent: 3px;
-}
+} */
 
 #exercise-input-div > input[type=text] {
     height: 30px;
-    min-width: 100px;
+    min-width: 50px;
     border-radius: 8px;
     text-indent: 5px;
 }
@@ -114,7 +126,7 @@
 #exercise-input-div > input[type=number] {
     height: 30px;
     border-radius: 8px;
-    width: 100px;
+    width: 50px;
     text-indent: 3px;
 }
 
@@ -149,6 +161,7 @@
     width: 75%;
     width: 95%;
     margin: 10px auto;
+    opacity: 75%;
 }
 
 .workout-form-line#line-one {
@@ -167,10 +180,10 @@
 
 .fuzzy-dropdown {
     position: absolute;
-    left: 20%;
+    left: 19%;
     top: auto;
     margin-top: 60px;
-    margin-left: 3px;
+    margin-left: 6px;
     width: 170px;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);

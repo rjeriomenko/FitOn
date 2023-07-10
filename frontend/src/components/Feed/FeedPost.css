@@ -91,6 +91,11 @@ p, h3 {
 	flex-direction: row;
 	justify-content: flex-start;
 	column-gap: 0.25em;
+	position: relative;
+}
+
+.feed-post-header-text-row > * {
+	/* padding: 0px 2px; */
 }
 
 .feed-post-row span {
@@ -108,6 +113,9 @@ p, h3 {
 }
 
 .post-follow {
+	position: relative;
+	padding: 2px;
+	bottom: 2px;
 	font-weight: 600;
 }
 

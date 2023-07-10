@@ -146,16 +146,16 @@ function FeedPostWorkout ({feedPost}) {
 
 					<div className="feed-post-header-container">
 						<div className="feed-post-header-text-row">
-						<Link to={`/feed/${userId}`}>
-							<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div>
-						</Link>
-						{!(userId === sessionUser._id) && <>
+							<Link to={`/feed/${userId}`}>
+								<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div>
+							</Link>
+							{!(userId === sessionUser._id) && <>
+								·
+								<div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>
+							</>
+							}
 							·
-						<div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>
-						</>
-						}
-						·
-						<div className="post-timestamp">{timestamp}</div>
+							<div className="post-timestamp">{timestamp}</div>
 						</div>
 						<div className="feed-post-header-text-row">
 							<i className="fa-solid fa-clock"></i>&nbsp;{`${totalTime()} minutes`}

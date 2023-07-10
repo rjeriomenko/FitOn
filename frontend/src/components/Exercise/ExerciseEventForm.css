@@ -63,6 +63,12 @@
     color: var(--form-text-input-color);
 }
 
+.workout-form-date {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--form-text-input-color);
+}
+
 #exercise-input-div {
     margin: 15px 0px;
     display: flex;
@@ -149,6 +155,7 @@
     width: 75%;
     width: 95%;
     margin: 10px auto;
+    opacity: 75%;
 }
 
 .workout-form-line#line-one {

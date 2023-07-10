@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { logout } from '../../store/session';
 import { createGoal } from "../../store/goals";
+import { useLocation } from 'react-router-dom';
 
 import './NavBar.css';
 
@@ -12,7 +13,9 @@ function NavBar () {
   const dispatch = useDispatch();
   const [mouseOver, setMouseOver] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  
+  const locationPath = useLocation().pathname;
+
+  const onFeed = new RegExp(/^\/feed/i).test(locationPath) || new RegExp(/^\/discover/i).test(locationPath);
   const openMenu = () => {
     if (showMenu) return;
     setShowMenu(true);
@@ -27,7 +30,7 @@ function NavBar () {
 
     document.addEventListener('click', closeMenu);
     return () => document.removeEventListener("click", closeMenu);
-  }, [showMenu]);
+  }, [showMenu, locationPath]);
 
   const logoutUser = e => {
       e.preventDefault();
@@ -113,17 +116,35 @@ function NavBar () {
     }
   }
 
+  console.log(onFeed)
+
   return (
     <>
-      <div className={`nav-bar-container ${loggedIn ? "logged-in-navbar" : ""}`}>
+      <div className={`nav-bar-container ${loggedIn ? "logged-in-navbar" : ""} ${onFeed ? "nav-bar-container-feed" : ""}`}>
         <div className={`nav-bar-main ${loggedIn ? "logged-in-navbar" : ""}`}>
-          <Link to={"/"}><div className={`text-logo ${loggedIn ? "logged-in-logo" : ""}`}>g<i className="fa-solid fa-arrows-to-circle"></i>algetters</div></Link>
-          <div className={`nav-bar-divider ${loggedIn ? "logged-in-divider" : ""}`}></div>
-          <div className='links-menu'>
-            <ul className="links-auth nav-links">
-              { getLinks() }
-              { loggedIn && renderTestLinks() }
-            </ul>
+          <div className='upper-nav-bar-padding'>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div className='upper-nav-bar'>
+            <div className='upper-nav-filler'></div>
+            <div className='upper-nav-logo-container'>
+            <Link to={"/"}><div className={`text-logo ${loggedIn ? "logged-in-logo" : ""}`}>g<i className="fa-solid fa-arrows-to-circle"></i>algetters</div></Link>
+            </div>
+            <div className='upper-nav-filler'></div>
+          </div>
+          <div className='navbar-divider-container'>
+            <div className={`nav-bar-divider ${loggedIn ? "logged-in-divider" : ""}`}></div>
+
+          </div>
+          <div className='lower-nav-bar'>
+            <div className='links-menu'>
+              <ul className="links-auth nav-links">
+                { getLinks() }
+                { loggedIn && renderTestLinks() }
+              </ul>
+            </div>
           </div>
         </div>
 

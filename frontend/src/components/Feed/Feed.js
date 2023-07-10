@@ -124,11 +124,6 @@ function Feed ({discoverMode, options = {}}) {
   const filteredDiscoversGoalPosts = filterPostsBy(discoverGoals, filterOptions);
   const filteredDiscoversWorkoutPosts = filterPostsBy(discoverWorkouts, filterOptions);
 
-  // const combinedPosts = 
-  //   userId ? [...filteredGoalPosts, ...filteredWorkoutPosts] : 
-  //   discoverMode ? [...filteredFollowGoalPosts, ...filteredFollowWorkoutPosts, ...filteredDiscoversGoalPosts, ...filteredDiscoversWorkoutPosts]
-  //     : [...filteredGoalPosts, ...filteredWorkoutPosts, ...filteredFollowGoalPosts, ...filteredFollowWorkoutPosts];
-
   const combinedGoals =
     userId ? [...filteredGoalPosts] : 
     discoverMode ? [...filteredFollowGoalPosts, ...filteredDiscoversGoalPosts].filter(post => post.user._id !== sessionUser._id)
@@ -141,7 +136,7 @@ function Feed ({discoverMode, options = {}}) {
 
   const combinedPosts = goalsOnly ? combinedGoals : (workoutsOnly ? combinedWorkouts : [...combinedGoals, ...combinedWorkouts]);
 
-  // Temporary fix to remove any possible duplicates:
+  // Fix to ensure no duplicates:
   const uniquePosts = [];
   const map = new Map();
   for (const post of combinedPosts) {
@@ -151,7 +146,6 @@ function Feed ({discoverMode, options = {}}) {
     }
   }
 
-  // const sortedCombinedPosts = sortFeedPostsBy(combinedPosts, "date");
   const sortedCombinedPosts = sortFeedPostsBy(uniquePosts, "date");
 
   
@@ -159,9 +153,7 @@ function Feed ({discoverMode, options = {}}) {
   let headerText;
   if(userId){
     if(userId === sessionUser._id) headerText = "your goals and workouts"
-    // else headerText = `${sortedGoalPosts ? sortedGoalPosts[0].setter.concat(`...`) : "nothing here..."}`
     else {
-      // headerText = `${sortedCombinedPosts?.length ? sortedCombinedPosts[0].user.username?.concat("'s goals and workouts") : "nothing here..."}`
       headerText = `${notSessionUser?.username?.concat("'s goals and workouts")}`
     }
   } else if(discoverMode){
@@ -203,14 +195,9 @@ function Feed ({discoverMode, options = {}}) {
       <div className='feed-posts-container'>
         <FollowNavBar goalsOnly={goalsOnly} setGoalsOnly={setGoalsOnly} workoutsOnly={workoutsOnly} setWorkoutsOnly={setWorkoutsOnly}/>
         <div className='inner-feed-posts-container'>
-          {/* <div onClick={e => setTestPropNum(old => old + 1)}>CLICK</div> */}
-          {/* {testPropNum} */}
-          {/* <TestProps testPropNum={testPropNum}/> */}
           {renderPosts()}
         </div>
-        <div className='filler-div'>
-       
-        </div>
+        <div className='filler-div'>{/* Exists to balance FollowNavBar and center inner-feed-posts-container */}</div>
       </div>
     </>
   );

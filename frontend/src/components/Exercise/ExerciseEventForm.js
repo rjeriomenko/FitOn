@@ -21,43 +21,43 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const sessionUser = useSelector(state => state.session.user);
     const currentGoal = sessionUser?.currentGoal;
     const currentGoalId = currentGoal?._id;
-    
-    const exerciseOptions = exerciseList;
-
-    // const exerciseOptions = ['Boxing', 'Burpees', 'Calf Raises', 'Crunches', 'Cycling', 'Dynamic Stretching', 
-    //     'Elliptical', 'Glute Bridges', 'Jump Rope', 'Lunges', 'Mountain Climbers', 'Pilates', 'Pullups', 'Pushups', 
-    //     'Rowing', 'Running', 'Russian Twists', 'Squats', 'Stair Runs', 'Supermans', 'Swimming', 'Water Aerobics', 'Yoga', 'Zumba'];
 
     const options = {
         keys: ['exercise'],
         threshold: 0.3
     };
-
+    
+    const exerciseOptions = exerciseList;
     const fuse = new Fuse(exerciseOptions.map(exercise => ({ exercise })), options);
 
-    const handleFuzzyChange = (value) => {
+    
+
+
+    const handleFuzzyChange = (value, index) => {
         const results = fuse.search(value);
         setFuzzyResults(results)
     };
 
-    const handleFuzzySelect = (result) => {
+    const handleFuzzySelect = (result, index) => {
         const selectedExercise = result.item.exercise;
-        const inputs = [...exerciseInputs];
-        inputs[0] = { ...inputs[0], name: selectedExercise };
+        const inputs = exerciseInputs.map((input, i) => {
+            if (i === index) {
+              return { ...input, name: selectedExercise };
+            }
+            return input;
+        });
+
         setExerciseInputs(inputs);
         setFuzzyResults([]);
     };
-
-    useEffect(() => {
-        return () => dispatch(clearExerciseEntryErrors());
-    }, [dispatch])
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
         const inputs = [...exerciseInputs]; 
         
         if (name === 'name') {
-            handleFuzzyChange(value)
+            handleFuzzyChange(value, index)
+            inputs[index] = { ...inputs[index], [name]: value };
         }
 
         inputs[index] = { ...inputs[index], [name]: value };
@@ -93,6 +93,10 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     };
 
     const updateFile = e => setImage(e.target.files[0]);
+
+    useEffect(() => {
+        return () => dispatch(clearExerciseEntryErrors());
+    }, [dispatch])
 
     return (
         <div className="exercise-form-container">
@@ -152,7 +156,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                                         <li
                                             key={result.refIndex}
                                             className="fuzzy-dropdown-item"
-                                            onClick={() => handleFuzzySelect(result)}
+                                            onClick={() => handleFuzzySelect(result, index)}
                                         >
                                             {result.item.exercise}
                                         </li>

@@ -17,6 +17,7 @@ const exerciseList = [
     'Calf raises',
     'Russian twists',
     'Bicycle crunches',
+    'Crunches',
     'Flutter kicks',
     'Running',
     'Cycling',

@@ -107,7 +107,7 @@ router.get('/byUser/:userId', requireUser, async (req, res, next) => {
 });
 
 // GET by goalId
-router.get('/byGoal/:goalId', requireUser, async (req, res, next) => {
+router.get('/byGoal/:goalId', async (req, res, next) => {
     try {
         const entries = await ExerciseEntry.find({ goal: req.params.goalId })
             .populate('user', '_id username imgUrl createdAt')

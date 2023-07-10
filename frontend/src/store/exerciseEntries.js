@@ -244,7 +244,7 @@ export const exerciseEntryErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const exerciseEntriesReducer = (state = { user: {}, goal: {}, follows: {}, discovers: {}, updated: undefined, new: undefined }, action) => {
+const exerciseEntriesReducer = (state = { user: {}, goal: {}, byGoal: {}, follows: {}, discovers: {}, updated: undefined, new: undefined }, action) => {
     let newState = { ...state };
 
     switch (action.type) {
@@ -253,7 +253,7 @@ const exerciseEntriesReducer = (state = { user: {}, goal: {}, follows: {}, disco
         case RECEIVE_USER_EXERCISE_ENTRIES:
             return { ...newState, user: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_GOAL_EXERCISE_ENTRIES:
-            return { ...newState, goal: {...newState.goal, ...action.exerciseEntries}, updated: undefined, new: undefined };
+            return { ...newState, byGoal: action.exerciseEntries, goal: {...newState.goal, ...action.exerciseEntries}, updated: undefined, new: undefined };
         case RECEIVE_FOLLOWS_EXERCISE_ENTRIES:
             return { ...newState, follows: action.exerciseEntries, updated: undefined, new: undefined };
         case RECEIVE_DISCOVERS_EXERCISE_ENTRIES:

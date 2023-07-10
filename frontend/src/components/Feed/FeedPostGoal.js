@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { deleteGoal, updateGoal, getGoal, fetchUserGoal } from "../../store/goals";
 import { Link } from "react-router-dom";
-import { fetchUserExerciseEntries,getUserExerciseEntries } from "../../store/exerciseEntries";
+import { fetchUserExerciseEntries, getUserExerciseEntries, getGoalExerciseEntries } from "../../store/exerciseEntries";
 import { createFollow, deleteFollow, getFollows } from "../../store/follows";
 
 function FeedPostGoal ({feedPost}) {
@@ -15,7 +15,7 @@ function FeedPostGoal ({feedPost}) {
 	const username = feedPost.user?.username;
 	const userId = feedPost.user?._id;
 
-	const exerciseEntries = Object.values(useSelector(getUserExerciseEntries)).filter(entry => entry.goal?._id === goalId)
+	const exerciseEntries = Object.values(useSelector(getGoalExerciseEntries)).filter(entry => entry.goal?._id === goalId)
 	const formatDate = (dateText) => {
 		return new Date(dateText).toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"numeric", hour12: true})
 	}
@@ -36,7 +36,7 @@ function FeedPostGoal ({feedPost}) {
 	// Custom display text
 	const latestExerciseText = () => {
 		if(!exerciseEntries || exerciseEntries.length === 0) return "No workouts yet";
-		const lastEntry = exerciseEntries[exerciseEntries.length - 1];
+		const lastEntry = exerciseEntries[0];
 		const lastDate = formatDate(lastEntry.date);
 		const text = `Latest workout: ${lastEntry.note} - ${lastDate}`
 		return text;

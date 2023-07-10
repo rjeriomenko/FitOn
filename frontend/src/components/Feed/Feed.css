@@ -80,9 +80,10 @@
 }
 
 .feed-profile-picture {
-	height: 50px;
-	width: 50px;
-	border-radius: 20px;
+	height: 60px;
+	width: 60px;
+	object-fit: cover;
+	border-radius: 50%;
 }
 
 .post-photo-container {

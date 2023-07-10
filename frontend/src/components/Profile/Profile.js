@@ -217,6 +217,9 @@ function Profile () {
       {/* GOAL'S WORKOUT SELECTOR - START */}
       {/* GOAL'S WORKOUT SELECTOR - START */}
       <div className='profile-container-styles profile-goal-workout-content-container'>
+        {/* <div className='workout-log-bg-photo-box'> */}
+          {/* {mouseOverTextData && <img className='workout-log-bg-photo' src={mouseOverTextData.imgUrl} />} */}
+        {/* </div> */}
         {/* WORKOUT SELECTOR - START */}
         {/* WORKOUT SELECTOR - START */}
         <div className="profile-workout-selector-container workout-component">
@@ -228,6 +231,10 @@ function Profile () {
         {/* STICKY EXERCISE BREAKDOWN - START */}
         {/* STICKY EXERCISE BREAKDOWN - START */}
         <div className="profile-exercise-chart workout-component">
+          <div className='workout-log-bg-photo-box'>
+            {/* {mouseOverTextData && <img className='workout-log-bg-photo' src={mouseOverTextData.imgUrl} />} */}
+            <div className='workout-log-bg-overlay'></div>
+          </div>
           <div className='exercise-entry-deets'>
             <div className='exercise-entry-deets-header'>
               <span>{mouseOverTextData ? new Date(mouseOverTextData.date).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"long", day:"numeric" }) : ""}</span>

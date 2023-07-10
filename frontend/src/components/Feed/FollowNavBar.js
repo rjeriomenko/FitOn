@@ -91,7 +91,8 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 			marker.style.left = (link.offsetLeft - 7)+'px';
 			marker.style.height = (link.offsetHeight + 4)+'px';
 			marker.style.width = (link.offsetWidth + 16)+'px';
-			link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
+			// link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
+			link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "#b7d2de";
 			link.classList.contains("active") ? marker.style.boxShadow = "2px 2px black" : marker.style.boxShadow = "2px 2px plum";
 			
 		}

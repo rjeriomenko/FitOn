@@ -32,8 +32,6 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const fuse = new Fuse(exerciseOptions.map(exercise => ({ exercise })), options);
 
     const handleFuzzyChange = (value, index) => {
-        // const results = fuse.search(value);
-        // setFuzzyResults(results)
         const results = fuse.search(value);
 
         if (results.length > 0) {
@@ -43,7 +41,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                     return { ...input, name: matchedExercise };
                 }
                 return input;
-                });
+            });
             setExerciseInputs(updatedInputs);
         }
 
@@ -71,7 +69,6 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
         if (name === 'name') {
             handleFuzzyChange(value, index);
             setFormIndex(index);
-            inputs[index] = { ...inputs[index], [name]: value };
         }
 
         inputs[index] = { ...inputs[index], [name]: value };

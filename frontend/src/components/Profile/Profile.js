@@ -114,7 +114,7 @@ function Profile () {
       const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
       const tile =
         <div onClick={() => setFreezeCalendar(freeze => !freeze)} onMouseEnter={handleMouseEnter} key={workout._id} workoutid={workout._id}>
-          <ExerciseEntryTile workout={workout}/>
+          <ExerciseEntryTile workout={workout} frozen={freezeCalendar}/>
         </div>
       generatedTiles.push(tile)
     })

@@ -50,7 +50,7 @@
 }
 
 .profile-goal-workout-content-container {
-	/* height: 200px; */
+	min-height: 200px;
 	position: relative;
 	display: flex;
 	/* align-items: stretch; */

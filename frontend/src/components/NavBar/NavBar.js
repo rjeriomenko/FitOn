@@ -116,7 +116,7 @@ function NavBar () {
     }
   }
 
-  console.log(onFeed)
+  // console.log(onFeed)
 
   return (
     <>

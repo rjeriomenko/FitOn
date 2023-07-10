@@ -180,10 +180,10 @@
 
 .fuzzy-dropdown {
     position: absolute;
-    left: 20%;
+    left: 19%;
     top: auto;
     margin-top: 60px;
-    margin-left: 3px;
+    margin-left: 6px;
     width: 170px;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);

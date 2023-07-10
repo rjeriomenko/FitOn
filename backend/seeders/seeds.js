@@ -23,12 +23,16 @@ mongoose.connect(db, {
 });
 
 //generate ImgUrl array from reading workoutImages.csv
-const workoutImageData = fs.readFileSync(path.resolve(__dirname, './workoutImages.csv'), { encoding: 'utf8' })
+const workoutImageData = fs.readFileSync(path.resolve(__dirname, './workoutImages.csv'), { encoding: 'utf8' });
 const workoutImageArray = workoutImageData.split(',\n');
 
 //generate ImgUrl array from reading goalImages.csv
-const goalImageData = fs.readFileSync(path.resolve(__dirname, './goalImages.csv'), { encoding: 'utf8' })
+const goalImageData = fs.readFileSync(path.resolve(__dirname, './goalImages.csv'), { encoding: 'utf8' });
 const goalImageArray = goalImageData.split(',\n');
+
+//generate ImgUrl array from reading profileImages.csv
+const profileImageData = fs.readFileSync(path.resolve(__dirname, './profileImages.csv'), { encoding: 'utf8' });
+const profileImageArray = profileImageData.split(',\n');
 
 // Seed function
 const seedData = async () => {
@@ -56,21 +60,24 @@ const seedData = async () => {
         const demoUser = new User({
             username: "demo user",
             email: "demo@user.io",
-            hashedPassword: bcrypt.hashSync("password", 10)
+            hashedPassword: bcrypt.hashSync("password", 10),
+            imgUrl: getRandomProfileImgUrl()
         });
         const savedDemoUser = await demoUser.save();
 
         const triathlonUser = new User({
             username: "triathlonRunner123",
             email: "triathlon@demo.io",
-            hashedPassword: bcrypt.hashSync("password", 10)
+            hashedPassword: bcrypt.hashSync("password", 10),
+            imgUrl: getRandomProfileImgUrl()
         });
         const savedTriUser = await triathlonUser.save();
 
         const fullBodyUser = new User({
             username: "fullBodyTrainer",
             email: "fullbody@demo.io",
-            hashedPassword: bcrypt.hashSync("password", 10)
+            hashedPassword: bcrypt.hashSync("password", 10),
+            imgUrl: getRandomProfileImgUrl()
         });
         const savedFullUser = await fullBodyUser.save();
 
@@ -359,13 +366,18 @@ const getRandomRating = () => {
 }
 
 const getRandomWorkoutImgUrl = () => {
-    const length = workoutImageArray.length
-    return workoutImageArray[Math.floor(length * Math.random())]
+    const length = workoutImageArray.length;
+    return workoutImageArray[Math.floor(length * Math.random())];
 }
 
 const getRandomGoalImgUrl = () => {
-    const length = goalImageArray.length
-    return goalImageArray[Math.floor(length * Math.random())]
+    const length = goalImageArray.length;
+    return goalImageArray[Math.floor(length * Math.random())];
+}
+
+const getRandomProfileImgUrl = () => {
+    const length = profileImageArray.length;
+    return profileImageArray[Math.floor(length * Math.random())];
 }
 
 const getRandomSets = () => {

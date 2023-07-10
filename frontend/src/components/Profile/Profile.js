@@ -1,15 +1,12 @@
-import GoalIndexItem from '../Goals/GoalIndexItem';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { deleteGoal, fetchUserGoals } from '../../store/goals'
 import { updateUser, getUser, fetchUser } from '../../store/users';
 import { getCurrentUser } from '../../store/session';
-
-import { fetchAllUserExerciseEntries, fetchUserExerciseEntries } from '../../store/exerciseEntries';
+import { fetchAllUserExerciseEntries, fetchUserExerciseEntries, fetchGoalExerciseEntries } from '../../store/exerciseEntries';
+import { fetchGoalExercises, getGoalKeyExercises, fetchUserExercises, getUserKeyExercises } from '../../store/exercises';
 import { getUserExerciseEntries } from '../../store/exerciseEntries';
-
-import { sampleExerciseEntries } from './ProfileSeedData';
 import ExerciseEntryTile from './ExerciseEntryTile';
 
 import { formatTwoDigitNumberString } from '../../utils/utils';
@@ -17,7 +14,6 @@ import { formatTwoDigitNumberString } from '../../utils/utils';
 import './Profile.css';
 
 import DataVis from './DataVis';
-import { fetchGoalExercises, fetchUserExercises, getUserKeyExercises } from '../../store/exercises';
 
 function Profile () {
   const dispatch = useDispatch();
@@ -26,19 +22,12 @@ function Profile () {
   const user = useSelector(getUser(userId));
   const currentGoal = user?.currentGoal;
   
-  
   const userExerciseEntries = useSelector(getUserExerciseEntries);
-  // const userExerciseEntriesArray = Object.values(userExerciseEntries);
-  // const currentGoalWorkouts = userExerciseEntriesArray.filter(workout => workout.goal._id === currentGoal._id)
 
   const userWorkoutsAll = Object.values(useSelector(getUserExerciseEntries));
   const userExercisesAll = Object.values(useSelector(getUserKeyExercises));
 
-
-  const sampleExerciseEntryData = Object.values(sampleExerciseEntries);
-
   const [mouseOverTextData, setMouseOverTextData] = useState(undefined);
-  const [sampleTileSet, setSampleTileSet] = useState([]);
   const [mouseOverTextDataRows, setMouseOverTextDataRows] = useState([]);
   const [mouseOverDataTotals, setMouseOverDataTotals] = useState({});
 
@@ -46,12 +35,9 @@ function Profile () {
   const [submitStatus, setSubmitStatus] = useState('Submit');
   const [freezeCalendar, setFreezeCalendar] = useState(false);
 
-
   const [timeGraph, setTimeGraph] = useState(true);
   const goalExercises = useSelector(state => state.exercises.byGoal ? state.exercises.byGoal : {});
   const goalExercisesCount = Object.keys(goalExercises).length;
-
-  // let mouseOverTextDataRows;
 
   const updateFile = e => setImage(e.target.files[0]);
 
@@ -78,33 +64,30 @@ function Profile () {
   const handleMouseEnter = (e) => {
     if(!freezeCalendar) {
       const tileId = e.currentTarget.getAttribute('workoutid');
-      const matchingExerciseEntry = userWorkoutsAll.find(workout => {
+      const matchingWorkout = userWorkoutsAll.find(workout => {
         return workout._id.toString() === tileId
-      });
-      setMouseOverTextData(matchingExerciseEntry); 
-  
+    });
+    
+      setMouseOverTextData(matchingWorkout); 
+      
       let totalSets = 0;
       let totalReps = 0;
       let totalWeight = 0;
       let totalTime = 0;
+      const filteredExercises = Object.values(goalExercises).filter(exercise => exercise.workout._id === matchingWorkout._id)
 
-
-  
-      // BELOW BUG!!! mouseOverTextData will not have updated via above line of code,
-      // and read as 'undefined'.
-      // setMouseOverTextDataRows(mouseOverTextData?.exerciseEntry?.exercises?.map(exercise => {
-      setMouseOverTextDataRows(matchingExerciseEntry?.exerciseEntry?.exercises?.map(exercise => {
+      setMouseOverTextDataRows(filteredExercises.map(exercise => {
         totalSets += exercise.sets ? exercise.sets : 0;
         totalReps += exercise.reps ? exercise.reps : 0;
         totalWeight += exercise.weight ? exercise.weight : 0;
-        totalTime += exercise.time ? exercise.time : 0;
+        totalTime += exercise.time ? parseInt(exercise.time) : 0;
         return (
           <tr>
             <td>{exercise.name}</td>      
-            <td>{exercise.sets ? exercise.sets : 0}</td>      
-            <td>{exercise.reps ? exercise.reps : 0}</td>      
-            <td>{exercise.weight ? exercise.weight : 0}</td>      
-            <td>{exercise.time ? exercise.time : 0}</td>      
+            <td>{exercise.sets ? exercise.sets : 'n/a'}</td>      
+            <td>{exercise.reps ? exercise.reps : 'n/a'}</td>      
+            <td>{exercise.weight ? exercise.weight + (' lbs') : 'n/a'} </td>      
+            <td>{exercise.time ? exercise.time : 'n/a'} m</td>      
           </tr>
         )
       }))
@@ -131,42 +114,11 @@ function Profile () {
       const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
       const tile =
         <div onClick={() => setFreezeCalendar(freeze => !freeze)} onMouseEnter={handleMouseEnter} key={workout._id} workoutid={workout._id}>
-          {/* <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={workout.rating} dateText={workout.date} note={workout.note} exerciseEntry={workout}/> */}
           <ExerciseEntryTile workout={workout}/>
         </div>
       generatedTiles.push(tile)
     })
     return generatedTiles;
-
-    // DEMO ONLY - START
-    // DEMO ONLY - START
-    // DEMO ONLY - START
-    // Create 23 fake sets of same seed data with randomized associated images, 
-    // and random ratings (that differ from the sample data's ratings, for color variation appeal)
-    // for(let i = 0; i < 23; i++){
-    //   const shuffledBase = sortedByDate.sort(() => Math.random() - 0.5)
-    //   shuffledBase.slice(0, 3).forEach(entry => {
-    //       // RANDOM RATING
-    //       // const displayedRating = Math.floor(Math.random() * 5) + 1;
-    //       // ACTUAL RATING
-    //       const displayedRating = entry?.exerciseEntry.rating;
-    //       const numSamplePhotos = 7;
-    //       const randomImageNumber = Math.floor(Math.random() * numSamplePhotos) + 1;
-    //       const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
-    //       const tile =
-    //         // <div onMouseEnter={handleMouseEnter} dataExerciseEntryId={entry.exerciseEntryId} >
-    //         <div onMouseEnter={handleMouseEnter} key={entry.exerciseEntryId+`${i}`} dataExerciseEntryId={entry.exerciseEntryId}>
-    //           {/* NON sample dataset might look more like this: */}
-    //           {/* <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={entry.exerciseEntry.rating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/> */}
-    //           <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={displayedRating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/>
-    //         </div>
-    //       generatedTiles.push(tile)
-    //   })
-    // }
-    // return generatedTiles;
-    // DEMO ONLY - END
-    // DEMO ONLY - END
-    // DEMO ONLY - END
 
   };
 
@@ -216,27 +168,13 @@ function Profile () {
     dispatch(fetchUser(userId))
     dispatch(fetchUserGoals(userId))
     dispatch(fetchUserExerciseEntries(userId))
-    // dispatch(fetchGoalExercises(currentGoal?._id))
     dispatch(fetchUserExercises(userId))
+    dispatch(fetchGoalExercises(currentGoal?._id));
+    dispatch(fetchGoalExerciseEntries(currentGoal?._id));
 
-    // // RANDOM SCRAMBLE DEMO DATA IF RANDOM RATING IS ON
-    // let repeats = 0;
-    // let interval = setInterval(() => {
-    //   repeats += 1;
-    //   if(repeats === 5) clearInterval(interval)
-    //   setSampleTileSet(generateEntryTilesForGoal(21, sampleExerciseEntryData));      
-    // }, 100)
-    // Here is where we can actually render actual state
-
-    // DEMO
-    // setSampleTileSet(generateEntryTilesForGoal(21, sampleExerciseEntryData));
-    // NON-DEMO
-    // setSampleTileSet(generateEntryTilesForGoal(currentGoal?._id, userExercisesAll));
   }, [])
   
   const tiles = generateEntryTilesForGoal(currentGoal?._id, userWorkoutsAll)
-  // setSampleTileSet(tiles)
-  // setSampleTileSet(generateEntryTilesForGoal(currentGoal?._id, userExercisesAll));
 
   if (!userExerciseEntries) {
     return (
@@ -283,7 +221,6 @@ function Profile () {
         {/* WORKOUT SELECTOR - START */}
         {/* WORKOUT SELECTOR - START */}
         <div className="profile-workout-selector-container workout-component">
-          {/* {sampleTileSet} */}
           {tiles}
         </div>
         {/* WORKOUT SELECTOR - END */}
@@ -319,8 +256,8 @@ function Profile () {
                 <th>Totals</th>
                 <td>{mouseOverDataTotals.sets}</td>
                 <td>{mouseOverDataTotals.reps}</td>
-                <td>{mouseOverDataTotals.weight}</td>
-                <td>{mouseOverDataTotals.time}</td>
+                <td>{mouseOverDataTotals.weight} { mouseOverTextDataRows.length ? 'lbs' : null }</td>
+                <td>{mouseOverDataTotals.time} { mouseOverTextDataRows.length ? 'm' : null }</td>
               </tr>
             </tfoot>
           </table>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createExerciseEntry, clearExerciseEntryErrors } from '../../store/exerciseEntries';
-import { createExercise } from '../../store/exercises';
+import { createExercise, fetchGoalExercises } from '../../store/exercises';
 import exerciseList from './ExerciseList';
 import Fuse from 'fuse.js';
 import './ExerciseEventForm.css'
@@ -97,7 +97,9 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                 const exerciseEntryId = Object.keys(res)[0];
                 const createExercisePromises = exerciseInputs.map((exercise) =>
                     dispatch(createExercise(exerciseEntryId, exercise))
+                    .then(() => dispatch(fetchGoalExercises(currentGoalId)))
                 );
+                
 
                 Promise.all(createExercisePromises)
             })

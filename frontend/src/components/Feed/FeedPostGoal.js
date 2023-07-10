@@ -105,6 +105,7 @@ function FeedPostGoal ({feedPost}) {
 
 	const animateOnce = (e) => {
 		const post = e.currentTarget.querySelector(".post-divider");
+		// const title = document
 		post.classList.add("post-hover-animation");
 		setTimeout(() => {
 			post.classList.remove("post-hover-animation");
@@ -122,11 +123,23 @@ function FeedPostGoal ({feedPost}) {
 					<Link to={`/feed/${userId}`}>
 					  <img className="feed-profile-picture" src={user?.imgUrl || "https://www.lightsong.net/wp-content/uploads/2020/12/blank-profile-circle.png"} />
 					</Link>
-					<Link to={`/feed/${userId}`}>
-						<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div>
-					</Link>
-					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>}
-					<div className="post-timestamp">{timestamp}</div>
+					<div className="feed-post-header-container">
+						<div className="feed-post-header-text-row">
+							<Link to={`/feed/${userId}`}>
+								<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div>
+							</Link>
+							
+							{!(userId === sessionUser._id) && <>
+								·
+								<div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>
+							</>}
+							·
+							<div className="post-timestamp">{timestamp}</div>
+						</div>
+						<div className="feed-post-header-text-row">
+							<div className="feed-post-goal-target">{`Goal Target: ${deadline}`}</div>
+						</div>
+					</div>
 					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
 						<i className="fa-solid fa-ellipsis"></i>
 						{showMenu && 
@@ -152,10 +165,10 @@ function FeedPostGoal ({feedPost}) {
 				</div>
 				<br/>
 				<div className="post-toprow">
-					<Link to={`/profile/${userId}`}>{!editable && <div className="feed-post-row">
-						<span className="post-goal-title">{formTitle}</span>
-						<span>·</span>
-						<span className="post-goal-description">{formDescription}</span>
+					<Link to={`/profile/${userId}`}>{!editable && <div className="feed-post-row feed-goal-text-box">
+						<div className="post-title post-goal-title">{formTitle}</div>
+						{/* <div>·</div> */}
+						<div className="post-goal-description">{formDescription}</div>
 					</div>}</Link>
 				</div>
 				

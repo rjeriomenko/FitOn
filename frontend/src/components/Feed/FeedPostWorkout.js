@@ -143,11 +143,26 @@ function FeedPostWorkout ({feedPost}) {
 					<Link to={`/feed/${userId}`}>
 					  <img className="feed-profile-picture" src={user?.imgUrl || "https://www.lightsong.net/wp-content/uploads/2020/12/blank-profile-circle.png"} />
 					</Link>
-					<Link to={`/feed/${userId}`}>
-						<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div>
-					</Link>
-					{!(userId === sessionUser._id) && <div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>}
-					<div className="post-timestamp">{timestamp}</div>
+
+					<div className="feed-post-header-container">
+						<div className="feed-post-header-text-row">
+						<Link to={`/feed/${userId}`}>
+							<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div>
+						</Link>
+						{!(userId === sessionUser._id) && <>
+							·
+						<div onClick={handleToggleFollow} className={`post-follow ${isFollowing ? "following" : "not-following"} `}>{isFollowing ? "following" : "follow"}</div>
+						</>
+						}
+						·
+						<div className="post-timestamp">{timestamp}</div>
+						</div>
+						<div className="feed-post-header-text-row">
+							<i className="fa-solid fa-clock"></i>&nbsp;{`${totalTime()} minutes`}
+						</div>
+					</div>
+
+
 					{(sessionUser._id === userId) && <div className="post-ellipsis" onClick={openMenu}>
 						<i id="post-ellipsis-icon"className="fa-solid fa-ellipsis"></i>
 						{showMenu && 
@@ -172,10 +187,10 @@ function FeedPostWorkout ({feedPost}) {
 				<br/>
 				<div className="post-toprow">
 					<Link to={`/profile/${userId}`}>{!editable && <div className="feed-post-row">
-						<span className="post-goal-title">{formNote}</span>
+						<span className="post-title">{formNote}</span>
 						<div className="post-workout-subtitle">
 							<div className="post-workout-time-total">
-								<i className="fa-solid fa-clock"></i>&nbsp;{`${totalTime()} minutes`}
+								{/* PLACEHOLDER */}
 							</div>
 							<div className="rating-container">
 								<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>

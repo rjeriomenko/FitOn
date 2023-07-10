@@ -28,9 +28,10 @@ function Profile () {
   
   
   const userExerciseEntries = useSelector(getUserExerciseEntries);
-  const userExerciseEntriesArray = Object.values(userExerciseEntries);
+  // const userExerciseEntriesArray = Object.values(userExerciseEntries);
   // const currentGoalWorkouts = userExerciseEntriesArray.filter(workout => workout.goal._id === currentGoal._id)
 
+  const userWorkoutsAll = Object.values(useSelector(getUserExerciseEntries));
   const userExercisesAll = Object.values(useSelector(getUserKeyExercises));
 
 
@@ -43,6 +44,7 @@ function Profile () {
 
   const [image, setImage] = useState(null);
   const [submitStatus, setSubmitStatus] = useState('Submit');
+  const [freezeCalendar, setFreezeCalendar] = useState(false);
 
 
   const [timeGraph, setTimeGraph] = useState(true);
@@ -74,51 +76,69 @@ function Profile () {
   }
 
   const handleMouseEnter = (e) => {
-    const tileId = e.currentTarget.getAttribute('dataExerciseEntryId');
-    const matchingExerciseEntry = sampleExerciseEntryData.find(exerciseEntry => {
-      return exerciseEntry.exerciseEntryId.toString() === tileId
-    });
-    setMouseOverTextData(matchingExerciseEntry); 
+    if(!freezeCalendar) {
+      const tileId = e.currentTarget.getAttribute('workoutid');
+      const matchingExerciseEntry = userWorkoutsAll.find(workout => {
+        return workout._id.toString() === tileId
+      });
+      debugger
+      setMouseOverTextData(matchingExerciseEntry); 
+  
+      let totalSets = 0;
+      let totalReps = 0;
+      let totalWeight = 0;
+      let totalTime = 0;
 
-    let totalSets = 0;
-    let totalReps = 0;
-    let totalWeight = 0;
-    let totalTime = 0;
 
-    // BELOW BUG!!! mouseOverTextData will not have updated via above line of code,
-    // and read as 'undefined'.
-    // setMouseOverTextDataRows(mouseOverTextData?.exerciseEntry?.exercises?.map(exercise => {
-    setMouseOverTextDataRows(matchingExerciseEntry?.exerciseEntry?.exercises?.map(exercise => {
-      totalSets += exercise.sets ? exercise.sets : 0;
-      totalReps += exercise.reps ? exercise.reps : 0;
-      totalWeight += exercise.weight ? exercise.weight : 0;
-      totalTime += exercise.time ? exercise.time : 0;
-      return (
-        <tr>
-          <td>{exercise.name}</td>      
-          <td>{exercise.sets ? exercise.sets : 0}</td>      
-          <td>{exercise.reps ? exercise.reps : 0}</td>      
-          <td>{exercise.weight ? exercise.weight : 0}</td>      
-          <td>{exercise.time ? exercise.time : 0}</td>      
-        </tr>
-      )
-    }))
-    setMouseOverDataTotals({sets: totalSets, reps: totalReps, weight: totalWeight, time: totalTime})
-
+  
+      // BELOW BUG!!! mouseOverTextData will not have updated via above line of code,
+      // and read as 'undefined'.
+      // setMouseOverTextDataRows(mouseOverTextData?.exerciseEntry?.exercises?.map(exercise => {
+      setMouseOverTextDataRows(matchingExerciseEntry?.exerciseEntry?.exercises?.map(exercise => {
+        totalSets += exercise.sets ? exercise.sets : 0;
+        totalReps += exercise.reps ? exercise.reps : 0;
+        totalWeight += exercise.weight ? exercise.weight : 0;
+        totalTime += exercise.time ? exercise.time : 0;
+        return (
+          <tr>
+            <td>{exercise.name}</td>      
+            <td>{exercise.sets ? exercise.sets : 0}</td>      
+            <td>{exercise.reps ? exercise.reps : 0}</td>      
+            <td>{exercise.weight ? exercise.weight : 0}</td>      
+            <td>{exercise.time ? exercise.time : 0}</td>      
+          </tr>
+        )
+      }))
+      setMouseOverDataTotals({sets: totalSets, reps: totalReps, weight: totalWeight, time: totalTime})
+    }
   }
 
-  const generateEntryTilesForGoal = (goalId, exerciseEntriesArray) => {
+  const generateEntryTilesForGoal = (goalId, workoutsArray) => {
     // Filter for the goal
-    const filteredByGoal = exerciseEntriesArray.filter(exerciseEntry => {
-      return exerciseEntry.goalId === goalId;
+    const filteredByGoal = workoutsArray.filter(workout => {
+      return workout.goal._id === goalId;
     })
     // Sort by the date
     const sortedByDate = filteredByGoal.toSorted((a, b) => {
-      return new Date(a.exerciseEntry.date) - new Date(b.exerciseEntry.date)
+      return new Date(a.date) - new Date(b.date)
     })
 
     // Generate tiles
     const generatedTiles = [];
+    
+    sortedByDate.forEach((workout, i) => {
+      const numSamplePhotos = 7;
+      const randomImageNumber = Math.floor(Math.random() * numSamplePhotos) + 1;
+      const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
+      // debugger
+      const tile =
+        <div onClick={() => setFreezeCalendar(freeze => !freeze)} onMouseEnter={handleMouseEnter} key={workout._id} workoutid={workout._id}>
+          {/* <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={workout.rating} dateText={workout.date} note={workout.note} exerciseEntry={workout}/> */}
+          <ExerciseEntryTile workout={workout}/>
+        </div>
+      generatedTiles.push(tile)
+    })
+    return generatedTiles;
 
     // DEMO ONLY - START
     // DEMO ONLY - START
@@ -145,39 +165,11 @@ function Profile () {
     //       generatedTiles.push(tile)
     //   })
     // }
+    // return generatedTiles;
     // DEMO ONLY - END
     // DEMO ONLY - END
     // DEMO ONLY - END
 
-    // ACTUAL DATA - START
-    // ACTUAL DATA - START
-    // ACTUAL DATA - START
-
-    // currentGoalWorkouts
-    
-      sortedByDate.forEach((entry, i) => {
-          // RANDOM RATING
-          // const displayedRating = Math.floor(Math.random() * 5) + 1;
-          // ACTUAL RATING
-          const displayedRating = entry?.exerciseEntry.rating;
-          const numSamplePhotos = 7;
-          const randomImageNumber = Math.floor(Math.random() * numSamplePhotos) + 1;
-          const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
-          const tile =
-            // <div onMouseEnter={handleMouseEnter} dataExerciseEntryId={entry.exerciseEntryId} >
-            <div onMouseEnter={handleMouseEnter} key={entry.exerciseEntryId+`${i}`} dataExerciseEntryId={entry.exerciseEntryId}>
-              {/* NON sample dataset might look more like this: */}
-              {/* <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={entry.exerciseEntry.rating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/> */}
-              <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={displayedRating} dateText={entry.exerciseEntry.date} note={entry.exerciseEntry.note} exerciseEntry={entry}/>
-            </div>
-          generatedTiles.push(tile)
-      })
-
-    // ACTUAL DATA - END
-    // ACTUAL DATA - END
-    // ACTUAL DATA - END
-
-    return generatedTiles;
   };
 
   const progressTitle = () => {
@@ -241,10 +233,11 @@ function Profile () {
     // DEMO
     // setSampleTileSet(generateEntryTilesForGoal(21, sampleExerciseEntryData));
     // NON-DEMO
-    setSampleTileSet(generateEntryTilesForGoal(currentGoal?._id, userExercisesAll));
+    // setSampleTileSet(generateEntryTilesForGoal(currentGoal?._id, userExercisesAll));
   }, [])
-  debugger
-
+  
+  const tiles = generateEntryTilesForGoal(currentGoal?._id, userWorkoutsAll)
+  // setSampleTileSet(tiles)
   // setSampleTileSet(generateEntryTilesForGoal(currentGoal?._id, userExercisesAll));
 
   if (!userExerciseEntries) {
@@ -292,7 +285,8 @@ function Profile () {
         {/* WORKOUT SELECTOR - START */}
         {/* WORKOUT SELECTOR - START */}
         <div className="profile-workout-selector-container workout-component">
-          {sampleTileSet}
+          {/* {sampleTileSet} */}
+          {tiles}
         </div>
         {/* WORKOUT SELECTOR - END */}
         {/* WORKOUT SELECTOR - END */}
@@ -302,10 +296,10 @@ function Profile () {
         <div className="profile-exercise-chart workout-component">
           <div className='exercise-entry-deets'>
             <div className='exercise-entry-deets-header'>
-              <span>{mouseOverTextData ? mouseOverTextData?.exerciseEntry?.date : ""}</span>
-              <span>{mouseOverTextData ? `${mouseOverTextData?.exerciseEntry?.rating}/5` : ""}</span>
+              <span>{mouseOverTextData ? new Date(mouseOverTextData.date).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"long", day:"numeric" }) : ""}</span>
+              <span>{mouseOverTextData ? `${mouseOverTextData?.rating}/5` : ""}</span>
             </div>
-            <span className='exercise-entry-deets-note'>{mouseOverTextData?.exerciseEntry?.note}</span>
+            <span className='exercise-entry-deets-note'>{mouseOverTextData?.note}</span>
           </div>
           <div className='chart-div'></div>
           <table className='exercise-chart-table'>

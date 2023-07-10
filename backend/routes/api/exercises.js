@@ -45,7 +45,7 @@ router.get('/byUser/:userId', async (req, res, next) => {
     try {
         const exercises = await Exercise.find({ user: req.params.userId })
             .populate('user', '_id username imgUrl')
-            .populate('workout', '_id date imgUrl')
+            .populate('workout', '_id date note rating imgUrl')
             .populate('goal', '_id title imgUrl')
                 //  populate goal provides null to goal
             

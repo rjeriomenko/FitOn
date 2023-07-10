@@ -2,10 +2,25 @@ import "./FollowNavBar.css";
 import { useSelector } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
 import { useEffect } from "react";
+import { useState } from "react";
 
 const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) => {
 	const sessionUser = useSelector(state => state.session.user);
 	const randomNum = () => Math.random();
+	const [scrolledFeed, setScrolledFeed] = useState(false);
+
+	const handleScroll = (e) => {
+		const distanceScrolled = document.documentElement.scrollTop;
+		console.log(distanceScrolled)
+		const followNavBar = document.querySelector(".follow-nav-bar-container")
+		if(distanceScrolled > 450) {
+			setScrolledFeed(true)
+			// followNavBar.style.classList.add("scrolled-follow-nav-bar")
+		} else {
+			setScrolledFeed(false)
+			// followNavBar.style.classList.remove("scrolled-follow-nav-bar")
+		}
+	}
 
 	const resetMarker = (e) => {
 		const marker = document.querySelector(".hover-marker")
@@ -32,9 +47,9 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 				// marker.style.top = topEdgeY + ("px");
 			}
 			
-			marker.style.width = (link.offsetWidth + 6)+'px';
+			marker.style.width = (link.offsetWidth + 16)+'px';
 			marker.style.top = (link.offsetTop - 2)+'px';
-			marker.style.left = (link.offsetLeft - 2)+'px';
+			marker.style.left = (link.offsetLeft - 8)+'px';
 			marker.style.height = (link.offsetHeight + 4)+'px';
 			// link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
 			// link.classList.contains("active") ? marker.style.boxShadow = "2px 2px black" : marker.style.boxShadow = "2px 2px plum";
@@ -73,9 +88,9 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 		marker.style.opacity = "1";
 		if(e.type==="mouseenter") {
 			marker.style.top = (link.offsetTop - 2)+'px';
-			marker.style.left = (link.offsetLeft - 2)+'px';
+			marker.style.left = (link.offsetLeft - 7)+'px';
 			marker.style.height = (link.offsetHeight + 4)+'px';
-			marker.style.width = (link.offsetWidth + 6)+'px';
+			marker.style.width = (link.offsetWidth + 16)+'px';
 			link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
 			link.classList.contains("active") ? marker.style.boxShadow = "2px 2px black" : marker.style.boxShadow = "2px 2px plum";
 			
@@ -99,6 +114,9 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 	}
 
 	useEffect(() => {
+
+		document.addEventListener("scroll", handleScroll)
+
 		const links = document.querySelector(".follow-nav-bar-container").querySelectorAll("li");
 		// const linksBox = document.querySelector(".feed-links-box")
 		// const links = linksBox.querySelectorAll("a");
@@ -111,17 +129,22 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 				link.removeEventListener("mouseenter", shiftMarker)
 				link.removeEventListener("mouseleave", shiftMarker)
 			})
+			document.removeEventListener("scroll", handleScroll)
 		}
 	}, [])
 
 	return (
-		<div className="follow-nav-bar-container" >
+		<div className="follow-nav-bar-container-outer">
+		<div className={`follow-nav-bar-container  ${scrolledFeed ? "scrolled-follow-nav-bar" : ""}`} >
 			<div className="hover-marker" ></div>
-			<div className="feed-links-box" onMouseEnter={resetMarker} onMouseLeave={resetMarker}>
+			<div className={`feed-links-box`} onMouseEnter={resetMarker} onMouseLeave={resetMarker}>
 				<ul className="feed-links-list">
-					<li className="feed-nav-top-link"><NavLink exact to={{pathname:`/discover`, discoverTriggerRerender: randomNum()}}>Discover</NavLink></li>
-					<li className="feed-nav-mid-link"><NavLink exact to={`/feed`}>Follows</NavLink></li>
-					<li className="feed-nav-bot-link"><NavLink exact to={`/feed/${sessionUser._id}`}>{sessionUser.username}</NavLink></li>
+					<li className="feed-nav-link feed-nav-top-link"><NavLink exact to={{pathname:`/discover`, discoverTriggerRerender: randomNum()}}><i class="fa-solid fa-magnifying-glass"></i>Discover</NavLink></li>
+					{/* <li className="feed-nav-link feed-nav-top-link"><NavLink exact to={{pathname:`/discover`, discoverTriggerRerender: randomNum()}}>Discover</NavLink></li> */}
+					<li className="feed-nav-link feed-nav-mid-link"><NavLink exact to={`/feed`}><i class="fa-solid fa-house"></i>Follows</NavLink></li>
+					{/* <li className="feed-nav-link feed-nav-mid-link"><NavLink exact to={`/feed`}>Follows</NavLink></li> */}
+					<li className="feed-nav-link feed-nav-bot-link"><NavLink exact to={`/feed/${sessionUser._id}`}><i class="fa-solid fa-user"></i>{sessionUser.username}</NavLink></li>
+					{/* <li className="feed-nav-link feed-nav-bot-link"><NavLink exact to={`/feed/${sessionUser._id}`}>{sessionUser.username}</NavLink></li> */}
 				</ul>
 			</div>
 			<div className="post-type-filter-container">
@@ -133,6 +156,7 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 					<i className="fa-solid fa-person-running"></i>
 				</div>
 			</div>
+		</div>
 		</div>
 	)
 }

@@ -9,7 +9,8 @@
 
 .feed-header {
 	padding-top: 30px;
-	margin: 20px 0px;
+	padding-left: 100px;
+	margin: 30px 0px;
 	font-family: var(--montserrat);
 	font-weight: 500;
 	white-space:nowrap;
@@ -38,10 +39,7 @@
 	/* padding-right: 5vw; */
 }
 
-.filler-div {
-	/* display: none; */
-	width: 20%
-}
+
 
 .inner-feed-posts-container {
 	width: 60%;

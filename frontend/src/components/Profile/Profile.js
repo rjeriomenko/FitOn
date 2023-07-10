@@ -184,10 +184,6 @@ function Profile () {
   
   return (
     <div className='profile-container'>
-      <h3>Update Profile Picture</h3>
-      <input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
-      <input className="profile-submit" type="submit" value={submitStatus} onClick={handleSubmit} />
-
       {/* DATA VIZ - START */}
       {/* DATA VIZ - START */}
       <div className="progress-header">
@@ -214,10 +210,10 @@ function Profile () {
       {/* DATA VIZ - END */}
       {/* DATA VIZ - END */}
 
+    <div className='profile-workout-calendar-container'>
       {/* GOAL'S WORKOUT SELECTOR - START */}
       {/* GOAL'S WORKOUT SELECTOR - START */}
       <div className='profile-container-styles profile-goal-workout-content-container'>
-
         {/* WORKOUT SELECTOR - START */}
         {/* WORKOUT SELECTOR - START */}
         <div className="profile-workout-selector-container workout-component">
@@ -264,12 +260,18 @@ function Profile () {
         </div>
         {/* STICKY EXERCISE BREAKDOWN - END */}
         {/* STICKY EXERCISE BREAKDOWN - END */}
-
       </div>
       {/* GOAL'S WORKOUT SELECTOR - END */}
       {/* GOAL'S WORKOUT SELECTOR - END */}
+    </div>
       
+      <div className="profile-line"></div>
 
+      <div className='profile-container-styles update-profile-picture'>
+        <h3>Update Profile Picture</h3>
+        <input type="file" accept=".jpg, .jpeg, .png" id="imageInput" onChange={updateFile} />
+        <input className="profile-submit" type="submit" value={submitStatus} onClick={handleSubmit} />
+      </div>
     </div>
   )
 }

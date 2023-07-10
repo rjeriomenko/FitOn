@@ -17,7 +17,7 @@ p, h3 {
 	/* width: 40vw; */
 	margin: 15px;
 	/* margin-left: 10vw; */
-	margin-left: 55px;
+	/* margin-left: 55px; */
 	border-right: none;
 	border-bottom: none;
 	border: none;
@@ -449,7 +449,7 @@ p, h3 {
 .post-ellipsis:hover {
 	cursor: pointer;
 	border-radius: 50%;
-	background-color: rgb(243, 242, 239);
+	background-color: rgb(223, 222, 219);
 }
 
 .post-dropdown {

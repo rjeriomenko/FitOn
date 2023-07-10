@@ -17,6 +17,8 @@
 
 .feed-posts-container {
 	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -46,7 +48,10 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: flex-start;
+	/* align-items: flex-start; */
+
+	/* CENTER ENTIRE FEED */
+	align-items: center;
 	margin-bottom: 80px;
 	/* opacity: 0; */
 	/* animation: mainFadeAnimation 01s ease 0.2s 1 normal forwards; */
@@ -81,7 +86,10 @@
 
 .feed-profile-picture {
 	height: 40px;
+	/* height: 100%; */
 	width: 40px;
+	/* width: auto; */
+	/* border-radius: 20px; */
 	border-radius: 50%;
 	margin-right: 20px;
 }

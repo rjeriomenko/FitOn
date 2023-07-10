@@ -120,7 +120,7 @@ body {
 }
 
 .logged-in-divider {
-	width: 40%;
+	width: 40vw;
 	transition: width 0.3s ease 0.7s;	
 }
 
@@ -198,4 +198,8 @@ span {
 	border-bottom: 1px solid var(--medium-blue);
     width: 50%;
     margin: 10px auto;
+}
+
+.profile-dropdown > li > a > i {
+	width: 1em;
 }

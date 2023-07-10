@@ -39,7 +39,7 @@ function NavBar () {
       return (
         <>
           <li className="nav-link-id"><Link to={'/feed'}>Home</Link></li>
-          <li className="nav-link-id"><Link to={`/profile/${sessionUser._id}`}>Tools</Link></li>
+          <li className="nav-link-id"><Link to={`/profile/${sessionUser._id}`}>Stats</Link></li>
           <li className="nav-link-id"><Link to={`/users/${sessionUser._id}/goals`}>My Goal</Link></li>
           {/* <li className="nav-link-id"><a onClick={logoutUser}>Logout</a></li> */}
         </>
@@ -89,7 +89,7 @@ function NavBar () {
 
               <li className="nav-link-id">
                 <Link to={`/profile/${sessionUser._id}`}>
-                  <i id="profile-dropdown-icon" class="fa-solid fa-user"></i>Profile
+                  <i id="profile-dropdown-icon" class="fa-solid fa-user"></i>My Stats
                 </Link>
               </li>
 
@@ -115,10 +115,8 @@ function NavBar () {
 
   return (
     <>
-      {/* <div className={`nav-bar-offset ${loggedIn ? "logged-in-navbar" : ""} `}/> */}
       <div className={`nav-bar-container ${loggedIn ? "logged-in-navbar" : ""}`}>
         <div className={`nav-bar-main ${loggedIn ? "logged-in-navbar" : ""}`}>
-          {/* <Link to={"/"}><img className="nav-bar-logo" src={require(`../../images/logo-v1-03.png`)}/></Link> */}
           <Link to={"/"}><div className={`text-logo ${loggedIn ? "logged-in-logo" : ""}`}>g<i className="fa-solid fa-arrows-to-circle"></i>algetters</div></Link>
           <div className={`nav-bar-divider ${loggedIn ? "logged-in-divider" : ""}`}></div>
           <div className='links-menu'>

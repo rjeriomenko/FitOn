@@ -1,5 +1,8 @@
 .profile-container {
 	/* position: absolute; */
+	padding-top: 30px;
+	padding-left: 90px;
+	padding-right: 90px;
 	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
@@ -11,7 +14,12 @@
 
 .profile-container * {
 	box-sizing: border-box;
-	
+}
+
+.profile-container > h3 {
+	font-size: 3rem;
+	font-family: var(--montserrat);
+	font-weight: 500;
 }
 
 .profile-container-styles {
@@ -22,6 +30,14 @@
 	margin: 5px;
 	align-self: center;
 	width: 90%;
+}
+
+.profile-workout-calendar-container {
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .profile-goal-workout-content-container {
@@ -41,7 +57,7 @@
 }
 
 .profile-workout-selector-container {
-	min-height:700px;
+	/* min-height:700px; */
 	flex-grow: 2;
 	/* width: 75%; */
 	flex-basis: 0;
@@ -143,9 +159,16 @@ tfoot * {
 #progress-goal-title {
 	margin: 20px 0;
 	font-family: var(--montserrat);
+	font-family: var(--sans-serif);
 	font-weight: bold;
 	letter-spacing: 1px;
 	font-size: 38px;
+	color: var(--orange);
+	color: black;
+
+	/* font-size: 3rem; */
+	/* font-family: var(--montserrat); */
+	/* font-weight: 500; */
 }
 
 .progress-header {
@@ -164,6 +187,10 @@ tfoot * {
 #progress-subheader {
 	letter-spacing: -0.5px;
 	font-size: 22px;
+	
+	font-size: 3rem;
+	font-family: var(--montserrat);
+	font-weight: 500;
 }
 
 .profile-line {
@@ -268,4 +295,8 @@ tfoot * {
 
 .toggle-graph input:checked~.slider-labels::before {
 	opacity: 1;
+}
+
+.update-profile-picture {
+	padding-bottom: 40px;
 }

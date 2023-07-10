@@ -37,7 +37,11 @@ const ExerciseEntryTile = ({workout}) => {
 			</div>
 			<div className={`tile-rating-overlay tile-rating-${rating}`}>
 				<div className={`tile-date-text`}>{dateParts}</div>
+				<div className={`rating-clearly rating-clearly-${rating}`}>
+					{`Rating: ${rating}`}
+				</div>
 			</div>
+			
 		</div>
 	)
 }

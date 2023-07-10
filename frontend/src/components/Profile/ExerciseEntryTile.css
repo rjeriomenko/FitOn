@@ -76,7 +76,12 @@
 	top: 0px;
 	width: var(--tile-side-length);
 	height: var(--tile-side-length);
+	height: 100%;
 	transition: background-color 0.5s, color 1s;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	justify-content: space-between;
 }
 
 .tile-date-text {
@@ -98,7 +103,6 @@
 
 .tile-rating-5 span {
 	color: var(--medium-blue);
-
 }
 
 .tile-date-text span:nth-child(1) {
@@ -106,8 +110,15 @@
 	font-weight: 400;
 }
 
+.tile-rating-1 span:nth-child(2), .tile-rating-1 span:nth-child(3) {
+	color:var(--black);
+}
+
+.tile-rating-3 span:nth-child(1) {
+	color:var(--dark-blue);
+}
+
 .tile-rating-5 span:nth-child(1) {
-	color:rgb(121, 119, 141);
 	color:var(--white);
 }
 
@@ -191,4 +202,17 @@
 	}
 }
 
+.rating-clearly {
+	justify-self: flex-end;
+	padding-left: 2px;
+	padding-bottom: 2px;
+	font-size: 0.75em;
+}
 
+.rating-clearly-1, .rating-clearly-2 {
+	color: black;
+}
+
+.rating-clearly-3, .rating-clearly-4, .rating-clearly-5 {
+	color: white;
+}

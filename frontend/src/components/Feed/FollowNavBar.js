@@ -139,12 +139,12 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 			<div className="hover-marker" ></div>
 			<div className={`feed-links-box`} onMouseEnter={resetMarker} onMouseLeave={resetMarker}>
 				<ul className="feed-links-list">
-					<li className="feed-nav-link feed-nav-top-link"><NavLink exact to={{pathname:`/discover`, discoverTriggerRerender: randomNum()}}><i class="fa-solid fa-magnifying-glass"></i>Discover</NavLink></li>
-					{/* <li className="feed-nav-link feed-nav-top-link"><NavLink exact to={{pathname:`/discover`, discoverTriggerRerender: randomNum()}}>Discover</NavLink></li> */}
-					<li className="feed-nav-link feed-nav-mid-link"><NavLink exact to={`/feed`}><i class="fa-solid fa-house"></i>Follows</NavLink></li>
-					{/* <li className="feed-nav-link feed-nav-mid-link"><NavLink exact to={`/feed`}>Follows</NavLink></li> */}
-					<li className="feed-nav-link feed-nav-bot-link"><NavLink exact to={`/feed/${sessionUser._id}`}><i class="fa-solid fa-user"></i>{sessionUser.username}</NavLink></li>
-					{/* <li className="feed-nav-link feed-nav-bot-link"><NavLink exact to={`/feed/${sessionUser._id}`}>{sessionUser.username}</NavLink></li> */}
+					{/* <li className="feed-nav-link feed-nav-top-link"><NavLink exact to={{pathname:`/discover`, discoverTriggerRerender: randomNum()}}><i class="fa-solid fa-magnifying-glass"></i>Discover</NavLink></li> */}
+					<li className="feed-nav-link feed-nav-top-link"><NavLink exact to={{pathname:`/discover`, discoverTriggerRerender: randomNum()}}>Discover</NavLink></li>
+					{/* <li className="feed-nav-link feed-nav-mid-link"><NavLink exact to={`/feed`}><i class="fa-solid fa-house"></i>Follows</NavLink></li> */}
+					<li className="feed-nav-link feed-nav-mid-link"><NavLink exact to={`/feed`}>Follows</NavLink></li>
+					{/* <li className="feed-nav-link feed-nav-bot-link"><NavLink exact to={`/feed/${sessionUser._id}`}><i class="fa-solid fa-user"></i>{sessionUser.username}</NavLink></li> */}
+					<li className="feed-nav-link feed-nav-bot-link"><NavLink exact to={`/feed/${sessionUser._id}`}>{sessionUser.username}</NavLink></li>
 				</ul>
 			</div>
 			<div className="post-type-filter-container">

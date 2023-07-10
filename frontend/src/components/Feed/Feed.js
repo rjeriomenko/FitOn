@@ -159,7 +159,8 @@ function Feed ({discoverMode, options = {}}) {
   } else if(discoverMode){
     headerText = "other amazing goalgetters";
   } else {
-    headerText = "together is better"
+    // headerText = "together is better"
+    headerText = "your community"
   }
 
   const renderHeaderText = () => {

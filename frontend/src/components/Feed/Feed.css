@@ -9,15 +9,21 @@
 
 .feed-header {
 	padding-top: 30px;
-	padding-left: 100px;
+	padding-bottom: 20px;
+	padding-left: 65px;
 	margin: 30px 0px;
 	font-family: var(--montserrat);
 	font-weight: 500;
 	white-space:nowrap;
+	width: 1330px;
+	margin: 0px auto;
+	box-sizing: border-box;
 }
 
 .feed-posts-container {
-	min-width: 600px;
+	/* min-width: 600px; */
+	min-width: 1330px;
+	width: 1330px;
 	position: relative;
 	left: 50%;
 	transform: translateX(-50%);
@@ -42,6 +48,8 @@
 
 
 .inner-feed-posts-container {
+	min-width: 600px;
+	margin-top: 6px;
 	width: 60%;
 	justify-self: center;
 	display: flex;

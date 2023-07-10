@@ -40,6 +40,25 @@ router.post('/:workoutId', requireUser, validateExerciseInput, async (req, res, 
     }
 });
 
+// get exercises PER USER
+router.get('/byUser/:userId', async (req, res, next) => {
+    try {
+        const exercises = await Exercise.find({ user: req.params.userId })
+            .populate('user', '_id username imgUrl')
+            .populate('workout', '_id date note rating imgUrl')
+            .populate('goal', '_id title imgUrl')
+                //  populate goal provides null to goal
+            
+            
+        const exercisesObj = {};
+        exercises.forEach(exercise => exercisesObj[exercise._id] = exercise);
+
+        return res.json(exercisesObj);
+    } catch (err) {
+        next(err);
+    }
+});
+
 // get exercises PER GOAL
 router.get('/byGoal/:goalId', async (req, res, next) => {
     try {

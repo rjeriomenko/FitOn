@@ -13,6 +13,35 @@
 	width: var(--tile-side-length);
 	height:var(--tile-side-length);
 	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.tile-background-1 {
+	color: var(--black);
+	/* color: blue; */
+}
+
+.tile-background-2 {
+	color: var(--black);
+	/* color: blue; */
+}
+
+.tile-background-3 {
+	color: var(--black);
+	/* color: blue; */
+}
+
+.tile-background-4 {
+	color: var(--white);
+	/* color: blue; */
+}
+
+.tile-background-5 {
+	color: var(--white);
+	color:white;
+	/* color: blue; */
 }
 
 .tile-photo {
@@ -22,6 +51,16 @@
 	transform: scale(1);
 	transition: all 0.5s ease;
 	animation: reverseTileImgHover 0.5s linear 0s 1 reverse forwards;
+}
+
+.tile-placeholder {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.tile-placeholder > i {
+	font-size: 1.7em;
 }
 
 .exercise-outer-container:hover {
@@ -69,6 +108,7 @@
 
 .tile-rating-5 span:nth-child(1) {
 	color:rgb(121, 119, 141);
+	color:var(--white);
 }
 
 .exercise-outer-container:hover .tile-rating-overlay {
@@ -126,9 +166,11 @@
 @keyframes tileImgHover {
 	0% {
 		transform: scale(1);
+		color: rgb(48, 48, 48);
 	}
 	100%{
 		transform: scale(1.8);
+		color: rgb(48, 48, 48);
 	}
 }
 @keyframes reverseTileContainerHover {

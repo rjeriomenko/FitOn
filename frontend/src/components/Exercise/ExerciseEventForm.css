@@ -164,3 +164,24 @@
     font-style: italic;
     color: gray;
 }
+
+.fuzzy-dropdown {
+    position: absolute;
+    left: 20%;
+    top: auto;
+    margin-top: 100px;
+    width: 170px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1px;
+}
+
+.fuzzy-dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.fuzzy-dropdown-item:hover {
+    background-color: #f5f5f5;
+}
+

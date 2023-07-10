@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createExerciseEntry, clearExerciseEntryErrors } from '../../store/exerciseEntries';
 import { createExercise } from '../../store/exercises';
+import exerciseList from './ExerciseList';
+import Fuse from 'fuse.js';
 import './ExerciseEventForm.css'
 
 function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
@@ -12,21 +14,65 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const [note, setNote] = useState('');
     const [rating, setRating] = useState('');
     const [image, setImage] = useState(null);
+    const [fuzzyResults, setFuzzyResults] = useState([]);
     const [exerciseInputs, setExerciseInputs] = useState([{ name: '', sets: '', reps: '', time: '', weight: '' }]);
+    const [formIndex, setFormIndex] = useState(null);
     const errors = useSelector(state => state.errors.exerciseEntries)
 
     const sessionUser = useSelector(state => state.session.user);
     const currentGoal = sessionUser?.currentGoal;
     const currentGoalId = currentGoal?._id;
 
-    useEffect(() => {
-        return () => dispatch(clearExerciseEntryErrors());
-    }, [dispatch])
+    const options = {
+        keys: ['exercise'],
+        threshold: 0.3
+    };
+
+    const exerciseOptions = exerciseList;
+    const fuse = new Fuse(exerciseOptions.map(exercise => ({ exercise })), options);
+
+    const handleFuzzyChange = (value, index) => {
+        const results = fuse.search(value);
+
+        if (results.length > 0) {
+            const matchedExercise = results[0].item.exercise;
+            const updatedInputs = exerciseInputs.map((input, i) => {
+                if (i === index) {
+                    return { ...input, name: matchedExercise };
+                }
+                return input;
+            });
+            setExerciseInputs(updatedInputs);
+        }
+
+        setFuzzyResults(results);
+        
+    };
+
+    const handleFuzzySelect = (result, index) => {
+        const selectedExercise = result.item.exercise;
+        const inputs = exerciseInputs.map((input, i) => {
+            if (i === index) {
+              return { ...input, name: selectedExercise };
+            }
+            return input;
+        });
+
+        setExerciseInputs(inputs);
+        setFuzzyResults([]);
+    };
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
-        const inputs = [...exerciseInputs];
+        const inputs = [...exerciseInputs]; 
+        
+        if (name === 'name') {
+            handleFuzzyChange(value, index);
+            setFormIndex(index);
+        }
+
         inputs[index] = { ...inputs[index], [name]: value };
+
         setExerciseInputs(inputs);
     };
 
@@ -58,6 +104,10 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     };
 
     const updateFile = e => setImage(e.target.files[0]);
+
+    useEffect(() => {
+        return () => dispatch(clearExerciseEntryErrors());
+    }, [dispatch])
 
     return (
         <div className="exercise-form-container">
@@ -105,11 +155,27 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                                 <input
                                     type="text"
                                     name="name"
-                                    placeholder="Push-ups, jogging..."
+                                    placeholder="Push-ups, Running..."
                                     value={input.name}
                                     onChange={(e) => handleInputChange(e, index)}
                                     required
                                 />
+                                
+                                {index === formIndex && fuzzyResults.length > 0 && (
+                                    <ul className="fuzzy-dropdown">
+                                        {fuzzyResults.map((result) => (
+                                        <li
+                                            key={result.refIndex}
+                                            className="fuzzy-dropdown-item"
+                                            onClick={() => handleFuzzySelect(result, index)}
+                                        >
+                                            {result.item.exercise}
+                                        </li>
+                                        ))}
+
+                                    </ul>)
+                                }
+                                
                                 <div className="errors">{errors?.name}</div>
 
                                 <span id="exercise-input-span">Sets</span>

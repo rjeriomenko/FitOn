@@ -155,7 +155,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                                 <input
                                     type="text"
                                     name="name"
-                                    placeholder="Push-ups, jogging..."
+                                    placeholder="Push-ups, Running..."
                                     value={input.name}
                                     onChange={(e) => handleInputChange(e, index)}
                                     required

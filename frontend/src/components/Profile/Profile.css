@@ -32,6 +32,15 @@
 	width: 90%;
 }
 
+.empty-calendar-placeholder {
+	font-size: 2em;
+	font-style: italic;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 40px;
+}
+
 .profile-workout-calendar-container {
 	width: 90%;
 	display: flex;
@@ -191,12 +200,14 @@ tfoot * {
 	font-size: 3rem;
 	font-family: var(--montserrat);
 	font-weight: 500;
+	align-self: flex-start;
 }
 
 .profile-line {
+	justify-self: flex-start;
 	border-bottom: 1px dotted var(--orange);
     width: 50%;
-    margin: 10px auto;
+    /* margin: 10px auto; */
 }
 
 /* slider CSS */

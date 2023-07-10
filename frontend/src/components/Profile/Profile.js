@@ -125,9 +125,9 @@ function Profile () {
   const progressTitle = () => {
     if (user && user.username) {
       if (sessionUser._id === userId) {
-        return <h4 id="progress-subheader">· my progress ·</h4>;
+        return <h4 id="progress-subheader">my progress</h4>;
       } else {
-        return <h4 id="progress-subheader">· {user.username}'s progress ·</h4>;
+        return <h4 id="progress-subheader">{user.username}'s progress</h4>;
       }
     }
   };
@@ -155,7 +155,7 @@ function Profile () {
     } else if (!currentGoal && sessionUser._id === userId){
       return (
         <>
-          <h3 id="progress-goal-title">No Goal to Show</h3>
+          <h3 id="progress-goal-title">No Current Goal</h3>
           <h4 id="progress-subheader">set your goal and see your progress today</h4>
         </>
       )
@@ -186,8 +186,9 @@ function Profile () {
     <div className='profile-container'>
       {/* DATA VIZ - START */}
       {/* DATA VIZ - START */}
-      <div className="progress-header">
         {progressTitle()}
+        <div className="profile-line"></div>
+      <div className="progress-header">
         {displayCurrentGoal()}
       </div>
 
@@ -205,12 +206,14 @@ function Profile () {
         </div>
       </div>
       
+
+      {/* DATA VIZ - END */}
+      {/* DATA VIZ - END */}
+
+      <h4 id="progress-subheader">workouts log</h4>
       <div className="profile-line"></div>
 
-      {/* DATA VIZ - END */}
-      {/* DATA VIZ - END */}
-
-    <div className='profile-workout-calendar-container'>
+    {tiles.length > 0 ? <div className='profile-workout-calendar-container'>
       {/* GOAL'S WORKOUT SELECTOR - START */}
       {/* GOAL'S WORKOUT SELECTOR - START */}
       <div className='profile-container-styles profile-goal-workout-content-container'>
@@ -264,8 +267,13 @@ function Profile () {
       {/* GOAL'S WORKOUT SELECTOR - END */}
       {/* GOAL'S WORKOUT SELECTOR - END */}
     </div>
+    :
+    <div className='empty-calendar-placeholder'>Add a workout to start seeing your progress</div>
+    }
       
+      <h4 id="progress-subheader">profile settings</h4>
       <div className="profile-line"></div>
+
 
       <div className='profile-container-styles update-profile-picture'>
         <h3>Update Profile Picture</h3>

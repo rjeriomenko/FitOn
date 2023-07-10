@@ -114,10 +114,12 @@ export const createGoal = (goal) => async dispatch => {
 };
 
 export const updateGoal = (goal) => async dispatch => {
-    const { image, title, description } = goal;
+    const { image, title, description, completionDate } = goal;
     const formData = new FormData();
     formData.append("title", title)
     formData.append("description", description)
+    formData.append("completionDate", completionDate)
+    
     if (image) formData.append("image", image);
 
     try {

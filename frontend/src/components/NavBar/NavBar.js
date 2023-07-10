@@ -116,8 +116,6 @@ function NavBar () {
     }
   }
 
-  console.log(onFeed)
-
   return (
     <>
       <div className={`nav-bar-container ${loggedIn ? "logged-in-navbar" : ""} ${onFeed ? "nav-bar-container-feed" : ""}`}>

@@ -14,19 +14,31 @@
 	box-sizing: border-box;
 	/* transform-origin: top left; */
 	/* transform: scale(1.3); */
+	display: flex;
+	width: 173px;
+	min-width: 173px;
+	
 }
 
 .follow-nav-bar-container-outer, .filler-div {
 	/* display: none; */
-	width: 22%
+	width: 22%;
+	min-width: 173px;
 }
 
 .follow-nav-bar-container {
-	/* width: 100%; */
+	width: 100%;
 	/* height: 100%; */
 	/* transition: all 0.5s; */
+	padding: 15px;
 	transform-origin: top left;
 	transform: scale(1.15);
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 2.5px 5px 5px 1px #c8d6dd;
+	box-sizing: border-box;
+	width: 173px;
+	min-width: 173px;
 }
 
 .scrolled-follow-nav-bar {

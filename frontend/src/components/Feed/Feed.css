@@ -22,8 +22,8 @@
 
 .feed-posts-container {
 	/* min-width: 600px; */
-	min-width: 1280px;
-	width: 1280px;
+	min-width: 1330px;
+	width: 1330px;
 	position: relative;
 	left: 50%;
 	transform: translateX(-50%);

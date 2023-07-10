@@ -4,7 +4,6 @@ import { formatTwoDigitNumberString } from '../../utils/utils';
 
 const ExerciseEntryTile = ({workout}) => {
 // const ExerciseEntryTile = ({photoNum, rating, dateText, note, entry}) => {
-	debugger
 	const {imgUrl, rating, date, note} = workout;
 
 	const formattedDate = new Date(date).toLocaleDateString('en-us', { year:"numeric", month:"2-digit", day:"2-digit" });

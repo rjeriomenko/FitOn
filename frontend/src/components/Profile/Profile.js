@@ -81,7 +81,6 @@ function Profile () {
       const matchingExerciseEntry = userWorkoutsAll.find(workout => {
         return workout._id.toString() === tileId
       });
-      debugger
       setMouseOverTextData(matchingExerciseEntry); 
   
       let totalSets = 0;
@@ -130,7 +129,6 @@ function Profile () {
       const numSamplePhotos = 7;
       const randomImageNumber = Math.floor(Math.random() * numSamplePhotos) + 1;
       const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
-      // debugger
       const tile =
         <div onClick={() => setFreezeCalendar(freeze => !freeze)} onMouseEnter={handleMouseEnter} key={workout._id} workoutid={workout._id}>
           {/* <ExerciseEntryTile photoNum={twoDigitRandomImageNumber} rating={workout.rating} dateText={workout.date} note={workout.note} exerciseEntry={workout}/> */}

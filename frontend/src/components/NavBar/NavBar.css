@@ -168,7 +168,7 @@ body {
     z-index: 1;
     background-color: var(--light-blue);
     border: 1px solid var(--light-blue);
-    top: 90px;
+    top: 91px;
     right: 10px;
     opacity: 95%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -289,4 +289,13 @@ span {
 	/* backdrop-filter: hue-rotate(360deg) blur(5px); */
 	/* background-color: rgba(255,255,255,0.8); */
 	/* background-color: white; */
+}
+
+.fa-play {
+	transition: all 0.2s ease-out;
+	cursor: pointer;
+}
+
+.fa-play#dropdown-arrow-down {
+	transform: rotate(90deg);
 }

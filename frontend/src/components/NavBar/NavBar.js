@@ -17,7 +17,9 @@ function NavBar () {
 
   const onFeed = new RegExp(/^\/feed/i).test(locationPath) || new RegExp(/^\/discover/i).test(locationPath);
   const openMenu = () => {
+    const arrow = document.querySelector('#dropdown-arrow-up');
     if (showMenu) return;
+    if (arrow) arrow.id='dropdown-arrow-down';
     setShowMenu(true);
   };
 
@@ -25,6 +27,8 @@ function NavBar () {
     if (!showMenu) return;
 
     const closeMenu = () => {
+      const arrow = document.querySelector('#dropdown-arrow-down');
+      if (arrow) arrow.id = 'dropdown-arrow-up';
       setShowMenu(false);
     };
 
@@ -79,6 +83,7 @@ function NavBar () {
         <>
           <div className="nav-bar-aside">
             <img className="nav-bar-profile-picture" onClick={openMenu} src={sessionUser.imgUrl || "https://www.lightsong.net/wp-content/uploads/2020/12/blank-profile-circle.png"} />
+            <i className="fa-solid fa-play hoover" id="dropdown-arrow-up" onClick={openMenu}></i>
           </div>
 
           {showMenu && (

@@ -2,7 +2,7 @@ import './ExerciseEntryTile.css';
 
 import { formatTwoDigitNumberString } from '../../utils/utils';
 
-const ExerciseEntryTile = ({workout}) => {
+const ExerciseEntryTile = ({workout, frozen}) => {
 // const ExerciseEntryTile = ({photoNum, rating, dateText, note, entry}) => {
 	const {imgUrl, rating, date, note} = workout;
 
@@ -16,17 +16,25 @@ const ExerciseEntryTile = ({workout}) => {
 	
 
 	const animateOnce = (e) => {
-		const workoutContainer = e.currentTarget;
-		const workoutImg = workoutContainer.querySelector(".tile-background");
-		workoutContainer.classList.add("tile-container-hover");
-		workoutImg.classList.add("tile-img-hover");
+		if(!frozen) {
+			const workoutContainer = e.currentTarget;
+			const workoutImg = workoutContainer.querySelector(".tile-background");
+			const overlay = workoutContainer.querySelector(".tile-rating-overlay");
+			workoutContainer.classList.add("tile-container-hover");
+			workoutImg.classList.add("tile-img-hover");
+			overlay.classList.add("tile-active-overlay")
+		}
 	}
 
 	const reverseAnimation = (e) => {
-		const workoutContainer = e.currentTarget;
-		const workoutImg = workoutContainer.querySelector(".tile-background");
-		workoutContainer.classList.remove("tile-container-hover");
-		workoutImg.classList.remove("tile-img-hover");
+		if(!frozen) {
+			const workoutContainer = e.currentTarget;
+			const workoutImg = workoutContainer.querySelector(".tile-background");
+			const overlay = workoutContainer.querySelector(".tile-rating-overlay");
+			workoutContainer.classList.remove("tile-container-hover");
+			workoutImg.classList.remove("tile-img-hover");
+			overlay.classList.remove("tile-active-overlay")
+		}
 	}
 
 	return (

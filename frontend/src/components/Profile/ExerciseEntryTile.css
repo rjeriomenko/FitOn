@@ -123,9 +123,11 @@
 }
 
 .exercise-outer-container:hover .tile-rating-overlay {
-	background-color: white;
-	background-color: rgba(0,0,0,0);
-	color: black;
+	/* background-color: rgba(0,0,0,0); */
+}
+
+.tile-active-overlay {
+	background-color: rgba(0,0,0,0) !important;
 }
 
 .exercise-outer-container:hover .tile-date-text {

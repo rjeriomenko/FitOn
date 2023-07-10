@@ -1,13 +1,17 @@
 .goals-container {
-    padding: 40px 90px;
+    padding: 30px 90px;
 }
 
 .goals-container > h2 {
-    margin-top: 20px;
+    /* margin-top: 20px; */
     margin-bottom: 20px;
     color: var(--dark-blue);
     text-shadow: 1px 1px 4px var(--light-blue);
     font-family: var(--montserrat);
+
+    font-size: 3rem;
+	font-family: var(--montserrat);
+	font-weight: 500;
 }
 
 #current-goal {

@@ -193,7 +193,9 @@ function FeedPostWorkout ({feedPost}) {
 								{/* PLACEHOLDER */}
 							</div>
 							<div className="rating-container">
+								{/* <clipPath className="post-workout-rating-clippath"> */}
 								<div className={`post-workout-rating post-rating-${formRating}`}>{formRating}</div>
+								{/* </clipPath> */}
 							</div>
 						</div>
 					  

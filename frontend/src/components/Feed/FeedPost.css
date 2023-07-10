@@ -306,6 +306,10 @@ p, h3 {
 	margin-right: 10px;
 }
 
+/* .post-workout-rating-clippath { */
+	/* clip-path: ellipse(50px 60px at 0 10% 20%); */
+/* } */
+
 .post-workout-rating {
 	background-color: pink;
 	transform: scale(3);
@@ -313,6 +317,8 @@ p, h3 {
 	padding: 2px;
 	border: 2px solid rgba(0,0,0,0);
 	border-radius: 50%;
+	/* clip-path: ellipse(50px 60px at 0 10% 20%); */
+	/* clip-path: inset(10px 20px 30px 40px); */
 	width: 15px;
 	height: 15px;
 	text-align: center;

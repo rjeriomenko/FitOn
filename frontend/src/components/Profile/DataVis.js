@@ -1,13 +1,18 @@
 import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getGoalKeyExercises, fetchGoalExercises } from '../../store/exercises';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
 import './DataVis.css'
+
 
 function DataVis({ user, timeGraph }) {
   const chartRef = useRef(null);
   const currentGoalId = user.currentGoal?._id;
   const chartInstanceRef = useRef(null);
+  const dispatch = useDispatch();
+
+  const goalExercises = useSelector(getGoalKeyExercises);
   
   const fetchExerciseEntry = async () => {
     const res = await axios.get(`/api/exercises/byGoal/${currentGoalId}`);
@@ -24,8 +29,13 @@ function DataVis({ user, timeGraph }) {
           exerciseEntry[formattedDate] = {};
         }
 
-        exerciseEntry[formattedDate][name] = parseInt(time);
-      });
+        if (!exerciseEntry[formattedDate][name]) {
+          exerciseEntry[formattedDate][name] = parseInt(time);
+        } else {
+          exerciseEntry[formattedDate][name] += parseInt(time);
+        }
+
+      })
 
     } else {
       Object.values(data).forEach(exercise => {
@@ -37,8 +47,13 @@ function DataVis({ user, timeGraph }) {
           exerciseEntry[formattedDate] = {};
         }
         
-        exerciseEntry[formattedDate][name] = parseInt(sets * reps);
-      });
+        if (!exerciseEntry[formattedDate][name]) {
+          exerciseEntry[formattedDate][name] = parseInt(sets * reps);
+        } else {
+          exerciseEntry[formattedDate][name] += parseInt(sets * reps);
+        }
+
+      })
       
     }
 
@@ -191,6 +206,8 @@ function DataVis({ user, timeGraph }) {
   }
 
   useEffect(() => {
+    dispatch(fetchGoalExercises(currentGoalId));
+    if (currentGoalId) { fetchExerciseEntry() };
     currentGoalId ? createBarGraph() : createEmpty(); 
   }, [currentGoalId, timeGraph])
   

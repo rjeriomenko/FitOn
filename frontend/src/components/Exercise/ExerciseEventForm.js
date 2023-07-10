@@ -16,6 +16,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
     const [image, setImage] = useState(null);
     const [fuzzyResults, setFuzzyResults] = useState([]);
     const [exerciseInputs, setExerciseInputs] = useState([{ name: '', sets: '', reps: '', time: '', weight: '' }]);
+    const [formIndex, setFormIndex] = useState(null);
     const errors = useSelector(state => state.errors.exerciseEntries)
 
     const sessionUser = useSelector(state => state.session.user);
@@ -26,16 +27,28 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
         keys: ['exercise'],
         threshold: 0.3
     };
-    
+
     const exerciseOptions = exerciseList;
     const fuse = new Fuse(exerciseOptions.map(exercise => ({ exercise })), options);
 
-    
-
-
     const handleFuzzyChange = (value, index) => {
+        // const results = fuse.search(value);
+        // setFuzzyResults(results)
         const results = fuse.search(value);
-        setFuzzyResults(results)
+
+        if (results.length > 0) {
+            const matchedExercise = results[0].item.exercise;
+            const updatedInputs = exerciseInputs.map((input, i) => {
+                if (i === index) {
+                    return { ...input, name: matchedExercise };
+                }
+                return input;
+                });
+            setExerciseInputs(updatedInputs);
+        }
+
+        setFuzzyResults(results);
+        
     };
 
     const handleFuzzySelect = (result, index) => {
@@ -56,7 +69,8 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
         const inputs = [...exerciseInputs]; 
         
         if (name === 'name') {
-            handleFuzzyChange(value, index)
+            handleFuzzyChange(value, index);
+            setFormIndex(index);
             inputs[index] = { ...inputs[index], [name]: value };
         }
 
@@ -150,7 +164,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                                     required
                                 />
                                 
-                                {fuzzyResults.length > 0 && (
+                                {index === formIndex && fuzzyResults.length > 0 && (
                                     <ul className="fuzzy-dropdown">
                                         {fuzzyResults.map((result) => (
                                         <li
@@ -163,8 +177,6 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                                         ))}
 
                                     </ul>)
-                                        
-                                    
                                 }
                                 
                                 <div className="errors">{errors?.name}</div>

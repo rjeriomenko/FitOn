@@ -17,12 +17,46 @@ We recognize that it is rewarding to give and receive support. FitOn strives to 
         - Index of followed-users' routines and goal updates (completing or *CREATING* a goal)
 
 ## Data Visualization
-    - Shows goal progress over time 
-    - Stacked bar graph
-        - Chart.js
-        - Shows exercises stratified by date 
-    - Calendar graph
-        - Shows workouts stratified by date 
+![Dynamic Stacked Bar Graph](dataVis.gif)
+Once users have logged their workouts, they can view progress towards their current goals. A user's exercises are visualized on a stacked bar graph. Users can toggle the graph's Y-Axis with a switch.                  
+
+``` js
+    // fetches data
+    const data = await fetchExerciseEntry();
+    const dates = Object.keys(data);
+    dates.sort((a,b) => new Date(a) - new Date(b));
+
+    // finds unique exercises by flattening dates
+    const exercises = Array.from(
+      new Set(dates.flatMap(date => Object.keys(data[date])))
+    );
+    
+    // creates datasets by matching date to exercise 
+    const datasets = exercises.map(exercise => {
+      const dataset = {
+        label: exercise,
+        data: dates.map(date => data[date][exercise] || 0),
+        backgroundColor: generateRandomColor()
+      };
+
+      return dataset;
+    });
+```
+The dataset is generated from exercises that are stratified by name and date.
+
+``` js
+    // creating chart
+    const chartElement = chartRef.current;
+    const newChart = new Chart(chartElement, {
+      type: 'bar',
+      data: chartData,
+      options: chartOptions
+    });
+```
+The graph is created with Chart.js.
+
+![Calendar Graph](calendarGraph.gif)
+A user's workouts populate a dynamic calendar graph. The rating of each workout determines its color, allowing a user to easily see which workouts a user liked best. The graph displays details about each day's workout and logged exercises. The graph is created with CSS and JavaScript.
 
 ## Follows
     - Users can follow other users' progress
@@ -47,6 +81,7 @@ We recognize that it is rewarding to give and receive support. FitOn strives to 
 - JavaScript 
 - AWS 
 - Chart.js
+- Fuse.js
 
 ### Technical Challenges
 - Implementing interactive feed

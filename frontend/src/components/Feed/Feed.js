@@ -131,8 +131,8 @@ function Feed ({discoverMode, options = {}}) {
       
   const combinedWorkouts = 
     userId ? [...filteredWorkoutPosts] : 
-    discoverMode ? [...filteredFollowWorkoutPosts, ...filteredDiscoversWorkoutPosts].filter(post => post.user._id !== sessionUser._id)
-      : [...filteredWorkoutPosts, ...filteredFollowWorkoutPosts].filter(post => post.user._id !== sessionUser._id);
+    discoverMode ? [...filteredFollowWorkoutPosts, ...filteredDiscoversWorkoutPosts].filter(post => post.user?._id !== sessionUser?._id)
+      : [...filteredWorkoutPosts, ...filteredFollowWorkoutPosts].filter(post => post.user?._id !== sessionUser?._id);
 
   const combinedPosts = goalsOnly ? combinedGoals : (workoutsOnly ? combinedWorkouts : [...combinedGoals, ...combinedWorkouts]);
 

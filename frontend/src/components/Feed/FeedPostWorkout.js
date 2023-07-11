@@ -28,7 +28,7 @@ function FeedPostWorkout ({feedPost}) {
 	let isFollowing = followedIds.includes(userId)
 	const exercises = Object.values(useSelector(getWorkoutKeyExercises)).filter(exercise => exercise.workout._id === _id);
 	// const goalWorkouts = Object.values(useSelector(getGoalExerciseEntries));
-	const goalWorkouts = Object.values(useSelector(getGoalExerciseEntries)).filter(workout => workout.goal._id === goal._id)
+	const goalWorkouts = Object.values(useSelector(getGoalExerciseEntries)).filter(workout => workout.goal?._id === goal?._id)
 		.sort((a,b) => new Date(date) - new Date(date));
 	const sortedGoalWorkoutsIndices = goalWorkouts.map(workout => workout._id)
 
@@ -56,7 +56,7 @@ function FeedPostWorkout ({feedPost}) {
 		// const text = `Latest workout: ${lastEntry.note} - ${lastDate}`
 		// return text;
 		// return "Sponsored by CELSIUS"
-		return `Workout ${sortedGoalWorkoutsIndices.indexOf(_id) + 1} of ${sortedGoalWorkoutsIndices.length} - Goal: ${goal.title}`
+		return `Workout ${sortedGoalWorkoutsIndices.indexOf(_id) + 1} of ${sortedGoalWorkoutsIndices.length} - Goal: ${goal?.title}`
 		
 	}
 
@@ -77,7 +77,7 @@ function FeedPostWorkout ({feedPost}) {
 	useEffect(() => {
 
 		dispatch(fetchWorkoutExercises(_id));
-		dispatch(fetchGoalExerciseEntries(goal._id));
+		dispatch(fetchGoalExerciseEntries(goal?._id));
 
 		if (!showMenu) return;
 		const closeMenu = () => {

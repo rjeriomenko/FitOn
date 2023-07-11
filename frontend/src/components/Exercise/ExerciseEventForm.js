@@ -155,6 +155,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                                 <input
                                     type="text"
                                     name="name"
+                                    autoComplete="off"
                                     placeholder="Push-ups, Running..."
                                     value={input.name}
                                     onChange={(e) => handleInputChange(e, index)}

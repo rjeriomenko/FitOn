@@ -70,7 +70,6 @@ function LandingPage() {
     
     window.receiveFollowsUsers = receiveFollowsUsers;
     window.updateUser = updateUser;
-    // console.log(goal)
 
     // useEffect(() => {
     //     dispatch();
@@ -78,7 +77,6 @@ function LandingPage() {
     
     return (
         <>
-            {/* {console.log('TEST COMPONENT ENABLED')} */}
         </>
     );
 }

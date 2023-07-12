@@ -1,7 +1,6 @@
 const TestProps = (props) => {
 	const delayedText = () => {
 		setTimeout(() => {
-			// console.log("hi")
 			return "hi"
 		}, 2000)
 	}

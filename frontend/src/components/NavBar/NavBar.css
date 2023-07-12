@@ -95,7 +95,7 @@ body {
 }
 
 .nav-bar-divider {
-	min-width: 600px;
+	/* min-width: 600px; */
 	width: 60%;
 	height: 1px;
 	/* border-bottom: 1px solid var(--dark-red); */
@@ -137,8 +137,14 @@ body {
 }
 
 .logged-in-divider {
+	min-width: 600px;
 	width: 40vw;
+	width: 600px;
 	transition: width 0.3s ease 0.7s;	
+}
+
+.scrolled-navbar {
+	width: 600px !important;
 }
 
 /* user dropdown */

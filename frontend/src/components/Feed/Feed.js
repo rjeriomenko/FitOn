@@ -54,7 +54,8 @@ function Feed ({discoverMode, options = {}}) {
   // const goalPosts = Object.values(useSelector(getUserGoals)); - preferred way
   const goalPosts = useSelector(state => state.goals?.user ? Object.values(state.goals.user) : []); // -- less preferred way
   const workoutPosts = Object.values(useSelector(getUserExerciseEntries))
-  const follows = useSelector(getFollows);
+  const followsObj = useSelector(getFollows);
+  const followedUserIds = Object.values(followsObj).map(obj => obj.followedUser._id)
   const followsGoalsBase = Object.values(useSelector(getFollowsGoals))
   const followsGoals = followsGoalsBase.flat()
   const followsWorkoutsBase = Object.values(useSelector(getFollowsExerciseEntries));
@@ -126,13 +127,13 @@ function Feed ({discoverMode, options = {}}) {
 
   const combinedGoals =
     userId ? [...filteredGoalPosts] : 
-    discoverMode ? [...filteredFollowGoalPosts, ...filteredDiscoversGoalPosts].filter(post => post.user._id !== sessionUser._id)
-      : [...filteredGoalPosts, ...filteredFollowGoalPosts].filter(post => post.user._id !== sessionUser._id);
+    discoverMode ? [...filteredDiscoversGoalPosts].filter(post => post.user._id !== sessionUser._id).filter(post => !followedUserIds.includes(post.user._id))
+      : [...filteredFollowGoalPosts, ...filteredGoalPosts].filter(post => post.user._id !== sessionUser._id);
       
   const combinedWorkouts = 
     userId ? [...filteredWorkoutPosts] : 
-    discoverMode ? [...filteredFollowWorkoutPosts, ...filteredDiscoversWorkoutPosts].filter(post => post.user?._id !== sessionUser?._id)
-      : [...filteredWorkoutPosts, ...filteredFollowWorkoutPosts].filter(post => post.user?._id !== sessionUser?._id);
+    discoverMode ? [...filteredDiscoversWorkoutPosts].filter(post => post.user?._id !== sessionUser?._id).filter(post => !followedUserIds.includes(post.user?._id))
+      : [...filteredFollowWorkoutPosts, ...filteredWorkoutPosts].filter(post => post.user?._id !== sessionUser?._id);
 
   const combinedPosts = goalsOnly ? combinedGoals : (workoutsOnly ? combinedWorkouts : [...combinedGoals, ...combinedWorkouts]);
 

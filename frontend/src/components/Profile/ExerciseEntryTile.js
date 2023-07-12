@@ -15,7 +15,7 @@ const ExerciseEntryTile = ({workout, frozen}) => {
 
 	
 
-	const animateOnce = (e) => {
+	const entryAnimation = (e) => {
 		if(!frozen) {
 			const workoutContainer = e.currentTarget;
 			const workoutImg = workoutContainer.querySelector(".tile-background");
@@ -38,7 +38,7 @@ const ExerciseEntryTile = ({workout, frozen}) => {
 	}
 
 	return (
-		<div className='exercise-outer-container' onMouseEnter={animateOnce} onMouseLeave={reverseAnimation}>
+		<div className='exercise-outer-container' onMouseEnter={entryAnimation} onMouseLeave={reverseAnimation}>
 			<div className={`exercise-entry-tile-container `}>
 				{/* <img className="tile-photo" src={require(`../../images/${photoNum}.png`)}/> */}
 				{imgUrl ? <img className={`tile-background tile-background-${rating} tile-photo`} src={imgUrl}/> : <div className={`tile-background tile-background-${rating} tile-placeholder`}><i className="fa-solid fa-arrows-to-circle"></i></div>}

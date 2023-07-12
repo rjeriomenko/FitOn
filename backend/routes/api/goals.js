@@ -71,6 +71,7 @@ router.get('/sample', requireUser, async (req, res, next) => {
     try {
         let goals = await Goal.find({}).populate('user', '_id username imgUrl createdAt');;
         let randomizedGoals = goals.sort(() => Math.random() - 0.5);
+        // let goalsArray = randomizedGoals.slice(0, 9);
         let goalsArray = randomizedGoals.slice(0, 9);
         let goalsObj = {};
 

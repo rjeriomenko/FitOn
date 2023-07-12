@@ -147,7 +147,8 @@ function FeedPostWorkout ({feedPost}) {
 					<div className="feed-post-header-container">
 						<div className="feed-post-header-text-row">
 							<Link to={`/feed/${userId}`}>
-								<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div>
+								{/* <div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username}</div> */}
+								<div className={`post-username ${sessionUser._id === userId ? "display-session-username":""}`}>{username ? username : "QQQ"}</div>
 							</Link>
 							{!(userId === sessionUser._id) && <>
 								·

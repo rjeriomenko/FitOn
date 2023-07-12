@@ -184,7 +184,6 @@ function Feed ({discoverMode, options = {}}) {
         </> 
       )
     }
-
     return sortedCombinedPosts.map((goalPost, index) => goalPost.deadline ?
       <FeedPostGoal key={goalPost._id} feedPost={goalPost} />
       : <FeedPostWorkout key={goalPost._id} feedPost={goalPost} />

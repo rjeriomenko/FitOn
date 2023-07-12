@@ -75,10 +75,16 @@ router.get('/followed', requireUser, async (req, res, next) => {
 // sample 10 random workouts
 router.get('/sample', requireUser, async (req, res, next) => {
     try {
+        const all = await ExerciseEntry.find()
+            .populate('user', '_id username imgUrl createdAt')
+            .populate('goal', '_id title');
+        // console.log("number of all workouts", all.length)
+        // process.stdout.write(JSON.stringify(all.map(workout => workout.goal ? workout.goal.title : "NULL")) + '\n');
         const workouts = await ExerciseEntry.find({})
             .populate('user', '_id username imgUrl createdAt')
             .populate('goal', '_id title');
-        const randomizedWorkouts = workouts.sort(() => Math.random() - 0.5);
+        const randomizedWorkouts = workouts.sort(() => (Math.random() > 0.5) ? 1: -1);
+        // console.log("number of RANDOM workouts", randomizedWorkouts.filter(workout => workout.user == null).length);
         const workoutsArray = randomizedWorkouts.slice(0, 9);
         const workoutsObj = {};
 

@@ -5,8 +5,10 @@ import { formatTwoDigitNumberString } from '../../utils/utils';
 const ExerciseEntryTile = ({workout, frozen}) => {
 	const {imgUrl, rating, date, note} = workout;
 
-	const formattedDate = new Date(date).toLocaleDateString('en-us', { year:"numeric", month:"2-digit", day:"2-digit" });
-	const dateParts = formattedDate.split('/').reverse().map(part => {
+	// const formattedDate = new Date(date).toLocaleDateString('en-us', { year:"numeric", month:"2-digit", day:"2-digit" });
+	const formattedDate = new Date(date).toLocaleDateString('en-us', { month:"short", day:"2-digit" });
+	// const dateParts = formattedDate.split('/').reverse().slice(0,3).map(part => {
+	const dateParts = formattedDate.split('/').slice(0,3).map(part => {
 		return <span>{part}</span>
 	})
 
@@ -40,7 +42,8 @@ const ExerciseEntryTile = ({workout, frozen}) => {
 			<div className={`tile-rating-overlay tile-rating-${rating}`}>
 				<div className={`tile-date-text`}>{dateParts}</div>
 				<div className={`rating-clearly rating-clearly-${rating}`}>
-					{`Rating: ${rating}`}
+					{/* {`Rating: ${rating}`} */}
+					{`${rating}/5`}
 				</div>
 			</div>
 			

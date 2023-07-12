@@ -34,6 +34,7 @@ function Profile () {
   const [image, setImage] = useState(null);
   const [submitStatus, setSubmitStatus] = useState('Submit');
   const [freezeCalendar, setFreezeCalendar] = useState(false);
+  const [frozenTile, setFrozenTile] = useState(null);
 
   const [timeGraph, setTimeGraph] = useState(true);
   const goalExercises = useSelector(state => state.exercises.byGoal ? state.exercises.byGoal : {});
@@ -95,6 +96,30 @@ function Profile () {
     }
   }
 
+  const reverseAnimation = (e) => {
+		// if(!frozen) {
+			const workoutContainer = e.currentTarget.querySelector(".exercise-outer-container");
+			const workoutImg = workoutContainer.querySelector(".tile-background");
+			const overlay = workoutContainer.querySelector(".tile-rating-overlay");
+			workoutContainer.classList.remove("tile-container-hover");
+			workoutImg.classList.remove("tile-img-hover");
+			overlay.classList.remove("tile-active-overlay")
+		// }
+	}
+
+  const handleToggleFreeze = (e) => {
+    if(freezeCalendar) {
+      if(e.currentTarget.getAttribute('workoutid') === frozenTile){
+        setFreezeCalendar(false);
+        setFrozenTile(null);
+        reverseAnimation(e);
+      }
+    } else {
+      setFreezeCalendar(true);
+      setFrozenTile(e.currentTarget.getAttribute('workoutid'));
+    }
+  }
+
   const generateEntryTilesForGoal = (goalId, workoutsArray) => {
     // Filter for the goal
     const filteredByGoal = workoutsArray.filter(workout => {
@@ -111,7 +136,8 @@ function Profile () {
     sortedByDate.forEach((workout, i) => {
       const tile =
         <div 
-          onClick={() => setFreezeCalendar(freeze => !freeze)} 
+          // onClick={() => setFreezeCalendar(freeze => !freeze)} 
+          onClick={handleToggleFreeze} 
           onMouseEnter={handleMouseEnter} 
           key={workout._id} 
           workoutid={workout._id}
@@ -243,7 +269,7 @@ function Profile () {
           <div className='exercise-entry-deets'>
             <div className='exercise-entry-deets-header'>
               <span>{mouseOverTextData ? new Date(mouseOverTextData.date).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"long", day:"numeric" }) : ""}</span>
-              <span>{mouseOverTextData ? `${mouseOverTextData?.rating}/5` : ""}</span>
+              <span className={(mouseOverTextData?.rating === 5) && 'rating-clearly-5'}>Rating: {mouseOverTextData ? `${mouseOverTextData?.rating}/5` : ""}</span>
             </div>
             <span className='exercise-entry-deets-note'>{mouseOverTextData?.note}</span>
           </div>

@@ -224,7 +224,7 @@ const seedData = async () => {
 
         for (const goal of goals) {
             const deadline = goal.deadline;
-            const numWorkouts = 10;
+            const numWorkouts = 25;
             const workouts = populateWorkouts(deadline, numWorkouts);
 
             const workoutPromises = [];

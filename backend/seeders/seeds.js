@@ -86,11 +86,11 @@ const seedData = async () => {
         // creating FOLLOWS
         const follows = [
             { follower: savedDemoUser._id, followedUser: savedTriUser._id },
-            { follower: savedDemoUser._id, followedUser: savedFullUser._id },
+            // { follower: savedDemoUser._id, followedUser: savedFullUser._id },
             { follower: savedTriUser._id, followedUser: savedDemoUser._id },
-            { follower: savedTriUser._id, followedUser: savedFullUser._id },
+            // { follower: savedTriUser._id, followedUser: savedFullUser._id },
             { follower: savedFullUser._id, followedUser: savedDemoUser._id },
-            { follower: savedFullUser._id, followedUser: savedTriUser._id }
+            // { follower: savedFullUser._id, followedUser: savedTriUser._id }
         ];
 
         await Follow.insertMany(follows);

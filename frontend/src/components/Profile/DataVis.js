@@ -23,9 +23,9 @@ function DataVis({ user, timeGraph }) {
 
     if (timeGraph) {
       Object.values(data).forEach(exercise => {
-      const { name, time, workout: { date } } = exercise;
-      const dateObj = new Date(date);
-      const formattedDate = dateObj.toDateString();
+        const { name, time, workout: { date } } = exercise;
+        const dateObj = new Date(date);
+        const formattedDate = dateObj.toDateString();
 
         if (!exerciseEntry[formattedDate]) {
           exerciseEntry[formattedDate] = {};
@@ -112,15 +112,17 @@ function DataVis({ user, timeGraph }) {
   }
   
   const createBarGraph = async () => {
+    // fetches data
     const data = await fetchExerciseEntry();
     const dates = Object.keys(data);
-    dates.sort((a,b) => new Date(a) - new Date(b))
+    dates.sort((a,b) => new Date(a) - new Date(b));
 
-    // finds unique exercises by flattening and removes dupes
+    // finds unique exercises by flattening dates
     const exercises = Array.from(
       new Set(dates.flatMap(date => Object.keys(data[date])))
     );
-
+    
+    // creates datasets by matching date to exercise 
     const datasets = exercises.map(exercise => {
       const dataset = {
         label: exercise,

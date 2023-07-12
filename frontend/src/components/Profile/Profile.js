@@ -62,7 +62,7 @@ function Profile () {
   }
 
   const handleMouseEnter = (e) => {
-    if(!freezeCalendar) {
+    if (!freezeCalendar) {
       const tileId = e.currentTarget.getAttribute('workoutid');
       const matchingWorkout = userWorkoutsAll.find(workout => {
         return workout._id.toString() === tileId
@@ -109,12 +109,17 @@ function Profile () {
     const generatedTiles = [];
     
     sortedByDate.forEach((workout, i) => {
-      const numSamplePhotos = 7;
-      const randomImageNumber = Math.floor(Math.random() * numSamplePhotos) + 1;
-      const twoDigitRandomImageNumber = formatTwoDigitNumberString(randomImageNumber)
       const tile =
-        <div onClick={() => setFreezeCalendar(freeze => !freeze)} onMouseEnter={handleMouseEnter} key={workout._id} workoutid={workout._id}>
-          <ExerciseEntryTile workout={workout} frozen={freezeCalendar}/>
+        <div 
+          onClick={() => setFreezeCalendar(freeze => !freeze)} 
+          onMouseEnter={handleMouseEnter} 
+          key={workout._id} 
+          workoutid={workout._id}
+        >
+          <ExerciseEntryTile 
+              workout={workout} 
+              frozen={freezeCalendar}
+          />
         </div>
       generatedTiles.push(tile)
     })

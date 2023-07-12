@@ -160,7 +160,8 @@ In the future, users will be able to like and comment on posts.
 
 ## Technical Challenges
 - Implementing interactive feed
-- Intuitive and robust routine creation user interface
+- Limiting fetch request without over-embedding
+- Visualizing workouts concisely 
 
 # Group Members & Work Breakdown
 ## Group Members: 

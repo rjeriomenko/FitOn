@@ -236,7 +236,8 @@ const seedData = async () => {
                     note: workout.note,
                     rating: workout.rating,
                     imgUrl: workout.imgUrl,
-                    user: goal.user._id,
+                    // user: goal.user._id,
+                    user: goal.user,
                     goal: goal._id,
                 });
 
@@ -257,7 +258,8 @@ const seedData = async () => {
                         sets: exercise.sets,
                         reps: exercise.reps,
                         time: exercise.time,
-                        user: goal.user._id,
+                        // user: goal.user._id,
+                        user: goal.user,
                         goal: goal._id,
                         workout: savedEntry._id,
                     });

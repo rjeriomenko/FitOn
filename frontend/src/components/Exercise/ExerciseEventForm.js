@@ -238,7 +238,7 @@ function ExerciseEventForm ({headerQuote, setShowExerciseEntry}) {
                     ))}
                 </div>
                 <div className="exercise-event-form-btn-container">
-                    <input className="exercise-event-form-btn" type="submit" value="Add Exercise" onClick={addInputFields} />
+                    <input className="exercise-event-form-btn" type="submit" value="Add Another Exercise" onClick={addInputFields} />
                     <input className="exercise-event-form-btn" type="submit" value="Submit" />
                 </div>
             </form>

@@ -23,6 +23,18 @@ function NavBar () {
     setShowMenu(true);
   };
 
+  const handleScroll = (e) => {
+		const distanceScrolled = document.documentElement.scrollTop;
+		const navDivider = document.querySelector(".nav-bar-divider")
+		if(distanceScrolled > 450) {
+			// setScrolledFeed(true)
+			navDivider.classList?.add("scrolled-navbar")
+		} else {
+			// setScrolledFeed(false)
+			navDivider.classList?.remove("scrolled-navbar")
+		}
+	}
+
   useEffect(() => {
     if (!showMenu) return;
 
@@ -31,10 +43,20 @@ function NavBar () {
       if (arrow) arrow.id = 'dropdown-arrow-up';
       setShowMenu(false);
     };
-
+    
     document.addEventListener('click', closeMenu);
-    return () => document.removeEventListener("click", closeMenu);
+    return () => {
+      document.removeEventListener("click", closeMenu);
+    }
   }, [showMenu, locationPath]);
+
+  useEffect(() => {
+    document.addEventListener("scroll", handleScroll)
+    return () => {
+      document.removeEventListener("scroll", handleScroll)
+     
+    }
+  }, [])
 
   const logoutUser = e => {
       e.preventDefault();
@@ -60,6 +82,7 @@ function NavBar () {
       );
     }
   }
+
 
   const handleDemoGoal = e => {
     dispatch(createGoal({
@@ -121,7 +144,6 @@ function NavBar () {
     }
   }
   
-  // console.log(onFeed)
   return (
     <>
       <div className={`nav-bar-container ${loggedIn ? "logged-in-navbar" : ""} ${onFeed ? "nav-bar-container-feed" : ""}`}>

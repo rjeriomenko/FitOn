@@ -174,3 +174,23 @@
 	background-color: rgb(210, 231, 255);
 	box-shadow: 3px 3px rgb(114, 128, 141);
 }
+
+/* TOOLTIPS */
+
+.post-filter-option {
+	position: relative;
+}
+
+.feed-nav-tooltip {
+	position: absolute;
+	font-size: 0.5em;
+	border-radius: 4px;
+	z-index: 1;
+	padding: 4px;
+	background-color: black;
+	color: white;
+	top: 4em;
+	left: 1.5em;
+	opacity: 0;
+	transition: all 0.1s 0.5s;
+}

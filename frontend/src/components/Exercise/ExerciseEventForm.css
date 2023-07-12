@@ -71,6 +71,7 @@
 }
 
 #exercise-input-div {
+    position: relative;
     margin: 15px 0px;
     display: flex;
     justify-content: center;
@@ -182,14 +183,17 @@
     position: absolute;
     left: 19%;
     top: auto;
+    top: -1.5em;
+    left: 10.9em;
     margin-top: 60px;
     margin-left: 6px;
     width: 170px;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 1px;
-    max-height: 32px;
+    max-height: 11em;
     overflow-y: auto;
+    z-index: 1;
 }
 
 .fuzzy-dropdown-item {

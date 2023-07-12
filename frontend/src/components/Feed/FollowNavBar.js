@@ -11,7 +11,6 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 
 	const handleScroll = (e) => {
 		const distanceScrolled = document.documentElement.scrollTop;
-		console.log(distanceScrolled)
 		const followNavBar = document.querySelector(".follow-nav-bar-container")
 		if(distanceScrolled > 450) {
 			setScrolledFeed(true)
@@ -24,7 +23,6 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 
 	const resetMarker = (e) => {
 		const marker = document.querySelector(".hover-marker")
-		// marker.style.width = "0px"
 		const topLink = document.querySelector(".feed-nav-top-link").querySelector("a")
 		const midLink = document.querySelector(".feed-nav-mid-link").querySelector("a")
 		const botLink = document.querySelector(".feed-nav-bot-link").querySelector("a")
@@ -38,21 +36,16 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 		
 			if(relativeMouseY <= topEdgeY - 2) {
 				link = topLink;
-				// marker.style.top = (topEdgeY - topLink.offsetHeight) +"px";
 			} else if(relativeMouseY > botEdgeY) {
 				link = botLink;
-				// marker.style.top = botEdgeY + ("px");
 			} else {
 				link = midLink;
-				// marker.style.top = topEdgeY + ("px");
 			}
 			
 			marker.style.width = (link.offsetWidth + 16)+'px';
 			marker.style.top = (link.offsetTop - 2)+'px';
 			marker.style.left = (link.offsetLeft - 8)+'px';
 			marker.style.height = (link.offsetHeight + 4)+'px';
-			// link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
-			// link.classList.contains("active") ? marker.style.boxShadow = "2px 2px black" : marker.style.boxShadow = "2px 2px plum";
 			marker.style.transition = "transform 0.3s, top 0.3s, left 0.3s, height 0.3s, width 0.3s, color 0.3s, box-shadow 0.3s, opacity 0.3s";
 			marker.style.opacity = "1";
 			marker.style.transform = "rotateX(0deg)";
@@ -71,36 +64,31 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 			marker.style.transition = "transform 0.3s, top 0.3s, left 0.3s, height 0.3s, width 0.3s, color 1.3s, background-color 0.3s, box-shadow 0.3s, opacity 0.8s";
 			marker.style.opacity = "0";
 			marker.style.transform = "rotateX(90deg) skewX(10deg)";
-			// link.classList.contains("active") ? link.style.color = "#F2490C" : link.style.color = "black";
 			marker.style.boxShadow = ""
-			// setTimeout(() => {
-			// 	marker.style.transition = "all 0s";
-			// }, 1300)
 		}
 	}
 
 	const shiftMarker = (e) => {
 		e.stopPropagation();
 		const marker = document.querySelector(".hover-marker")
-
-		// const link = e.currentTarget;
 		const link = e.currentTarget.querySelector('a');
-		marker.style.opacity = "1";
 		if(e.type==="mouseenter") {
 			marker.style.top = (link.offsetTop - 2)+'px';
 			marker.style.left = (link.offsetLeft - 7)+'px';
 			marker.style.height = (link.offsetHeight + 4)+'px';
 			marker.style.width = (link.offsetWidth + 16)+'px';
-			// link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
-			link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "#b7d2de";
+			link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "white";
+			// link.classList.contains("active") ? link.style.color = "navy" : link.style.color = "navy";
 			link.classList.contains("active") ? marker.style.boxShadow = "2px 2px black" : marker.style.boxShadow = "2px 2px plum";
+			
+			marker.style.opacity = "1";
+			marker.style.transform = "rotateX(0deg) skewX(0deg)";
+			marker.style.transition = "transform 0.3s, top 0.3s, left 0.3s, height 0.3s, width 0.3s, color 1.3s, background-color 0.3s, box-shadow 0.3s, opacity 0.8s";
 			
 		}
 		if(e.type==="mouseleave") {
-			marker.style.opacity = "1";
 			link.classList.contains("active") ? link.style.color = "#F2490C" : link.style.color = "black";
 			marker.style.boxShadow = ""
-			
 		}
 	}
 
@@ -114,13 +102,25 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 		if(goalsOnly) setGoalsOnly(false)
 	}
 
+	const displayTooltip = (e) => {
+		e.stopPropagation();
+		const tooltip = e.currentTarget.querySelector(".feed-nav-tooltip")
+		tooltip.style.transition = "all 0.1s 0.5s";
+		tooltip.style.opacity = "1";
+	}
+
+	const hideTooltip = (e) => {
+		e.stopPropagation();
+		const tooltip = e.currentTarget.querySelector(".feed-nav-tooltip")
+		tooltip.style.transition = "all 0.1s 0s";
+		tooltip.style.opacity = "0";
+	}
+
 	useEffect(() => {
 
 		document.addEventListener("scroll", handleScroll)
 
 		const links = document.querySelector(".follow-nav-bar-container").querySelectorAll("li");
-		// const linksBox = document.querySelector(".feed-links-box")
-		// const links = linksBox.querySelectorAll("a");
 		links.forEach(link => {
 			link.addEventListener("mouseenter", shiftMarker)
 			link.addEventListener("mouseleave", shiftMarker)
@@ -149,12 +149,13 @@ const FollowNavBar = ({goalsOnly, setGoalsOnly, workoutsOnly, setWorkoutsOnly}) 
 				</ul>
 			</div>
 			<div className="post-type-filter-container">
-				<div className={`post-filter-option post-type-filter-goals ${goalsOnly ? "active-filter" : ""}`} onClick={toggleGoalsOnly}>
+				<div className={`post-filter-option post-type-filter-goals ${goalsOnly ? "active-filter" : ""}`} onClick={toggleGoalsOnly} onMouseEnter={displayTooltip} onMouseLeave={hideTooltip}>
 					<i className="fa-solid fa-arrows-to-circle"></i>
+					<div className="feed-nav-tooltip goals-tooltip">Goals</div>
 				</div>
-				{/* <div className="post-type-filter-container-divider"></div> */}
-				<div className={`post-filter-option post-type-filter-workouts ${workoutsOnly ? "active-filter" : ""}`} onClick={toggleWorkoutsOnly}>
+				<div className={`post-filter-option post-type-filter-workouts ${workoutsOnly ? "active-filter" : ""}`} onClick={toggleWorkoutsOnly} onMouseEnter={displayTooltip} onMouseLeave={hideTooltip}>
 					<i className="fa-solid fa-person-running"></i>
+					<div className="feed-nav-tooltip workouts-tooltip">Workouts</div>
 				</div>
 			</div>
 		</div>

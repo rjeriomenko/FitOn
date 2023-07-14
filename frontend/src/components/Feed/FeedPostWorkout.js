@@ -89,9 +89,18 @@ function FeedPostWorkout ({feedPost}) {
 	}, [showMenu])
 
 	const handleUpdateWorkout = e => {
-		setEditable(false);
+
+
+		// Attach update form to browsing context (document) so that updates can be completed
+		// const updateForm = document.querySelector(".post-form")
+		// console.log(updateForm)
+		// document.body.appendChild(updateForm[0]);
+
 		const updatedWorkout = { note:formNote, rating:formRating, date:formDate, image, goal, user }
 		dispatch(updateExerciseEntry(_id, updatedWorkout))
+			.then(() => setEditable(false))
+		
+		debugger
 	}
 
 	const handleDeleteWorkout = e => {

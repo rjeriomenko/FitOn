@@ -83,9 +83,10 @@ function FeedPostGoal ({feedPost}) {
 	};
 
 	const handleUpdateGoal = e => {
-		setEditable(false);
+		// setEditable(false)
 		const updatedGoal = { title:formTitle, description:formDescription, _id:goalId, image, deadline, completionDate, exerciseEntries, updatedAt }
 		dispatch(updateGoal(updatedGoal))
+			.then(() => setEditable(false))
 	}
 
 	const handleDeleteGoal = e => {
